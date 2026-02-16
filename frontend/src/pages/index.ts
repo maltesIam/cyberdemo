@@ -8,3 +8,12 @@ export { TimelinePage } from "./TimelinePage";
 export { PostmortemsPage } from "./PostmortemsPage";
 export { TicketsPage } from "./TicketsPage";
 export { CTEMPage } from "./CTEMPage";
+export { VulnerabilityDashboard } from "./VulnerabilityDashboard";
+
+// Vulnerability Nested Pages
+export {
+  CVEDetailPage,
+  CVEAssetsPage,
+  CVEExploitsPage,
+  SSVCDashboard,
+} from "./vuln-pages";

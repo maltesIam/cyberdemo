@@ -294,3 +294,21 @@ export type {
   SourceResult,
   EnrichmentError,
 } from "./enrichment";
+
+// Re-export vulnerability visualization types
+export type {
+  TerrainDataPoint,
+  TerrainViewData,
+  CalendarDayData,
+  CalendarHeatmapData,
+  SunburstNode,
+  SunburstChartData,
+  BubbleData,
+  BubblesViewData,
+  DNAStrand,
+  DNAViewData,
+  SankeyNode,
+  SankeyLink,
+  SankeyFlowData,
+  VulnViewCommonProps,
+} from "./vulnerabilityViews";

@@ -3,8 +3,13 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from typing import Optional
 
+from .vuln_remediation import router as remediation_router
+
 
 router = APIRouter(tags=["Vulnerabilities"])
+
+# Include remediation sub-router
+router.include_router(remediation_router)
 
 
 class VulnerabilityList(BaseModel):

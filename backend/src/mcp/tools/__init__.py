@@ -18,6 +18,7 @@ from .approvals import APPROVAL_TOOLS, approval_handlers
 from .tickets import TICKET_TOOLS, ticket_handlers
 from .reports import REPORT_TOOLS, report_handlers
 from .threat_enrichment import THREAT_ENRICHMENT_TOOLS, threat_enrichment_handlers
+from .vulnerability import VULNERABILITY_TOOLS, vulnerability_handlers
 
 
 def get_all_tools() -> List[Dict[str, Any]]:
@@ -31,6 +32,7 @@ def get_all_tools() -> List[Dict[str, Any]]:
     tools.extend(TICKET_TOOLS)
     tools.extend(REPORT_TOOLS)
     tools.extend(THREAT_ENRICHMENT_TOOLS)
+    tools.extend(VULNERABILITY_TOOLS)
     return tools
 
 
@@ -45,4 +47,5 @@ def get_tool_handlers() -> Dict[str, Callable[[Dict[str, Any]], Awaitable[Any]]]
     handlers.update(ticket_handlers)
     handlers.update(report_handlers)
     handlers.update(threat_enrichment_handlers)
+    handlers.update(vulnerability_handlers)
     return handlers

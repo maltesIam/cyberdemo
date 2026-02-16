@@ -23,6 +23,9 @@ from .config import router as config_router
 from .audit import router as audit_router
 from .surface import router as surface_router
 from .vulnerabilities import router as vulnerabilities_router
+from .vuln_visualization import router as vuln_visualization_router
+from .vuln_enrichment import router as vuln_enrichment_router
+from .vuln_ssvc import router as vuln_ssvc_router
 from .threats import router as threats_router
 from ..mcp import mcp_router
 from ..mcp.data_server import router as data_mcp_router
@@ -53,6 +56,9 @@ api_router.include_router(config_router, prefix="/config", tags=["configuration"
 api_router.include_router(audit_router, prefix="/audit", tags=["audit"])
 api_router.include_router(surface_router, prefix="/surface", tags=["surface"])
 api_router.include_router(vulnerabilities_router, prefix="/vulnerabilities", tags=["vulnerabilities"])
+api_router.include_router(vuln_visualization_router, prefix="/api/vulnerabilities", tags=["vulnerability-visualization"])
+api_router.include_router(vuln_enrichment_router, prefix="/api", tags=["vulnerability-enrichment"])
+api_router.include_router(vuln_ssvc_router, prefix="/vulnerabilities", tags=["vulnerabilities-ssvc"])
 api_router.include_router(threats_router, prefix="/threats", tags=["threats"])
 api_router.include_router(mcp_router, prefix="/mcp", tags=["mcp"])
 api_router.include_router(data_mcp_router, prefix="/data-mcp", tags=["data-mcp"])

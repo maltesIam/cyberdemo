@@ -440,3 +440,47 @@ export function useSurfaceConnections(params: Record<string, any> = {}) {
     queryFn: () => api.getSurfaceConnections(params),
   });
 }
+
+// ============================================================================
+// Vulnerability Visualization Hooks
+// ============================================================================
+
+export function useVulnerabilityTerrain() {
+  return useQuery({
+    queryKey: ["vulnerabilities", "terrain"],
+    queryFn: () => api.getVulnerabilityTerrain(),
+    refetchInterval: 60000, // Refresh every minute
+  });
+}
+
+export function useVulnerabilityHeatmap() {
+  return useQuery({
+    queryKey: ["vulnerabilities", "heatmap"],
+    queryFn: () => api.getVulnerabilityHeatmap(),
+    refetchInterval: 60000,
+  });
+}
+
+export function useVulnerabilitySunburst() {
+  return useQuery({
+    queryKey: ["vulnerabilities", "sunburst"],
+    queryFn: () => api.getVulnerabilitySunburst(),
+    refetchInterval: 60000,
+  });
+}
+
+export function useVulnerabilityBubbles() {
+  return useQuery({
+    queryKey: ["vulnerabilities", "bubbles"],
+    queryFn: () => api.getVulnerabilityBubbles(),
+    refetchInterval: 60000,
+  });
+}
+
+export function useRemediationFlow() {
+  return useQuery({
+    queryKey: ["vulnerabilities", "remediation-flow"],
+    queryFn: () => api.getRemediationFlow(),
+    refetchInterval: 60000,
+  });
+}

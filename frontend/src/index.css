@@ -1,3 +1,359 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ============================================================================
+ * Vulnerability Dashboard WOW Effects
+ * Phase 6: CSS Animations and Glow Effects
+ * ============================================================================ */
+
+/* Glow Effects for SSVC Decisions */
+.glow-red {
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5), 0 0 20px rgba(239, 68, 68, 0.3);
+  animation: glow-pulse-red 2s ease-in-out infinite;
+}
+
+.glow-orange {
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5), 0 0 20px rgba(249, 115, 22, 0.3);
+  animation: glow-pulse-orange 2s ease-in-out infinite;
+}
+
+.glow-yellow {
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.5), 0 0 20px rgba(234, 179, 8, 0.3);
+}
+
+.glow-green {
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5), 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.glow-subtle {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.1), 0 0 30px rgba(6, 182, 212, 0.05);
+}
+
+/* Glow Pulse Animations */
+@keyframes glow-pulse-red {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5), 0 0 20px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 40px rgba(239, 68, 68, 0.5);
+  }
+}
+
+@keyframes glow-pulse-orange {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.5), 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.8), 0 0 40px rgba(249, 115, 22, 0.5);
+  }
+}
+
+/* Pulse Animation for Critical Items */
+.animate-pulse-critical {
+  animation: pulse-critical 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-critical {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Fire Animation for KEV CVEs */
+.animate-fire {
+  position: relative;
+  animation: fire-flicker 0.5s ease-in-out infinite alternate;
+}
+
+.animate-fire::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #f97316, #dc2626, #f97316);
+  border-radius: inherit;
+  z-index: -1;
+  animation: fire-gradient 1s ease-in-out infinite;
+  filter: blur(4px);
+  opacity: 0.7;
+}
+
+@keyframes fire-flicker {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes fire-gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+    opacity: 0.7;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.9;
+  }
+}
+
+/* Slide-in Animation for Panels */
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-out-right {
+  animation: slide-out-right 0.3s ease-in forwards;
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Progress Bar Fill Animation */
+.animate-progress-fill {
+  animation: progress-fill 1s ease-out;
+}
+
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* Count-up Animation Helper */
+.animate-count-up {
+  animation: count-up-entrance 0.5s ease-out;
+}
+
+@keyframes count-up-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Radar Chart Animation */
+.animate-radar {
+  animation: radar-draw 1.5s ease-out;
+}
+
+@keyframes radar-draw {
+  from {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Bubble Float Animation */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Severity Badge Pulse */
+.badge-critical {
+  animation: badge-pulse-critical 2s ease-in-out infinite;
+}
+
+@keyframes badge-pulse-critical {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
+/* Shimmer Loading Effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Collapsed State */
+.collapsed {
+  max-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Smooth Transitions */
+.transition-collapse {
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Tooltip Animations */
+.tooltip-enter {
+  animation: tooltip-fade-in 0.2s ease-out forwards;
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Action Button Hover Effects */
+.btn-action {
+  transition: all 0.2s ease-out;
+}
+
+.btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-action:active {
+  transform: translateY(0);
+}
+
+/* Risk Score Ring */
+.risk-ring {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: risk-ring-fill 1s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes risk-ring-fill {
+  to {
+    stroke-dashoffset: var(--risk-offset, 0);
+  }
+}
+
+/* KEV Fire SVG Animation */
+.kev-fire-icon {
+  filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.8));
+  animation: kev-fire-glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes kev-fire-glow {
+  from {
+    filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.6));
+  }
+  to {
+    filter: drop-shadow(0 0 8px rgba(249, 115, 22, 1));
+  }
+}
+
+/* Attack Chain Arrow Animation */
+.attack-chain-arrow {
+  animation: arrow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes arrow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+}
+
+/* Hover Effects for Interactive Elements */
+.interactive-card {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Focus Styles for Accessibility */
+.focus-ring:focus {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Scrollbar Styling */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}

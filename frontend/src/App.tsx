@@ -15,6 +15,13 @@ import { ConfigPage } from "./pages/ConfigPage";
 import { AuditPage } from "./pages/AuditPage";
 import { SurfacePage } from "./pages/SurfacePage";
 import { ThreatEnrichmentPage } from "./pages/ThreatEnrichmentPage";
+import { VulnerabilityDashboard } from "./pages/VulnerabilityDashboard";
+import {
+  CVEDetailPage,
+  CVEAssetsPage,
+  CVEExploitsPage,
+  SSVCDashboard,
+} from "./pages/vuln-pages";
 import { ToastProvider } from "./utils/toast";
 
 function App() {
@@ -40,6 +47,11 @@ function App() {
             <Route path="config" element={<ConfigPage />} />
             <Route path="audit" element={<AuditPage />} />
             <Route path="threats" element={<ThreatEnrichmentPage />} />
+            <Route path="vulnerabilities" element={<VulnerabilityDashboard />} />
+            <Route path="vulnerabilities/cves/:cveId" element={<CVEDetailPage />} />
+            <Route path="vulnerabilities/cves/:cveId/assets" element={<CVEAssetsPage />} />
+            <Route path="vulnerabilities/cves/:cveId/exploits" element={<CVEExploitsPage />} />
+            <Route path="vulnerabilities/ssvc" element={<SSVCDashboard />} />
             <Route path="*" element={<Navigate to="/generation" replace />} />
           </Route>
         </Routes>

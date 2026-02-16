@@ -20,6 +20,10 @@ from .hibp_client import HIBPClient
 from .censys_client import CensysClient
 from .misp_client import MISPClient
 from .opencti_client import OpenCTIClient
+from .kev_client import KEVClient
+from .osv_client import OSVClient
+from .ghsa_client import GHSAClient
+from .exploitdb_client import ExploitDBClient
 
 __all__ = [
     "NVDClient",
@@ -43,4 +47,8 @@ __all__ = [
     "CensysClient",
     "MISPClient",
     "OpenCTIClient",
+    "KEVClient",
+    "OSVClient",
+    "GHSAClient",
+    "ExploitDBClient",
 ]

@@ -700,6 +700,80 @@ export async function getVulnerabilitySummary() {
   }
 }
 
+// Vulnerability Visualization Endpoints
+export async function getVulnerabilityTerrain() {
+  try {
+    const response = await apiClient.get("/api/vulnerabilities/terrain");
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+export async function getVulnerabilityHeatmap() {
+  try {
+    const response = await apiClient.get("/api/vulnerabilities/heatmap");
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+export async function getVulnerabilitySunburst() {
+  try {
+    const response = await apiClient.get("/api/vulnerabilities/sunburst");
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+export async function getVulnerabilityBubbles() {
+  try {
+    const response = await apiClient.get("/api/vulnerabilities/bubbles");
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+export async function getRemediationFlow() {
+  try {
+    const response = await apiClient.get("/vulnerabilities/remediation/flow");
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+// CVE Nested Page Endpoints
+export async function getCVEAffectedAssets(cveId: string, params: { page?: number; page_size?: number } = {}) {
+  try {
+    const response = await apiClient.get(`/vulnerabilities/cves/${cveId}/assets`, { params });
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+export async function getCVEExploits(cveId: string) {
+  try {
+    const response = await apiClient.get(`/vulnerabilities/cves/${cveId}/exploits`);
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+export async function getSSVCDashboard() {
+  try {
+    const response = await apiClient.get("/vulnerabilities/ssvc/dashboard");
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
 // ============================================================================
 // Threats API
 // ============================================================================
