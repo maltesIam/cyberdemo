@@ -10,7 +10,6 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { ThreatMap } from "../components/ThreatMap";
 import { useToast } from "../utils/toast";
@@ -98,7 +97,6 @@ const MITRE_TACTICS = [
 ];
 
 export function ThreatEnrichmentPage() {
-  const navigate = useNavigate();
   const { showToast } = useToast();
   const [threats, setThreats] = useState<EnrichedThreat[]>([]);
   const [loading, setLoading] = useState(false);
@@ -527,7 +525,7 @@ http://malware.com/payload.exe"
               Top Malware Families
             </h3>
             <div className="space-y-3">
-              {stats.malwareFamilies.slice(0, 8).map((family, i) => {
+              {stats.malwareFamilies.slice(0, 8).map((family) => {
                 const count = threats.filter((t) =>
                   t.threat_intel.malware_families.includes(family),
                 ).length;

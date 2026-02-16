@@ -14,6 +14,7 @@ import { CollabPage } from "./pages/CollabPage";
 import { ConfigPage } from "./pages/ConfigPage";
 import { AuditPage } from "./pages/AuditPage";
 import { SurfacePage } from "./pages/SurfacePage";
+import { ThreatEnrichmentPage } from "./pages/ThreatEnrichmentPage";
 import { ToastProvider } from "./utils/toast";
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path="collab" element={<CollabPage />} />
             <Route path="config" element={<ConfigPage />} />
             <Route path="audit" element={<AuditPage />} />
+            <Route path="threats" element={<ThreatEnrichmentPage />} />
             <Route path="*" element={<Navigate to="/generation" replace />} />
           </Route>
         </Routes>

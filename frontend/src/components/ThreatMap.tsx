@@ -9,7 +9,6 @@
  */
 
 import { useState, useEffect, useMemo } from "react";
-import clsx from "clsx";
 
 // Simplified world map coordinates (major countries)
 const COUNTRY_PATHS: Record<string, { path: string; center: [number, number] }> = {
@@ -117,7 +116,7 @@ function generateCurvedPath(from: [number, number], to: [number, number]): strin
   return `M ${x1} ${y1} Q ${midX} ${controlY} ${x2} ${y2}`;
 }
 
-export function ThreatMap({ threats, onCountryClick, onThreatClick }: ThreatMapProps) {
+export function ThreatMap({ threats, onCountryClick, onThreatClick: _onThreatClick }: ThreatMapProps) {
   const [animationPhase, setAnimationPhase] = useState(0);
 
   // Animate the threat lines
@@ -178,16 +177,6 @@ export function ThreatMap({ threats, onCountryClick, onThreatClick }: ThreatMapP
     medium: "#eab308",
     low: "#22c55e",
     unknown: "#6b7280",
-  };
-
-  // Country fill based on threat density
-  const getCountryFill = (country: string) => {
-    const data = threatsByCountry[country];
-    if (!data) return "#1e293b"; // Default dark
-
-    const color = riskColors[data.maxRisk as keyof typeof riskColors] || "#6b7280";
-    const opacity = Math.min(0.3 + data.count * 0.1, 0.8);
-    return color.replace(")", `, ${opacity})`).replace("rgb", "rgba");
   };
 
   return (

@@ -17,6 +17,7 @@ from .ctem import CTEM_TOOLS, ctem_handlers
 from .approvals import APPROVAL_TOOLS, approval_handlers
 from .tickets import TICKET_TOOLS, ticket_handlers
 from .reports import REPORT_TOOLS, report_handlers
+from .threat_enrichment import THREAT_ENRICHMENT_TOOLS, threat_enrichment_handlers
 
 
 def get_all_tools() -> List[Dict[str, Any]]:
@@ -29,6 +30,7 @@ def get_all_tools() -> List[Dict[str, Any]]:
     tools.extend(APPROVAL_TOOLS)
     tools.extend(TICKET_TOOLS)
     tools.extend(REPORT_TOOLS)
+    tools.extend(THREAT_ENRICHMENT_TOOLS)
     return tools
 
 
@@ -42,4 +44,5 @@ def get_tool_handlers() -> Dict[str, Callable[[Dict[str, Any]], Awaitable[Any]]]
     handlers.update(approval_handlers)
     handlers.update(ticket_handlers)
     handlers.update(report_handlers)
+    handlers.update(threat_enrichment_handlers)
     return handlers

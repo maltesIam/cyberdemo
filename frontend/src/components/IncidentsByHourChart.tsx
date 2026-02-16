@@ -50,7 +50,7 @@ export function IncidentsByHourChart({ data }: IncidentsByHourChartProps) {
     );
   }
 
-  const { maxCount, chartWidth, chartHeight, padding, plotWidth, plotHeight, barWidth, barGap } =
+  const { maxCount, chartWidth, chartHeight, padding, plotWidth: _plotWidth, plotHeight, barWidth, barGap } =
     chartConfig;
 
   // Calculate bar positions and heights
