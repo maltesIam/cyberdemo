@@ -1,0 +1,83 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Approval Required",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Action:* {action_type}\n*Target:* {hostname}\n*Requested by:* {requester}"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Reason:*\n{reason}"
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Confidence Score:*\n{confidence_score}%"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Risk Level:*\n{risk_level}"
+        }
+      ]
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Approve",
+            "emoji": true
+          },
+          "style": "primary",
+          "value": "approve_{approval_id}"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Reject",
+            "emoji": true
+          },
+          "style": "danger",
+          "value": "reject_{approval_id}"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "View Details",
+            "emoji": true
+          },
+          "url": "{dashboard_url}/approvals/{approval_id}"
+        }
+      ]
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "Incident: {incident_id} | Expires: {expiration_time}"
+        }
+      ]
+    }
+  ],
+  "text": "Approval required for {action_type} on {hostname}"
+}

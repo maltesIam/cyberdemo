@@ -1,0 +1,51 @@
+name: vip_escalation
+description: Immediate escalation workflow for VIP users. Alerts management and assigns senior analysts.
+triggers:
+  - vip_alert
+  - executive_compromise
+  - board_member_alert
+
+steps:
+  - action: notify.page_oncall
+    params:
+      team: soc_management
+      priority: urgent
+      message: "VIP Alert: ${incident.title} - User: ${user.name} (${user.title})"
+    timeout: 30
+    on_error: continue
+
+  - action: notify.send_email
+    params:
+      to: security-leadership@company.com
+      subject: "[URGENT] VIP Security Alert: ${incident.title}"
+      body: |
+        A security alert has been triggered for VIP user ${user.name}.
+
+        Incident: ${incident.title}
+        User: ${user.name} (${user.title})
+        Device: ${host.hostname}
+        Time: ${incident.timestamp}
+
+        Immediate investigation is underway.
+    timeout: 30
+    on_error: continue
+
+  - action: notify.create_ticket
+    params:
+      priority: critical
+      title: "[VIP] ${incident.title}"
+      description: "VIP user ${user.name} affected. Escalated per VIP protocol."
+      assignee: soc_tier3
+      tags:
+        - vip
+        - escalated
+    timeout: 30
+    on_error: fail
+
+  - action: siem.assign_analyst
+    params:
+      incident_id: "${incident.id}"
+      analyst_tier: senior
+      reason: "VIP escalation protocol"
+    timeout: 30
+    on_error: notify_human

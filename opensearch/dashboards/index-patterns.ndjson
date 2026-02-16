@@ -1,0 +1,17 @@
+{"type":"index-pattern","id":"assets-inventory-pattern","attributes":{"title":"assets-inventory-*","timeFieldName":"last_seen","fields":"[]"}}
+{"type":"index-pattern","id":"edr-detections-pattern","attributes":{"title":"edr-detections-*","timeFieldName":"detected_at","fields":"[]"}}
+{"type":"index-pattern","id":"edr-process-trees-pattern","attributes":{"title":"edr-process-trees-*","timeFieldName":"created_at","fields":"[]"}}
+{"type":"index-pattern","id":"edr-hunt-results-pattern","attributes":{"title":"edr-hunt-results-*","timeFieldName":"started_at","fields":"[]"}}
+{"type":"index-pattern","id":"edr-host-actions-pattern","attributes":{"title":"edr-host-actions-*","timeFieldName":"started_at","fields":"[]"}}
+{"type":"index-pattern","id":"siem-incidents-pattern","attributes":{"title":"siem-incidents-*","timeFieldName":"created_at","fields":"[]"}}
+{"type":"index-pattern","id":"siem-entities-pattern","attributes":{"title":"siem-entities-*","timeFieldName":"last_seen","fields":"[]"}}
+{"type":"index-pattern","id":"siem-comments-pattern","attributes":{"title":"siem-comments-*","timeFieldName":"created_at","fields":"[]"}}
+{"type":"index-pattern","id":"ctem-findings-pattern","attributes":{"title":"ctem-findings-*","timeFieldName":"discovered_at","fields":"[]"}}
+{"type":"index-pattern","id":"ctem-asset-risk-pattern","attributes":{"title":"ctem-asset-risk-*","timeFieldName":"calculated_at","fields":"[]"}}
+{"type":"index-pattern","id":"threat-intel-pattern","attributes":{"title":"threat-intel-*","timeFieldName":"first_seen","fields":"[]"}}
+{"type":"index-pattern","id":"collab-messages-pattern","attributes":{"title":"collab-messages-*","timeFieldName":"created_at","fields":"[]"}}
+{"type":"index-pattern","id":"approvals-pattern","attributes":{"title":"approvals-*","timeFieldName":"requested_at","fields":"[]"}}
+{"type":"index-pattern","id":"soar-actions-pattern","attributes":{"title":"soar-actions-*","timeFieldName":"started_at","fields":"[]"}}
+{"type":"index-pattern","id":"tickets-sync-pattern","attributes":{"title":"tickets-sync-*","timeFieldName":"last_sync_at","fields":"[]"}}
+{"type":"index-pattern","id":"agent-events-pattern","attributes":{"title":"agent-events-*","timeFieldName":"created_at","fields":"[]"}}
+{"type":"index-pattern","id":"postmortems-pattern","attributes":{"title":"postmortems-*","timeFieldName":"created_at","fields":"[]"}}

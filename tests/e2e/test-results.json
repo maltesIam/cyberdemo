@@ -1,0 +1,1388 @@
+{
+  "config": {
+    "configFile": "/home/oscar/NewProjects/SoulInTheBot/SoulInTheBot/CyberDemo/tests/e2e/playwright.config.ts",
+    "rootDir": "/home/oscar/NewProjects/SoulInTheBot/SoulInTheBot/CyberDemo/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/home/oscar/NewProjects/SoulInTheBot/SoulInTheBot/CyberDemo/tests/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/oscar/NewProjects/SoulInTheBot/SoulInTheBot/CyberDemo/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 12,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "surface-interactions.spec.ts",
+      "file": "surface-interactions.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Global Filters",
+          "file": "surface-interactions.spec.ts",
+          "line": 74,
+          "column": 6,
+          "specs": [],
+          "suites": [
+            {
+              "title": "Time Range Dropdown",
+              "file": "surface-interactions.spec.ts",
+              "line": 79,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should display all 7 time range options",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-9f397d14d4c97a9ec608",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 80,
+                  "column": 9
+                },
+                {
+                  "title": "should have 24h selected by default",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-728cf0b721ddfdf1c4c7",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 92,
+                  "column": 9
+                },
+                {
+                  "title": "should update selection when clicking different time range",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-d453f485bc3274fbd16b",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 101,
+                  "column": 9
+                },
+                {
+                  "title": "should allow custom time range selection",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-89bcb063b9c25d522906",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 112,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "Asset Type Multi-select",
+              "file": "surface-interactions.spec.ts",
+              "line": 123,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should display all asset type options",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-6cd426333a8c09398584",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 124,
+                  "column": 9
+                },
+                {
+                  "title": "should toggle asset type selection on click",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-42862bc0b80c13af19a9",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 135,
+                  "column": 9
+                },
+                {
+                  "title": "should allow multi-selection of asset types",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-ca9864d1b990aae6d354",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 156,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "Risk Range Slider",
+              "file": "surface-interactions.spec.ts",
+              "line": 173,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should display risk range sliders",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-5f987a174f6f7ed2d9e6",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 174,
+                  "column": 9
+                },
+                {
+                  "title": "should show min and max values",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-e76ddfafb7cd1b202e17",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 182,
+                  "column": 9
+                },
+                {
+                  "title": "should update min value when dragging slider",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-762b400cb28a1081278f",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 193,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "Severity Chips",
+              "file": "surface-interactions.spec.ts",
+              "line": 208,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should display all severity levels",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-abf2b6732e6e0483fec1",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 209,
+                  "column": 9
+                },
+                {
+                  "title": "should toggle severity selection on click",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-eddb99655ac8022e9508",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 220,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "Status Chips",
+              "file": "surface-interactions.spec.ts",
+              "line": 237,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should display all status options",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-83b1c6503f43dedb72ae",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 238,
+                  "column": 9
+                },
+                {
+                  "title": "should toggle status selection on click",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-3b70b70dd4a3bd695eaf",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 249,
+                  "column": 9
+                }
+              ]
+            },
+            {
+              "title": "Filter Counter and Reset",
+              "file": "surface-interactions.spec.ts",
+              "line": 262,
+              "column": 8,
+              "specs": [
+                {
+                  "title": "should show active filter count badge",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-3e72fc72bc362a5ef68a",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 263,
+                  "column": 9
+                },
+                {
+                  "title": "should clear all filters when clicking Clear all",
+                  "ok": true,
+                  "tags": [],
+                  "tests": [
+                    {
+                      "timeout": 60000,
+                      "annotations": [],
+                      "expectedStatus": "passed",
+                      "projectId": "chromium",
+                      "projectName": "chromium",
+                      "results": [],
+                      "status": "skipped"
+                    }
+                  ],
+                  "id": "b1ae177166e461912cc6-a8780b6fa05398a1d4a6",
+                  "file": "surface-interactions.spec.ts",
+                  "line": 276,
+                  "column": 9
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Search Bar",
+          "file": "surface-interactions.spec.ts",
+          "line": 301,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should have visible and focusable search input",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-7c43f1c71d4380af930e",
+              "file": "surface-interactions.spec.ts",
+              "line": 306,
+              "column": 7
+            },
+            {
+              "title": "should focus search bar with Ctrl+K shortcut",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-732ca4c4e003dbd89c7d",
+              "file": "surface-interactions.spec.ts",
+              "line": 314,
+              "column": 7
+            },
+            {
+              "title": "should show results when typing hostname pattern",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-5fd5b0e82dd19ac8fea4",
+              "file": "surface-interactions.spec.ts",
+              "line": 324,
+              "column": 7
+            },
+            {
+              "title": "should show results when typing IP address",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-a1cae67be5165d306451",
+              "file": "surface-interactions.spec.ts",
+              "line": 338,
+              "column": 7
+            },
+            {
+              "title": "should show results when typing CVE-ID",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-3c4ec0961f58d80a1370",
+              "file": "surface-interactions.spec.ts",
+              "line": 349,
+              "column": 7
+            },
+            {
+              "title": "should navigate dropdown with arrow keys",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-041701ec3a7ad298cd2e",
+              "file": "surface-interactions.spec.ts",
+              "line": 359,
+              "column": 7
+            },
+            {
+              "title": "should select result with Enter key",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-822cea47cfae596bfbe8",
+              "file": "surface-interactions.spec.ts",
+              "line": 374,
+              "column": 7
+            },
+            {
+              "title": "should close dropdown with Escape key",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-5b7973df24c225341ca0",
+              "file": "surface-interactions.spec.ts",
+              "line": 389,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Asset Node Interactions",
+          "file": "surface-interactions.spec.ts",
+          "line": 409,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should highlight node when clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-bd8875d3240045368ce0",
+              "file": "surface-interactions.spec.ts",
+              "line": 414,
+              "column": 7
+            },
+            {
+              "title": "should open detail panel when node is clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-257ade28ce0cfba065e2",
+              "file": "surface-interactions.spec.ts",
+              "line": 431,
+              "column": 7
+            },
+            {
+              "title": "should show tooltip on node hover after delay",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-49eeb0b260825aa0ff89",
+              "file": "surface-interactions.spec.ts",
+              "line": 444,
+              "column": 7
+            },
+            {
+              "title": "should show context menu on right-click",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-ae3f606242e41bf9890b",
+              "file": "surface-interactions.spec.ts",
+              "line": 459,
+              "column": 7
+            },
+            {
+              "title": "should have correct context menu items",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-f416450b225084ac3825",
+              "file": "surface-interactions.spec.ts",
+              "line": 472,
+              "column": 7
+            },
+            {
+              "title": "should close context menu when clicking outside",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-31e81f03b4c8e729207d",
+              "file": "surface-interactions.spec.ts",
+              "line": 489,
+              "column": 7
+            },
+            {
+              "title": "should close context menu with Escape key",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-839b1562975a394fb2a9",
+              "file": "surface-interactions.spec.ts",
+              "line": 508,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Detail Panel",
+          "file": "surface-interactions.spec.ts",
+          "line": 529,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should slide in when node is selected",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-01f291e95051c50bb4f8",
+              "file": "surface-interactions.spec.ts",
+              "line": 540,
+              "column": 7
+            },
+            {
+              "title": "should show hostname in header",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-423375dea075cdaca111",
+              "file": "surface-interactions.spec.ts",
+              "line": 545,
+              "column": 7
+            },
+            {
+              "title": "should show IP, Type, OS, Owner info",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-c502750486288599cae9",
+              "file": "surface-interactions.spec.ts",
+              "line": 550,
+              "column": 7
+            },
+            {
+              "title": "should show color-coded Risk Score badge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-a7dab8b2c3d49d5c34d4",
+              "file": "surface-interactions.spec.ts",
+              "line": 563,
+              "column": 7
+            },
+            {
+              "title": "should show layer sections for active layers",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-dddf431d129cec01d284",
+              "file": "surface-interactions.spec.ts",
+              "line": 568,
+              "column": 7
+            },
+            {
+              "title": "should show EDR detections and severity",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-8c7ab63833a7af1ba8a5",
+              "file": "surface-interactions.spec.ts",
+              "line": 578,
+              "column": 7
+            },
+            {
+              "title": "should have pin button that toggles pinned state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-b2e85c4b91c094714f9e",
+              "file": "surface-interactions.spec.ts",
+              "line": 584,
+              "column": 7
+            },
+            {
+              "title": "should have close button that closes panel",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-f33433735f91d39cfc2f",
+              "file": "surface-interactions.spec.ts",
+              "line": 599,
+              "column": 7
+            },
+            {
+              "title": "should show action buttons",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-c70fb29c3ec9629d35a9",
+              "file": "surface-interactions.spec.ts",
+              "line": 619,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Timeline Controls",
+          "file": "surface-interactions.spec.ts",
+          "line": 633,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display time range preset buttons",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-811278a9b7b18f1b86d7",
+              "file": "surface-interactions.spec.ts",
+              "line": 638,
+              "column": 7
+            },
+            {
+              "title": "should update timeline when clicking preset",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-150483e53db551c2f0b8",
+              "file": "surface-interactions.spec.ts",
+              "line": 647,
+              "column": 7
+            },
+            {
+              "title": "should have visible Play/Pause button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-08e3cb143760a517f338",
+              "file": "surface-interactions.spec.ts",
+              "line": 657,
+              "column": 7
+            },
+            {
+              "title": "should toggle play state when clicking Play/Pause",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-48c322a6104381dc44ad",
+              "file": "surface-interactions.spec.ts",
+              "line": 663,
+              "column": 7
+            },
+            {
+              "title": "should display speed selector",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-fa73b1b8d4528611b465",
+              "file": "surface-interactions.spec.ts",
+              "line": 677,
+              "column": 7
+            },
+            {
+              "title": "should cycle through speeds when clicking speed button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-bb8186a4eb7f4c6ae5a8",
+              "file": "surface-interactions.spec.ts",
+              "line": 683,
+              "column": 7
+            },
+            {
+              "title": "should display KPI chips in bottom bar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-7d99559090c537b66ad0",
+              "file": "surface-interactions.spec.ts",
+              "line": 696,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Query Builder",
+          "file": "surface-interactions.spec.ts",
+          "line": 711,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should open Query Builder modal when clicking button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-7e30e9d560fe876108f2",
+              "file": "surface-interactions.spec.ts",
+              "line": 716,
+              "column": 7
+            },
+            {
+              "title": "should show condition rows in modal",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-4fda78a635d971bbb6bd",
+              "file": "surface-interactions.spec.ts",
+              "line": 730,
+              "column": 7
+            },
+            {
+              "title": "should add new condition row when clicking Add",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-5b1f777d2ed03930e6f2",
+              "file": "surface-interactions.spec.ts",
+              "line": 743,
+              "column": 7
+            },
+            {
+              "title": "should show combinator options (AND, OR, NOT)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-4ee028c4c7aa6068f945",
+              "file": "surface-interactions.spec.ts",
+              "line": 762,
+              "column": 7
+            },
+            {
+              "title": "should update query preview as conditions change",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-660e31d3ee785a975d36",
+              "file": "surface-interactions.spec.ts",
+              "line": 782,
+              "column": 7
+            },
+            {
+              "title": "should load preset queries",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-0be756aa8d9a087ed070",
+              "file": "surface-interactions.spec.ts",
+              "line": 800,
+              "column": 7
+            },
+            {
+              "title": "should close modal with Apply button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-71e039fc08f59f077c5d",
+              "file": "surface-interactions.spec.ts",
+              "line": 820,
+              "column": 7
+            },
+            {
+              "title": "should close modal with Cancel button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-cd2981ced7ba86f02b5c",
+              "file": "surface-interactions.spec.ts",
+              "line": 839,
+              "column": 7
+            },
+            {
+              "title": "should close modal with Escape key",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-8bfd7efed7b02478f6d7",
+              "file": "surface-interactions.spec.ts",
+              "line": 858,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "Layer Panel",
+          "file": "surface-interactions.spec.ts",
+          "line": 879,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should display layer toggle buttons",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-1281df39152298dea6f5",
+              "file": "surface-interactions.spec.ts",
+              "line": 884,
+              "column": 7
+            },
+            {
+              "title": "should toggle layer visibility when clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-d3da791d899a30701c11",
+              "file": "surface-interactions.spec.ts",
+              "line": 893,
+              "column": 7
+            },
+            {
+              "title": "should display layer presets",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-1966321075db4071f8c2",
+              "file": "surface-interactions.spec.ts",
+              "line": 908,
+              "column": 7
+            },
+            {
+              "title": "should apply preset when clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "b1ae177166e461912cc6-d87039c37538bb196f3f",
+              "file": "surface-interactions.spec.ts",
+              "line": 917,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-02-16T11:14:43.183Z",
+    "duration": 220.07899999999995,
+    "expected": 0,
+    "skipped": 60,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

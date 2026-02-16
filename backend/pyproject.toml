@@ -1,0 +1,55 @@
+[project]
+name = "cyberdemo-backend"
+version = "0.1.0"
+description = "SOC Tier-1 Agentic AI Analyst - Backend"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.109.0",
+  "uvicorn[standard]>=0.27.0",
+  "sqlalchemy[asyncio]>=2.0.25",
+  "asyncpg>=0.29.0",
+  "alembic>=1.13.0",
+  "pydantic>=2.5.0",
+  "pydantic-settings>=2.1.0",
+  "httpx>=0.26.0",
+  "python-dotenv>=1.0.0",
+  "opensearch-py[async]>=2.4.0",
+  "aiohttp>=3.9.0",
+  "aiosmtplib>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4.0",
+  "pytest-asyncio>=0.23.0",
+  "pytest-cov>=4.1.0",
+  "httpx>=0.26.0",
+  "ruff>=0.1.0",
+  "mypy>=1.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+  "performance: marks tests as performance benchmarks (deselect with '-m \"not performance\"')",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true

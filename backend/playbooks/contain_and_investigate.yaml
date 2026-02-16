@@ -1,0 +1,41 @@
+name: contain_and_investigate
+description: Auto-containment followed by deep investigation. Isolates the host immediately and collects forensic artifacts.
+triggers:
+  - high_confidence_malware
+  - ransomware_detected
+  - lateral_movement_detected
+
+steps:
+  - action: edr.contain_host
+    params:
+      device_id: "${host.device_id}"
+      reason: "Auto-containment: ${incident.title}"
+    timeout: 60
+    on_error: notify_human
+
+  - action: edr.collect_artifacts
+    params:
+      device_id: "${host.device_id}"
+      types:
+        - memory_dump
+        - registry
+        - prefetch
+        - event_logs
+    timeout: 300
+    on_error: continue
+
+  - action: intel.deep_scan
+    params:
+      artifacts: "${previous.result}"
+      scan_type: full
+    timeout: 600
+    on_error: continue
+
+  - action: notify.create_ticket
+    params:
+      priority: critical
+      title: "Containment completed: ${incident.title}"
+      description: "Host ${host.hostname} has been contained. Artifacts collected for analysis."
+      assignee: soc_tier2
+    timeout: 30
+    on_error: continue

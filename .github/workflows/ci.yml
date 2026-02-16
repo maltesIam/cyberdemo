@@ -1,0 +1,222 @@
+name: CyberDemo CI
+
+on:
+  push:
+    branches:
+      - CyberDemo
+      - main
+    paths:
+      - "CyberDemo/**"
+  pull_request:
+    branches:
+      - CyberDemo
+      - main
+    paths:
+      - "CyberDemo/**"
+
+env:
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "20"
+  UV_VERSION: "0.4"
+
+jobs:
+  # ============================================================================
+  # Backend Tests
+  # ============================================================================
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: CyberDemo/backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          uv sync --dev
+          uv pip install -e .
+
+      - name: Run linting (ruff)
+        run: uv run ruff check src tests
+
+      - name: Run type checking (mypy)
+        run: uv run mypy src --ignore-missing-imports
+        continue-on-error: true
+
+      - name: Run unit tests
+        run: uv run pytest tests/unit -v --tb=short
+
+      - name: Run integration tests
+        run: uv run pytest tests/integration -v --tb=short -m "not slow"
+
+      - name: Run E2E tests
+        run: uv run pytest tests/e2e -v --tb=short
+
+      - name: Run MCP server tests
+        run: uv run pytest tests/test_mcp_server.py tests/test_mcp_data_server.py -v --tb=short
+
+      - name: Run all tests with coverage
+        run: uv run pytest --cov=src --cov-report=xml --cov-report=term-missing -v
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v4
+        with:
+          files: CyberDemo/backend/coverage.xml
+          flags: backend
+          fail_ci_if_error: false
+
+  # ============================================================================
+  # Frontend Tests
+  # ============================================================================
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: CyberDemo/frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: CyberDemo/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting (ESLint)
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run type checking (TypeScript)
+        run: npm run type-check
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Build frontend
+        run: npm run build
+
+  # ============================================================================
+  # E2E Integration Tests (requires both backend and frontend)
+  # ============================================================================
+  e2e-integration:
+    name: E2E Integration Tests
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: ${{ env.UV_VERSION }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: CyberDemo/frontend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: CyberDemo/backend
+        run: |
+          uv sync --dev
+          uv pip install -e .
+
+      - name: Install frontend dependencies
+        working-directory: CyberDemo/frontend
+        run: npm ci
+
+      - name: Run MCP E2E integration tests
+        working-directory: CyberDemo/backend
+        run: uv run pytest tests/e2e/test_mcp_integration.py -v --tb=short
+
+      - name: Run full E2E scenario tests
+        working-directory: CyberDemo/backend
+        run: uv run pytest tests/e2e/ -v --tb=short
+
+  # ============================================================================
+  # Docker Build Test
+  # ============================================================================
+  docker-build:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: CyberDemo
+          file: CyberDemo/docker/Dockerfile.backend
+          push: false
+          tags: cyberdemo-backend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build frontend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: CyberDemo
+          file: CyberDemo/docker/Dockerfile.frontend
+          push: false
+          tags: cyberdemo-frontend:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ============================================================================
+  # Summary Job
+  # ============================================================================
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests, e2e-integration]
+    if: always()
+
+    steps:
+      - name: Check all jobs passed
+        env:
+          BACKEND_RESULT: ${{ needs.backend-tests.result }}
+          FRONTEND_RESULT: ${{ needs.frontend-tests.result }}
+          E2E_RESULT: ${{ needs.e2e-integration.result }}
+        run: |
+          if [[ "$BACKEND_RESULT" != "success" ]] || \
+             [[ "$FRONTEND_RESULT" != "success" ]] || \
+             [[ "$E2E_RESULT" != "success" ]]; then
+            echo "One or more jobs failed"
+            exit 1
+          fi
+          echo "All CI jobs passed successfully"

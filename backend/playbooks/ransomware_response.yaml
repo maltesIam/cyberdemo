@@ -1,0 +1,106 @@
+name: ransomware_response
+description: Emergency response playbook for ransomware detection. Immediate containment and evidence preservation.
+triggers:
+  - ransomware_detected
+  - encryption_activity_detected
+  - ransom_note_found
+
+steps:
+  - action: edr.contain_host
+    params:
+      device_id: "${host.device_id}"
+      reason: "EMERGENCY: Ransomware detected - ${incident.title}"
+      mode: strict
+    timeout: 30
+    on_error: notify_human
+
+  - action: edr.kill_process
+    params:
+      device_id: "${host.device_id}"
+      process_hash: "${alert.process_hash}"
+      process_name: "${alert.process_name}"
+    timeout: 30
+    on_error: continue
+
+  - action: network.block_hash_org_wide
+    params:
+      hash: "${alert.process_hash}"
+      block_type: execution
+      reason: "Ransomware hash block: ${incident.title}"
+    timeout: 60
+    on_error: notify_human
+
+  - action: backup.check_integrity
+    params:
+      affected_host: "${host.hostname}"
+      check_type: quick
+    timeout: 120
+    on_error: continue
+
+  - action: notify.page_oncall
+    params:
+      team: incident_response
+      priority: emergency
+      message: |
+        RANSOMWARE DETECTED
+
+        Host: ${host.hostname}
+        User: ${user.name}
+        Detection: ${incident.title}
+
+        Host has been contained. Process killed.
+        Immediate IR response required.
+    timeout: 30
+    on_error: continue
+
+  - action: edr.collect_artifacts
+    params:
+      device_id: "${host.device_id}"
+      types:
+        - memory_dump
+        - disk_image
+        - registry
+        - prefetch
+        - mft
+      priority: emergency
+    timeout: 600
+    on_error: continue
+
+  - action: notify.create_ticket
+    params:
+      priority: critical
+      title: "[RANSOMWARE] ${incident.title}"
+      description: |
+        Ransomware incident detected and contained.
+
+        Affected Host: ${host.hostname}
+        Detection Time: ${incident.timestamp}
+        Process: ${alert.process_name}
+        Hash: ${alert.process_hash}
+
+        Actions taken:
+        - Host contained
+        - Malicious process killed
+        - Hash blocked org-wide
+        - Artifacts collection initiated
+        - IR team paged
+
+        FOLLOW IR RUNBOOK FOR NEXT STEPS
+      assignee: incident_commander
+      tags:
+        - ransomware
+        - critical
+        - ir_active
+    timeout: 30
+    on_error: continue
+
+  - action: siem.create_case
+    params:
+      incident_ids:
+        - "${incident.id}"
+      case_type: ransomware
+      priority: critical
+      notify_legal: true
+      notify_executive: true
+    timeout: 60
+    on_error: notify_human

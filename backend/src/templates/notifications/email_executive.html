@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security Incident Summary</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        border-bottom: 2px solid #0066cc;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        color: #0066cc;
+        margin: 0;
+        font-size: 24px;
+      }
+      .header .subtitle {
+        color: #666;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+      .severity-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .severity-critical {
+        background-color: #d32f2f;
+        color: white;
+      }
+      .severity-high {
+        background-color: #f57c00;
+        color: white;
+      }
+      .severity-medium {
+        background-color: #fbc02d;
+        color: #333;
+      }
+      .severity-low {
+        background-color: #388e3c;
+        color: white;
+      }
+      .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      .summary-table th,
+      .summary-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+      .summary-table th {
+        background-color: #f8f9fa;
+        color: #666;
+        font-weight: 600;
+        width: 40%;
+      }
+      .metrics {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+      }
+      .metric {
+        text-align: center;
+      }
+      .metric-value {
+        font-size: 28px;
+        font-weight: bold;
+        color: #0066cc;
+      }
+      .metric-label {
+        font-size: 12px;
+        color: #666;
+        text-transform: uppercase;
+      }
+      .action-button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #0066cc;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 600;
+        margin-top: 20px;
+      }
+      .action-button:hover {
+        background-color: #0052a3;
+      }
+      .timeline {
+        margin: 20px 0;
+        padding-left: 20px;
+        border-left: 2px solid #0066cc;
+      }
+      .timeline-item {
+        margin-bottom: 15px;
+        position: relative;
+      }
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -25px;
+        top: 5px;
+        width: 10px;
+        height: 10px;
+        background-color: #0066cc;
+        border-radius: 50%;
+      }
+      .timeline-time {
+        font-size: 12px;
+        color: #666;
+      }
+      .footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Security Incident Summary</h1>
+        <div class="subtitle">Generated: {timestamp}</div>
+      </div>
+
+      <div>
+        <span class="severity-badge severity-{severity_class}">{severity}</span>
+        <h2 style="margin-top: 15px">{incident_title}</h2>
+        <p>{incident_summary}</p>
+      </div>
+
+      <table class="summary-table">
+        <tr>
+          <th>Incident ID</th>
+          <td>{incident_id}</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td>{status}</td>
+        </tr>
+        <tr>
+          <th>Affected Hosts</th>
+          <td>{affected_hosts}</td>
+        </tr>
+        <tr>
+          <th>Detection Time</th>
+          <td>{detection_time}</td>
+        </tr>
+        <tr>
+          <th>Response Time</th>
+          <td>{response_time}</td>
+        </tr>
+        <tr>
+          <th>Assigned To</th>
+          <td>{assigned_to}</td>
+        </tr>
+      </table>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-value">{total_alerts}</div>
+          <div class="metric-label">Total Alerts</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">{actions_taken}</div>
+          <div class="metric-label">Actions Taken</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">{confidence_score}%</div>
+          <div class="metric-label">Confidence</div>
+        </div>
+      </div>
+
+      <h3>Key Actions</h3>
+      <div class="timeline">{timeline_items}</div>
+
+      <h3>Recommendations</h3>
+      <ul>
+        {recommendations}
+      </ul>
+
+      <a href="{dashboard_url}/incidents/{incident_id}" class="action-button"> View Full Report </a>
+
+      <div class="footer">
+        <p>This is an automated security notification from CyberDemo SOC Platform.</p>
+        <p>Do not reply to this email. For questions, contact the SOC team.</p>
+      </div>
+    </div>
+  </body>
+</html>

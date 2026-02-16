@@ -1,0 +1,60 @@
+{
+  "@type": "MessageCard",
+  "@context": "http://schema.org/extensions",
+  "themeColor": "{theme_color}",
+  "summary": "{summary}",
+  "sections": [
+    {
+      "activityTitle": "{title}",
+      "activitySubtitle": "{subtitle}",
+      "activityImage": "https://your-soc.example.com/assets/alert-icon.png",
+      "facts": [
+        {
+          "name": "Hostname",
+          "value": "{hostname}"
+        },
+        {
+          "name": "Alert Type",
+          "value": "{alert_type}"
+        },
+        {
+          "name": "Severity",
+          "value": "{severity}"
+        },
+        {
+          "name": "Status",
+          "value": "{status}"
+        },
+        {
+          "name": "Detected At",
+          "value": "{timestamp}"
+        }
+      ],
+      "markdown": true,
+      "text": "{description}"
+    }
+  ],
+  "potentialAction": [
+    {
+      "@type": "OpenUri",
+      "name": "View in Dashboard",
+      "targets": [
+        {
+          "os": "default",
+          "uri": "{dashboard_url}/incidents/{incident_id}"
+        }
+      ]
+    },
+    {
+      "@type": "ActionCard",
+      "name": "Quick Actions",
+      "actions": [
+        {
+          "@type": "HttpPOST",
+          "name": "Acknowledge",
+          "target": "{api_url}/incidents/{incident_id}/acknowledge"
+        }
+      ]
+    }
+  ]
+}

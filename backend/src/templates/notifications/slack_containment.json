@@ -1,0 +1,50 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Host Containment Alert",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Hostname:*\n{hostname}"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Status:*\n{status}"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Action:*\n{action}"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Severity:*\n{severity}"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Reason:*\n{reason}"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "Incident ID: {incident_id} | Time: {timestamp}"
+        }
+      ]
+    }
+  ],
+  "text": "Host {hostname} has been {action}"
+}

@@ -1,0 +1,102 @@
+version: "3.8"
+
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: cyberdemo-opensearch
+    environment:
+      - discovery.type=single-node
+      - DISABLE_SECURITY_PLUGIN=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cyberdemo-net
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:2.11.0
+    container_name: cyberdemo-dashboards
+    environment:
+      - OPENSEARCH_HOSTS=["http://opensearch:9200"]
+      - DISABLE_SECURITY_DASHBOARDS_PLUGIN=true
+    ports:
+      - "5601:5601"
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    networks:
+      - cyberdemo-net
+
+  postgres:
+    image: postgres:15
+    container_name: cyberdemo-postgres
+    environment:
+      - POSTGRES_USER=cyberdemo
+      - POSTGRES_PASSWORD=cyberdemo
+      - POSTGRES_DB=cyberdemo
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyberdemo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cyberdemo-net
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: ../docker/Dockerfile.backend
+    container_name: cyberdemo-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENSEARCH_HOST=opensearch
+      - OPENSEARCH_PORT=9200
+      - DATABASE_URL=postgresql+asyncpg://cyberdemo:cyberdemo@postgres:5432/cyberdemo
+    depends_on:
+      opensearch:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ../backend/src:/app/src
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - cyberdemo-net
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    container_name: cyberdemo-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ../frontend/src:/app/src
+    command: pnpm dev --host
+    networks:
+      - cyberdemo-net
+
+volumes:
+  opensearch-data:
+  postgres-data:
+
+networks:
+  cyberdemo-net:
+    driver: bridge

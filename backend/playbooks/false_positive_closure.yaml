@@ -1,0 +1,48 @@
+name: false_positive_closure
+description: Auto-close alerts identified as false positives with proper documentation.
+triggers:
+  - false_positive_confirmed
+  - known_benign_activity
+  - whitelisted_process
+
+steps:
+  - action: siem.add_comment
+    params:
+      incident_id: "${incident.id}"
+      comment: |
+        Automated closure - False Positive
+
+        Reason: ${closure.reason}
+        Confidence: ${closure.confidence}%
+        Similar alerts closed: ${closure.similar_count}
+
+        This alert matches known false positive pattern: ${closure.pattern_id}
+    timeout: 30
+    on_error: continue
+
+  - action: siem.update_status
+    params:
+      incident_id: "${incident.id}"
+      status: closed
+      resolution: false_positive
+      resolution_notes: "${closure.reason}"
+    timeout: 30
+    on_error: fail
+
+  - action: intel.update_whitelist
+    params:
+      indicator: "${alert.indicator}"
+      indicator_type: "${alert.indicator_type}"
+      reason: "Auto-whitelisted: ${closure.reason}"
+      expires_days: 90
+    timeout: 30
+    on_error: continue
+
+  - action: metrics.record_closure
+    params:
+      incident_id: "${incident.id}"
+      closure_type: false_positive
+      pattern_id: "${closure.pattern_id}"
+      auto_closed: true
+    timeout: 15
+    on_error: continue

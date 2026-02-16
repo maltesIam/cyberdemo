@@ -1,0 +1,66 @@
+name: lateral_movement_hunt
+description: Hunt for lateral movement indicators across the network when suspicious activity is detected.
+triggers:
+  - lateral_movement_suspected
+  - pass_the_hash_detected
+  - unusual_logon_pattern
+  - admin_credential_use
+
+steps:
+  - action: siem.search_logs
+    params:
+      query: "user:${user.name} AND (event_type:logon OR event_type:network_connection)"
+      timeframe: 24h
+      indices:
+        - windows-security
+        - network-flow
+    timeout: 120
+    on_error: continue
+
+  - action: edr.hunt_hash
+    params:
+      hash: "${alert.process_hash}"
+      scope: organization
+    timeout: 180
+    on_error: continue
+
+  - action: edr.list_authentications
+    params:
+      user: "${user.name}"
+      timeframe: 24h
+      include_failed: true
+    timeout: 120
+    on_error: continue
+
+  - action: graph.analyze_connections
+    params:
+      source_host: "${host.hostname}"
+      depth: 3
+      timeframe: 24h
+    timeout: 180
+    on_error: continue
+
+  - action: siem.correlate_findings
+    params:
+      incident_id: "${incident.id}"
+      findings:
+        - "${previous.result}"
+      correlation_rules:
+        - lateral_movement
+        - credential_abuse
+    timeout: 60
+    on_error: continue
+
+  - action: notify.create_ticket
+    params:
+      priority: high
+      title: "Lateral Movement Hunt: ${incident.title}"
+      description: |
+        Automated lateral movement hunt completed.
+        Source: ${host.hostname}
+        User: ${user.name}
+
+        Review findings in the incident timeline.
+      assignee: threat_hunter
+    timeout: 30
+    on_error: continue
