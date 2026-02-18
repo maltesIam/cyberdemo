@@ -165,7 +165,7 @@ export function TerrainView({
 
           {/* Terrain peaks */}
           {peaks.map((point) => {
-            const colors = SEVERITY_COLORS[point.severity];
+            const colors = SEVERITY_COLORS[point.severity as keyof typeof SEVERITY_COLORS] || SEVERITY_COLORS.Medium;
             const height = Math.max(10, point.heightPercent * 1.5);
             const left = (point.x / gridSize) * 100;
             const top = (point.y / gridSize) * 100;
