@@ -19,6 +19,9 @@ from .tickets import TICKET_TOOLS, ticket_handlers
 from .reports import REPORT_TOOLS, report_handlers
 from .threat_enrichment import THREAT_ENRICHMENT_TOOLS, threat_enrichment_handlers
 from .vulnerability import VULNERABILITY_TOOLS, vulnerability_handlers
+from .agent_orchestration import AGENT_ORCHESTRATION_TOOLS, agent_orchestration_handlers
+from .attack_simulation import ATTACK_SIMULATION_TOOLS, attack_simulation_handlers
+from .aip_assist import AIP_ASSIST_TOOLS, aip_assist_handlers
 
 
 def get_all_tools() -> List[Dict[str, Any]]:
@@ -33,6 +36,9 @@ def get_all_tools() -> List[Dict[str, Any]]:
     tools.extend(REPORT_TOOLS)
     tools.extend(THREAT_ENRICHMENT_TOOLS)
     tools.extend(VULNERABILITY_TOOLS)
+    tools.extend(AGENT_ORCHESTRATION_TOOLS)
+    tools.extend(ATTACK_SIMULATION_TOOLS)
+    tools.extend(AIP_ASSIST_TOOLS)
     return tools
 
 
@@ -48,4 +54,7 @@ def get_tool_handlers() -> Dict[str, Callable[[Dict[str, Any]], Awaitable[Any]]]
     handlers.update(report_handlers)
     handlers.update(threat_enrichment_handlers)
     handlers.update(vulnerability_handlers)
+    handlers.update(agent_orchestration_handlers)
+    handlers.update(attack_simulation_handlers)
+    handlers.update(aip_assist_handlers)
     return handlers

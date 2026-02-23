@@ -1,0 +1,228 @@
+name: insider_threat_investigation
+description: Comprehensive investigation playbook for insider threat incidents. Correlates activities, reviews access, and preserves evidence chain for legal proceedings.
+triggers:
+  - insider_threat_detected
+  - suspicious_employee_activity
+  - data_hoarding_detected
+  - termination_risk
+  - policy_violation
+
+mitre_mapping:
+  - T1078  # Valid Accounts
+  - T1213  # Data from Information Repositories
+  - T1530  # Data from Cloud Storage Object
+  - T1074  # Data Staged
+  - T1567  # Exfiltration Over Web Service
+
+steps:
+  # Step 1: Correlate user activities (REQ-005-002-005-1)
+  - action: ueba.correlate_activities
+    params:
+      user: "${user.name}"
+      employee_id: "${user.employee_id}"
+      timeframe: 30d
+      include_events:
+        - file_access
+        - email_activity
+        - cloud_storage
+        - printing
+        - usb_usage
+        - vpn_connections
+        - badge_access
+      anomaly_detection: true
+    timeout: 180
+    on_error: continue
+
+  - action: siem.search_user_activity
+    params:
+      user: "${user.name}"
+      query: "user:${user.name} AND (event_type:login OR event_type:file_access OR event_type:data_transfer)"
+      timeframe: 30d
+      indices:
+        - windows-security
+        - office365-audit
+        - cloud-access
+        - dlp-events
+    timeout: 120
+    on_error: continue
+
+  # Step 2: Review access patterns (REQ-005-002-005-2)
+  - action: iam.review_access
+    params:
+      user: "${user.name}"
+      employee_id: "${user.employee_id}"
+      check_privileged: true
+      check_sensitive_data: true
+      compare_to_peers: true
+      check_recent_changes: true
+    timeout: 120
+    on_error: continue
+
+  - action: ueba.analyze_access_patterns
+    params:
+      user: "${user.name}"
+      baseline_period: 90d
+      analysis_period: 30d
+      detect_anomalies:
+        - unusual_hours
+        - unusual_locations
+        - excessive_access
+        - first_time_access
+    timeout: 180
+    on_error: continue
+
+  # Step 3: Check data downloads (REQ-005-002-005-3)
+  - action: dlp.check_downloads
+    params:
+      user: "${user.name}"
+      timeframe: "${alert.timeframe}"
+      check_volume: true
+      check_sensitivity: true
+      check_destinations:
+        - personal_email
+        - cloud_storage
+        - removable_media
+        - print_jobs
+    timeout: 180
+    on_error: continue
+
+  - action: siem.search_file_access
+    params:
+      user: "${user.name}"
+      timeframe: 30d
+      file_types:
+        - confidential
+        - restricted
+        - pii
+        - financial
+      actions:
+        - download
+        - copy
+        - print
+        - email_attachment
+    timeout: 120
+    on_error: continue
+
+  # Step 4: HR/Legal notification (REQ-005-002-005-4)
+  - action: notify.alert_hr
+    params:
+      priority: high
+      employee_id: "${user.employee_id}"
+      employee_name: "${user.name}"
+      department: "${user.department}"
+      manager: "${user.manager}"
+      subject: "CONFIDENTIAL: Insider Threat Investigation - ${user.name}"
+      body: |
+        An insider threat investigation has been initiated for the following employee:
+
+        Employee: ${user.name}
+        Employee ID: ${user.employee_id}
+        Department: ${user.department}
+        Manager: ${user.manager}
+
+        Incident ID: ${incident.id}
+        Risk Score: ${alert.risk_score}
+        Risk Indicators: ${alert.indicators}
+
+        This is a confidential HR matter.
+        Please coordinate with Legal and Security for next steps.
+    timeout: 30
+    on_error: notify_human
+
+  - action: notify.alert_legal
+    params:
+      priority: high
+      incident_id: "${incident.id}"
+      case_type: insider_threat
+      subject: "PRIVILEGED: Insider Threat Investigation - ${incident.id}"
+      body: |
+        An insider threat investigation is underway and may require legal oversight.
+
+        Subject: ${user.name} (${user.employee_id})
+        Department: ${user.department}
+
+        Risk Category: ${insider.risk_category}
+        Investigation Start: ${incident.timestamp}
+
+        Evidence preservation protocols have been initiated.
+        Please advise on legal hold requirements.
+    timeout: 30
+    on_error: notify_human
+
+  # Step 5: Preserve evidence chain (REQ-005-002-005-5)
+  - action: forensics.preserve_evidence
+    params:
+      subject_user: "${user.name}"
+      incident_id: "${incident.id}"
+      preserve_types:
+        - email_archive
+        - file_access_logs
+        - authentication_logs
+        - cloud_activity
+        - endpoint_artifacts
+        - network_flows
+      chain_of_custody: strict
+      legal_hold: true
+    timeout: 300
+    on_error: notify_human
+
+  - action: edr.collect_artifacts
+    params:
+      device_id: "${host.device_id}"
+      types:
+        - browser_history
+        - recent_files
+        - usb_history
+        - cloud_sync_logs
+        - email_exports
+      preserve_timestamps: true
+      chain_of_custody: true
+    timeout: 300
+    on_error: continue
+
+  - action: legal.create_case
+    params:
+      case_type: insider_threat
+      subject: "${user.name}"
+      employee_id: "${user.employee_id}"
+      incident_id: "${incident.id}"
+      classification: confidential
+      legal_hold: true
+      preserve_communications: true
+    timeout: 60
+    on_error: notify_human
+
+  # Create tracking ticket
+  - action: notify.create_ticket
+    params:
+      priority: high
+      title: "[INSIDER THREAT] Investigation - ${user.name}"
+      description: |
+        Insider threat investigation initiated.
+
+        Subject: ${user.name} (${user.employee_id})
+        Department: ${user.department}
+        Manager: ${user.manager}
+
+        Risk Score: ${alert.risk_score}
+        Risk Indicators: ${alert.indicators}
+
+        Investigation Steps Completed:
+        - User activity correlation
+        - Access pattern analysis
+        - Data download review
+        - HR notification
+        - Legal notification
+        - Evidence preservation
+
+        THIS IS A CONFIDENTIAL INVESTIGATION
+        DO NOT DISCUSS WITH SUBJECT OR UNAUTHORIZED PERSONNEL
+      assignee: insider_threat_investigator
+      visibility: restricted
+      tags:
+        - insider_threat
+        - confidential
+        - hr_legal
+        - investigation
+    timeout: 30
+    on_error: continue

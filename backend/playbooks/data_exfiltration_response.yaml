@@ -1,0 +1,173 @@
+name: data_exfiltration_response
+description: Emergency response playbook for data exfiltration detection. Identifies channels, blocks transfers, and preserves evidence.
+triggers:
+  - data_exfiltration_detected
+  - dlp_alert
+  - large_data_transfer
+  - suspicious_upload
+
+mitre_mapping:
+  - T1041  # Exfiltration Over C2 Channel
+  - T1048  # Exfiltration Over Alternative Protocol
+  - T1567  # Exfiltration Over Web Service
+  - T1537  # Transfer Data to Cloud Account
+
+steps:
+  # Step 1: Identify exfiltration channels (REQ-005-002-004-1)
+  - action: dlp.identify_channel
+    params:
+      incident_id: "${incident.id}"
+      source_host: "${host.hostname}"
+      destination_ip: "${alert.destination_ip}"
+      protocol: "${alert.protocol}"
+      timeframe: 24h
+    timeout: 120
+    on_error: continue
+
+  # Step 2: Block data transfer (REQ-005-002-004-2)
+  - action: network.block_destination
+    params:
+      destination_ip: "${alert.destination_ip}"
+      block_type: immediate
+      reason: "Data exfiltration response: ${incident.title}"
+      duration: 72h
+    timeout: 30
+    on_error: notify_human
+
+  - action: dlp.block_transfer
+    params:
+      device_id: "${host.device_id}"
+      user: "${user.name}"
+      block_usb: true
+      block_cloud_upload: true
+      block_email_attachments: true
+    timeout: 60
+    on_error: continue
+
+  # Step 3: Assess data impact (REQ-005-002-004-3)
+  - action: dlp.assess_impact
+    params:
+      incident_id: "${incident.id}"
+      data_volume_mb: "${alert.data_volume_mb}"
+      source_paths: "${previous.result}"
+      check_classification: true
+      check_pii: true
+      check_phi: true
+      check_financial: true
+    timeout: 180
+    on_error: continue
+
+  - action: dlp.identify_data_types
+    params:
+      incident_id: "${incident.id}"
+      scan_depth: deep
+      classify_sensitivity: true
+    timeout: 120
+    on_error: continue
+
+  # Step 4: Preserve evidence (REQ-005-002-004-4)
+  - action: edr.collect_artifacts
+    params:
+      device_id: "${host.device_id}"
+      types:
+        - network_connections
+        - process_tree
+        - file_access_logs
+        - browser_history
+        - clipboard_data
+      priority: high
+    timeout: 300
+    on_error: continue
+
+  - action: network.capture_traffic
+    params:
+      source_ip: "${host.ip_address}"
+      destination_ip: "${alert.destination_ip}"
+      duration_minutes: 30
+      pcap_storage: forensics
+    timeout: 120
+    on_error: continue
+
+  # Step 5: Notify stakeholders (REQ-005-002-004-5)
+  - action: notify.page_oncall
+    params:
+      team: incident_response
+      priority: critical
+      message: |
+        DATA EXFILTRATION DETECTED
+
+        Host: ${host.hostname}
+        User: ${user.name}
+        Destination: ${alert.destination_ip}
+        Data Volume: ${alert.data_volume_mb} MB
+        Protocol: ${alert.protocol}
+
+        Actions taken:
+        - Destination IP blocked
+        - Data transfer channels blocked
+        - Evidence collection initiated
+
+        IMMEDIATE INVESTIGATION REQUIRED
+    timeout: 30
+    on_error: continue
+
+  - action: notify.alert_legal
+    params:
+      priority: high
+      incident_id: "${incident.id}"
+      data_types: "${dlp.data_types}"
+      subject: "LEGAL NOTICE: Potential Data Exfiltration - ${incident.title}"
+      body: |
+        A potential data exfiltration incident has been detected.
+
+        Incident ID: ${incident.id}
+        Time: ${incident.timestamp}
+        Affected User: ${user.name} (${user.email})
+        Source Host: ${host.hostname}
+
+        Data Classification Assessment in progress.
+        Legal review may be required for regulatory compliance.
+    timeout: 30
+    on_error: continue
+
+  - action: notify.create_ticket
+    params:
+      priority: critical
+      title: "[DATA EXFILTRATION] ${incident.title}"
+      description: |
+        Data exfiltration incident detected and response initiated.
+
+        Affected Host: ${host.hostname}
+        User: ${user.name}
+        Destination: ${alert.destination_ip}
+        Data Volume: ${alert.data_volume_mb} MB
+
+        Actions completed:
+        - Exfiltration channel identified
+        - Data transfer blocked
+        - Impact assessment initiated
+        - Evidence preserved
+        - IR team notified
+        - Legal team notified
+
+        FOLLOW DATA BREACH RUNBOOK FOR NEXT STEPS
+      assignee: incident_commander
+      tags:
+        - data_exfiltration
+        - critical
+        - dlp
+        - ir_active
+    timeout: 30
+    on_error: continue
+
+  - action: siem.create_case
+    params:
+      incident_ids:
+        - "${incident.id}"
+      case_type: data_exfiltration
+      priority: critical
+      notify_legal: true
+      notify_compliance: true
+      notify_executive: true
+    timeout: 60
+    on_error: notify_human

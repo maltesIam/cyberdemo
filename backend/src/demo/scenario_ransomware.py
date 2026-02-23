@@ -130,38 +130,67 @@ def generate_ransomware_scenario() -> RansomwareScenarioData:
         ),
     ]
 
-    # Create timeline events
+    # Create timeline events with MITRE ATT&CK mapping
+    # Ransomware techniques: T1486, T1490, T1021.001
     timeline_events = [
         {
             "timestamp": base_time.isoformat(),
             "event": "initial_detection",
             "host": "ws-fin-101.corp.local",
             "details": "Suspicious file encryption activity detected",
+            "mitre_tactic": "TA0040",
+            "tactic_id": "TA0040",
+            "tactic_name": "Impact",
+            "mitre_technique": "T1486",
+            "technique_id": "T1486",
+            "technique_name": "Data Encrypted for Impact",
         },
         {
             "timestamp": (base_time + timedelta(minutes=1)).isoformat(),
             "event": "hash_hunting",
             "details": f"Hash hunt initiated for {RANSOMWARE_HASH}",
+            "mitre_tactic": None,
+            "tactic_id": None,
+            "mitre_technique": None,
+            "technique_id": None,
         },
         {
             "timestamp": (base_time + timedelta(minutes=2)).isoformat(),
             "event": "propagation_detected",
             "details": f"Found {len(affected_hosts)} hosts with matching hash",
+            "mitre_tactic": "TA0008",
+            "tactic_id": "TA0008",
+            "tactic_name": "Lateral Movement",
+            "mitre_technique": "T1021.001",
+            "technique_id": "T1021.001",
+            "technique_name": "Remote Desktop Protocol",
         },
         {
             "timestamp": (base_time + timedelta(minutes=3)).isoformat(),
             "event": "threat_intel_match",
             "details": f"Hash identified as {RANSOMWARE_FAMILY}",
+            "mitre_tactic": None,
+            "tactic_id": None,
+            "mitre_technique": None,
+            "technique_id": None,
         },
         {
             "timestamp": (base_time + timedelta(minutes=4)).isoformat(),
             "event": "mass_containment_triggered",
             "details": f"Mass containment initiated for {len(affected_hosts)} hosts",
+            "mitre_tactic": None,
+            "tactic_id": None,
+            "mitre_technique": None,
+            "technique_id": None,
         },
         {
             "timestamp": (base_time + timedelta(minutes=5)).isoformat(),
             "event": "executive_notification",
             "details": "Executive team notified via Teams/Slack",
+            "mitre_tactic": None,
+            "tactic_id": None,
+            "mitre_technique": None,
+            "technique_id": None,
         },
     ]
 

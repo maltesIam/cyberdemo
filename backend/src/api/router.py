@@ -27,6 +27,10 @@ from .vuln_visualization import router as vuln_visualization_router
 from .vuln_enrichment import router as vuln_enrichment_router
 from .vuln_ssvc import router as vuln_ssvc_router
 from .threats import router as threats_router
+from .analysis_queue import router as analysis_queue_router
+from .mitre import router as mitre_router
+from .narration import router as narration_router
+from .aip_assist import router as aip_assist_router
 from ..mcp import mcp_router
 from ..mcp.data_server import router as data_mcp_router
 from ..demo.demo_api import router as demo_router
@@ -60,6 +64,10 @@ api_router.include_router(vuln_visualization_router, prefix="/api/vulnerabilitie
 api_router.include_router(vuln_enrichment_router, prefix="/api", tags=["vulnerability-enrichment"])
 api_router.include_router(vuln_ssvc_router, prefix="/vulnerabilities", tags=["vulnerabilities-ssvc"])
 api_router.include_router(threats_router, prefix="/threats", tags=["threats"])
+api_router.include_router(mitre_router, prefix="/mitre", tags=["mitre"])
+api_router.include_router(analysis_queue_router, tags=["analysis-queue"])
 api_router.include_router(mcp_router, prefix="/mcp", tags=["mcp"])
 api_router.include_router(data_mcp_router, prefix="/data-mcp", tags=["data-mcp"])
 api_router.include_router(demo_router, prefix="/demo", tags=["demo"])
+api_router.include_router(narration_router, prefix="/narration", tags=["narration"])
+api_router.include_router(aip_assist_router, prefix="/aip-assist", tags=["aip-assist"])

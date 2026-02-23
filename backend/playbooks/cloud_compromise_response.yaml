@@ -1,0 +1,243 @@
+name: cloud_compromise_response
+description: Emergency response playbook for cloud infrastructure compromise. Rotates credentials, reviews access, blocks threats, and enforces security controls.
+triggers:
+  - cloud_compromise_detected
+  - suspicious_cloud_activity
+  - aws_guardduty_alert
+  - azure_sentinel_alert
+  - gcp_security_alert
+  - cloud_credential_leak
+
+mitre_mapping:
+  - T1078.004  # Valid Accounts: Cloud Accounts
+  - T1190     # Exploit Public-Facing Application
+  - T1098     # Account Manipulation
+  - T1562.001 # Impair Defenses: Disable or Modify Tools
+  - T1537     # Transfer Data to Cloud Account
+
+steps:
+  # Step 1: Rotate cloud credentials (REQ-005-002-006-1)
+  - action: cloud.rotate_credentials
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      affected_user: "${user.iam_user}"
+      access_key_id: "${user.access_key_id}"
+      rotation_type: immediate
+      notify_user: false
+      reason: "Security incident: ${incident.title}"
+    timeout: 60
+    on_error: notify_human
+
+  - action: iam.rotate_keys
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      user: "${user.iam_user}"
+      invalidate_sessions: true
+      revoke_tokens: true
+    timeout: 60
+    on_error: notify_human
+
+  # Step 2: Review IAM policies (REQ-005-002-006-2)
+  - action: iam.review_policies
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      user: "${user.iam_user}"
+      check_for:
+        - privilege_escalation
+        - policy_modifications
+        - role_assumptions
+        - cross_account_access
+      timeframe: 24h
+    timeout: 180
+    on_error: continue
+
+  - action: cloud.audit_iam
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      audit_scope:
+        - attached_policies
+        - inline_policies
+        - group_memberships
+        - role_trust_policies
+      check_anomalies: true
+    timeout: 180
+    on_error: continue
+
+  # Step 3: Check resource access logs (REQ-005-002-006-3)
+  - action: cloud.check_access_logs
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      region: "${cloud.region}"
+      timeframe: 72h
+      user_filter: "${user.iam_user}"
+      source_ip_filter: "${alert.source_ip}"
+      log_types:
+        - cloudtrail
+        - vpc_flow
+        - s3_access
+        - lambda_invocations
+    timeout: 300
+    on_error: continue
+
+  - action: cloudtrail.search
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      query: "userIdentity.userName:${user.iam_user} OR sourceIPAddress:${alert.source_ip}"
+      timeframe: 72h
+      event_types:
+        - ConsoleLogin
+        - CreateUser
+        - AttachUserPolicy
+        - CreateAccessKey
+        - PutBucketPolicy
+        - RunInstances
+    timeout: 180
+    on_error: continue
+
+  # Step 4: Block suspicious IPs (REQ-005-002-006-4)
+  - action: network.block_ip
+    params:
+      ip_address: "${alert.source_ip}"
+      block_type: deny_all
+      scope: organization
+      reason: "Cloud compromise response: ${incident.title}"
+      duration: 168h
+    timeout: 60
+    on_error: notify_human
+
+  - action: waf.block_ip
+    params:
+      ip_address: "${alert.source_ip}"
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      rule_priority: 1
+      reason: "Malicious IP: Cloud compromise"
+    timeout: 60
+    on_error: continue
+
+  - action: security_group.block
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      region: "${cloud.region}"
+      ip_address: "${alert.source_ip}"
+      direction: both
+      all_security_groups: true
+    timeout: 120
+    on_error: continue
+
+  # Step 5: Enable MFA enforcement (REQ-005-002-006-5)
+  - action: iam.enforce_mfa
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      scope: all_users
+      grace_period_hours: 0
+      disable_non_mfa_access: true
+      notify_users: true
+    timeout: 120
+    on_error: notify_human
+
+  - action: idp.enforce_mfa
+    params:
+      provider: "${cloud.provider}"
+      enforcement_level: strict
+      reset_sessions: true
+      require_reauthentication: true
+    timeout: 60
+    on_error: continue
+
+  # Additional security hardening
+  - action: cloud.enable_security_controls
+    params:
+      provider: "${cloud.provider}"
+      account_id: "${cloud.account_id}"
+      enable:
+        - cloudtrail_all_regions
+        - vpc_flow_logs
+        - guardduty_enhanced
+        - config_rules
+        - access_analyzer
+      alert_on_changes: true
+    timeout: 180
+    on_error: continue
+
+  # Notification and documentation
+  - action: notify.page_oncall
+    params:
+      team: cloud_security
+      priority: emergency
+      message: |
+        CLOUD COMPROMISE DETECTED
+
+        Provider: ${cloud.provider}
+        Account: ${cloud.account_id}
+        Region: ${cloud.region}
+        Affected User: ${user.iam_user}
+        Source IP: ${alert.source_ip}
+
+        Actions taken:
+        - Credentials rotated
+        - Sessions invalidated
+        - IAM audit initiated
+        - Source IP blocked
+        - MFA enforcement enabled
+
+        IMMEDIATE CLOUD SECURITY RESPONSE REQUIRED
+    timeout: 30
+    on_error: continue
+
+  - action: notify.create_ticket
+    params:
+      priority: critical
+      title: "[CLOUD COMPROMISE] ${cloud.provider} - ${incident.title}"
+      description: |
+        Cloud infrastructure compromise detected and response initiated.
+
+        Cloud Provider: ${cloud.provider}
+        Account ID: ${cloud.account_id}
+        Region: ${cloud.region}
+        Detection Source: ${alert.guardduty_finding_id}
+
+        Affected Principal: ${user.iam_user}
+        Attack Source: ${alert.source_ip}
+        Activity Type: ${alert.activity_type}
+        Risk Score: ${alert.risk_score}
+
+        Response Actions Completed:
+        - Credentials rotated
+        - All sessions invalidated
+        - IAM policies audited
+        - CloudTrail analysis initiated
+        - Malicious IP blocked (org-wide)
+        - MFA enforcement enabled
+        - Enhanced monitoring activated
+
+        FOLLOW CLOUD INCIDENT RESPONSE RUNBOOK
+      assignee: cloud_security_lead
+      tags:
+        - cloud_compromise
+        - critical
+        - ${cloud.provider}
+        - ir_active
+    timeout: 30
+    on_error: continue
+
+  - action: siem.create_case
+    params:
+      incident_ids:
+        - "${incident.id}"
+      case_type: cloud_compromise
+      priority: critical
+      cloud_provider: "${cloud.provider}"
+      cloud_account: "${cloud.account_id}"
+      notify_ciso: true
+      notify_cloud_team: true
+    timeout: 60
+    on_error: notify_human

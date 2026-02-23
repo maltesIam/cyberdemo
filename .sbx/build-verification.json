@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "mode": "full",
+  "timestamp": "2026-02-23T11:08:04.393341",
+  "total_requirements": 0,
+  "verified_requirements": 0,
+  "failed_requirements": 0,
+  "requirement_results": [],
+  "issues": [],
+  "summary": {
+    "total_requirements": 0,
+    "verified": 0,
+    "failed": 0,
+    "success_rate": 0,
+    "stub_code_found": 0,
+    "missing_files": 0,
+    "todo_comments": 0
+  }
+}

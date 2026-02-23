@@ -1,0 +1,190 @@
+{
+  "analyzedAt": "2026-02-22T01:30:00.000Z",
+  "buildId": "sbx-20260222-012823",
+  "functionalSpec": "docs/FUNCTIONAL_SPEC.md",
+  "buildPlan": "docs/BUILD_PLAN.md",
+  "status": "PASSED",
+  "fixedAt": "2026-02-22T01:55:00.000Z",
+  "summary": {
+    "totalRequirements": 71,
+    "coveredRequirements": 71,
+    "uncoveredRequirements": 0,
+    "orphanTasks": 0,
+    "technicalRequirements": 14,
+    "integrationRequirements": 6
+  },
+  "statistics": {
+    "byEpic": {
+      "EPIC-001": {
+        "requirements": 17,
+        "covered": 17,
+        "percentage": 100
+      },
+      "EPIC-002": {
+        "requirements": 16,
+        "covered": 16,
+        "percentage": 100
+      },
+      "EPIC-003": {
+        "requirements": 9,
+        "covered": 9,
+        "percentage": 100
+      },
+      "EPIC-004": {
+        "requirements": 9,
+        "covered": 9,
+        "percentage": 100
+      },
+      "EPIC-005": {
+        "requirements": 12,
+        "covered": 12,
+        "percentage": 100
+      },
+      "EPIC-006": {
+        "requirements": 8,
+        "covered": 8,
+        "percentage": 100
+      }
+    },
+    "byPriority": {
+      "MTH": {
+        "total": 33,
+        "covered": 33,
+        "percentage": 100
+      },
+      "NTH": {
+        "total": 38,
+        "covered": 38,
+        "percentage": 100
+      }
+    }
+  },
+  "uncoveredRequirements": [],
+  "fixedGaps": [
+    {
+      "id": "REQ-002-003-004",
+      "description": "Visualization of attack chain in UI",
+      "priority": "MTH",
+      "epic": "EPIC-002",
+      "feature": "FEAT-002-003",
+      "section": "Section 1.4.2 - MITRE ATT&CK Integration",
+      "fixedBy": "T-1.3.017",
+      "fixedAt": "2026-02-22T01:55:00.000Z"
+    }
+  ],
+  "orphanTasks": [],
+  "priorityMismatches": [],
+  "technicalRequirementsCoverage": {
+    "TECH-001": {
+      "description": "Nuevo MCP Server para Agent Orchestration en Python/FastAPI",
+      "priority": "MTH",
+      "coveredBy": ["T-1.2.017", "T-1.1.004", "T-1.3.001"]
+    },
+    "TECH-002": {
+      "description": "Cola de jobs con PostgreSQL",
+      "priority": "MTH",
+      "coveredBy": ["T-1.2.009", "T-1.2.010"]
+    },
+    "TECH-003": {
+      "description": "WebSocket bidireccional para streaming de narración",
+      "priority": "NTH",
+      "coveredBy": ["T-2.1.008"]
+    },
+    "TECH-004": {
+      "description": "Tabla analysis_jobs para tracking de análisis",
+      "priority": "MTH",
+      "coveredBy": ["T-1.1.001", "T-1.1.003"]
+    },
+    "TECH-005": {
+      "description": "Tabla webhook_configs para configuración de webhooks",
+      "priority": "MTH",
+      "coveredBy": ["T-1.1.002", "T-1.1.003"]
+    },
+    "TECH-006": {
+      "description": "Tabla playbook_executions para estado de playbooks",
+      "priority": "NTH",
+      "coveredBy": ["T-2.3.001"]
+    },
+    "TECH-007": {
+      "description": "Tabla narration_messages para historial",
+      "priority": "NTH",
+      "coveredBy": ["T-2.1.001"]
+    },
+    "TECH-008": {
+      "description": "Rate limiting de 100 requests/minuto por sesión",
+      "priority": "MTH",
+      "coveredBy": ["T-1.2.018"]
+    },
+    "TECH-009": {
+      "description": "Autenticación de webhooks con HMAC signature",
+      "priority": "MTH",
+      "coveredBy": ["T-1.2.019"]
+    },
+    "TECH-010": {
+      "description": "Nuevo componente NarrationPanel.tsx",
+      "priority": "NTH",
+      "coveredBy": ["T-2.1.003"]
+    },
+    "TECH-011": {
+      "description": "Nuevo componente DemoControlPanel.tsx",
+      "priority": "NTH",
+      "coveredBy": ["T-2.4.001"]
+    },
+    "TECH-012": {
+      "description": "Nuevo componente CopilotWidget.tsx",
+      "priority": "NTH",
+      "coveredBy": ["T-2.2.008"]
+    },
+    "TECH-013": {
+      "description": "Tests E2E con Playwright para flujos de demo",
+      "priority": "MTH",
+      "coveredBy": ["T-1.4.008", "T-1.4.009"]
+    },
+    "TECH-014": {
+      "description": "Tests unitarios para cada MCP tool",
+      "priority": "MTH",
+      "coveredBy": ["T-1.4.001", "T-1.4.002", "T-1.4.003", "T-1.4.004", "T-1.4.005"]
+    }
+  },
+  "integrationRequirementsCoverage": {
+    "INT-001": {
+      "description": "Endpoint HTTP para recibir webhooks de análisis",
+      "priority": "MTH",
+      "coveredBy": ["T-1.2.001", "T-1.2.002"]
+    },
+    "INT-002": {
+      "description": "WebSocket para streaming de narración",
+      "priority": "NTH",
+      "coveredBy": ["T-2.1.008"]
+    },
+    "INT-003": {
+      "description": "Índice attack_simulations para eventos de escenarios",
+      "priority": "MTH",
+      "coveredBy": ["T-1.1.005"]
+    },
+    "INT-004": {
+      "description": "Índice narration_logs para historial de narración",
+      "priority": "NTH",
+      "coveredBy": ["T-2.1.002"]
+    },
+    "INT-005": {
+      "description": "Schema extensions para nuevas tablas",
+      "priority": "MTH",
+      "coveredBy": ["T-1.1.001", "T-1.1.002", "T-1.1.003"]
+    },
+    "INT-006": {
+      "description": "Nuevos tools para control de demo",
+      "priority": "MTH",
+      "coveredBy": ["T-1.3.008", "T-1.3.009", "T-1.3.010", "T-1.3.011", "T-1.3.012"]
+    }
+  },
+  "notes": [
+    "All 71 functional requirements are properly covered by build tasks",
+    "All 14 technical requirements (TECH-001 to TECH-014) are covered",
+    "All 6 integration requirements (INT-001 to INT-006) are covered",
+    "No orphan tasks found - all tasks trace back to requirements",
+    "No priority mismatches found - MTH requirements are in Cycle 1, NTH in Cycle 2",
+    "GAP FIXED: REQ-002-003-004 was added as T-1.3.017 in Phase 1.3"
+  ],
+  "recommendations": []
+}
