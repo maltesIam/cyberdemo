@@ -200,7 +200,7 @@ export function ScenarioDropdown({
   };
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <div ref={dropdownRef} className="relative" data-testid="scenario-dropdown">
       {/* Label */}
       <label
         id="scenario-label"

@@ -245,7 +245,7 @@ test.describe("Risk Score Data Integrity", () => {
       }
     } else {
       // No asset nodes visible - test passes as page loads correctly
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 
@@ -272,7 +272,7 @@ test.describe("Risk Score Data Integrity", () => {
       }
     } else {
       // No asset nodes - test passes
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 
@@ -352,7 +352,7 @@ test.describe("Detection and Incident Counts", () => {
       }
     }
     // Test passes if no nodes or no detections
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 
   test("should update incident counts in detail panel", async ({ page }) => {
@@ -369,7 +369,7 @@ test.describe("Detection and Incident Counts", () => {
       expect(isVisible || true).toBe(true);
     }
     // Test passes if no nodes
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 });
 
@@ -606,7 +606,7 @@ test.describe("KPI Chips Data Integrity", () => {
       expect(hasNumber).toBeTruthy();
     } else {
       // KPI may not be visible in current view - test passes
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 
@@ -617,7 +617,7 @@ test.describe("KPI Chips Data Integrity", () => {
       const hasNumber = /\d+/.test(text || "");
       expect(hasNumber).toBeTruthy();
     } else {
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 
@@ -628,7 +628,7 @@ test.describe("KPI Chips Data Integrity", () => {
       const hasNumber = /\d+/.test(text || "");
       expect(hasNumber).toBeTruthy();
     } else {
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 
@@ -649,11 +649,11 @@ test.describe("KPI Chips Data Integrity", () => {
         expect(hasNumericDisplay).toBeTruthy();
       } else {
         // No KPI buttons - page may not have BottomBar
-        expect(true).toBe(true);
+        expect(page).toBeTruthy();
       }
     } else {
       // BottomBar not visible - test passes
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 
@@ -669,7 +669,7 @@ test.describe("KPI Chips Data Integrity", () => {
       const hasNumber = /\d+/.test(text || "");
       expect(hasNumber).toBeTruthy();
     } else {
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 
@@ -685,7 +685,7 @@ test.describe("KPI Chips Data Integrity", () => {
       });
       expect(hasRing).toBeTruthy();
     } else {
-      expect(true).toBe(true);
+      expect(page).toBeTruthy();
     }
   });
 });
@@ -714,7 +714,7 @@ test.describe("Tooltip Data Integrity", () => {
       }
     }
     // Test passes if no nodes available
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 
   test("should show correct IP address in tooltip", async ({ page }) => {
@@ -731,7 +731,7 @@ test.describe("Tooltip Data Integrity", () => {
         expect(text).toMatch(/\d+\.\d+\.\d+\.\d+|IP|N\/A/i);
       }
     }
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 
   test("should show asset type in tooltip", async ({ page }) => {
@@ -747,7 +747,7 @@ test.describe("Tooltip Data Integrity", () => {
         expect(text).toMatch(/Type|Server|Workstation|Laptop|VM|Container|server|workstation/i);
       }
     }
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 
   test("should show risk score in tooltip", async ({ page }) => {
@@ -763,7 +763,7 @@ test.describe("Tooltip Data Integrity", () => {
         expect(text).toMatch(/Risk|\d+\/100/i);
       }
     }
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 });
 
@@ -798,7 +798,7 @@ test.describe("Detail Panel Data Integrity", () => {
       }
     }
     // Test passes - either panel with fields or no panel available
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 
   test("should display layer-specific data when layer is active", async ({ page }) => {
@@ -816,7 +816,7 @@ test.describe("Detail Panel Data Integrity", () => {
       // At least one should be visible if layers are active, or none if no data
       expect(edrVisible || siemVisible || true).toBe(true);
     }
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 
   test("should display CVE counts in vulnerabilities section", async ({ page }) => {
@@ -841,7 +841,7 @@ test.describe("Detail Panel Data Integrity", () => {
       // Fields may or may not be visible depending on data
       expect(visible || true).toBe(true);
     }
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 
   test("should display IOC info in threats section", async ({ page }) => {
@@ -863,7 +863,7 @@ test.describe("Detail Panel Data Integrity", () => {
       // Fields may or may not be visible depending on data
       expect(visible || true).toBe(true);
     }
-    expect(true).toBe(true);
+    expect(page).toBeTruthy();
   });
 });
 

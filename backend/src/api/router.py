@@ -34,6 +34,8 @@ from .aip_assist import router as aip_assist_router
 from ..mcp import mcp_router
 from ..mcp.data_server import router as data_mcp_router
 from ..demo.demo_api import router as demo_router
+from .agent import router as agent_router
+from .ui_actions import router as ui_actions_router
 
 api_router = APIRouter()
 
@@ -71,3 +73,5 @@ api_router.include_router(data_mcp_router, prefix="/data-mcp", tags=["data-mcp"]
 api_router.include_router(demo_router, prefix="/demo", tags=["demo"])
 api_router.include_router(narration_router, prefix="/narration", tags=["narration"])
 api_router.include_router(aip_assist_router, prefix="/aip-assist", tags=["aip-assist"])
+api_router.include_router(agent_router, prefix="/agent", tags=["agent"])
+api_router.include_router(ui_actions_router, prefix="/api", tags=["ui-actions"])

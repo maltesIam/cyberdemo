@@ -1,0 +1,262 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - img [ref=e8]
+      - generic [ref=e10]:
+        - heading "CyberDemo" [level=1] [ref=e11]
+        - paragraph [ref=e12]: SOC Dashboard
+    - navigation [ref=e13]:
+      - link "Command Center" [ref=e14] [cursor=pointer]:
+        - /url: /surface
+        - img [ref=e15]
+        - generic [ref=e17]: Command Center
+      - link "Generation" [ref=e18] [cursor=pointer]:
+        - /url: /generation
+        - img [ref=e19]
+        - generic [ref=e21]: Generation
+      - link "Dashboard" [ref=e22] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e23]
+        - generic [ref=e25]: Dashboard
+      - link "Assets" [ref=e26] [cursor=pointer]:
+        - /url: /assets
+        - img [ref=e27]
+        - generic [ref=e29]: Assets
+      - link "Incidents" [ref=e30] [cursor=pointer]:
+        - /url: /incidents
+        - img [ref=e31]
+        - generic [ref=e33]: Incidents
+      - link "Detections" [ref=e34] [cursor=pointer]:
+        - /url: /detections
+        - img [ref=e35]
+        - generic [ref=e37]: Detections
+      - link "CTEM" [ref=e38] [cursor=pointer]:
+        - /url: /ctem
+        - img [ref=e39]
+        - generic [ref=e41]: CTEM
+      - link "Vulnerabilities" [ref=e42] [cursor=pointer]:
+        - /url: /vulnerabilities
+        - img [ref=e43]
+        - generic [ref=e45]: Vulnerabilities
+      - link "Threat Intel" [ref=e46] [cursor=pointer]:
+        - /url: /threats
+        - img [ref=e47]
+        - generic [ref=e50]: Threat Intel
+      - link "Timeline" [ref=e51] [cursor=pointer]:
+        - /url: /timeline
+        - img [ref=e52]
+        - generic [ref=e54]: Timeline
+      - link "Postmortems" [ref=e55] [cursor=pointer]:
+        - /url: /postmortems
+        - img [ref=e56]
+        - generic [ref=e58]: Postmortems
+      - link "Tickets" [ref=e59] [cursor=pointer]:
+        - /url: /tickets
+        - img [ref=e60]
+        - generic [ref=e62]: Tickets
+      - link "Collaboration" [ref=e63] [cursor=pointer]:
+        - /url: /collab
+        - img [ref=e64]
+        - generic [ref=e66]: Collaboration
+      - link "Configuration" [ref=e67] [cursor=pointer]:
+        - /url: /config
+        - img [ref=e68]
+        - generic [ref=e71]: Configuration
+      - link "Audit Log" [ref=e72] [cursor=pointer]:
+        - /url: /audit
+        - img [ref=e73]
+        - generic [ref=e75]: Audit Log
+      - link "Simulation" [ref=e76] [cursor=pointer]:
+        - /url: /simulation
+        - img [ref=e77]
+        - generic [ref=e80]: Simulation
+    - generic [ref=e82]:
+      - img [ref=e84]
+      - generic [ref=e86]:
+        - paragraph [ref=e87]: SOC Analyst
+        - paragraph [ref=e88]: Demo Mode
+  - generic [ref=e89]:
+    - banner [ref=e90]:
+      - generic [ref=e91]:
+        - heading "CyberDemo - SOC Dashboard" [level=2] [ref=e92]
+        - generic [ref=e93]:
+          - generic [ref=e96]: System Online
+          - button [ref=e97] [cursor=pointer]:
+            - img [ref=e98]
+          - button [ref=e100] [cursor=pointer]:
+            - img [ref=e101]
+    - generic "Demo simulation controls" [ref=e104]:
+      - generic [ref=e106]:
+        - generic [ref=e107]: Scenario
+        - combobox "Scenario" [ref=e108] [cursor=pointer]:
+          - generic [ref=e109]: Select Scenario
+          - img [ref=e110]
+      - group "Playback controls" [ref=e112]:
+        - button "Play" [disabled] [ref=e113]:
+          - img [ref=e114]
+        - button "Stop" [disabled] [ref=e116]:
+          - img [ref=e117]
+      - generic [ref=e119]:
+        - generic [ref=e120]: Speed
+        - slider "Speed" [ref=e121] [cursor=pointer]: "1"
+        - generic [ref=e122]: 1x
+      - group "MITRE phase progress" [ref=e123]:
+        - generic [ref=e124]: No scenario selected
+      - button "Collapse control bar" [ref=e125] [cursor=pointer]:
+        - img [ref=e126]
+    - main [ref=e128]:
+      - generic [ref=e129]:
+        - generic [ref=e130]:
+          - generic [ref=e131]:
+            - heading "Configuration" [level=1] [ref=e132]
+            - paragraph [ref=e133]: Manage policy engine, notifications, and integrations
+          - generic [ref=e134]:
+            - button "Reset to Defaults" [ref=e135] [cursor=pointer]
+            - button "Save Changes" [disabled] [ref=e136]
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - img [ref=e141]
+              - generic [ref=e143]:
+                - heading "Policy Engine" [level=3] [ref=e144]
+                - paragraph [ref=e145]: Configure auto-containment thresholds and asset handling
+            - generic [ref=e146]:
+              - generic [ref=e147]:
+                - generic [ref=e148]:
+                  - text: Auto-Containment Enabled
+                  - paragraph [ref=e149]: Automatically contain threats above threshold
+                - button [ref=e150] [cursor=pointer]
+              - generic [ref=e151]:
+                - generic [ref=e152]:
+                  - generic [ref=e153]: Auto-Containment Threshold
+                  - generic [ref=e154]: 90%
+                - slider [ref=e155] [cursor=pointer]: "90"
+                - paragraph [ref=e156]: Confidence score required for automatic containment
+              - generic [ref=e157]:
+                - generic [ref=e158]:
+                  - generic [ref=e159]: False Positive Threshold
+                  - generic [ref=e160]: 50%
+                - slider [ref=e161] [cursor=pointer]: "50"
+                - paragraph [ref=e162]: Below this threshold, alerts are marked as false positive
+              - generic [ref=e163]:
+                - generic [ref=e164]: VIP Asset List
+                - paragraph [ref=e165]: Assets requiring manual approval for containment
+                - generic [ref=e166]:
+                  - textbox "Enter asset hostname or ID..." [ref=e167]
+                  - button "Add" [ref=e168] [cursor=pointer]
+              - generic [ref=e169]:
+                - generic [ref=e170]: Critical Tags
+                - paragraph [ref=e171]: Asset tags that require human approval
+                - generic [ref=e172]:
+                  - textbox "Enter tag name..." [ref=e173]
+                  - button "Add" [ref=e174] [cursor=pointer]
+          - generic [ref=e175]:
+            - generic [ref=e176]:
+              - img [ref=e178]
+              - generic [ref=e180]:
+                - heading "Notifications" [level=3] [ref=e181]
+                - paragraph [ref=e182]: Configure notification channels and triggers
+            - generic [ref=e183]:
+              - generic [ref=e184]:
+                - heading "Channels" [level=4] [ref=e185]
+                - generic [ref=e186]:
+                  - generic [ref=e187]: Slack
+                  - button [ref=e188] [cursor=pointer]
+                - generic [ref=e189]:
+                  - generic [ref=e190]: Microsoft Teams
+                  - button [ref=e191] [cursor=pointer]
+                - generic [ref=e192]:
+                  - generic [ref=e193]: Email
+                  - button [ref=e194] [cursor=pointer]
+                - generic [ref=e195]:
+                  - generic [ref=e196]: Custom Webhook
+                  - button [ref=e197] [cursor=pointer]
+              - generic [ref=e198]:
+                - heading "Notification Triggers" [level=4] [ref=e199]
+                - generic [ref=e200]:
+                  - generic [ref=e201]: Critical Incidents
+                  - button [ref=e202] [cursor=pointer]
+                - generic [ref=e203]:
+                  - generic [ref=e204]: High Severity Incidents
+                  - button [ref=e205] [cursor=pointer]
+                - generic [ref=e206]:
+                  - generic [ref=e207]: Medium Severity Incidents
+                  - button [ref=e208] [cursor=pointer]
+                - generic [ref=e209]:
+                  - generic [ref=e210]: Auto-Containment Actions
+                  - button [ref=e211] [cursor=pointer]
+                - generic [ref=e212]:
+                  - generic [ref=e213]: Approval Requests
+                  - button [ref=e214] [cursor=pointer]
+              - generic [ref=e215]:
+                - generic [ref=e216]: Notification Template
+                - combobox [ref=e217]:
+                  - option "Detailed (Full incident info)" [selected]
+                  - option "Summary (Brief overview)"
+                  - option "Minimal (Alert only)"
+          - generic [ref=e218]:
+            - generic [ref=e219]:
+              - img [ref=e221]
+              - generic [ref=e223]:
+                - heading "API Keys" [level=3] [ref=e224]
+                - paragraph [ref=e225]: Manage API keys for external integrations
+            - generic [ref=e228]:
+              - paragraph [ref=e229]: No API keys configured
+              - paragraph [ref=e230]: API keys can be configured via the backend
+          - generic [ref=e231]:
+            - generic [ref=e232]:
+              - img [ref=e234]
+              - generic [ref=e236]:
+                - heading "Integrations" [level=3] [ref=e237]
+                - paragraph [ref=e238]: External service integrations
+            - generic [ref=e240]:
+              - generic [ref=e241]:
+                - generic [ref=e242]:
+                  - text: VirusTotal
+                  - paragraph [ref=e243]: File and URL scanning
+                - generic [ref=e244]:
+                  - generic [ref=e245]: Disabled
+                  - button "Enable" [ref=e246] [cursor=pointer]
+              - generic [ref=e247]:
+                - generic [ref=e248]:
+                  - text: Shodan
+                  - paragraph [ref=e249]: Internet-wide scanning
+                - generic [ref=e250]:
+                  - generic [ref=e251]: Disabled
+                  - button "Enable" [ref=e252] [cursor=pointer]
+              - generic [ref=e253]:
+                - generic [ref=e254]:
+                  - text: MISP
+                  - paragraph [ref=e255]: Threat intelligence sharing
+                - generic [ref=e256]:
+                  - generic [ref=e257]: Disabled
+                  - button "Enable" [ref=e258] [cursor=pointer]
+              - generic [ref=e259]:
+                - generic [ref=e260]:
+                  - text: Jira
+                  - paragraph [ref=e261]: Ticket management
+                - generic [ref=e262]:
+                  - generic [ref=e263]: Disabled
+                  - button "Enable" [ref=e264] [cursor=pointer]
+              - generic [ref=e265]:
+                - generic [ref=e266]:
+                  - text: ServiceNow
+                  - paragraph [ref=e267]: ITSM integration
+                - generic [ref=e268]:
+                  - generic [ref=e269]: Disabled
+                  - button "Enable" [ref=e270] [cursor=pointer]
+    - contentinfo "Narration panel" [ref=e271]:
+      - generic [ref=e272]:
+        - generic [ref=e273]:
+          - generic [ref=e274]: ">_narration"
+          - generic [ref=e275]: 0 messages
+        - generic [ref=e276]:
+          - button "Disable narration" [ref=e277] [cursor=pointer]: "ON"
+          - button "Expand narration" [ref=e278] [cursor=pointer]:
+            - img [ref=e279]
+  - button "Open aIP Assist" [ref=e282] [cursor=pointer]:
+    - img [ref=e283]
+```

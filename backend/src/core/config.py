@@ -25,6 +25,10 @@ class Settings(BaseSettings):
         "http://localhost:4000", "http://localhost:5173", "http://localhost:5174"
     ]
 
+    # OpenClaw Gateway
+    openclaw_gateway_url: str = "http://localhost:18789"
+    openclaw_gateway_token: str = ""
+
     # Agent Config
     auto_contain_confidence_threshold: float = 0.85
     vip_tags: list[str] = ["vip", "executive", "domain-controller", "critical-infra"]

@@ -1,0 +1,423 @@
+{
+  "build_id": "sbx-20260224-162134",
+  "agent": "tdd-verifier",
+  "timestamp": "2026-02-24T16:50:00Z",
+  "verification_type": "semantic_ac_coverage",
+  "cycle": "MTH",
+  "overall_status": "PASSED",
+  "verified_at": "2026-02-24T16:50:00Z",
+  "total_reqs": 34,
+  "total_ac_items": 34,
+  "all_covered": true,
+  "requirements_verified": [
+    {"req_id": "REQ-001-001-001", "description": "React hook connects to WS Server on mount with auto-reconnect", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "WS connection, reconnect logic, state sync", "test_file": "frontend/tests/unit/frontend/useMcpStateSync.test.ts", "test_names": ["connects to WS on mount", "auto-reconnects on disconnect", "syncs state updates", "exponential backoff"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-001-002", "description": "State updates trigger UI navigation with toast notification", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Navigation on currentView change with toast", "test_file": "frontend/tests/unit/frontend/wsNavigation.test.ts", "test_names": ["navigates on page change", "shows toast notification"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-001-003", "description": "highlightedAssets state changes trigger node highlighting", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Node pulse/glow on graph for highlighted assets", "test_file": "frontend/tests/unit/frontend/assetHighlight.test.ts", "test_names": ["applies highlight class", "removes on clear"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-001-004", "description": "Charts array entries render as floating overlay", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Chart overlay rendering", "test_file": "frontend/tests/unit/frontend/chartOverlay.test.tsx", "test_names": ["renders chart with data", "positions as overlay"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-001-005", "description": "Timeline state renders as sliding panel", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Timeline panel slides from right", "test_file": "frontend/tests/unit/frontend/timelinePanel.test.tsx", "test_names": ["renders entries", "slides from right"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-001-006", "description": "Graceful degradation if WS Server unavailable", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "App works without errors when WS down", "test_file": "frontend/tests/unit/frontend/wsGracefulDegradation.test.ts", "test_names": ["no crash on WS failure", "UI remains functional"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-002-001", "description": "UIBridge WebSocket client connects to WS Server", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Lazy connection on first send", "test_file": "backend/tests/unit/backend/test_ui_bridge.py", "test_names": ["lazy connect", "reuse connection"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-002-002", "description": "REST endpoint POST /api/v1/ui/action", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "POST returns 200 and forwards command", "test_file": "backend/tests/unit/backend/test_ui_action_endpoint.py", "test_names": ["returns 200", "forwards to bridge"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-002-003", "description": "Silent failure when WS Server unavailable", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Logs warning without exception", "test_file": "backend/tests/unit/backend/test_ui_bridge_failure.py", "test_names": ["logs warning", "no exception raised"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-003-001", "description": "Phase-to-UI-Action mapping for APT29 (8 phases)", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Each phase maps to UI actions", "test_file": "backend/tests/unit/backend/test_phase_ui_mapping.py", "test_names": ["phase 1 maps navigate", "all 8 phases mapped"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-003-002", "description": "UI actions trigger after agent analysis with delay", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Actions fire with configurable delay", "test_file": "frontend/tests/unit/frontend/agentUIActions.test.ts", "test_names": ["fires after delay", "configurable timing"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-003-003", "description": "Presenter toggle for auto-UI-actions", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Toggle enables/disables auto actions", "test_file": "frontend/tests/unit/frontend/presenterToggle.test.tsx", "test_names": ["enables actions", "disables actions"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-003-004", "description": "Rate-limit agent UI actions (max 2/sec)", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Queues actions exceeding threshold", "test_file": "frontend/tests/unit/frontend/rateLimiter.test.ts", "test_names": ["allows under limit", "queues over limit"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-003-005", "description": "Queue UI actions during user interaction", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Actions queued until user idle", "test_file": "frontend/tests/unit/frontend/actionQueue.test.ts", "test_names": ["queues during interaction", "replays on idle"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-004-001", "description": "Charts render as floating overlays with animation and auto-dismiss", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Chart fade-in and auto-dismiss", "test_file": "frontend/tests/unit/frontend/chartOverlayAnimation.test.tsx", "test_names": ["fade-in animation", "auto-dismiss after timeout"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-004-002", "description": "Three highlight modes (pulse, glow, zoom)", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Each mode distinct CSS animation", "test_file": "frontend/tests/unit/frontend/highlightModes.test.ts", "test_names": ["pulse mode", "glow mode", "zoom mode"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-004-003", "description": "Timeline sliding panel with animation", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Panel slides with staggered entries", "test_file": "frontend/tests/unit/frontend/timelinePanelAnimation.test.tsx", "test_names": ["slides from right", "staggered entries"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-001-004-004", "description": "Dashboard KPI counting animation", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "KPI animates from old to new value", "test_file": "frontend/tests/unit/frontend/kpiAnimation.test.tsx", "test_names": ["counts up animation", "supports decimals"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-001-001", "description": "ScenarioStateManager singleton with start/advance/reset", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Singleton instance management", "test_file": "backend/tests/unit/backend/test_scenario_state_manager.py", "test_names": ["singleton pattern", "start loads scenario", "reset clears"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-001-002", "description": "Cumulative phase data (phase N includes 1..N)", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Phase accumulation", "test_file": "backend/tests/unit/backend/test_cumulative_phases.py", "test_names": ["phase 3 includes 1-3 events"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-001-003", "description": "Agent mutations persist in state", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Mutations persist in queries", "test_file": "backend/tests/unit/backend/test_agent_mutations.py", "test_names": ["contain_host persists", "close_incident persists", "add_comment persists"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-001-004", "description": "Thread-safe state with asyncio Lock", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Concurrent access safe", "test_file": "backend/tests/unit/backend/test_thread_safety.py", "test_names": ["no corruption on concurrent access"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-001-005", "description": "Only one scenario active at a time", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Exclusive scenario lock", "test_file": "backend/tests/unit/backend/test_exclusive_scenario.py", "test_names": ["new scenario resets previous"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-002-001", "description": "APT29 phase 1-8 event definitions with SIEM incidents", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "8 phases with MITRE mapping", "test_file": "backend/tests/unit/backend/test_apt29_phases.py", "test_names": ["8 phases defined", "MITRE ATT&CK mapped"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-002-002", "description": "14 cumulative SIEM incidents across 8 phases", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "14 SIEM incidents distributed", "test_file": "backend/tests/unit/backend/test_apt29_siem.py", "test_names": ["14 unique incidents", "proper severity"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-002-003", "description": "15 cumulative EDR detections across 8 phases", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "15 EDR detections", "test_file": "backend/tests/unit/backend/test_apt29_edr.py", "test_names": ["15 unique detections", "process details"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-002-004", "description": "7 cumulative Intel IOCs across 8 phases", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "7 IOCs with attribution", "test_file": "backend/tests/unit/backend/test_apt29_iocs.py", "test_names": ["7 IOCs defined", "threat intel source"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-002-005", "description": "Cross-reference consistency between incidents, detections, IOCs", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Cross-ref consistency", "test_file": "backend/tests/unit/backend/test_apt29_consistency.py", "test_names": ["IOC IPs match incidents", "EDR network connections match"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-004-001", "description": "25 tool handlers integrated with ScenarioStateManager", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Tool handlers call state manager", "test_file": "backend/tests/unit/backend/test_tool_handler_integration.py", "test_names": ["handlers call state manager"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-004-002", "description": "Backward compatibility when no scenario active", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Static mock data unchanged", "test_file": "backend/tests/unit/backend/test_backward_compatibility.py", "test_names": ["returns static data", "no scenario active"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-004-003", "description": "Mutations reflected immediately in queries", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Next query reflects mutation", "test_file": "backend/tests/unit/backend/test_mutation_reflection.py", "test_names": ["mutation reflected in next query"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-004-004", "description": "Tools must not reveal future-phase data", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Data isolation per phase", "test_file": "backend/tests/unit/backend/test_data_isolation.py", "test_names": ["no future phase data"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-006-001", "description": "Phase sync between simulation and data engine", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Atomic sync on start", "test_file": "backend/tests/unit/backend/test_phase_sync.py", "test_names": ["loads into both managers"], "verified": true}], "all_ac_covered": true},
+    {"req_id": "REQ-002-006-002", "description": "Jump-to-phase applies cumulative events", "acceptance_criteria_checked": [{"ac_id": "AC-001", "description": "Cumulative phase advance", "test_file": "backend/tests/unit/backend/test_phase_advance_sync.py", "test_names": ["accumulates 1..N events"], "verified": true}], "all_ac_covered": true}
+  ],
+  "summary": {
+    "total_mth_frontend_test_files": 14,
+    "total_mth_backend_test_files": 20,
+    "total_mth_test_files": 34,
+    "frontend_tests_passed": 134,
+    "frontend_tests_failed": 0,
+    "backend_tests_passed": 192,
+    "backend_tests_failed": 0,
+    "total_tests_passed": 326,
+    "total_tests_failed": 0,
+    "stub_files_detected": 0,
+    "architecture_violations": 0,
+    "mth_requirements_with_coverage": 34,
+    "mth_requirements_total": 34,
+    "coverage_percentage": 100.0
+  },
+  "test_execution_results": {
+    "frontend_unit": {
+      "directory": "frontend/tests/unit/frontend/",
+      "framework": "vitest",
+      "total_files": 14,
+      "total_tests": 134,
+      "passed": 134,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 1270,
+      "status": "PASSED"
+    },
+    "backend_unit": {
+      "directory": "backend/tests/unit/backend/",
+      "framework": "pytest",
+      "total_files": 20,
+      "total_tests": 192,
+      "passed": 192,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 1530,
+      "status": "PASSED"
+    }
+  },
+  "requirement_coverage": {
+    "EPIC-001": {
+      "name": "Agent-to-UI Bidirectional Control",
+      "requirements": {
+        "REQ-001-001-001": {
+          "description": "React hook connects to WS Server on mount with auto-reconnect",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/useMcpStateSync.test.ts",
+          "test_count": 18,
+          "ac_covered": true,
+          "ac_details": "Tests WS connection, reconnect logic, state sync on mount, exponential backoff"
+        },
+        "REQ-001-001-002": {
+          "description": "State updates trigger UI navigation with toast notification",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/wsNavigation.test.ts",
+          "test_count": 6,
+          "ac_covered": true,
+          "ac_details": "Tests currentView update triggers router navigation with toast"
+        },
+        "REQ-001-001-003": {
+          "description": "highlightedAssets state changes trigger node highlighting",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/assetHighlight.test.ts",
+          "test_count": 7,
+          "ac_covered": true,
+          "ac_details": "Tests highlighted assets array updates trigger node pulse/glow on graph"
+        },
+        "REQ-001-001-004": {
+          "description": "Charts array entries render as floating overlay",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/chartOverlay.test.tsx",
+          "test_count": 10,
+          "ac_covered": true,
+          "ac_details": "Tests chart overlay rendering with specified type and data"
+        },
+        "REQ-001-001-005": {
+          "description": "Timeline state renders as sliding panel",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/timelinePanel.test.tsx",
+          "test_count": 10,
+          "ac_covered": true,
+          "ac_details": "Tests timeline panel slides from right displaying entries"
+        },
+        "REQ-001-001-006": {
+          "description": "Graceful degradation if WS Server unavailable",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/wsGracefulDegradation.test.ts",
+          "test_count": 7,
+          "ac_covered": true,
+          "ac_details": "Tests app works without errors when WS Server is down"
+        },
+        "REQ-001-002-001": {
+          "description": "UIBridge WebSocket client connects to WS Server",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_ui_bridge.py",
+          "test_count": 11,
+          "ac_covered": true,
+          "ac_details": "Tests lazy connection on first send, reuse for subsequent calls"
+        },
+        "REQ-001-002-002": {
+          "description": "REST endpoint POST /api/v1/ui/action",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_ui_action_endpoint.py",
+          "test_count": 10,
+          "ac_covered": true,
+          "ac_details": "Tests POST request with action payload returns 200 and forwards command"
+        },
+        "REQ-001-002-003": {
+          "description": "Silent failure when WS Server unavailable",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_ui_bridge_failure.py",
+          "test_count": 8,
+          "ac_covered": true,
+          "ac_details": "Tests UIBridge logs warning and returns without exception when WS down"
+        },
+        "REQ-001-003-001": {
+          "description": "Phase-to-UI-Action mapping for APT29 (8 phases)",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_phase_ui_mapping.py",
+          "test_count": 14,
+          "ac_covered": true,
+          "ac_details": "Tests each APT29 phase maps to specific UI actions (navigate, highlight, chart)"
+        },
+        "REQ-001-003-002": {
+          "description": "UI actions trigger after agent analysis with delay",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/agentUIActions.test.ts",
+          "test_count": 11,
+          "ac_covered": true,
+          "ac_details": "Tests UI actions fire with configurable delay after agent text renders"
+        },
+        "REQ-001-003-003": {
+          "description": "Presenter toggle for auto-UI-actions",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/presenterToggle.test.tsx",
+          "test_count": 9,
+          "ac_covered": true,
+          "ac_details": "Tests toggle enables/disables automatic UI actions globally"
+        },
+        "REQ-001-003-004": {
+          "description": "Rate-limit agent UI actions (max 2/sec)",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/rateLimiter.test.ts",
+          "test_count": 9,
+          "ac_covered": true,
+          "ac_details": "Tests rate limiter queues/drops UI actions exceeding 2/sec threshold"
+        },
+        "REQ-001-003-005": {
+          "description": "Queue UI actions during user interaction",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/actionQueue.test.ts",
+          "test_count": 11,
+          "ac_covered": true,
+          "ac_details": "Tests agent UI actions queued until user idle when actively clicking"
+        },
+        "REQ-001-004-001": {
+          "description": "Charts render as floating overlays with animation and auto-dismiss",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/chartOverlayAnimation.test.tsx",
+          "test_count": 7,
+          "ac_covered": true,
+          "ac_details": "Tests chart fade-in animation and auto-dismiss after timeout"
+        },
+        "REQ-001-004-002": {
+          "description": "Three highlight modes (pulse, glow, zoom)",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/highlightModes.test.ts",
+          "test_count": 10,
+          "ac_covered": true,
+          "ac_details": "Tests each mode produces visually distinct CSS animation on target node"
+        },
+        "REQ-001-004-003": {
+          "description": "Timeline sliding panel with animation",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/timelinePanelAnimation.test.tsx",
+          "test_count": 7,
+          "ac_covered": true,
+          "ac_details": "Tests panel slides from right edge with staggered entry animation"
+        },
+        "REQ-001-004-004": {
+          "description": "Dashboard KPI counting animation",
+          "priority": "MTH",
+          "test_file": "frontend/tests/unit/frontend/kpiAnimation.test.tsx",
+          "test_count": 12,
+          "ac_covered": true,
+          "ac_details": "Tests KPI values animate from old to new value using counting transition"
+        },
+        "REQ-002-001-001": {
+          "description": "ScenarioStateManager singleton with start/advance/reset",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_scenario_state_manager.py",
+          "test_count": 10,
+          "ac_covered": true,
+          "ac_details": "Tests singleton instance, start loads scenario, advance accumulates, reset clears"
+        },
+        "REQ-002-001-002": {
+          "description": "Cumulative phase data (phase N includes 1..N)",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_cumulative_phases.py",
+          "test_count": 9,
+          "ac_covered": true,
+          "ac_details": "Tests advancing to phase 3 includes all events from phases 1, 2, and 3"
+        },
+        "REQ-002-001-003": {
+          "description": "Agent mutations persist in state",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_agent_mutations.py",
+          "test_count": 14,
+          "ac_covered": true,
+          "ac_details": "Tests contain_host, close_incident, add_comment persist in subsequent queries"
+        },
+        "REQ-002-001-004": {
+          "description": "Thread-safe state with asyncio Lock",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_thread_safety.py",
+          "test_count": 5,
+          "ac_covered": true,
+          "ac_details": "Tests concurrent access does not cause data corruption"
+        },
+        "REQ-002-001-005": {
+          "description": "Only one scenario active at a time",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_exclusive_scenario.py",
+          "test_count": 6,
+          "ac_covered": true,
+          "ac_details": "Tests starting new scenario resets previous; concurrent starts rejected"
+        },
+        "REQ-002-002-001": {
+          "description": "APT29 phase 1-8 event definitions with SIEM incidents",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_apt29_phases.py",
+          "test_count": 15,
+          "ac_covered": true,
+          "ac_details": "Tests each of 8 phases has SIEM incident events with MITRE ATT&CK mapping"
+        },
+        "REQ-002-002-002": {
+          "description": "14 cumulative SIEM incidents across 8 phases",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_apt29_siem.py",
+          "test_count": 10,
+          "ac_covered": true,
+          "ac_details": "Tests 14 unique SIEM incidents distributed across phases with proper severity"
+        },
+        "REQ-002-002-003": {
+          "description": "15 cumulative EDR detections across 8 phases",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_apt29_edr.py",
+          "test_count": 10,
+          "ac_covered": true,
+          "ac_details": "Tests 15 unique EDR detections with process, path, and action details"
+        },
+        "REQ-002-002-004": {
+          "description": "7 cumulative Intel IOCs across 8 phases",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_apt29_iocs.py",
+          "test_count": 9,
+          "ac_covered": true,
+          "ac_details": "Tests 7 IOCs (IPs, domains, hashes) with threat intel source attribution"
+        },
+        "REQ-002-002-005": {
+          "description": "Cross-reference consistency between incidents, detections, IOCs",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_apt29_consistency.py",
+          "test_count": 7,
+          "ac_covered": true,
+          "ac_details": "Tests IOC IPs in incidents match IOC definitions and EDR network connections"
+        },
+        "REQ-002-004-001": {
+          "description": "25 tool handlers integrated with ScenarioStateManager",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_tool_handler_integration.py",
+          "test_count": 9,
+          "ac_covered": true,
+          "ac_details": "Tests each SOC tool handler calls ScenarioStateManager before returning data"
+        },
+        "REQ-002-004-002": {
+          "description": "Backward compatibility when no scenario active",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_backward_compatibility.py",
+          "test_count": 15,
+          "ac_covered": true,
+          "ac_details": "Tests tools return existing static mock data unchanged when no scenario active"
+        },
+        "REQ-002-004-003": {
+          "description": "Mutations reflected immediately in queries",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_mutation_reflection.py",
+          "test_count": 7,
+          "ac_covered": true,
+          "ac_details": "Tests next query to any tool reflects mutation after mutation call"
+        },
+        "REQ-002-004-004": {
+          "description": "Tools must not reveal future-phase data",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_data_isolation.py",
+          "test_count": 8,
+          "ac_covered": true,
+          "ac_details": "Tests query for current phase never includes events from unreached phases"
+        },
+        "REQ-002-006-001": {
+          "description": "Phase sync between simulation and data engine",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_phase_sync.py",
+          "test_count": 7,
+          "ac_covered": true,
+          "ac_details": "Tests starting scenario loads data into both managers atomically"
+        },
+        "REQ-002-006-002": {
+          "description": "Jump-to-phase applies cumulative events",
+          "priority": "MTH",
+          "test_file": "backend/tests/unit/backend/test_phase_advance_sync.py",
+          "test_count": 8,
+          "ac_covered": true,
+          "ac_details": "Tests advancing/jumping to phase N accumulates events from 1 through N"
+        }
+      }
+    }
+  },
+  "nth_requirements_not_in_mth_scope": [
+    "REQ-001-005-001",
+    "REQ-002-003-001",
+    "REQ-002-003-002",
+    "REQ-002-003-003",
+    "REQ-002-003-004",
+    "REQ-002-003-005",
+    "REQ-002-005-001",
+    "REQ-002-005-002"
+  ],
+  "quality_checks": {
+    "stubs_detected": 0,
+    "architecture_violations": 0,
+    "empty_test_bodies": 0,
+    "todo_fixme_comments": 0
+  },
+  "files_inventory": {
+    "frontend_tests": [
+      "frontend/tests/unit/frontend/actionQueue.test.ts",
+      "frontend/tests/unit/frontend/agentUIActions.test.ts",
+      "frontend/tests/unit/frontend/assetHighlight.test.ts",
+      "frontend/tests/unit/frontend/chartOverlayAnimation.test.tsx",
+      "frontend/tests/unit/frontend/chartOverlay.test.tsx",
+      "frontend/tests/unit/frontend/highlightModes.test.ts",
+      "frontend/tests/unit/frontend/kpiAnimation.test.tsx",
+      "frontend/tests/unit/frontend/presenterToggle.test.tsx",
+      "frontend/tests/unit/frontend/rateLimiter.test.ts",
+      "frontend/tests/unit/frontend/timelinePanelAnimation.test.tsx",
+      "frontend/tests/unit/frontend/timelinePanel.test.tsx",
+      "frontend/tests/unit/frontend/useMcpStateSync.test.ts",
+      "frontend/tests/unit/frontend/wsGracefulDegradation.test.ts",
+      "frontend/tests/unit/frontend/wsNavigation.test.ts"
+    ],
+    "backend_tests": [
+      "backend/tests/unit/backend/test_agent_mutations.py",
+      "backend/tests/unit/backend/test_apt29_consistency.py",
+      "backend/tests/unit/backend/test_apt29_edr.py",
+      "backend/tests/unit/backend/test_apt29_iocs.py",
+      "backend/tests/unit/backend/test_apt29_phases.py",
+      "backend/tests/unit/backend/test_apt29_siem.py",
+      "backend/tests/unit/backend/test_backward_compatibility.py",
+      "backend/tests/unit/backend/test_cumulative_phases.py",
+      "backend/tests/unit/backend/test_data_isolation.py",
+      "backend/tests/unit/backend/test_exclusive_scenario.py",
+      "backend/tests/unit/backend/test_mutation_reflection.py",
+      "backend/tests/unit/backend/test_phase_advance_sync.py",
+      "backend/tests/unit/backend/test_phase_sync.py",
+      "backend/tests/unit/backend/test_phase_ui_mapping.py",
+      "backend/tests/unit/backend/test_scenario_state_manager.py",
+      "backend/tests/unit/backend/test_thread_safety.py",
+      "backend/tests/unit/backend/test_tool_handler_integration.py",
+      "backend/tests/unit/backend/test_ui_action_endpoint.py",
+      "backend/tests/unit/backend/test_ui_bridge_failure.py",
+      "backend/tests/unit/backend/test_ui_bridge.py"
+    ]
+  }
+}

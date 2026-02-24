@@ -1,0 +1,18 @@
+{
+  "verify_documents": {
+    "timestamp": "2026-02-24T16:16:09.893828",
+    "files": {
+      "docs/BUILD_PLAN.md": "6ee4354d1e84ad4b353d12aa78463f0e8a319bf81e62f00273ffe9f2a11c2af9",
+      "docs/PROGRESS.md": "d660f06fb98255bbac742e5917e11cd0170b2f5c1e0d843700939bcab2a9e5bc",
+      "docs/TEST_PLAN.md": "8723219cc697a54d1df6284cf8899285ddc42326144796014e2144e09fe38f0e"
+    }
+  },
+  "finalize": {
+    "timestamp": "2026-02-24T16:16:50.548507",
+    "files": {
+      "docs/BUILD_PLAN.md": "6ee4354d1e84ad4b353d12aa78463f0e8a319bf81e62f00273ffe9f2a11c2af9",
+      "docs/PROGRESS.md": "d660f06fb98255bbac742e5917e11cd0170b2f5c1e0d843700939bcab2a9e5bc",
+      "docs/TEST_PLAN.md": "8723219cc697a54d1df6284cf8899285ddc42326144796014e2144e09fe38f0e"
+    }
+  }
+}

@@ -108,6 +108,15 @@ EDR_TOOLS: List[Dict[str, Any]] = [
 ]
 
 
+def _get_scenario_mgr():
+    """Get the ScenarioStateManager if available."""
+    try:
+        from src.scenarios.scenario_state_manager import get_scenario_manager
+        return get_scenario_manager()
+    except ImportError:
+        return None
+
+
 # Tool handlers
 async def handle_edr_get_detection(args: Dict[str, Any]) -> Dict[str, Any]:
     """Handle edr_get_detection tool call."""
@@ -116,6 +125,14 @@ async def handle_edr_get_detection(args: Dict[str, Any]) -> Dict[str, Any]:
     if not detection_id:
         raise ValueError("detection_id is required")
 
+    # Check if scenario is active (REQ-002-004-001)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        detection = mgr.get_detection_by_id(detection_id)
+        if detection:
+            return detection
+
+    # Static mock data (backward compatibility)
     return {
         "id": detection_id,
         "technique_id": "T1059.001",
@@ -203,6 +220,11 @@ async def handle_edr_contain_host(args: Dict[str, Any]) -> Dict[str, Any]:
     if not device_id or not reason:
         raise ValueError("device_id and reason are required")
 
+    # Register mutation in scenario state (REQ-002-004-003)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        mgr.contain_host(device_id)
+
     return {
         "status": "success",
         "device_id": device_id,
@@ -221,6 +243,11 @@ async def handle_edr_lift_containment(args: Dict[str, Any]) -> Dict[str, Any]:
     if not device_id or not reason:
         raise ValueError("device_id and reason are required")
 
+    # Register mutation in scenario state (REQ-002-004-003)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        mgr.lift_containment(device_id)
+
     return {
         "status": "success",
         "device_id": device_id,
@@ -235,6 +262,13 @@ async def handle_edr_list_detections(args: Dict[str, Any]) -> Dict[str, Any]:
     severity = args.get("severity")
     limit = args.get("limit", 50)
 
+    # Check if scenario is active (REQ-002-004-001)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        detections = mgr.get_detections(severity=severity, limit=limit)
+        return {"data": detections, "total": len(detections)}
+
+    # Static mock data (backward compatibility)
     detections = [
         {
             "id": "DET-001",

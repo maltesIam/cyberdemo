@@ -142,13 +142,12 @@ async function mockThreatEnrichmentAPIWithGeo(page: Page, totalItems: number = 1
 
 test.describe("Threat Map - World Map Loading", () => {
   test.beforeEach(async ({ page }) => {
+    await mockThreatEnrichmentAPIWithGeo(page, 20);
     await page.goto(`${BASE_URL}/threats`);
     await waitForPageReady(page);
   });
 
   test("debe cargar mapa mundi con marcadores", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 20);
-    await page.waitForTimeout(2000);
 
     // Verify SVG world map is rendered
     const svgMap = page.locator('svg[viewBox="0 0 800 400"]');
@@ -162,19 +161,16 @@ test.describe("Threat Map - World Map Loading", () => {
     // Verify map title "Threat Origins - Live Attack Map" is visible
     await expect(page.getByText(/Threat Origins|Live Attack Map/i)).toBeVisible();
 
-    // Verify grid pattern is defined
+    // Verify grid pattern is defined (defs elements are hidden by CSS spec, use toBeAttached)
     const gridPattern = page.locator("svg defs pattern#grid");
-    await expect(gridPattern).toBeVisible();
+    await expect(gridPattern).toBeAttached();
 
     // Verify glow filter is defined for visual effects
     const glowFilter = page.locator("svg defs filter#glow");
-    await expect(glowFilter).toBeVisible();
+    await expect(glowFilter).toBeAttached();
   });
 
   test("debe mostrar continentes en el mapa", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 10);
-    await page.waitForTimeout(1500);
-
     // Verify continent paths exist (simplified world map)
     const worldMapGroup = page.locator("svg g.world-map");
     await expect(worldMapGroup).toBeVisible();
@@ -186,8 +182,6 @@ test.describe("Threat Map - World Map Loading", () => {
   });
 
   test("debe mostrar leyenda de colores de riesgo", async ({ page }) => {
-    await page.waitForTimeout(1000);
-
     // Verify legend section exists
     await expect(page.getByText(/Risk Level/i)).toBeVisible();
 
@@ -199,8 +193,6 @@ test.describe("Threat Map - World Map Loading", () => {
   });
 
   test("debe mostrar marcador SOC como destino", async ({ page }) => {
-    await page.waitForTimeout(1000);
-
     // Verify SOC marker is visible
     const socLabel = page.locator("svg text").filter({ hasText: "SOC" });
     await expect(socLabel).toBeVisible();
@@ -212,9 +204,6 @@ test.describe("Threat Map - World Map Loading", () => {
   });
 
   test("debe mostrar contadores de amenazas por pais", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 20);
-    await page.waitForTimeout(2000);
-
     // Verify country stats overlay at bottom of map
     const statsOverlay = page.locator('[class*="bg-gray-800"]').filter({ hasText: /Russia|China|North Korea|Iran/i });
     const overlayCount = await statsOverlay.count();
@@ -233,33 +222,28 @@ test.describe("Threat Map - World Map Loading", () => {
 
 test.describe("Threat Map - Country Click Interaction", () => {
   test.beforeEach(async ({ page }) => {
+    await mockThreatEnrichmentAPIWithGeo(page, 20);
     await page.goto(`${BASE_URL}/threats`);
     await waitForPageReady(page);
   });
 
   test("debe mostrar panel lateral al click en pais", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 15);
-    await page.waitForTimeout(2000);
+    // Wait for initial load toast to dismiss
+    await page.waitForTimeout(3000);
 
     // Find a clickable country marker
     const countryMarker = page.locator("svg g.cursor-pointer").first();
 
     if (await countryMarker.isVisible()) {
-      await countryMarker.click();
+      await countryMarker.dispatchEvent("click");
 
-      // Should show toast notification with country filter info
-      const toast = page.locator('[role="alert"], [class*="toast"]');
-      await expect(toast.first()).toBeVisible({ timeout: 5000 });
-
-      // Toast should contain filtering message
-      await expect(toast.first()).toContainText(/filtering|Filtering/i);
+      // Should show toast with "Filtering by [country]" message
+      const filterToast = page.locator('[role="alert"]').filter({ hasText: /Filtering/i });
+      await expect(filterToast.first()).toBeVisible({ timeout: 5000 });
     }
   });
 
   test("debe destacar pais al hover", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 15);
-    await page.waitForTimeout(2000);
-
     // Find a clickable country marker with hover transition
     const countryMarker = page.locator("svg g.cursor-pointer").first();
 
@@ -272,9 +256,6 @@ test.describe("Threat Map - Country Click Interaction", () => {
   });
 
   test("debe mostrar contador de IOCs en marcador de pais", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 20);
-    await page.waitForTimeout(2000);
-
     // Find country markers with count labels
     const countLabels = page.locator('svg g.cursor-pointer text');
     const labelCount = await countLabels.count();
@@ -286,9 +267,6 @@ test.describe("Threat Map - Country Click Interaction", () => {
   });
 
   test("debe tener animacion de pulso en marcadores", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 15);
-    await page.waitForTimeout(2000);
-
     // Verify pulsing animation on country markers
     const pulsingCircles = page.locator('svg g.cursor-pointer circle animate[attributeName="r"]');
     const pulseCount = await pulsingCircles.count();
@@ -307,13 +285,12 @@ test.describe("Threat Map - Country Click Interaction", () => {
 
 test.describe("Threat Map - Attack Line Animations", () => {
   test.beforeEach(async ({ page }) => {
+    await mockThreatEnrichmentAPIWithGeo(page, 20);
     await page.goto(`${BASE_URL}/threats`);
     await waitForPageReady(page);
   });
 
   test("debe animar lineas de ataque", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 20);
-    await page.waitForTimeout(2000);
 
     // Verify curved attack line paths exist (Bezier curves with Q command)
     const curvedPaths = page.locator('svg path[d*="Q"]');
@@ -332,9 +309,6 @@ test.describe("Threat Map - Attack Line Animations", () => {
   });
 
   test("debe mostrar lineas con diferentes colores por riesgo", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 20);
-    await page.waitForTimeout(2000);
-
     // Risk colors defined in component
     const riskColors = ["#ef4444", "#f97316", "#eab308", "#22c55e"]; // critical, high, medium, low
 
@@ -357,16 +331,13 @@ test.describe("Threat Map - Attack Line Animations", () => {
   });
 
   test("debe tener efecto glow en lineas", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 15);
-    await page.waitForTimeout(2000);
-
-    // Verify glow filter is defined
+    // Verify glow filter is defined (defs elements are hidden by CSS spec, use toBeAttached)
     const glowFilter = page.locator("svg defs filter#glow");
-    await expect(glowFilter).toBeVisible();
+    await expect(glowFilter).toBeAttached();
 
     // Verify filter uses Gaussian blur
     const gaussianBlur = page.locator("svg defs filter#glow feGaussianBlur");
-    await expect(gaussianBlur).toBeVisible();
+    await expect(gaussianBlur).toBeAttached();
 
     // Verify paths reference glow filter
     const glowPaths = page.locator('svg path[filter="url(#glow)"]');
@@ -375,9 +346,6 @@ test.describe("Threat Map - Attack Line Animations", () => {
   });
 
   test("debe tener puntos moviles en las lineas de ataque", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 15);
-    await page.waitForTimeout(2000);
-
     // Verify animated circles (moving dots) exist
     const animatedCircles = page.locator("svg circle animateMotion");
     const circleCount = await animatedCircles.count();
@@ -393,8 +361,6 @@ test.describe("Threat Map - Attack Line Animations", () => {
   });
 
   test("debe tener animacion de dashboard offset en lineas", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 15);
-    await page.waitForTimeout(2000);
 
     // Verify stroke-dashoffset animation
     const dashAnimations = page.locator('svg path animate[attributeName="stroke-dashoffset"]');
@@ -408,8 +374,6 @@ test.describe("Threat Map - Attack Line Animations", () => {
   });
 
   test("debe conectar origen a SOC (destino)", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 10);
-    await page.waitForTimeout(2000);
 
     // Verify mpath elements reference path IDs
     const mpaths = page.locator("svg mpath");
@@ -429,12 +393,12 @@ test.describe("Threat Map - Attack Line Animations", () => {
 
 test.describe("Threat Map - Visual Elements", () => {
   test.beforeEach(async ({ page }) => {
+    await mockThreatEnrichmentAPIWithGeo(page, 20);
     await page.goto(`${BASE_URL}/threats`);
     await waitForPageReady(page);
   });
 
   test("debe mostrar header del mapa con icono animado", async ({ page }) => {
-    await page.waitForTimeout(1000);
 
     // Verify header with threat icon
     const threatIcon = page.locator('svg[class*="animate-pulse"]').filter({ has: page.locator('path') });
@@ -446,15 +410,11 @@ test.describe("Threat Map - Visual Elements", () => {
   });
 
   test("debe mostrar descripcion de amenazas activas", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 15);
-    await page.waitForTimeout(2000);
-
     // Verify description with threat count and country count
     await expect(page.getByText(/\d+\s+active\s+threats\s+from\s+\d+\s+countries/i)).toBeVisible();
   });
 
   test("debe usar gradiente de fondo en el mapa", async ({ page }) => {
-    await page.waitForTimeout(500);
 
     // Verify SVG has gradient background style
     const svgMap = page.locator('svg[style*="background: linear-gradient"]');
@@ -462,9 +422,6 @@ test.describe("Threat Map - Visual Elements", () => {
   });
 
   test("debe mostrar estadisticas de paises principales", async ({ page }) => {
-    await mockThreatEnrichmentAPIWithGeo(page, 20);
-    await page.waitForTimeout(2000);
-
     // Verify stats for main threat origin countries
     const expectedCountries = ["Russia", "China", "North Korea", "Iran"];
 

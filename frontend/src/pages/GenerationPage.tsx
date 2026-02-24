@@ -57,7 +57,7 @@ function CounterCard({ label, count, icon, color, href, onClick }: CounterCardPr
       <div className="flex items-center justify-between">
         <div>
           <p className="text-gray-400 text-sm">{label}</p>
-          <p className={clsx("text-2xl font-bold", color)}>{count.toLocaleString()}</p>
+          <p className={clsx("text-2xl font-bold", color)}>{(count ?? 0).toLocaleString()}</p>
         </div>
         <div className={clsx("p-3 rounded-lg bg-opacity-20", color.replace("text-", "bg-"))}>
           {icon}

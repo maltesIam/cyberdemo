@@ -90,6 +90,15 @@ SIEM_TOOLS: List[Dict[str, Any]] = [
 ]
 
 
+def _get_scenario_mgr():
+    """Get the ScenarioStateManager if available."""
+    try:
+        from src.scenarios.scenario_state_manager import get_scenario_manager
+        return get_scenario_manager()
+    except ImportError:
+        return None
+
+
 # Tool handlers
 async def handle_siem_list_incidents(args: Dict[str, Any]) -> Dict[str, Any]:
     """Handle siem_list_incidents tool call."""
@@ -97,7 +106,13 @@ async def handle_siem_list_incidents(args: Dict[str, Any]) -> Dict[str, Any]:
     status = args.get("status")
     limit = args.get("limit", 50)
 
-    # Mock data for demo
+    # Check if scenario is active (REQ-002-004-001)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        incidents = mgr.get_incidents(severity=severity, status=status, limit=limit)
+        return {"data": incidents, "total": len(incidents)}
+
+    # Static mock data (backward compatibility - REQ-002-004-002)
     incidents = [
         {
             "id": "INC-ANCHOR-001",
@@ -141,7 +156,15 @@ async def handle_siem_get_incident(args: Dict[str, Any]) -> Dict[str, Any]:
     if not incident_id:
         raise ValueError("incident_id is required")
 
-    # Mock data for anchor incidents
+    # Check if scenario is active (REQ-002-004-001)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        incident = mgr.get_incident_by_id(incident_id)
+        if incident:
+            return incident
+        # Fall through to generic response for unknown IDs
+
+    # Static mock data (backward compatibility)
     incidents = {
         "INC-ANCHOR-001": {
             "id": "INC-ANCHOR-001",
@@ -186,6 +209,17 @@ async def handle_siem_add_comment(args: Dict[str, Any]) -> Dict[str, Any]:
     if not incident_id or not comment:
         raise ValueError("incident_id and comment are required")
 
+    # Register mutation in scenario state (REQ-002-004-003)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        comment_id = mgr.add_comment(incident_id, comment)
+        return {
+            "status": "success",
+            "incident_id": incident_id,
+            "comment_id": comment_id,
+            "message": "Comment added successfully"
+        }
+
     return {
         "status": "success",
         "incident_id": incident_id,
@@ -201,6 +235,11 @@ async def handle_siem_close_incident(args: Dict[str, Any]) -> Dict[str, Any]:
 
     if not incident_id or not resolution:
         raise ValueError("incident_id and resolution are required")
+
+    # Register mutation in scenario state (REQ-002-004-003)
+    mgr = _get_scenario_mgr()
+    if mgr and mgr.is_active():
+        mgr.close_incident(incident_id)
 
     return {
         "status": "success",

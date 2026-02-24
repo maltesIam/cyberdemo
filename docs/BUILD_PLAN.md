@@ -1,324 +1,262 @@
-# Build Plan: CyberDemo Agent Integration Enhancement
-Version: 1.0.0 | Date: 2026-02-22 | Functional Spec: docs/FUNCTIONAL_SPEC.md
+# Build Plan: CyberDemo Agent-to-UI Enhancement
 
----
-
-## BUILD CONFIGURATION
-
-| Parameter | Value |
+| Attribute | Value |
 |-----------|-------|
-| Build ID | sbx-20260222-012823 |
-| Parallel Agents | 4 construction + 1 TDD + 1 review |
-| TDD Mode | Strict |
-| Test Framework | pytest (backend) / vitest (frontend) |
-| E2E Framework | Playwright |
-| Backend Stack | Python 3.12 / FastAPI / SQLAlchemy |
-| Frontend Stack | React 18 / TypeScript / TailwindCSS |
+| Build ID | sbx-20260224-155636 |
+| Created | 2026-02-24 |
+| Functional Spec | docs/FUNCTIONAL_SPEC.md |
+| Template Version | SBX v20.0.0 |
 
 ---
 
-## CYCLE 1: MUST-TO-HAVE (MTH)
+## Build Phases
 
-### Phase 1.1: Foundation & Infrastructure
+### Cycle 1: MTH (Must-To-Have)
 
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-1.1.001 | Create database schema for analysis_jobs table | TECH-004 | build-1 | pending |
-| T-1.1.002 | Create database schema for webhook_configs table | TECH-005 | build-1 | pending |
-| T-1.1.003 | Create Alembic migration for new tables | TECH-004, TECH-005 | build-1 | pending |
-| T-1.1.004 | Create Pydantic models for webhook and job entities | TECH-001 | build-2 | pending |
-| T-1.1.005 | Create OpenSearch index template for attack_simulations | INT-003 | build-2 | pending |
+| Phase | Description | Tasks | Status |
+|-------|-------------|-------|--------|
+| P1 | Core Infrastructure (WS Hook, UIBridge, ScenarioStateManager) | 8 tasks | Pending |
+| P2 | Frontend UI Components (Charts, Highlights, Timeline, KPI) | 5 tasks | Pending |
+| P3 | Scenario Data & Tool Integration | 7 tasks | Pending |
+| P4 | Integration, Sync & Testing | 7 tasks | Pending |
 
-### Phase 1.2: Agent Orchestration MCP (EPIC-001)
+### Cycle 2: NTH (Nice-To-Have)
 
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-1.2.001 | Implement webhook configuration API endpoint | REQ-001-001-001 | build-1 | pending |
-| T-1.2.002 | Implement webhook dispatcher with retry logic | REQ-001-001-002, REQ-001-001-003 | build-1 | pending |
-| T-1.2.003 | Implement webhook timeout handling | REQ-001-001-004 | build-1 | pending |
-| T-1.2.004 | Implement webhook response validation | REQ-001-001-005 | build-1 | pending |
-| T-1.2.005 | Implement POST /api/v1/analysis/queue endpoint | REQ-001-002-001 | build-2 | pending |
-| T-1.2.006 | Implement GET /api/v1/analysis/status/{job_id} | REQ-001-002-002 | build-2 | pending |
-| T-1.2.007 | Implement GET /api/v1/analysis/result/{job_id} | REQ-001-002-003 | build-2 | pending |
-| T-1.2.008 | Implement WebSocket /ws/analysis for notifications | REQ-001-002-004 | build-3 | pending |
-| T-1.2.009 | Implement job persistence in PostgreSQL | REQ-001-002-005 | build-2 | pending |
-| T-1.2.010 | Implement job cleanup scheduler (>24h) | REQ-001-002-006 | build-2 | pending |
-| T-1.2.011 | Implement MCP tool: agent_analyze_alert | REQ-001-003-001 | build-3 | pending |
-| T-1.2.012 | Implement MCP tool: agent_investigate_ioc | REQ-001-003-002 | build-3 | pending |
-| T-1.2.013 | Implement MCP tool: agent_recommend_action | REQ-001-003-003 | build-3 | pending |
-| T-1.2.014 | Implement MCP tool: agent_generate_report | REQ-001-003-004 | build-3 | pending |
-| T-1.2.015 | Implement MCP tool: agent_explain_decision | REQ-001-003-005 | build-4 | pending |
-| T-1.2.016 | Implement MCP tool: agent_correlate_events | REQ-001-003-006 | build-4 | pending |
-| T-1.2.017 | Register all agent orchestration tools in MCP server | TECH-001 | build-4 | pending |
-| T-1.2.018 | Implement rate limiting (100 req/min) | TECH-008 | build-4 | pending |
-| T-1.2.019 | Implement HMAC signature validation for webhooks | TECH-009 | build-4 | pending |
-| T-1.2.020 | Implement audit logging for all invocations | REQ-014 | build-4 | pending |
-
-### Phase 1.3: Attack Simulation System (EPIC-002)
-
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-1.3.001 | Create attack scenario base class and interface | TECH-001 | build-1 | pending |
-| T-1.3.002 | Implement APT29 (Cozy Bear) scenario | REQ-002-001-001 | build-1 | pending |
-| T-1.3.003 | Implement FIN7 scenario | REQ-002-001-002 | build-1 | pending |
-| T-1.3.004 | Implement Lazarus Group scenario | REQ-002-001-003 | build-2 | pending |
-| T-1.3.005 | Implement REvil ransomware scenario | REQ-002-001-004 | build-2 | pending |
-| T-1.3.006 | Implement SolarWinds-style supply chain scenario | REQ-002-001-005 | build-3 | pending |
-| T-1.3.007 | Implement Insider Threat scenario | REQ-002-001-006 | build-3 | pending |
-| T-1.3.008 | Implement MCP tool: attack_start_scenario | REQ-002-002-001 | build-4 | pending |
-| T-1.3.009 | Implement MCP tools: attack_pause/resume | REQ-002-002-002 | build-4 | pending |
-| T-1.3.010 | Implement MCP tool: attack_speed | REQ-002-002-003 | build-4 | pending |
-| T-1.3.011 | Implement MCP tool: attack_jump_to_stage | REQ-002-002-004 | build-4 | pending |
-| T-1.3.012 | Implement MCP tool: attack_inject_event | REQ-002-002-005 | build-4 | pending |
-| T-1.3.013 | Implement simulation state persistence | REQ-002-002-006, REQ-013 | build-3 | pending |
-| T-1.3.014 | Implement GET /api/v1/mitre/tactics | REQ-002-003-002 | build-1 | pending |
-| T-1.3.015 | Implement GET /api/v1/mitre/techniques/{tactic_id} | REQ-002-003-003 | build-1 | pending |
-| T-1.3.016 | Add MITRE tactic/technique IDs to all scenario events | REQ-002-003-001 | build-2 | pending |
-| T-1.3.017 | Implement attack chain visualization component in UI | REQ-002-003-004 | build-3 | pending |
-
-### Phase 1.4: Integration & MTH Testing
-
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-1.4.001 | Integration tests for webhook system | FEAT-001-001 | build-1 | pending |
-| T-1.4.002 | Integration tests for analysis queue | FEAT-001-002 | build-2 | pending |
-| T-1.4.003 | Integration tests for agent orchestration tools | FEAT-001-003 | build-3 | pending |
-| T-1.4.004 | Integration tests for attack scenarios | FEAT-002-001 | build-4 | pending |
-| T-1.4.005 | Integration tests for simulation control | FEAT-002-002 | build-4 | pending |
-| T-1.4.006 | E2E tests for full agent invocation flow | EPIC-001 | build-1 | pending |
-| T-1.4.007 | E2E tests for attack simulation flow | EPIC-002 | build-2 | pending |
-| T-1.4.008 | Playwright E2E: Webhook configuration UI | EPIC-001 | build-3 | pending |
-| T-1.4.009 | Playwright E2E: Attack scenario selection UI | EPIC-002 | build-4 | pending |
+| Phase | Description | Tasks | Status |
+|-------|-------------|-------|--------|
+| P5 | Additional Scenarios & Orchestration | 8 tasks | Pending |
+| P6 | Developer Experience | 1 task | Pending |
 
 ---
 
-## CYCLE 2: NICE-TO-HAVE (NTH)
+## Task Assignments
 
-### Phase 2.1: Real-Time Narration (EPIC-003)
+### Build Agent Distribution
 
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-2.1.001 | Create database schema for narration_messages | TECH-007 | build-1 | pending |
-| T-2.1.002 | Create OpenSearch index for narration_logs | INT-004 | build-1 | pending |
-| T-2.1.003 | Implement React NarrationPanel component (collapsable) | REQ-003-001-001 | build-2 | pending |
-| T-2.1.004 | Implement message types (thinking/finding/decision) | REQ-003-001-002 | build-2 | pending |
-| T-2.1.005 | Implement confidence indicator with colors | REQ-003-001-003 | build-2 | pending |
-| T-2.1.006 | Implement auto-scroll for new messages | REQ-003-001-004 | build-2 | pending |
-| T-2.1.007 | Implement narration toggle | REQ-003-001-005 | build-2 | pending |
-| T-2.1.008 | Implement WebSocket /ws/narration streaming | REQ-003-002-001 | build-3 | pending |
-| T-2.1.009 | Implement narration message format | REQ-003-002-002 | build-3 | pending |
-| T-2.1.010 | Implement 100-message buffer | REQ-003-002-003 | build-3 | pending |
-| T-2.1.011 | Implement GET /api/v1/narration/history/{session_id} | REQ-003-002-004 | build-3 | pending |
+| Agent | Focus Area | Task Count |
+|-------|------------|------------|
+| Agent 1 | Frontend (React hooks, WS, UI components) | 10 tasks |
+| Agent 2 | Backend Core (UIBridge, ScenarioStateManager, data structures) | 8 tasks |
+| Agent 3 | Scenario Scripts & Tool Handler Integration | 14 tasks |
+| Agent 4 | Integration, Sync, Testing & NTH Features | 10 tasks |
 
-### Phase 2.2: Copilot Mode (EPIC-004)
+### Detailed Task List
 
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-2.2.001 | Implement React hooks for action capture | REQ-004-001-001 | build-1 | pending |
-| T-2.2.002 | Implement event throttling (max 10/sec) | REQ-004-001-002 | build-1 | pending |
-| T-2.2.003 | Define action context schema | REQ-004-001-003 | build-1 | pending |
-| T-2.2.004 | Implement WebSocket /ws/copilot/actions | REQ-004-001-004 | build-2 | pending |
-| T-2.2.005 | Implement MCP tool: copilot_get_suggestion | REQ-004-002-001 | build-3 | pending |
-| T-2.2.006 | Implement MCP tool: copilot_explain_why | REQ-004-002-002 | build-3 | pending |
-| T-2.2.007 | Implement MCP tool: copilot_auto_complete | REQ-004-002-003 | build-3 | pending |
-| T-2.2.008 | Implement CopilotWidget React component | REQ-004-002-004, TECH-012 | build-4 | pending |
-| T-2.2.009 | Implement suggestion acceptance/rejection tracking | REQ-004-002-005 | build-4 | pending |
+#### Phase P1: Core Infrastructure
 
-### Phase 2.3: Automated Playbooks (EPIC-005)
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-001 | REQ-001-001-001 | Create useMcpStateSync React hook with WS connection to port 3001 and auto-reconnect | 1 | Pending |
+| T-002 | REQ-001-001-006 | Implement graceful degradation when WS Server is unavailable | 1 | Pending |
+| T-003 | REQ-001-002-001 | Create UIBridge Python class with async WS client (lazy connection) | 2 | Pending |
+| T-004 | REQ-001-002-002 | Add REST endpoint POST /api/v1/ui/action forwarding commands to WS Server | 2 | Pending |
+| T-005 | REQ-001-002-003 | Implement silent failure in UIBridge when WS Server unavailable | 2 | Pending |
+| T-006 | REQ-002-001-001 | Create ScenarioStateManager singleton with start_scenario, advance_to_phase, reset | 2 | Pending |
+| T-007 | REQ-002-001-002 | Implement cumulative phase data logic (phase N includes phases 1..N) | 2 | Pending |
+| T-008 | REQ-002-001-004 | Add asyncio Lock for thread-safe state access | 2 | Pending |
 
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-2.3.001 | Create database schema for playbook_executions | TECH-006 | build-1 | pending |
-| T-2.3.002 | Implement POST /api/v1/playbooks/execute/{id} | REQ-005-001-001 | build-1 | pending |
-| T-2.3.003 | Implement POST /api/v1/playbooks/{id}/pause | REQ-005-001-002 | build-1 | pending |
-| T-2.3.004 | Implement POST /api/v1/playbooks/{id}/resume | REQ-005-001-003 | build-2 | pending |
-| T-2.3.005 | Implement POST /api/v1/playbooks/{id}/rollback | REQ-005-001-004 | build-2 | pending |
-| T-2.3.006 | Implement GET /api/v1/playbooks/{id}/status | REQ-005-001-005 | build-2 | pending |
-| T-2.3.007 | Implement playbook state persistence | REQ-005-001-006 | build-2 | pending |
-| T-2.3.008 | Implement Ransomware Response playbook | REQ-005-002-001 | build-3 | pending |
-| T-2.3.009 | Implement Phishing Investigation playbook | REQ-005-002-002 | build-3 | pending |
-| T-2.3.010 | Implement Lateral Movement Detection playbook | REQ-005-002-003 | build-3 | pending |
-| T-2.3.011 | Implement Data Exfiltration Response playbook | REQ-005-002-004 | build-4 | pending |
-| T-2.3.012 | Implement Insider Threat Investigation playbook | REQ-005-002-005 | build-4 | pending |
-| T-2.3.013 | Implement Cloud Compromise Response playbook | REQ-005-002-006 | build-4 | pending |
+#### Phase P2: Frontend UI Components
 
-### Phase 2.4: Demo Control Panel (EPIC-006)
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-009 | REQ-001-001-002 | State updates from WS trigger UI navigation with toast notification | 1 | Pending |
+| T-010 | REQ-001-001-003 | highlightedAssets state triggers node highlighting on graph page | 1 | Pending |
+| T-011 | REQ-001-001-004 | Charts array entries render as floating overlay components | 1 | Pending |
+| T-012 | REQ-001-001-005 | Timeline state renders as sliding panel from right | 1 | Pending |
+| T-013 | REQ-001-004-001 | Chart overlays with smooth animation and auto-dismiss timer | 1 | Pending |
 
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-2.4.001 | Implement DemoControlPanel React component | TECH-011 | build-1 | pending |
-| T-2.4.002 | Implement Play/Pause/Stop buttons | REQ-006-001-001 | build-1 | pending |
-| T-2.4.003 | Implement speed slider (0.5x-4x) | REQ-006-001-002 | build-1 | pending |
-| T-2.4.004 | Implement scenario selection dropdown | REQ-006-001-003 | build-2 | pending |
-| T-2.4.005 | Implement MITRE stage progress bar | REQ-006-001-004 | build-2 | pending |
-| T-2.4.006 | Implement keyboard shortcuts | REQ-006-001-005 | build-2 | pending |
-| T-2.4.007 | Implement DemoContext for global state | REQ-006-002-001 | build-3 | pending |
-| T-2.4.008 | Implement localStorage persistence | REQ-006-002-002 | build-3 | pending |
-| T-2.4.009 | Implement MCP Frontend Server sync | REQ-006-002-003 | build-3 | pending |
+#### Phase P3: Scenario Data & Tool Integration
 
-### Phase 2.5: NTH Integration & Testing
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-014 | REQ-001-004-002 | Asset highlight effects: pulse, glow, zoom CSS animations | 1 | Pending |
+| T-015 | REQ-001-004-003 | Timeline panel with sliding animation and staggered entries | 1 | Pending |
+| T-016 | REQ-001-004-004 | Dashboard KPI counting number animation effect | 1 | Pending |
+| T-017 | REQ-002-002-001 | APT29 scenario script: 8 phase event definitions with SIEM incidents | 3 | Pending |
+| T-018 | REQ-002-002-002 | APT29: 14 cumulative SIEM incidents across 8 phases | 3 | Pending |
+| T-019 | REQ-002-002-003 | APT29: 15 cumulative EDR detections across 8 phases | 3 | Pending |
+| T-020 | REQ-002-002-004 | APT29: 7 cumulative Intel IOCs across 8 phases | 3 | Pending |
 
-| Task ID | Description | Requirements | Agent | Status |
-|---------|-------------|--------------|-------|--------|
-| T-2.5.001 | Integration tests for narration system | EPIC-003 | build-1 | pending |
-| T-2.5.002 | Integration tests for copilot system | EPIC-004 | build-2 | pending |
-| T-2.5.003 | Integration tests for playbook engine | EPIC-005 | build-3 | pending |
-| T-2.5.004 | Integration tests for demo control panel | EPIC-006 | build-4 | pending |
-| T-2.5.005 | E2E tests for narration streaming | EPIC-003 | build-1 | pending |
-| T-2.5.006 | E2E tests for copilot suggestions | EPIC-004 | build-2 | pending |
-| T-2.5.007 | E2E tests for playbook execution | EPIC-005 | build-3 | pending |
-| T-2.5.008 | Playwright E2E: Narration panel UI | EPIC-003 | build-4 | pending |
-| T-2.5.009 | Playwright E2E: Copilot widget UI | EPIC-004 | build-4 | pending |
-| T-2.5.010 | Playwright E2E: Demo control panel UI | EPIC-006 | build-4 | pending |
+#### Phase P4: Integration, Sync & Testing
 
----
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-021 | REQ-002-002-005 | APT29: Cross-reference consistency between incidents, detections, IOCs | 3 | Pending |
+| T-022 | REQ-002-001-003 | Agent mutations (contain, close, comment) persist in ScenarioState | 2 | Pending |
+| T-023 | REQ-002-001-005 | Only one scenario active at a time (exclusive lock) | 2 | Pending |
+| T-024 | REQ-002-004-001 | Integrate 25 SOC tool handlers with ScenarioStateManager | 3 | Pending |
+| T-025 | REQ-002-004-002 | Backward compatibility: return static data when no scenario active | 3 | Pending |
+| T-026 | REQ-002-004-003 | Agent mutations reflected immediately in all tool queries | 3 | Pending |
+| T-027 | REQ-002-004-004 | Tools must not reveal future-phase data (data isolation) | 3 | Pending |
 
-## REQUIREMENTS COVERAGE MATRIX
+#### Phase P4b: Agent UI Actions & Simulation Sync
 
-### EPIC-001: Agent Orchestration MCP (MTH)
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-028 | REQ-001-003-001 | Phase-to-UI-Action mapping configuration for APT29 (8 phases) | 4 | Pending |
+| T-029 | REQ-001-003-002 | UI actions trigger 1-2s after agent analysis text appears | 4 | Pending |
+| T-030 | REQ-001-003-003 | Presenter toggle to enable/disable auto-UI-actions | 4 | Pending |
+| T-031 | REQ-001-003-004 | Rate limiter for agent UI actions (max 2/sec) | 4 | Pending |
+| T-032 | REQ-001-003-005 | Queue UI actions during user interaction (no interruption) | 4 | Pending |
+| T-033 | REQ-002-006-001 | Phase sync: attack_start_scenario initializes both managers | 4 | Pending |
+| T-034 | REQ-002-006-002 | Phase advance and jump-to-stage sync cumulative events | 4 | Pending |
 
-| Requirement ID | Summary | Build Task | Test ID | Status |
-|----------------|---------|------------|---------|--------|
-| REQ-001-001-001 | Webhook configure endpoint | T-1.2.001 | UT-001, IT-001 | [ ] |
-| REQ-001-001-002 | Webhook dispatcher | T-1.2.002 | UT-002, IT-001 | [ ] |
-| REQ-001-001-003 | Retry logic with backoff | T-1.2.002 | UT-003, IT-001 | [ ] |
-| REQ-001-001-004 | Configurable timeout | T-1.2.003 | UT-004, IT-001 | [ ] |
-| REQ-001-001-005 | Response validation | T-1.2.004 | UT-005, IT-001 | [ ] |
-| REQ-001-002-001 | Queue analysis endpoint | T-1.2.005 | UT-006, IT-002 | [ ] |
-| REQ-001-002-002 | Job status endpoint | T-1.2.006 | UT-007, IT-002 | [ ] |
-| REQ-001-002-003 | Job result endpoint | T-1.2.007 | UT-008, IT-002 | [ ] |
-| REQ-001-002-004 | WebSocket notifications | T-1.2.008 | UT-009, IT-002 | [ ] |
-| REQ-001-002-005 | Job persistence | T-1.2.009 | UT-010, IT-002 | [ ] |
-| REQ-001-002-006 | Job cleanup | T-1.2.010 | UT-011, IT-002 | [ ] |
-| REQ-001-003-001 | agent_analyze_alert tool | T-1.2.011 | UT-012, IT-003 | [ ] |
-| REQ-001-003-002 | agent_investigate_ioc tool | T-1.2.012 | UT-013, IT-003 | [ ] |
-| REQ-001-003-003 | agent_recommend_action tool | T-1.2.013 | UT-014, IT-003 | [ ] |
-| REQ-001-003-004 | agent_generate_report tool | T-1.2.014 | UT-015, IT-003 | [ ] |
-| REQ-001-003-005 | agent_explain_decision tool | T-1.2.015 | UT-016, IT-003 | [ ] |
-| REQ-001-003-006 | agent_correlate_events tool | T-1.2.016 | UT-017, IT-003 | [ ] |
+#### Phase P5: NTH - Additional Scenarios & Orchestration
 
-### EPIC-002: Attack Simulation System (MTH)
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-035 | REQ-002-003-001 | FIN7 scenario script (6 phases, financial targeting) | 3 | Pending |
+| T-036 | REQ-002-003-002 | Lazarus scenario script (5 phases, destructive wiper) | 3 | Pending |
+| T-037 | REQ-002-003-003 | REvil scenario script (5 phases, ransomware) | 3 | Pending |
+| T-038 | REQ-002-003-004 | SolarWinds scenario script (6 phases, supply chain) | 3 | Pending |
+| T-039 | REQ-002-003-005 | Insider Threat scenario script (3 phases, credential abuse) | 3 | Pending |
+| T-040 | REQ-002-005-001 | Agent orchestration tools query ScenarioStateManager | 4 | Pending |
+| T-041 | REQ-002-005-002 | Optional Vega gateway enrichment for analysis text | 4 | Pending |
 
-| Requirement ID | Summary | Build Task | Test ID | Status |
-|----------------|---------|------------|---------|--------|
-| REQ-002-001-001 | APT29 scenario | T-1.3.002 | UT-018, IT-004 | [ ] |
-| REQ-002-001-002 | FIN7 scenario | T-1.3.003 | UT-019, IT-004 | [ ] |
-| REQ-002-001-003 | Lazarus scenario | T-1.3.004 | UT-020, IT-004 | [ ] |
-| REQ-002-001-004 | REvil scenario | T-1.3.005 | UT-021, IT-004 | [ ] |
-| REQ-002-001-005 | SolarWinds scenario | T-1.3.006 | UT-022, IT-004 | [ ] |
-| REQ-002-001-006 | Insider Threat scenario | T-1.3.007 | UT-023, IT-004 | [ ] |
-| REQ-002-002-001 | attack_start_scenario tool | T-1.3.008 | UT-024, IT-005 | [ ] |
-| REQ-002-002-002 | attack_pause/resume tools | T-1.3.009 | UT-025, IT-005 | [ ] |
-| REQ-002-002-003 | attack_speed tool | T-1.3.010 | UT-026, IT-005 | [ ] |
-| REQ-002-002-004 | attack_jump_to_stage tool | T-1.3.011 | UT-027, IT-005 | [ ] |
-| REQ-002-002-005 | attack_inject_event tool | T-1.3.012 | UT-028, IT-005 | [ ] |
-| REQ-002-002-006 | Simulation state persistence | T-1.3.013 | UT-029, IT-005 | [ ] |
-| REQ-002-003-001 | MITRE IDs in events | T-1.3.016 | UT-030, IT-004 | [ ] |
-| REQ-002-003-002 | List tactics endpoint | T-1.3.014 | UT-031, IT-004 | [ ] |
-| REQ-002-003-003 | Get techniques endpoint | T-1.3.015 | UT-032, IT-004 | [ ] |
-| REQ-002-003-004 | Attack chain visualization | T-1.3.017 | UT-071, IT-004 | [ ] |
+#### Phase P6: NTH - Developer Experience
 
-### EPIC-003: Real-Time Narration (NTH)
-
-| Requirement ID | Summary | Build Task | Test ID | Status |
-|----------------|---------|------------|---------|--------|
-| REQ-003-001-001 | Collapsable panel | T-2.1.003 | UT-033, IT-006 | [ ] |
-| REQ-003-001-002 | Message types | T-2.1.004 | UT-034, IT-006 | [ ] |
-| REQ-003-001-003 | Confidence indicator | T-2.1.005 | UT-035, IT-006 | [ ] |
-| REQ-003-001-004 | Auto-scroll | T-2.1.006 | UT-036, IT-006 | [ ] |
-| REQ-003-001-005 | Toggle narration | T-2.1.007 | UT-037, IT-006 | [ ] |
-| REQ-003-002-001 | WebSocket streaming | T-2.1.008 | UT-038, IT-006 | [ ] |
-| REQ-003-002-002 | Message format | T-2.1.009 | UT-039, IT-006 | [ ] |
-| REQ-003-002-003 | Message buffer | T-2.1.010 | UT-040, IT-006 | [ ] |
-| REQ-003-002-004 | History endpoint | T-2.1.011 | UT-041, IT-006 | [ ] |
-
-### EPIC-004: Copilot Mode (NTH)
-
-| Requirement ID | Summary | Build Task | Test ID | Status |
-|----------------|---------|------------|---------|--------|
-| REQ-004-001-001 | Action capture hooks | T-2.2.001 | UT-042, IT-007 | [ ] |
-| REQ-004-001-002 | Event throttling | T-2.2.002 | UT-043, IT-007 | [ ] |
-| REQ-004-001-003 | Context schema | T-2.2.003 | UT-044, IT-007 | [ ] |
-| REQ-004-001-004 | Copilot WebSocket | T-2.2.004 | UT-045, IT-007 | [ ] |
-| REQ-004-002-001 | copilot_get_suggestion tool | T-2.2.005 | UT-046, IT-007 | [ ] |
-| REQ-004-002-002 | copilot_explain_why tool | T-2.2.006 | UT-047, IT-007 | [ ] |
-| REQ-004-002-003 | copilot_auto_complete tool | T-2.2.007 | UT-048, IT-007 | [ ] |
-| REQ-004-002-004 | CopilotWidget component | T-2.2.008 | UT-049, IT-007 | [ ] |
-| REQ-004-002-005 | Acceptance tracking | T-2.2.009 | UT-050, IT-007 | [ ] |
-
-### EPIC-005: Automated Playbooks (NTH)
-
-| Requirement ID | Summary | Build Task | Test ID | Status |
-|----------------|---------|------------|---------|--------|
-| REQ-005-001-001 | Execute endpoint | T-2.3.002 | UT-051, IT-008 | [ ] |
-| REQ-005-001-002 | Pause endpoint | T-2.3.003 | UT-052, IT-008 | [ ] |
-| REQ-005-001-003 | Resume endpoint | T-2.3.004 | UT-053, IT-008 | [ ] |
-| REQ-005-001-004 | Rollback endpoint | T-2.3.005 | UT-054, IT-008 | [ ] |
-| REQ-005-001-005 | Status endpoint | T-2.3.006 | UT-055, IT-008 | [ ] |
-| REQ-005-001-006 | State persistence | T-2.3.007 | UT-056, IT-008 | [ ] |
-| REQ-005-002-001 | Ransomware playbook | T-2.3.008 | UT-057, IT-008 | [ ] |
-| REQ-005-002-002 | Phishing playbook | T-2.3.009 | UT-058, IT-008 | [ ] |
-| REQ-005-002-003 | Lateral Movement playbook | T-2.3.010 | UT-059, IT-008 | [ ] |
-| REQ-005-002-004 | Data Exfiltration playbook | T-2.3.011 | UT-060, IT-008 | [ ] |
-| REQ-005-002-005 | Insider Threat playbook | T-2.3.012 | UT-061, IT-008 | [ ] |
-| REQ-005-002-006 | Cloud Compromise playbook | T-2.3.013 | UT-062, IT-008 | [ ] |
-
-### EPIC-006: Demo Control Panel (NTH)
-
-| Requirement ID | Summary | Build Task | Test ID | Status |
-|----------------|---------|------------|---------|--------|
-| REQ-006-001-001 | Play/Pause/Stop buttons | T-2.4.002 | UT-063, IT-009 | [ ] |
-| REQ-006-001-002 | Speed slider | T-2.4.003 | UT-064, IT-009 | [ ] |
-| REQ-006-001-003 | Scenario dropdown | T-2.4.004 | UT-065, IT-009 | [ ] |
-| REQ-006-001-004 | Progress bar | T-2.4.005 | UT-066, IT-009 | [ ] |
-| REQ-006-001-005 | Keyboard shortcuts | T-2.4.006 | UT-067, IT-009 | [ ] |
-| REQ-006-002-001 | DemoContext | T-2.4.007 | UT-068, IT-009 | [ ] |
-| REQ-006-002-002 | localStorage persistence | T-2.4.008 | UT-069, IT-009 | [ ] |
-| REQ-006-002-003 | MCP sync | T-2.4.009 | UT-070, IT-009 | [ ] |
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-042 | REQ-001-005-001 | npm run dev starts both React and MCP WS Server | 4 | Pending |
 
 ---
 
-## AGENT ASSIGNMENTS
+## Technical Requirements Tasks
 
-### Cycle 1 (MTH) - Phase Distribution
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-TECH-001 | TECH-001 | useMcpStateSync React hook (part of T-001) | 1 | Pending |
+| T-TECH-002 | TECH-002 | UIBridge Python class (part of T-003) | 2 | Pending |
+| T-TECH-003 | TECH-003 | REST endpoint /api/v1/ui/action (part of T-004) | 2 | Pending |
+| T-TECH-004 | TECH-004 | Chart overlay component (part of T-011, T-013) | 1 | Pending |
+| T-TECH-005 | TECH-005 | Asset highlight CSS animations (part of T-014) | 1 | Pending |
+| T-TECH-006 | TECH-006 | Timeline panel component (part of T-012, T-015) | 1 | Pending |
+| T-TECH-007 | TECH-007 | KPI animation component (part of T-016) | 1 | Pending |
+| T-TECH-008 | TECH-008 | ScenarioStateManager singleton (part of T-006) | 2 | Pending |
+| T-TECH-009 | TECH-009 | Scenario script files structure (part of T-017) | 3 | Pending |
+| T-TECH-010 | TECH-010 | PhaseEvents data structure (part of T-006) | 2 | Pending |
+| T-TECH-011 | TECH-011 | 25 tool handler modifications (part of T-024) | 3 | Pending |
+| T-TECH-012 | TECH-012 | Backward compatibility logic (part of T-025) | 3 | Pending |
+| T-TECH-013 | TECH-013 | E2E tests for UI control flows (part of T-029) | 4 | Pending |
 
-| Agent | Phase 1.1 | Phase 1.2 | Phase 1.3 | Phase 1.4 | Total Tasks |
-|-------|-----------|-----------|-----------|-----------|-------------|
-| build-1 | 3 | 4 | 5 | 2 | 14 |
-| build-2 | 2 | 6 | 4 | 2 | 14 |
-| build-3 | 0 | 5 | 3 | 2 | 10 |
-| build-4 | 0 | 5 | 4 | 2 | 11 |
+## Integration Requirements Tasks
 
-### Cycle 2 (NTH) - Phase Distribution
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-INT-001 | INT-001 | WebSocket protocol for React to MCP WS Server (part of T-001) | 1 | Pending |
+| T-INT-002 | INT-002 | UIBridge WS client to MCP WS Server (part of T-003) | 2 | Pending |
+| T-INT-003 | INT-003 | Tool Handler to ScenarioStateManager query interface (part of T-024) | 3 | Pending |
+| T-INT-004 | INT-004 | SimulationStateManager and ScenarioStateManager sync (part of T-033) | 4 | Pending |
+| T-INT-005 | INT-005 | Agent Gateway to UI pipeline (part of T-029) | 4 | Pending |
 
-| Agent | Phase 2.1 | Phase 2.2 | Phase 2.3 | Phase 2.4 | Phase 2.5 | Total Tasks |
-|-------|-----------|-----------|-----------|-----------|-----------|-------------|
-| build-1 | 2 | 3 | 2 | 2 | 2 | 11 |
-| build-2 | 5 | 1 | 3 | 3 | 2 | 14 |
-| build-3 | 4 | 3 | 3 | 3 | 2 | 15 |
-| build-4 | 0 | 2 | 4 | 0 | 4 | 10 |
+## Data Requirements Tasks
+
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-DATA-001 | DATA-001 | PhaseEvents data structure (part of T-006) | 2 | Pending |
+| T-DATA-002 | DATA-002 | ScenarioState cumulative structure (part of T-006) | 2 | Pending |
+| T-DATA-003 | DATA-003 | APT29 complete event data (part of T-017-T-021) | 3 | Pending |
+| T-DATA-004 | DATA-004 | Additional scenario event data (part of T-035-T-039) | 3 | Pending |
+| T-DATA-005 | DATA-005 | WebSocket UI command format (part of T-001, T-003) | 1 | Pending |
+| T-DATA-006 | DATA-006 | Agent mutation format (part of T-022) | 2 | Pending |
+| T-DATA-007 | DATA-007 | Phase-to-UI-Action mapping config (part of T-028) | 4 | Pending |
+
+## NFR Tasks
+
+| Task ID | Requirement | Description | Agent | Status |
+|---------|-------------|-------------|-------|--------|
+| T-NFR-001 | NFR-001 | UI state updates render within 100ms (part of T-001) | 1 | Pending |
+| T-NFR-002 | NFR-002 | WS auto-reconnect with exponential backoff (part of T-001) | 1 | Pending |
+| T-NFR-003 | NFR-003 | Graceful degradation if WS down (part of T-002) | 1 | Pending |
+| T-NFR-004 | NFR-004 | No memory leaks from WS connections (part of T-001) | 1 | Pending |
+| T-NFR-005 | NFR-005 | Max 50 concurrent React clients (part of T-001) | 1 | Pending |
+| T-NFR-006 | NFR-006 | ScenarioStateManager query response under 10ms (part of T-006) | 2 | Pending |
+| T-NFR-007 | NFR-007 | Memory usage for scenario data under 50MB (part of T-006) | 2 | Pending |
+| T-NFR-008 | NFR-008 | New scenario requires only new script file (part of T-017) | 3 | Pending |
+| T-NFR-009 | NFR-009 | Backward compatible with existing tests (part of T-025) | 3 | Pending |
 
 ---
 
-## TEST PLAN REFERENCE
+## Requirements Coverage Matrix
 
-See: [docs/SBX_TEST_PLAN.md](SBX_TEST_PLAN.md)
+| Requirement ID | Task ID | Test IDs | Status |
+|----------------|---------|----------|--------|
+| REQ-001-001-001 | T-001 | UT-001, IT-001, E2E-001 | [ ] |
+| REQ-001-001-002 | T-009 | UT-002, IT-001, E2E-001 | [ ] |
+| REQ-001-001-003 | T-010 | UT-003, IT-001 | [ ] |
+| REQ-001-001-004 | T-011 | UT-004, IT-001 | [ ] |
+| REQ-001-001-005 | T-012 | UT-005, IT-001 | [ ] |
+| REQ-001-001-006 | T-002 | UT-006, IT-001 | [ ] |
+| REQ-001-002-001 | T-003 | UT-007, IT-002 | [ ] |
+| REQ-001-002-002 | T-004 | UT-008, IT-002 | [ ] |
+| REQ-001-002-003 | T-005 | UT-009, IT-002 | [ ] |
+| REQ-001-003-001 | T-028 | UT-010, IT-003 | [ ] |
+| REQ-001-003-002 | T-029 | UT-011, IT-003, E2E-002 | [ ] |
+| REQ-001-003-003 | T-030 | UT-012, E2E-002 | [ ] |
+| REQ-001-003-004 | T-031 | UT-013, IT-007 | [ ] |
+| REQ-001-003-005 | T-032 | UT-014, IT-007 | [ ] |
+| REQ-001-004-001 | T-013 | UT-015, E2E-001 | [ ] |
+| REQ-001-004-002 | T-014 | UT-016, E2E-001 | [ ] |
+| REQ-001-004-003 | T-015 | UT-017, E2E-001 | [ ] |
+| REQ-001-004-004 | T-016 | UT-018 | [ ] |
+| REQ-001-005-001 | T-042 | UT-019 | [ ] |
+| REQ-002-001-001 | T-006 | UT-020, IT-004 | [ ] |
+| REQ-002-001-002 | T-007 | UT-021, IT-004 | [ ] |
+| REQ-002-001-003 | T-022 | UT-022, IT-004 | [ ] |
+| REQ-002-001-004 | T-008 | UT-023 | [ ] |
+| REQ-002-001-005 | T-023 | UT-024 | [ ] |
+| REQ-002-002-001 | T-017 | UT-025 | [ ] |
+| REQ-002-002-002 | T-018 | UT-026 | [ ] |
+| REQ-002-002-003 | T-019 | UT-027 | [ ] |
+| REQ-002-002-004 | T-020 | UT-028 | [ ] |
+| REQ-002-002-005 | T-021 | UT-029, IT-004 | [ ] |
+| REQ-002-003-001 | T-035 | UT-030 | [ ] |
+| REQ-002-003-002 | T-036 | UT-031 | [ ] |
+| REQ-002-003-003 | T-037 | UT-032 | [ ] |
+| REQ-002-003-004 | T-038 | UT-033 | [ ] |
+| REQ-002-003-005 | T-039 | UT-034 | [ ] |
+| REQ-002-004-001 | T-024 | UT-035, IT-005 | [ ] |
+| REQ-002-004-002 | T-025 | UT-036, IT-005 | [ ] |
+| REQ-002-004-003 | T-026 | UT-037, IT-005 | [ ] |
+| REQ-002-004-004 | T-027 | UT-038, IT-005 | [ ] |
+| REQ-002-005-001 | T-040 | UT-039 | [ ] |
+| REQ-002-005-002 | T-041 | UT-040 | [ ] |
+| REQ-002-006-001 | T-033 | UT-041, IT-006 | [ ] |
+| REQ-002-006-002 | T-034 | UT-042, IT-006 | [ ] |
+| TECH-001 | T-TECH-001 | UT-001 | [ ] |
+| TECH-002 | T-TECH-002 | UT-007 | [ ] |
+| TECH-003 | T-TECH-003 | UT-008 | [ ] |
+| TECH-004 | T-TECH-004 | UT-015 | [ ] |
+| TECH-005 | T-TECH-005 | UT-016 | [ ] |
+| TECH-006 | T-TECH-006 | UT-017 | [ ] |
+| TECH-007 | T-TECH-007 | UT-018 | [ ] |
+| TECH-008 | T-TECH-008 | UT-020 | [ ] |
+| TECH-009 | T-TECH-009 | UT-025 | [ ] |
+| TECH-010 | T-TECH-010 | UT-020 | [ ] |
+| TECH-011 | T-TECH-011 | UT-035 | [ ] |
+| TECH-012 | T-TECH-012 | UT-036 | [ ] |
+| TECH-013 | T-TECH-013 | E2E-001 | [ ] |
+| INT-001 | T-INT-001 | IT-001 | [ ] |
+| INT-002 | T-INT-002 | IT-002 | [ ] |
+| INT-003 | T-INT-003 | IT-005 | [ ] |
+| INT-004 | T-INT-004 | IT-006 | [ ] |
+| INT-005 | T-INT-005 | IT-003 | [ ] |
+| DATA-001 | T-DATA-001 | UT-020 | [ ] |
+| DATA-002 | T-DATA-002 | UT-020 | [ ] |
+| DATA-003 | T-DATA-003 | UT-025 | [ ] |
+| DATA-004 | T-DATA-004 | UT-030 | [ ] |
+| DATA-005 | T-DATA-005 | UT-001 | [ ] |
+| DATA-006 | T-DATA-006 | UT-022 | [ ] |
+| DATA-007 | T-DATA-007 | UT-010 | [ ] |
+| NFR-001 | T-NFR-001 | UT-001 | [ ] |
+| NFR-002 | T-NFR-002 | UT-001 | [ ] |
+| NFR-003 | T-NFR-003 | UT-006 | [ ] |
+| NFR-004 | T-NFR-004 | UT-001 | [ ] |
+| NFR-005 | T-NFR-005 | UT-001 | [ ] |
+| NFR-006 | T-NFR-006 | UT-020 | [ ] |
+| NFR-007 | T-NFR-007 | UT-020 | [ ] |
+| NFR-008 | T-NFR-008 | UT-025 | [ ] |
+| NFR-009 | T-NFR-009 | UT-036 | [ ] |
 
 ---
-
-## SUMMARY
-
-| Metric | Cycle 1 (MTH) | Cycle 2 (NTH) | Total |
-|--------|---------------|---------------|-------|
-| Phases | 4 | 5 | 9 |
-| Tasks | 46 | 55 | 101 |
-| Unit Tests | 33 | 38 | 71 |
-| Integration Tests | 51 | 33 | 84 |
-| E2E Tests | 16 | 19 | 35 |
-| Playwright Tests | 40 | 50 | 90 |
-
----
-
-*Document generated by SoftwareBuilderX v15.0.0*
-*Build ID: sbx-20260222-012823*
-*Phase: Planning*
+_Document generated by SoftwareBuilderX v20.0.0_

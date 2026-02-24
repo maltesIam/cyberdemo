@@ -15,8 +15,8 @@ import type {
   CTEMSummary,
 } from "../types";
 
-// API base URL from environment or default
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// API base URL: empty for dev (uses Vite proxy), or explicit URL for production
+const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 // Create axios instance with default config
 const apiClient: AxiosInstance = axios.create({

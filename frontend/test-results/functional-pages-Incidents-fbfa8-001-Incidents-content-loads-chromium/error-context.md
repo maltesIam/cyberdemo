@@ -1,0 +1,349 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e6]:
+      - img [ref=e8]
+      - generic [ref=e10]:
+        - heading "CyberDemo" [level=1] [ref=e11]
+        - paragraph [ref=e12]: SOC Dashboard
+    - navigation [ref=e13]:
+      - link "Command Center" [ref=e14] [cursor=pointer]:
+        - /url: /surface
+        - img [ref=e15]
+        - generic [ref=e17]: Command Center
+      - link "Generation" [ref=e18] [cursor=pointer]:
+        - /url: /generation
+        - img [ref=e19]
+        - generic [ref=e21]: Generation
+      - link "Dashboard" [ref=e22] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e23]
+        - generic [ref=e25]: Dashboard
+      - link "Assets" [ref=e26] [cursor=pointer]:
+        - /url: /assets
+        - img [ref=e27]
+        - generic [ref=e29]: Assets
+      - link "Incidents" [ref=e30] [cursor=pointer]:
+        - /url: /incidents
+        - img [ref=e31]
+        - generic [ref=e33]: Incidents
+      - link "Detections" [ref=e34] [cursor=pointer]:
+        - /url: /detections
+        - img [ref=e35]
+        - generic [ref=e37]: Detections
+      - link "CTEM" [ref=e38] [cursor=pointer]:
+        - /url: /ctem
+        - img [ref=e39]
+        - generic [ref=e41]: CTEM
+      - link "Vulnerabilities" [ref=e42] [cursor=pointer]:
+        - /url: /vulnerabilities
+        - img [ref=e43]
+        - generic [ref=e45]: Vulnerabilities
+      - link "Threat Intel" [ref=e46] [cursor=pointer]:
+        - /url: /threats
+        - img [ref=e47]
+        - generic [ref=e50]: Threat Intel
+      - link "Timeline" [ref=e51] [cursor=pointer]:
+        - /url: /timeline
+        - img [ref=e52]
+        - generic [ref=e54]: Timeline
+      - link "Postmortems" [ref=e55] [cursor=pointer]:
+        - /url: /postmortems
+        - img [ref=e56]
+        - generic [ref=e58]: Postmortems
+      - link "Tickets" [ref=e59] [cursor=pointer]:
+        - /url: /tickets
+        - img [ref=e60]
+        - generic [ref=e62]: Tickets
+      - link "Collaboration" [ref=e63] [cursor=pointer]:
+        - /url: /collab
+        - img [ref=e64]
+        - generic [ref=e66]: Collaboration
+      - link "Configuration" [ref=e67] [cursor=pointer]:
+        - /url: /config
+        - img [ref=e68]
+        - generic [ref=e71]: Configuration
+      - link "Audit Log" [ref=e72] [cursor=pointer]:
+        - /url: /audit
+        - img [ref=e73]
+        - generic [ref=e75]: Audit Log
+      - link "Simulation" [ref=e76] [cursor=pointer]:
+        - /url: /simulation
+        - img [ref=e77]
+        - generic [ref=e80]: Simulation
+    - generic [ref=e82]:
+      - img [ref=e84]
+      - generic [ref=e86]:
+        - paragraph [ref=e87]: SOC Analyst
+        - paragraph [ref=e88]: Demo Mode
+  - generic [ref=e89]:
+    - banner [ref=e90]:
+      - generic [ref=e91]:
+        - heading "CyberDemo - SOC Dashboard" [level=2] [ref=e92]
+        - generic [ref=e93]:
+          - generic [ref=e96]: System Online
+          - button [ref=e97] [cursor=pointer]:
+            - img [ref=e98]
+          - button [ref=e100] [cursor=pointer]:
+            - img [ref=e101]
+    - generic "Demo simulation controls" [ref=e104]:
+      - generic [ref=e106]:
+        - generic [ref=e107]: Scenario
+        - combobox "Scenario" [ref=e108] [cursor=pointer]:
+          - generic [ref=e109]: Select Scenario
+          - img [ref=e110]
+      - group "Playback controls" [ref=e112]:
+        - button "Play" [disabled] [ref=e113]:
+          - img [ref=e114]
+        - button "Stop" [disabled] [ref=e116]:
+          - img [ref=e117]
+      - generic [ref=e119]:
+        - generic [ref=e120]: Speed
+        - slider "Speed" [ref=e121] [cursor=pointer]: "1"
+        - generic [ref=e122]: 1x
+      - group "MITRE phase progress" [ref=e123]:
+        - generic [ref=e124]: No scenario selected
+      - button "Collapse control bar" [ref=e125] [cursor=pointer]:
+        - img [ref=e126]
+    - main [ref=e128]:
+      - generic [ref=e129]:
+        - generic [ref=e130]:
+          - heading "Incidents" [level=1] [ref=e131]
+          - paragraph [ref=e132]: Track and manage security incidents
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - generic [ref=e136]: Search
+            - textbox "Search incidents..." [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e139]: Status
+            - combobox [ref=e140]:
+              - option "All Status" [selected]
+              - option "Open"
+              - option "Investigating"
+              - option "Contained"
+              - option "Resolved"
+              - option "Closed"
+          - generic [ref=e141]:
+            - generic [ref=e142]: Severity
+            - combobox [ref=e143]:
+              - option "All Severities" [selected]
+              - option "Critical"
+              - option "High"
+              - option "Medium"
+              - option "Low"
+        - generic [ref=e144]:
+          - table [ref=e146]:
+            - rowgroup [ref=e147]:
+              - row "ID Title Severity Status Created Assets" [ref=e148]:
+                - columnheader "ID" [ref=e149]
+                - columnheader "Title" [ref=e150]
+                - columnheader "Severity" [ref=e151]
+                - columnheader "Status" [ref=e152]
+                - columnheader "Created" [ref=e153]
+                - columnheader "Assets" [ref=e154]
+            - rowgroup [ref=e155]:
+              - 'row "INC-2026-1771934539789-0023 Malicious Network activity detected Assigned: gjones MEDIUM resolved Feb 24, 12:02 1" [ref=e156] [cursor=pointer]':
+                - cell "INC-2026-1771934539789-0023" [ref=e157]
+                - 'cell "Malicious Network activity detected Assigned: gjones" [ref=e158]':
+                  - generic [ref=e159]:
+                    - paragraph [ref=e160]: Malicious Network activity detected
+                    - paragraph [ref=e161]: "Assigned: gjones"
+                - cell "MEDIUM" [ref=e162]
+                - cell "resolved" [ref=e163]
+                - cell "Feb 24, 12:02" [ref=e164]
+                - cell "1" [ref=e165]
+              - 'row "INC-2026-1771930668475-0020 Malicious File activity detected Assigned: uscott CRITICAL contained Feb 24, 11:39 1" [ref=e166] [cursor=pointer]':
+                - cell "INC-2026-1771930668475-0020" [ref=e167]
+                - 'cell "Malicious File activity detected Assigned: uscott" [ref=e168]':
+                  - generic [ref=e169]:
+                    - paragraph [ref=e170]: Malicious File activity detected
+                    - paragraph [ref=e171]: "Assigned: uscott"
+                - cell "CRITICAL" [ref=e172]
+                - cell "contained" [ref=e173]
+                - cell "Feb 24, 11:39" [ref=e174]
+                - cell "1" [ref=e175]
+              - 'row "INC-2026-1771931938217-0010 Anomalous Network activity detected Assigned: nlewis CRITICAL resolved Feb 24, 11:31 1" [ref=e176] [cursor=pointer]':
+                - cell "INC-2026-1771931938217-0010" [ref=e177]
+                - 'cell "Anomalous Network activity detected Assigned: nlewis" [ref=e178]':
+                  - generic [ref=e179]:
+                    - paragraph [ref=e180]: Anomalous Network activity detected
+                    - paragraph [ref=e181]: "Assigned: nlewis"
+                - cell "CRITICAL" [ref=e182]
+                - cell "resolved" [ref=e183]
+                - cell "Feb 24, 11:31" [ref=e184]
+                - cell "1" [ref=e185]
+              - 'row "INC-2026-1771927333490-0022 Malicious PowerShell activity detected Assigned: imiller LOW contained Feb 24, 10:12 1" [ref=e186] [cursor=pointer]':
+                - cell "INC-2026-1771927333490-0022" [ref=e187]
+                - 'cell "Malicious PowerShell activity detected Assigned: imiller" [ref=e188]':
+                  - generic [ref=e189]:
+                    - paragraph [ref=e190]: Malicious PowerShell activity detected
+                    - paragraph [ref=e191]: "Assigned: imiller"
+                - cell "LOW" [ref=e192]
+                - cell "contained" [ref=e193]
+                - cell "Feb 24, 10:12" [ref=e194]
+                - cell "1" [ref=e195]
+              - 'row "INC-2026-1771930537631-0001 Anomalous Login activity detected Assigned: imiller CRITICAL resolved Feb 24, 09:39 3" [ref=e196] [cursor=pointer]':
+                - cell "INC-2026-1771930537631-0001" [ref=e197]
+                - 'cell "Anomalous Login activity detected Assigned: imiller" [ref=e198]':
+                  - generic [ref=e199]:
+                    - paragraph [ref=e200]: Anomalous Login activity detected
+                    - paragraph [ref=e201]: "Assigned: imiller"
+                - cell "CRITICAL" [ref=e202]
+                - cell "resolved" [ref=e203]
+                - cell "Feb 24, 09:39" [ref=e204]
+                - cell "3" [ref=e205]
+              - 'row "INC-2026-1771930467262-0002 Suspicious Login activity detected Assigned: twright HIGH triaging Feb 24, 09:10 2" [ref=e206] [cursor=pointer]':
+                - cell "INC-2026-1771930467262-0002" [ref=e207]
+                - 'cell "Suspicious Login activity detected Assigned: twright" [ref=e208]':
+                  - generic [ref=e209]:
+                    - paragraph [ref=e210]: Suspicious Login activity detected
+                    - paragraph [ref=e211]: "Assigned: twright"
+                - cell "HIGH" [ref=e212]
+                - cell "triaging" [ref=e213]
+                - cell "Feb 24, 09:10" [ref=e214]
+                - cell "2" [ref=e215]
+              - 'row "INC-2026-1771930380116-0002 Suspicious Login activity detected Assigned: twright HIGH triaging Feb 24, 09:09 2" [ref=e216] [cursor=pointer]':
+                - cell "INC-2026-1771930380116-0002" [ref=e217]
+                - 'cell "Suspicious Login activity detected Assigned: twright" [ref=e218]':
+                  - generic [ref=e219]:
+                    - paragraph [ref=e220]: Suspicious Login activity detected
+                    - paragraph [ref=e221]: "Assigned: twright"
+                - cell "HIGH" [ref=e222]
+                - cell "triaging" [ref=e223]
+                - cell "Feb 24, 09:09" [ref=e224]
+                - cell "2" [ref=e225]
+              - 'row "INC-2026-1771930670156-0031 Suspicious Network activity detected Assigned: cjohnson LOW triaging Feb 24, 09:07 3" [ref=e226] [cursor=pointer]':
+                - cell "INC-2026-1771930670156-0031" [ref=e227]
+                - 'cell "Suspicious Network activity detected Assigned: cjohnson" [ref=e228]':
+                  - generic [ref=e229]:
+                    - paragraph [ref=e230]: Suspicious Network activity detected
+                    - paragraph [ref=e231]: "Assigned: cjohnson"
+                - cell "LOW" [ref=e232]
+                - cell "triaging" [ref=e233]
+                - cell "Feb 24, 09:07" [ref=e234]
+                - cell "3" [ref=e235]
+              - 'row "INC-2026-1771930668982-0045 Suspicious Login activity detected Assigned: phall HIGH triaging Feb 24, 08:16 2" [ref=e236] [cursor=pointer]':
+                - cell "INC-2026-1771930668982-0045" [ref=e237]
+                - 'cell "Suspicious Login activity detected Assigned: phall" [ref=e238]':
+                  - generic [ref=e239]:
+                    - paragraph [ref=e240]: Suspicious Login activity detected
+                    - paragraph [ref=e241]: "Assigned: phall"
+                - cell "HIGH" [ref=e242]
+                - cell "triaging" [ref=e243]
+                - cell "Feb 24, 08:16" [ref=e244]
+                - cell "2" [ref=e245]
+              - row "INC-2026-1771931940406-0047 Suspicious Login activity detected CRITICAL new Feb 24, 07:48 3" [ref=e246] [cursor=pointer]:
+                - cell "INC-2026-1771931940406-0047" [ref=e247]
+                - cell "Suspicious Login activity detected" [ref=e248]:
+                  - paragraph [ref=e250]: Suspicious Login activity detected
+                - cell "CRITICAL" [ref=e251]
+                - cell "new" [ref=e252]
+                - cell "Feb 24, 07:48" [ref=e253]
+                - cell "3" [ref=e254]
+              - row "INC-2026-1771933281422-0036 Suspicious Login activity detected CRITICAL new Feb 24, 07:43 3" [ref=e255] [cursor=pointer]:
+                - cell "INC-2026-1771933281422-0036" [ref=e256]
+                - cell "Suspicious Login activity detected" [ref=e257]:
+                  - paragraph [ref=e259]: Suspicious Login activity detected
+                - cell "CRITICAL" [ref=e260]
+                - cell "new" [ref=e261]
+                - cell "Feb 24, 07:43" [ref=e262]
+                - cell "3" [ref=e263]
+              - 'row "INC-2026-1771927333490-0039 Suspicious File activity detected Assigned: cjohnson MEDIUM resolved Feb 24, 07:31 1" [ref=e264] [cursor=pointer]':
+                - cell "INC-2026-1771927333490-0039" [ref=e265]
+                - 'cell "Suspicious File activity detected Assigned: cjohnson" [ref=e266]':
+                  - generic [ref=e267]:
+                    - paragraph [ref=e268]: Suspicious File activity detected
+                    - paragraph [ref=e269]: "Assigned: cjohnson"
+                - cell "MEDIUM" [ref=e270]
+                - cell "resolved" [ref=e271]
+                - cell "Feb 24, 07:31" [ref=e272]
+                - cell "1" [ref=e273]
+              - row "INC-2026-1771931940406-0031 Suspicious Login activity detected CRITICAL new Feb 24, 07:21 3" [ref=e274] [cursor=pointer]:
+                - cell "INC-2026-1771931940406-0031" [ref=e275]
+                - cell "Suspicious Login activity detected" [ref=e276]:
+                  - paragraph [ref=e278]: Suspicious Login activity detected
+                - cell "CRITICAL" [ref=e279]
+                - cell "new" [ref=e280]
+                - cell "Feb 24, 07:21" [ref=e281]
+                - cell "3" [ref=e282]
+              - 'row "INC-2026-1771930670156-0022 Malicious PowerShell activity detected Assigned: lclark CRITICAL resolved Feb 24, 07:17 1" [ref=e283] [cursor=pointer]':
+                - cell "INC-2026-1771930670156-0022" [ref=e284]
+                - 'cell "Malicious PowerShell activity detected Assigned: lclark" [ref=e285]':
+                  - generic [ref=e286]:
+                    - paragraph [ref=e287]: Malicious PowerShell activity detected
+                    - paragraph [ref=e288]: "Assigned: lclark"
+                - cell "CRITICAL" [ref=e289]
+                - cell "resolved" [ref=e290]
+                - cell "Feb 24, 07:17" [ref=e291]
+                - cell "1" [ref=e292]
+              - row "INC-2026-1771930468243-0041 Suspicious Login activity detected CRITICAL new Feb 24, 06:56 3" [ref=e293] [cursor=pointer]:
+                - cell "INC-2026-1771930468243-0041" [ref=e294]
+                - cell "Suspicious Login activity detected" [ref=e295]:
+                  - paragraph [ref=e297]: Suspicious Login activity detected
+                - cell "CRITICAL" [ref=e298]
+                - cell "new" [ref=e299]
+                - cell "Feb 24, 06:56" [ref=e300]
+                - cell "3" [ref=e301]
+              - row "INC-2026-1771930381138-0041 Suspicious Login activity detected CRITICAL new Feb 24, 06:55 3" [ref=e302] [cursor=pointer]:
+                - cell "INC-2026-1771930381138-0041" [ref=e303]
+                - cell "Suspicious Login activity detected" [ref=e304]:
+                  - paragraph [ref=e306]: Suspicious Login activity detected
+                - cell "CRITICAL" [ref=e307]
+                - cell "new" [ref=e308]
+                - cell "Feb 24, 06:55" [ref=e309]
+                - cell "3" [ref=e310]
+              - row "INC-2026-1771929006580-0041 Suspicious Login activity detected CRITICAL new Feb 24, 06:32 3" [ref=e311] [cursor=pointer]:
+                - cell "INC-2026-1771929006580-0041" [ref=e312]
+                - cell "Suspicious Login activity detected" [ref=e313]:
+                  - paragraph [ref=e315]: Suspicious Login activity detected
+                - cell "CRITICAL" [ref=e316]
+                - cell "new" [ref=e317]
+                - cell "Feb 24, 06:32" [ref=e318]
+                - cell "3" [ref=e319]
+              - 'row "INC-2026-1771933279925-0022 Anomalous Network activity detected Assigned: jmartinez LOW closed Feb 24, 05:59 1" [ref=e320] [cursor=pointer]':
+                - cell "INC-2026-1771933279925-0022" [ref=e321]
+                - 'cell "Anomalous Network activity detected Assigned: jmartinez" [ref=e322]':
+                  - generic [ref=e323]:
+                    - paragraph [ref=e324]: Anomalous Network activity detected
+                    - paragraph [ref=e325]: "Assigned: jmartinez"
+                - cell "LOW" [ref=e326]
+                - cell "closed" [ref=e327]
+                - cell "Feb 24, 05:59" [ref=e328]
+                - cell "1" [ref=e329]
+              - row "INC-2026-1771933281422-0017 Suspicious Network activity detected HIGH new Feb 24, 05:56 2" [ref=e330] [cursor=pointer]:
+                - cell "INC-2026-1771933281422-0017" [ref=e331]
+                - cell "Suspicious Network activity detected" [ref=e332]:
+                  - paragraph [ref=e334]: Suspicious Network activity detected
+                - cell "HIGH" [ref=e335]
+                - cell "new" [ref=e336]
+                - cell "Feb 24, 05:56" [ref=e337]
+                - cell "2" [ref=e338]
+              - 'row "INC-2026-1771933279925-0033 Anomalous Login activity detected Assigned: hgarcia MEDIUM closed Feb 24, 05:48 3" [ref=e339] [cursor=pointer]':
+                - cell "INC-2026-1771933279925-0033" [ref=e340]
+                - 'cell "Anomalous Login activity detected Assigned: hgarcia" [ref=e341]':
+                  - generic [ref=e342]:
+                    - paragraph [ref=e343]: Anomalous Login activity detected
+                    - paragraph [ref=e344]: "Assigned: hgarcia"
+                - cell "MEDIUM" [ref=e345]
+                - cell "closed" [ref=e346]
+                - cell "Feb 24, 05:48" [ref=e347]
+                - cell "3" [ref=e348]
+          - generic [ref=e349]:
+            - generic [ref=e350]: Showing 1 to 20 of 3250 incidents
+            - generic [ref=e351]:
+              - button "Previous" [disabled] [ref=e352]
+              - button "Next" [ref=e353] [cursor=pointer]
+    - contentinfo "Narration panel" [ref=e354]:
+      - generic [ref=e355]:
+        - generic [ref=e356]:
+          - generic [ref=e357]: ">_narration"
+          - generic [ref=e358]: 0 messages
+        - generic [ref=e359]:
+          - button "Disable narration" [ref=e360] [cursor=pointer]: "ON"
+          - button "Expand narration" [ref=e361] [cursor=pointer]:
+            - img [ref=e362]
+  - button "Open aIP Assist" [ref=e365] [cursor=pointer]:
+    - img [ref=e366]
+```

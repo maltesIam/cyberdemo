@@ -1,0 +1,37 @@
+{
+  "lessons": [
+    {
+      "id": "LL-001",
+      "phase": "design",
+      "timestamp": "2026-02-24T01:01:35.496915",
+      "category": "content",
+      "issue": "1 high-severity gaps found",
+      "root_cause": "Required sections not properly completed",
+      "improvement": "Add validation checklist before marking phase complete",
+      "severity": "HIGH",
+      "applies_to": [
+        "design"
+      ],
+      "applied": false,
+      "applied_at": null
+    },
+    {
+      "id": "LL-002",
+      "phase": "design",
+      "timestamp": "2026-02-24T01:01:35.496915",
+      "category": "validation",
+      "issue": "3 placeholder values detected",
+      "root_cause": "Content generated without replacing template placeholders",
+      "improvement": "Run placeholder detection before completing phase",
+      "severity": "HIGH",
+      "applies_to": [
+        "design"
+      ],
+      "applied": false,
+      "applied_at": null
+    }
+  ],
+  "totalLessons": 2,
+  "lastUpdated": "2026-02-24T17:14:58.607258",
+  "buildId": "unknown"
+}

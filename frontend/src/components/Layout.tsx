@@ -1,11 +1,47 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
+import { DemoControlBar } from "./demo/DemoControlBar";
+import { DemoFloatingWidget } from "./demo/DemoFloatingWidget";
+import { NarrationFooter } from "./demo/NarrationFooter";
+import { useDemoContext } from "../context/DemoContext";
+import { useDemoOrchestrator } from "../hooks/useDemoOrchestrator";
+import type { DemoOutletContext } from "../hooks/useDemoOrchestrator";
 
 export function Layout() {
+  const { state, actions } = useDemoContext();
+
+  // Orchestrator: wires DemoContext to backend MCP tools, narration WS, and auto-advance timer
+  const { narrationMessages, suggestions, stats, agentConnected, onAcceptSuggestion, onRejectSuggestion, onExplainWhy } = useDemoOrchestrator();
+
+  // DemoControlBar collapse state
+  const [isControlBarCollapsed, setIsControlBarCollapsed] = useState(false);
+
+  // DemoFloatingWidget local state
+  const [isWidgetExpanded, setIsWidgetExpanded] = useState(false);
+  const [isWidgetEnabled, setIsWidgetEnabled] = useState(true);
+
+  // NarrationFooter local state
+  const [isNarrationExpanded, setIsNarrationExpanded] = useState(false);
+  const [isNarrationEnabled, setIsNarrationEnabled] = useState(true);
+
+  // Pass orchestrator data to child routes via Outlet context
+  const outletContext: DemoOutletContext = {
+    narrationMessages,
+    suggestions,
+    stats,
+    simulationError: null,
+    agentConnected,
+    onAcceptSuggestion,
+    onRejectSuggestion,
+    onExplainWhy,
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-900">
       <Sidebar />
       <div className="flex-1 flex flex-col">
+        {/* Original header */}
         <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-white">CyberDemo - SOC Dashboard</h2>
@@ -43,10 +79,48 @@ export function Layout() {
             </div>
           </div>
         </header>
+
+        {/* Demo Control Bar - visible on all pages */}
+        <DemoControlBar
+          state={state}
+          onPlay={actions.play}
+          onPause={actions.pause}
+          onStop={actions.stop}
+          onSpeedChange={actions.setSpeed}
+          onScenarioSelect={actions.selectScenario}
+          isCollapsed={isControlBarCollapsed}
+          onToggleCollapse={() => setIsControlBarCollapsed(!isControlBarCollapsed)}
+        />
+
+        {/* Main content area */}
         <main className="flex-1 p-6 overflow-auto">
-          <Outlet />
+          <Outlet context={outletContext} />
         </main>
+
+        {/* Narration Footer - visible on all pages */}
+        <NarrationFooter
+          messages={narrationMessages}
+          isExpanded={isNarrationExpanded}
+          isEnabled={isNarrationEnabled}
+          onToggleExpand={() => setIsNarrationExpanded(!isNarrationExpanded)}
+          onToggleEnabled={() => setIsNarrationEnabled(!isNarrationEnabled)}
+        />
       </div>
+
+      {/* Floating aIP Assist Widget - bottom-right on all pages */}
+      <DemoFloatingWidget
+        suggestions={suggestions}
+        stats={stats}
+        isExpanded={isWidgetExpanded}
+        isEnabled={isWidgetEnabled}
+        isThinking={state.playState === "playing"}
+        unreadCount={suggestions.filter((s) => s.status === "pending").length}
+        onAccept={onAcceptSuggestion}
+        onReject={onRejectSuggestion}
+        onExplainWhy={onExplainWhy}
+        onToggleExpand={() => setIsWidgetExpanded(!isWidgetExpanded)}
+        onToggleEnabled={() => setIsWidgetEnabled(!isWidgetEnabled)}
+      />
     </div>
   );
 }

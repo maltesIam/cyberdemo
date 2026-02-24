@@ -438,8 +438,14 @@ async function setupVulnerabilityMocks(page: Page) {
     });
   });
 
-  // Mock CVE detail endpoint
-  await page.route("**/vulnerabilities/cves/CVE-*", async (route: Route) => {
+  // Mock CVE detail endpoint (use regex to match sub-paths like /assets, /exploits)
+  await page.route(/\/vulnerabilities\/cves\/CVE-/, async (route: Route) => {
+    // Don't intercept page navigation (SPA HTML requests)
+    if (route.request().resourceType() === "document") {
+      await route.continue();
+      return;
+    }
+
     const url = route.request().url();
     const match = url.match(/CVE-\d+-\d+/);
     const cveId = match ? match[0] : "CVE-2024-1000";
@@ -513,7 +519,7 @@ test.describe("Vulnerability Dashboard - Navigation", () => {
     await waitForPageReady(page);
 
     // Verify KPI cards are visible
-    await expect(page.getByText(/Total CVEs/i)).toBeVisible();
+    await expect(page.getByText(/Total CVEs/i).first()).toBeVisible();
     await expect(page.getByText(/Critical/i).first()).toBeVisible();
     await expect(page.getByText(/KEV/i).first()).toBeVisible();
     await expect(page.getByText(/Exploitable/i)).toBeVisible();
@@ -647,7 +653,7 @@ test.describe("Vulnerability Dashboard - Filter Sidebar", () => {
     await expect(page.getByRole("checkbox", { name: "Act" })).toBeVisible();
     await expect(page.getByRole("checkbox", { name: "Attend" })).toBeVisible();
     await expect(page.getByRole("checkbox", { name: "Track*" })).toBeVisible();
-    await expect(page.getByRole("checkbox", { name: "Track" })).toBeVisible();
+    await expect(page.getByRole("checkbox", { name: "Track", exact: true })).toBeVisible();
   });
 
   test("should toggle SSVC decision filter", async ({ page }) => {
@@ -761,7 +767,7 @@ test.describe("CVE Detail Page", () => {
     await waitForPageReady(page);
 
     // Verify page title
-    await expect(page.getByText("CVE-2024-1000")).toBeVisible();
+    await expect(page.getByText("CVE-2024-1000").first()).toBeVisible();
   });
 
   test("should display breadcrumb navigation", async ({ page }) => {
@@ -769,7 +775,7 @@ test.describe("CVE Detail Page", () => {
     await waitForPageReady(page);
 
     // Verify breadcrumbs
-    await expect(page.getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
+    await expect(page.getByLabel("Breadcrumb").getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
   });
 
   test("should display severity badge", async ({ page }) => {
@@ -824,8 +830,8 @@ test.describe("CVE Detail Page", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/cves/CVE-2024-1000`);
     await waitForPageReady(page);
 
-    const viewAssetsLink = page.getByRole("link", { name: /View Assets/i });
-    await expect(viewAssetsLink).toBeVisible();
+    const viewAssetsLink = page.locator('a[aria-label="View Affected Assets"]');
+    await expect(viewAssetsLink).toBeVisible({ timeout: 15000 });
   });
 
   test("should have View Exploits button", async ({ page }) => {
@@ -840,7 +846,8 @@ test.describe("CVE Detail Page", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/cves/CVE-2024-1000`);
     await waitForPageReady(page);
 
-    const viewAssetsLink = page.getByRole("link", { name: /View Assets/i });
+    const viewAssetsLink = page.locator('a[aria-label="View Affected Assets"]');
+    await expect(viewAssetsLink).toBeVisible({ timeout: 15000 });
     await viewAssetsLink.click();
 
     await expect(page).toHaveURL(/\/vulnerabilities\/cves\/CVE-2024-1000\/assets/);
@@ -878,16 +885,16 @@ test.describe("CVE Assets Page", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/cves/CVE-2024-1000/assets`);
     await waitForPageReady(page);
 
-    await expect(page.getByText(/Affected Assets/i)).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Affected Assets/i })).toBeVisible();
   });
 
   test("should display breadcrumb navigation", async ({ page }) => {
     await page.goto(`${BASE_URL}/vulnerabilities/cves/CVE-2024-1000/assets`);
     await waitForPageReady(page);
 
-    // Verify breadcrumbs
-    await expect(page.getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /CVE-2024-1000/i })).toBeVisible();
+    // Verify breadcrumbs (scope to Breadcrumb nav to avoid sidebar/exploits matches)
+    await expect(page.getByLabel("Breadcrumb").getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
+    await expect(page.getByLabel("Breadcrumb").getByRole("link", { name: /CVE-2024-1000/i })).toBeVisible();
   });
 
   test("should display assets count", async ({ page }) => {
@@ -938,9 +945,9 @@ test.describe("CVE Exploits Page", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/cves/CVE-2024-1000/exploits`);
     await waitForPageReady(page);
 
-    // Verify breadcrumbs
-    await expect(page.getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /CVE-2024-1000/i })).toBeVisible();
+    // Verify breadcrumbs (scope to Breadcrumb nav to avoid sidebar/exploits matches)
+    await expect(page.getByLabel("Breadcrumb").getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
+    await expect(page.getByLabel("Breadcrumb").getByRole("link", { name: /CVE-2024-1000/i })).toBeVisible();
   });
 
   test("should display exploit count", async ({ page }) => {
@@ -993,14 +1000,14 @@ test.describe("SSVC Dashboard", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/ssvc`);
     await waitForPageReady(page);
 
-    await expect(page.getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
+    await expect(page.getByLabel("Breadcrumb").getByRole("link", { name: /Vulnerabilities/i })).toBeVisible();
   });
 
   test("should display total CVEs count", async ({ page }) => {
     await page.goto(`${BASE_URL}/vulnerabilities/ssvc`);
     await waitForPageReady(page);
 
-    await expect(page.getByText(/Total CVEs/i)).toBeVisible();
+    await expect(page.getByText(/Total CVEs/i).first()).toBeVisible();
   });
 
   test("should display SSVC decision cards", async ({ page }) => {
@@ -1026,7 +1033,7 @@ test.describe("SSVC Dashboard", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/ssvc`);
     await waitForPageReady(page);
 
-    await expect(page.getByText(/Exploitation Status/i)).toBeVisible();
+    await expect(page.getByText(/Exploitation Status/i).first()).toBeVisible();
     await expect(page.locator('[data-testid="tree-node-exploitation-active"]')).toBeVisible();
     await expect(page.locator('[data-testid="tree-node-exploitation-poc"]')).toBeVisible();
     await expect(page.locator('[data-testid="tree-node-exploitation-none"]')).toBeVisible();
@@ -1036,7 +1043,7 @@ test.describe("SSVC Dashboard", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/ssvc`);
     await waitForPageReady(page);
 
-    await expect(page.getByText(/Automatable/i)).toBeVisible();
+    await expect(page.getByText(/Automatable/i).first()).toBeVisible();
     await expect(page.locator('[data-testid="tree-node-automatable-yes"]')).toBeVisible();
     await expect(page.locator('[data-testid="tree-node-automatable-no"]')).toBeVisible();
   });
@@ -1079,7 +1086,7 @@ test.describe("SSVC Dashboard", () => {
     await waitForPageReady(page);
 
     await expect(page.getByText(/About SSVC/i)).toBeVisible();
-    await expect(page.getByText(/Stakeholder-Specific Vulnerability Categorization/i)).toBeVisible();
+    await expect(page.getByText(/Stakeholder-Specific Vulnerability Categorization/i).first()).toBeVisible();
   });
 });
 
@@ -1102,12 +1109,16 @@ test.describe("Vulnerability Dashboard - Error Handling", () => {
     await waitForPageReady(page);
 
     // Page should still render without crashing
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("main").first()).toBeVisible();
   });
 
   test("should show error state on CVE detail page when CVE not found", async ({ page }) => {
-    // Mock API to return 404
+    // Mock API to return 404 (skip document requests for SPA navigation)
     await page.route("**/vulnerabilities/cves/CVE-9999-9999", async (route: Route) => {
+      if (route.request().resourceType() === "document") {
+        await route.continue();
+        return;
+      }
       await route.fulfill({
         status: 404,
         contentType: "application/json",
@@ -1124,6 +1135,10 @@ test.describe("Vulnerability Dashboard - Error Handling", () => {
 
   test("should show Back to Vulnerabilities button on error", async ({ page }) => {
     await page.route("**/vulnerabilities/cves/CVE-9999-9999", async (route: Route) => {
+      if (route.request().resourceType() === "document") {
+        await route.continue();
+        return;
+      }
       await route.fulfill({
         status: 404,
         contentType: "application/json",
@@ -1160,7 +1175,7 @@ test.describe("Vulnerability Dashboard - Page Load", () => {
     await waitForPageReady(page);
 
     // Verify main content is visible
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("main").first()).toBeVisible();
 
     // Verify no critical React errors
     const criticalErrors = errors.filter(
@@ -1180,7 +1195,7 @@ test.describe("Vulnerability Dashboard - Page Load", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/cves/CVE-2024-1000`);
     await waitForPageReady(page);
 
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("main").first()).toBeVisible();
 
     const criticalErrors = errors.filter(
       (e) => e.includes("React") || e.includes("TypeError") || e.includes("ReferenceError")
@@ -1199,7 +1214,7 @@ test.describe("Vulnerability Dashboard - Page Load", () => {
     await page.goto(`${BASE_URL}/vulnerabilities/ssvc`);
     await waitForPageReady(page);
 
-    await expect(page.locator("main")).toBeVisible();
+    await expect(page.locator("main").first()).toBeVisible();
 
     const criticalErrors = errors.filter(
       (e) => e.includes("React") || e.includes("TypeError") || e.includes("ReferenceError")

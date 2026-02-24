@@ -1,447 +1,486 @@
-# Functional Specification: CyberDemo Agent Integration Enhancement
-Version: 1.0.0 | Date: 2026-02-22 | Build ID: sbx-20260222-012823
+# Functional Specification: CyberDemo Agent-to-UI Enhancement
+
+| Attribute | Value |
+|-----------|-------|
+| Version | 2.0.0 |
+| Date | 2026-02-24 |
+| Build ID | sbx-20260224-152226 |
+| Template Version | SBX v20.0.0 |
+| Status | Final |
+| Input Document | docs/FRONTEND_ADVANCED_DESCRIPTION.md |
 
 ---
 
-## PART 1: FUNCTIONAL DESCRIPTION
+# PART 1: FUNCTIONAL DESCRIPTION
 
-### 1.1 Executive Summary
+## 1.1 Executive Summary
 
-CyberDemo es una plataforma de simulación de Security Operations Center (SOC) que permite demostrar las capacidades de un agente IA (SoulInTheBot/Claude) en la investigación y respuesta a incidentes de seguridad. La plataforma expone sus funcionalidades a través del protocolo MCP (Model Context Protocol), permitiendo interacción bidireccional entre el producto y el agente.
+CyberDemo is a Security Operations Center (SOC) simulation platform that demonstrates AI agent capabilities in security incident investigation and response. The platform currently supports 40 backend MCP tools and a frontend with 8 MCP tools, enabling the AI agent Vega to analyze alerts and provide text-based narration.
 
-Actualmente, la comunicación está bien desarrollada en la dirección Agente→Producto (46+ tools disponibles), pero la dirección inversa (Producto→Agente) está limitada a eventos pasivos por WebSocket. Este proyecto implementa las mejoras necesarias para permitir que el producto invoque activamente al agente, añada escenarios de demo más ricos, e implemente funcionalidades de asistencia proactiva (Copilot Mode).
+This enhancement transforms CyberDemo from a passive demo into an interactive experience through two major additions:
 
-El objetivo es transformar CyberDemo de una plataforma de demostración pasiva a una experiencia interactiva donde el agente IA actúa como un verdadero copiloto de seguridad, capaz de analizar alertas bajo demanda, narrar sus decisiones en tiempo real, y guiar a los analistas humanos durante las investigaciones.
+1. **Agent-to-UI Bidirectional Control**: Vega gains the ability to control the UI directly, navigating pages, highlighting assets, generating charts, and showing timelines in real-time as it investigates.
+2. **Dynamic Scenario Data Engine**: Static mock data is replaced with phase-aware scenario data that evolves as each attack simulation progresses, making every SOC tool return contextually relevant information.
 
-### 1.2 System Overview
+**In Scope:**
+- WebSocket integration between React app and Frontend MCP WS Server
+- Backend UIBridge for forwarding agent UI commands
+- Phase-aware UI actions triggered after agent analysis
+- Enhanced visual effects for 8 frontend MCP tools
+- ScenarioStateManager singleton for cumulative phase data
+- Complete APT29 scenario script with 8 phases
+- 5 additional scenario scripts (FIN7, Lazarus, REvil, SolarWinds, Insider)
+- Integration of all 25 SOC tool handlers with the ScenarioStateManager
+- 6 agent orchestration tool enhancements for scenario awareness
+- Phase synchronization between simulation state and data engine
 
-CyberDemo Agent Integration Enhancement extiende la plataforma existente con:
+**Out of Scope:**
+- Changes to the OpenClaw/Vega agent itself (only integration layer changes)
+- New backend MCP tools beyond the existing 40
+- Production deployment infrastructure
+- Multi-tenant or multi-user session management
+- Real external API integrations (all data remains mock/simulated)
+- Mobile or responsive design changes
 
-1. **Sistema de Invocación Activa**: Permite que el producto solicite análisis al agente mediante webhooks y colas asíncronas
-2. **Escenarios de Ataque Enriquecidos**: 6 nuevos escenarios basados en grupos APT reales (MITRE ATT&CK)
-3. **Narración en Tiempo Real**: El agente explica su razonamiento mientras investiga
-4. **Modo Copilot**: Sugerencias proactivas basadas en las acciones del usuario
-5. **Panel de Control de Demo**: Controles interactivos para presentaciones (play, pause, velocidad)
-6. **Playbooks Automatizados**: Respuestas orquestadas con intervención del agente
+## 1.2 System Overview
 
-### 1.3 User Roles
+### 1.2.1 Purpose
 
-| Role | Description | Key Actions |
-|------|-------------|-------------|
-| **SOC Analyst** | Analista de seguridad usando la plataforma | Investigar alertas, solicitar análisis al agente, aprobar acciones |
-| **Demo Presenter** | Persona mostrando capacidades en demos | Controlar velocidad, pausar, seleccionar escenarios |
-| **Security Manager** | Supervisor que revisa decisiones | Ver narrativas, aprobar contenciones críticas |
-| **AI Agent (SoulInTheBot)** | Agente IA que investiga y recomienda | Analizar alertas, correlacionar eventos, sugerir acciones |
+Enable the AI agent Vega to visually demonstrate its investigation findings by controlling the UI in real-time, while providing rich phase-aware data from attack simulation scenarios that makes every SOC tool contextually relevant.
 
-### 1.4 Functional Areas
+### 1.2.2 Scope
 
-#### 1.4.1 Invocación Activa del Agente (Producto → Agente)
+The system extends the existing CyberDemo platform architecture with:
+1. A React hook for WebSocket state synchronization with the Frontend MCP WS Server
+2. A Python UIBridge module for backend-to-WS-Server communication
+3. A ScenarioStateManager for cumulative phase-aware mock data
+4. 6 scenario scripts based on real APT groups (MITRE ATT&CK mapped)
+5. Integration of 31 tool handlers (25 SOC + 6 agent orchestration) with the data engine
 
-Permite que el producto solicite activamente análisis o acciones al agente IA, invirtiendo la dirección de comunicación típica.
+### 1.2.3 Context Diagram
 
-##### User Stories
-- As a SOC Analyst, I want to click "Analyze" on an alert so that the agent investigates it automatically
-- As a SOC Analyst, I want to receive proactive recommendations so that I don't miss critical correlations
-- As a Security Manager, I want the system to auto-escalate critical alerts so that response time improves
+The system operates within the existing CyberDemo architecture. The React frontend communicates with the Backend MCP Server (40 tools). The new UIBridge in the backend forwards UI control commands to the Frontend MCP WS Server (port 3001), which broadcasts state updates to connected React clients via WebSocket. The ScenarioStateManager sits in the backend, providing phase-aware data to all tool handlers.
 
-##### Business Rules
-- BR-001: Las alertas críticas (severity >= critical) disparan análisis automático del agente
-- BR-002: Las solicitudes de análisis tienen timeout de 30 segundos
-- BR-003: El agente puede rechazar análisis si está sobrecargado (rate limiting)
-- BR-004: Todas las invocaciones se registran en audit log
+## 1.3 User Roles and Personas
 
-#### 1.4.2 Escenarios de Ataque (Attack Simulation)
+| User Role | Description | Key Actions |
+|-----------|-------------|-------------|
+| Demo Audience | Watches the UI change in real-time as Vega investigates | Observes navigation, highlights, charts, and timelines |
+| Demo Presenter | Starts simulation, controls pace, can intervene | Select scenario, pause/resume, toggle auto-UI-actions |
+| Vega (AI Agent) | Analyzes phases and controls the UI to show findings | Analyze alerts, navigate pages, highlight assets, generate charts |
 
-Sistema de simulación de ataques basado en grupos APT reales para demos interactivas.
+## 1.4 Functional Areas
 
-##### User Stories
-- As a Demo Presenter, I want to select different attack scenarios so that I can tailor demos to the audience
-- As a Demo Presenter, I want to control simulation speed so that I can explain each step
-- As a SOC Analyst, I want to see MITRE ATT&CK mapping so that I understand the attack chain
+### 1.4.1 Agent-to-UI Bidirectional Control (EPIC-001)
 
-##### Business Rules
-- BR-005: Cada escenario sigue las tácticas MITRE ATT&CK en orden
-- BR-006: Los escenarios generan eventos sintéticos realistas
-- BR-007: La simulación puede pausarse en cualquier etapa
-- BR-008: Los escenarios son reproducibles con el mismo seed
+Enables the AI agent Vega to control the React UI in real-time by connecting the backend to the Frontend MCP WS Server and having the React app respond to state updates.
 
-#### 1.4.3 Narración en Tiempo Real
+**User Stories:**
+- US-001: As the React app, I need to connect to the MCP WS Server so I can receive UI commands from the agent
+- US-002: As the backend, I need to forward UI control commands to the MCP WS Server so the UI responds to agent actions
+- US-003: As Vega, when I analyze a phase of the attack, I should not only explain but also SHOW it on screen
+- US-004: As a Demo Presenter, I want the 8 frontend MCP tools to produce richer, more visible effects
+- US-005: As a developer, I want the MCP WS Server to start automatically with the dev environment
 
-El agente explica su razonamiento y hallazgos mientras investiga.
+**Business Rules:**
+- BR-001: The WS connection must not block the main thread
+- BR-002: State updates must be applied within 100ms of receipt
+- BR-003: If the WS Server is unavailable, the app must work normally (graceful degradation)
+- BR-004: Navigation triggered by agent must be visually distinct (brief toast notification)
+- BR-005: UI actions from the agent must be rate-limited (max 2 per second)
+- BR-006: Failed UI actions must not affect backend operation
+- BR-007: UI actions must not fire if the WS Server is disconnected
+- BR-008: UI actions must not interrupt user interaction (queue if user is clicking)
 
-##### User Stories
-- As a Demo Presenter, I want the agent to narrate its thinking so that the audience understands AI reasoning
-- As a SOC Analyst, I want to see step-by-step investigation so that I can learn and verify
-- As a Security Manager, I want explanations of decisions so that I can audit AI actions
+### 1.4.2 Dynamic Scenario Data Engine (EPIC-002)
 
-##### Business Rules
-- BR-009: La narración se muestra en panel lateral dedicado
-- BR-010: Cada paso de investigación genera un mensaje de narración
-- BR-011: La narración incluye nivel de confianza (high/medium/low)
-- BR-012: Se puede activar/desactivar narración en cualquier momento
+Replaces static mock data in the 25 SOC tools with a ScenarioStateManager that produces contextually appropriate data based on which scenario is running, which phase the simulation is in, and what actions the agent has taken.
 
-#### 1.4.4 Modo Copilot
+**User Stories:**
+- US-006: As the backend, I need a central state manager for cumulative simulation state
+- US-007: As a Demo Presenter, I need the APT29 scenario with complete event scripts for all 8 phases
+- US-008: As a Demo Presenter, I need 5 additional attack scenarios with domain-appropriate events
+- US-009: As a tool handler, I need to query the ScenarioStateManager instead of returning static data
+- US-010: As an agent orchestration tool, I need to use scenario data for contextual analysis
+- US-011: As the simulation controller, I need phase advances to sync with the data engine
 
-Asistencia proactiva del agente basada en las acciones del usuario.
+**Business Rules:**
+- BR-009: Data is always cumulative (earlier phase events never disappear)
+- BR-010: Agent mutations are immediate and visible to subsequent tool calls
+- BR-011: Only one scenario can be active at a time
+- BR-012: If no scenario is running, tools return current static mock data (backward compatibility)
+- BR-013: Tools must not reveal future-phase data
+- BR-014: Contained hosts show status "contained" in all relevant tool responses
+- BR-015: Closed incidents show status "closed" in all tool responses
+- BR-016: The ScenarioStateManager must be thread-safe (asyncio Lock)
+- BR-017: Each scenario follows MITRE ATT&CK tactics in order
 
-##### User Stories
-- As a SOC Analyst, I want contextual suggestions so that I investigate more efficiently
-- As a SOC Analyst, I want the agent to auto-complete actions so that repetitive tasks are faster
-- As a SOC Analyst, I want explanations for suggestions so that I understand why they're relevant
+## 1.5 Non-Functional Requirements Summary
 
-##### Business Rules
-- BR-013: El Copilot observa acciones del usuario en tiempo real
-- BR-014: Las sugerencias aparecen en máximo 2 segundos
-- BR-015: El usuario puede ignorar o aceptar sugerencias
-- BR-016: El Copilot aprende de aceptaciones/rechazos en la sesión
+| Category | Requirement |
+|----------|-------------|
+| Performance | UI state updates must render within 100ms of WebSocket receipt |
+| Availability | WS connection must auto-reconnect with exponential backoff |
+| Availability | All UI actions must degrade gracefully if WS Server is down |
+| Security | No memory leaks from WS connections (proper cleanup on unmount) |
+| Scalability | Maximum 50 concurrent React clients supported |
+| Performance | ScenarioStateManager must respond in less than 10ms for any query |
+| Scalability | Memory usage for all scenario data must be less than 50MB |
+| Usability | Adding a new scenario requires only creating a new script file |
+| Availability | All existing E2E and unit tests must continue passing (backward compatible) |
 
-#### 1.4.5 Playbooks Automatizados
+## 1.6 Assumptions and Dependencies
 
-Respuestas orquestadas a incidentes con intervención del agente.
+**Assumptions:**
+- The existing Frontend MCP WS Server (port 3001) is operational and supports the 8 tools
+- The backend MCP Server has all 40 tools functional
+- The Vega/OpenClaw agent gateway is optionally available for enrichment
+- All 168 existing E2E tests pass as baseline
 
-##### User Stories
-- As a SOC Analyst, I want to execute predefined playbooks so that response is consistent
-- As a Security Manager, I want playbooks to pause for approval so that I control critical actions
-- As a SOC Analyst, I want to rollback playbook actions so that mistakes can be undone
+**Dependencies:**
+- React 18+ with hooks support
+- Python 3.11+ with asyncio and websockets library
+- Existing MCP tool infrastructure
+- Frontend MCP WS Server running on port 3001
 
-##### Business Rules
-- BR-017: Los playbooks definen secuencia de acciones y puntos de decisión
-- BR-018: Acciones destructivas requieren aprobación humana
-- BR-019: El estado del playbook persiste entre sesiones
-- BR-020: Cada acción del playbook se registra en audit log
+## 1.7 Constraints
 
-#### 1.4.6 Panel de Control de Demo
+- No new external service dependencies (all data remains mock/simulated)
+- WebSocket connection limited to localhost (development environment)
+- Maximum 8 phases per scenario (MITRE ATT&CK kill chain)
+- No changes to the Vega agent internals (only integration layer)
 
-Controles interactivos para presentaciones en vivo.
+## 1.8 Project Context
 
-##### User Stories
-- As a Demo Presenter, I want play/pause controls so that I can manage presentation pace
-- As a Demo Presenter, I want to adjust simulation speed so that I can show details or overview
-- As a Demo Presenter, I want to see attack stages so that I know where we are in the scenario
+CyberDemo is an existing platform with:
+- React frontend with 168 passing E2E tests
+- Backend MCP Server with 40 tools (Python/FastAPI)
+- Frontend MCP WS Server with 8 tools (TypeScript/Node.js)
+- Vega AI agent integration via GatewayClient
+- Simulation control (start, pause, speed, jump-to-stage)
 
-##### Business Rules
-- BR-021: Velocidad ajustable de 0.5x a 4x
-- BR-022: Pause detiene toda generación de eventos
-- BR-023: Se puede saltar a cualquier etapa del escenario
-- BR-024: El progreso se muestra visualmente con indicadores
-
-### 1.5 Non-Functional Requirements Summary
-
-- **Performance**: Latencia de invocación al agente < 500ms, narración en tiempo real < 100ms
-- **Security**: Todas las comunicaciones autenticadas, audit log inmutable
-- **Scalability**: Soportar 10 sesiones de demo concurrentes
-- **Reliability**: Graceful degradation si el agente no responde
-- **Usability**: Panel de control accesible con atajos de teclado
-
----
-
-## PART 2: TECHNICAL REQUIREMENTS
-
-### 2.1 Requirements Traceability Matrix
-
-| ID | Type | Description | Priority | Traces To |
-|----|------|-------------|----------|-----------|
-| REQ-001 | Functional | Sistema de webhooks para invocación activa del agente | MTH | Section 1.4.1 |
-| REQ-002 | Functional | Cola de análisis asíncrono con job tracking | MTH | Section 1.4.1 |
-| REQ-003 | Functional | MCP de Orquestación de Agente con 6 tools | MTH | Section 1.4.1 |
-| REQ-004 | Functional | 6 escenarios de ataque basados en APT reales | MTH | Section 1.4.2 |
-| REQ-005 | Functional | Control de simulación (start, pause, speed) | MTH | Section 1.4.2 |
-| REQ-006 | Functional | Panel de narración en tiempo real | NTH | Section 1.4.3 |
-| REQ-007 | Functional | Streaming de razonamiento del agente | NTH | Section 1.4.3 |
-| REQ-008 | Functional | Sistema de sugerencias proactivas (Copilot) | NTH | Section 1.4.4 |
-| REQ-009 | Functional | Observación de acciones del usuario | NTH | Section 1.4.4 |
-| REQ-010 | Functional | Motor de ejecución de playbooks | NTH | Section 1.4.5 |
-| REQ-011 | Functional | 6 playbooks predefinidos de respuesta | NTH | Section 1.4.5 |
-| REQ-012 | Functional | Panel de control de demo interactivo | NTH | Section 1.4.6 |
-| REQ-013 | Technical | Persistencia de estado de simulación | MTH | Section 1.4.2 |
-| REQ-014 | Technical | Audit logging de todas las invocaciones | MTH | Section 1.4.1 |
-| REQ-015 | Integration | WebSocket bidireccional con el agente | MTH | Section 1.4.1 |
-
-### 2.2 Epics
-
-#### EPIC-001: Agent Orchestration MCP [MTH]
-
-**Description**: Implementar MCP server que permite al producto invocar activamente al agente para solicitar análisis, recomendaciones y correlaciones.
-
-**Acceptance Criteria**:
-- [ ] El producto puede enviar requests de análisis al agente
-- [ ] El agente responde con análisis estructurado
-- [ ] Las invocaciones se registran en audit log
-- [ ] Rate limiting previene sobrecarga del agente
-
-##### Features
-
-###### FEAT-001-001: Webhook System [MTH]
-**Description**: Sistema de webhooks para eventos críticos que disparan análisis automático
-
-**Requirements**:
-- REQ-001-001-001: API endpoint POST /api/v1/webhooks/configure para registrar webhooks [MTH]
-- REQ-001-001-002: Dispatcher que envía eventos al agente endpoint configurado [MTH]
-- REQ-001-001-003: Retry logic con backoff exponencial (3 intentos) [MTH]
-- REQ-001-001-004: Timeout configurable por webhook (default 30s) [MTH]
-- REQ-001-001-005: Validación de response del agente [MTH]
-
-###### FEAT-001-002: Async Analysis Queue [MTH]
-**Description**: Cola de análisis asíncrono con job tracking
-
-**Requirements**:
-- REQ-001-002-001: API POST /api/v1/analysis/queue para encolar análisis [MTH]
-- REQ-001-002-002: API GET /api/v1/analysis/status/{job_id} para estado [MTH]
-- REQ-001-002-003: API GET /api/v1/analysis/result/{job_id} para resultado [MTH]
-- REQ-001-002-004: WebSocket /ws/analysis para notificaciones en tiempo real [MTH]
-- REQ-001-002-005: Persistencia de jobs en PostgreSQL [MTH]
-- REQ-001-002-006: Limpieza automática de jobs > 24h [MTH]
-
-###### FEAT-001-003: Agent Orchestration Tools [MTH]
-**Description**: MCP tools para orquestación del agente
-
-**Requirements**:
-- REQ-001-003-001: Tool agent_analyze_alert(alert_id) [MTH]
-- REQ-001-003-002: Tool agent_investigate_ioc(ioc, type) [MTH]
-- REQ-001-003-003: Tool agent_recommend_action(context) [MTH]
-- REQ-001-003-004: Tool agent_generate_report(incident_id, format) [MTH]
-- REQ-001-003-005: Tool agent_explain_decision(decision_id) [MTH]
-- REQ-001-003-006: Tool agent_correlate_events(event_ids[]) [MTH]
+This enhancement builds on the existing architecture without breaking current functionality.
 
 ---
 
-#### EPIC-002: Attack Simulation System [MTH]
+# PART 2: TECHNICAL REQUIREMENTS
 
-**Description**: Sistema de simulación de ataques basado en grupos APT reales con control interactivo para demos.
+## 2.1 Requirements Traceability Matrix
 
-**Acceptance Criteria**:
-- [ ] 6 escenarios de ataque disponibles
-- [ ] Cada escenario sigue tácticas MITRE ATT&CK
-- [ ] Controles de play/pause/speed funcionan
-- [ ] Eventos se generan de forma realista
+| Source Section | Requirement Types | Count |
+|----------------|-------------------|-------|
+| Section 1.4.1 (EPIC-001) | Functional (REQ-001-*) | 19 requirements |
+| Section 1.4.2 (EPIC-002) | Functional (REQ-002-*) | 23 requirements |
+| Section 1.5 | Non-Functional (NFR-*) | 9 requirements |
+| System Design | Technical (TECH-*) | 13 requirements |
+| System Integration | Integration (INT-*) | 5 requirements |
+| Data Architecture | Data (DATA-*) | 7 requirements |
 
-##### Features
+## 2.2 Requirements Numbering Convention
 
-###### FEAT-002-001: Attack Scenarios [MTH]
-**Description**: Implementación de 6 escenarios de ataque APT
+- **REQ-{epic}-{feature}-{seq}**: Functional requirements (e.g., REQ-001-001-001)
+- **TECH-{seq}**: Technical requirements (e.g., TECH-001)
+- **INT-{seq}**: Integration requirements (e.g., INT-001)
+- **DATA-{seq}**: Data requirements (e.g., DATA-001)
+- **NFR-{seq}**: Non-functional requirements (e.g., NFR-001)
 
-**Requirements**:
-- REQ-002-001-001: Escenario APT29 (Cozy Bear) - Espionaje gubernamental [MTH]
-- REQ-002-001-002: Escenario FIN7 - Ataque financiero [MTH]
-- REQ-002-001-003: Escenario Lazarus Group - Ataque destructivo [MTH]
-- REQ-002-001-004: Escenario REvil - Ransomware [MTH]
-- REQ-002-001-005: Escenario SolarWinds-style - Supply Chain [MTH]
-- REQ-002-001-006: Escenario Insider Threat - Amenaza interna [MTH]
+## 2.3 Priority Classification
 
-###### FEAT-002-002: Simulation Control [MTH]
-**Description**: Controles para gestionar la simulación
+| Priority | Label | Description |
+|----------|-------|-------------|
+| MTH | Must-To-Have | Core functionality required for the enhancement to work |
+| NTH | Nice-To-Have | Additional features that improve the experience but are not blocking |
 
-**Requirements**:
-- REQ-002-002-001: Tool attack_start_scenario(scenario_name, seed?) [MTH]
-- REQ-002-002-002: Tool attack_pause() y attack_resume() [MTH]
-- REQ-002-002-003: Tool attack_speed(multiplier: 0.5-4.0) [MTH]
-- REQ-002-002-004: Tool attack_jump_to_stage(stage_number) [MTH]
-- REQ-002-002-005: Tool attack_inject_event(event_type, data) [MTH]
-- REQ-002-002-006: Persistencia de estado de simulación en memoria [MTH]
+## 2.4 Epics
 
-###### FEAT-002-003: MITRE ATT&CK Integration [MTH]
-**Description**: Mapeo de escenarios a framework MITRE
+### EPIC-001: Agent-to-UI Bidirectional Control `MTH`
 
-**Requirements**:
-- REQ-002-003-001: Cada evento incluye tactic_id y technique_id [MTH]
-- REQ-002-003-002: API GET /api/v1/mitre/tactics para listar tácticas [MTH]
-- REQ-002-003-003: API GET /api/v1/mitre/techniques/{tactic_id} [MTH]
-- REQ-002-003-004: Visualización de attack chain en UI [MTH]
+**Description:** Enable Vega to control the React UI in real-time through WebSocket integration with the Frontend MCP WS Server.
 
----
+**Business Value:** Transforms the demo from a passive text narration into an interactive visual experience where the audience sees the AI agent actively investigating and presenting findings.
 
-#### EPIC-003: Real-Time Narration [NTH]
+**Acceptance Criteria:**
+- The React app receives and applies state updates from the WS Server
+- The backend can forward UI commands to the WS Server
+- Each simulation phase triggers appropriate UI actions
+- The 8 frontend MCP tools produce enhanced visual effects
 
-**Description**: Sistema de narración en tiempo real donde el agente explica su razonamiento durante investigaciones.
+##### FEAT-001-001: React to MCP WS Server Connection `MTH`
 
-**Acceptance Criteria**:
-- [ ] Panel lateral muestra narración del agente
-- [ ] Cada paso de investigación genera mensaje
-- [ ] Se muestra nivel de confianza
-- [ ] Narración activable/desactivable
+**Description:** React hook useMcpStateSync that connects to ws://localhost:3001 and applies state updates.
 
-##### Features
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-001-001 | React hook connects to WS Server on mount with auto-reconnect | MTH | Hook establishes WebSocket connection on component mount and reconnects automatically on disconnect |
+| REQ-001-001-002 | State updates from WS Server trigger UI navigation with toast notification | MTH | When WS Server sends currentView update, React router navigates and shows brief toast indicating agent-triggered navigation (BR-004) |
+| REQ-001-001-003 | highlightedAssets state changes trigger node highlighting on graph page | MTH | When highlightedAssets array is updated via WS, corresponding nodes pulse or glow on the network graph |
+| REQ-001-001-004 | Charts array entries render as floating overlay components | MTH | When charts array receives new entry via WS, a chart overlay appears with specified type and data |
+| REQ-001-001-005 | Timeline state renders as sliding panel from right | MTH | When timeline state is updated via WS, a panel slides in from right displaying timeline entries |
+| REQ-001-001-006 | App works normally if WS Server is unavailable (graceful degradation) | MTH | If WS Server is down, all existing functionality works without errors or visual glitches |
 
-###### FEAT-003-001: Narration Panel UI [NTH]
-**Description**: Componente React para mostrar narración
+##### FEAT-001-002: Backend to WS Server Bridge `MTH`
 
-**Requirements**:
-- REQ-003-001-001: Panel lateral colapsable [NTH]
-- REQ-003-001-002: Mensajes con timestamp y tipo (thinking/finding/decision) [NTH]
-- REQ-003-001-003: Indicador de confianza (high/medium/low) con colores [NTH]
-- REQ-003-001-004: Scroll automático con nuevos mensajes [NTH]
-- REQ-003-001-005: Toggle para activar/desactivar narración [NTH]
+**Description:** Python UIBridge class that forwards UI control commands to the MCP WS Server.
 
-###### FEAT-003-002: Narration Streaming [NTH]
-**Description**: Backend streaming de narración
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-002-001 | UIBridge WebSocket client connects to WS Server (lazy, first use) | MTH | UIBridge opens WS connection on first send_action call and reuses for subsequent calls |
+| REQ-001-002-002 | REST endpoint POST /api/v1/ui/action for programmatic UI commands | MTH | POST request with action payload returns 200 and forwards command to WS Server |
+| REQ-001-002-003 | Silent failure when WS Server is unavailable (no crash) | MTH | If WS Server is down, UIBridge logs warning and returns without raising exception |
 
-**Requirements**:
-- REQ-003-002-001: WebSocket /ws/narration para streaming [NTH]
-- REQ-003-002-002: Formato de mensaje {type, content, confidence, timestamp} [NTH]
-- REQ-003-002-003: Buffer de últimos 100 mensajes [NTH]
-- REQ-003-002-004: API GET /api/v1/narration/history/{session_id} [NTH]
+##### FEAT-001-003: Agent Analysis with UI Actions `MTH`
 
----
+**Description:** After Vega analyzes a simulation phase, appropriate UI actions are triggered automatically.
 
-#### EPIC-004: Copilot Mode [NTH]
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-003-001 | Phase-to-UI-Action mapping defined for APT29 scenario (8 phases) | MTH | Configuration maps each APT29 phase to specific UI actions (navigate, highlight, chart) |
+| REQ-001-003-002 | UI actions trigger 1-2 seconds after agent text analysis appears | MTH | After agent text renders, UI actions fire with configurable delay (default 1.5s) |
+| REQ-001-003-003 | Presenter can disable auto-UI-actions via a toggle | MTH | Toggle in presenter controls enables or disables automatic UI actions globally |
+| REQ-001-003-004 | UI actions from agent are rate-limited to max 2 per second | MTH | Rate limiter queues or drops UI actions exceeding 2 per second threshold (BR-005) |
+| REQ-001-003-005 | UI actions queue when user is interacting (no interruption) | MTH | If user is actively clicking or typing, agent UI actions are queued until idle (BR-008) |
 
-**Description**: Sistema de asistencia proactiva donde el agente sugiere acciones basadas en el contexto del usuario.
+##### FEAT-001-004: Enhanced Frontend MCP Tools `MTH`
 
-**Acceptance Criteria**:
-- [ ] Agente observa acciones del usuario
-- [ ] Sugerencias aparecen en < 2 segundos
-- [ ] Usuario puede aceptar/rechazar sugerencias
-- [ ] Sugerencias son contextuales
+**Description:** Enhance the 8 existing frontend MCP tools for richer visual effects.
 
-##### Features
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-004-001 | Charts render as floating overlays with smooth animation and auto-dismiss | MTH | Chart appears with fade-in animation and auto-dismisses after configurable timeout |
+| REQ-001-004-002 | Asset highlights support three modes: pulse, glow, and zoom | MTH | Each highlight mode produces visually distinct CSS animation on the target node |
+| REQ-001-004-003 | Timeline panel slides in from right with animated entries | MTH | Panel slides smoothly from right edge and entries appear with staggered animation |
+| REQ-001-004-004 | Dashboard KPI updates animate with counting number effect | MTH | KPI values animate from old to new value using counting number transition |
 
-###### FEAT-004-001: Action Observation [NTH]
-**Description**: Sistema que observa y analiza acciones del usuario
+##### FEAT-001-005: WS Server Startup Integration `NTH`
 
-**Requirements**:
-- REQ-004-001-001: Hook en componentes React para capturar acciones [NTH]
-- REQ-004-001-002: Throttling de eventos (máx 10/segundo) [NTH]
-- REQ-004-001-003: Contexto incluye: acción, elemento, datos visibles [NTH]
-- REQ-004-001-004: WebSocket /ws/copilot/actions para enviar stream [NTH]
+**Description:** MCP WS Server starts automatically with npm run dev.
 
-###### FEAT-004-002: Suggestion Engine [NTH]
-**Description**: Motor de sugerencias proactivas
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-005-001 | npm run dev starts both React dev server and MCP WS Server | NTH | Single npm run dev command launches both processes using concurrently or similar |
 
-**Requirements**:
-- REQ-004-002-001: Tool copilot_get_suggestion(context) [NTH]
-- REQ-004-002-002: Tool copilot_explain_why(suggestion_id) [NTH]
-- REQ-004-002-003: Tool copilot_auto_complete(action_type) [NTH]
-- REQ-004-002-004: UI widget para mostrar sugerencias [NTH]
-- REQ-004-002-005: Tracking de aceptación/rechazo por sesión [NTH]
+### EPIC-002: Dynamic Scenario Data Engine `MTH`
 
----
+**Description:** Replace static mock data with phase-aware scenario data that evolves as attack simulations progress.
 
-#### EPIC-005: Automated Playbooks [NTH]
+**Business Value:** Makes the demo realistic by providing contextually appropriate data for every SOC tool based on the current attack phase, creating a coherent narrative across all investigation tools.
 
-**Description**: Sistema de playbooks automatizados para respuesta a incidentes con intervención del agente.
+**Acceptance Criteria:**
+- ScenarioStateManager provides cumulative phase data
+- APT29 scenario has complete event scripts for all 8 phases
+- All 25 SOC tool handlers query the manager for phase-appropriate data
+- Phase advances sync between simulation and data engine
 
-**Acceptance Criteria**:
-- [ ] 6 playbooks predefinidos disponibles
-- [ ] Ejecución con puntos de pausa
-- [ ] Rollback de acciones posible
-- [ ] Audit trail completo
+##### FEAT-002-001: ScenarioStateManager `MTH`
 
-##### Features
+**Description:** Singleton Python class managing cumulative simulation state with query and mutation methods.
 
-###### FEAT-005-001: Playbook Engine [NTH]
-**Description**: Motor de ejecución de playbooks
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-001-001 | Singleton class with start_scenario, advance_to_phase, reset methods | MTH | Only one instance exists; start loads scenario, advance accumulates phase data, reset clears state |
+| REQ-002-001-002 | Cumulative phase data (phase N includes all data from phases 1 through N) | MTH | Advancing to phase 3 includes all events from phases 1, 2, and 3 |
+| REQ-002-001-003 | Agent mutations (contain host, close incident, add comment) persist in state | MTH | After agent calls contain_host, all subsequent queries show host as contained |
+| REQ-002-001-004 | Thread-safe state with asyncio Lock | MTH | Concurrent access to state manager does not cause data corruption |
+| REQ-002-001-005 | Only one scenario active at a time (exclusive lock) | MTH | Starting a new scenario resets previous one; concurrent start attempts are rejected (BR-011) |
 
-**Requirements**:
-- REQ-005-001-001: API POST /api/v1/playbooks/execute/{playbook_id} [NTH]
-- REQ-005-001-002: API POST /api/v1/playbooks/{execution_id}/pause [NTH]
-- REQ-005-001-003: API POST /api/v1/playbooks/{execution_id}/resume [NTH]
-- REQ-005-001-004: API POST /api/v1/playbooks/{execution_id}/rollback [NTH]
-- REQ-005-001-005: API GET /api/v1/playbooks/{execution_id}/status [NTH]
-- REQ-005-001-006: Persistencia de estado en PostgreSQL [NTH]
+##### FEAT-002-002: APT29 Scenario Script `MTH`
 
-###### FEAT-005-002: Predefined Playbooks [NTH]
-**Description**: Implementación de playbooks predefinidos
+**Description:** Complete event script for APT29 (Cozy Bear) with 8 phases, 14 SIEM incidents, 15 EDR detections, 7 IOCs.
 
-**Requirements**:
-- REQ-005-002-001: Playbook: Ransomware Response [NTH]
-- REQ-005-002-002: Playbook: Phishing Investigation [NTH]
-- REQ-005-002-003: Playbook: Lateral Movement Detection [NTH]
-- REQ-005-002-004: Playbook: Data Exfiltration Response [NTH]
-- REQ-005-002-005: Playbook: Insider Threat Investigation [NTH]
-- REQ-005-002-006: Playbook: Cloud Compromise Response [NTH]
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-002-001 | Phase 1-8 event definitions with SIEM incidents | MTH | Each of 8 phases has associated SIEM incident events with MITRE ATT&CK mapping |
+| REQ-002-002-002 | 14 cumulative SIEM incidents across 8 phases | MTH | Total of 14 unique SIEM incidents distributed across phases with proper severity |
+| REQ-002-002-003 | 15 cumulative EDR detections across 8 phases | MTH | Total of 15 unique EDR detections with process, path, and action details |
+| REQ-002-002-004 | 7 cumulative Intel IOCs across 8 phases | MTH | Total of 7 IOCs (IPs, domains, hashes) with threat intel source attribution |
+| REQ-002-002-005 | Cross-reference consistency between incidents, detections, and IOCs | MTH | IOC IPs referenced in incidents match IOC definitions and EDR network connections |
 
----
+##### FEAT-002-003: Additional Scenario Scripts `NTH`
 
-#### EPIC-006: Demo Control Panel [NTH]
+**Description:** 5 additional scenario scripts (FIN7, Lazarus, REvil, SolarWinds, Insider Threat).
 
-**Description**: Panel de control interactivo para presentaciones en vivo con controles de velocidad, pausa y navegación.
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-003-001 | FIN7 scenario script (6 phases, financial targeting) | NTH | FIN7 script with 6 phases covering point-of-sale targeting with MITRE mapping |
+| REQ-002-003-002 | Lazarus scenario script (5 phases, destructive wiper) | NTH | Lazarus script with 5 phases covering destructive wiper attack with MITRE mapping |
+| REQ-002-003-003 | REvil scenario script (5 phases, ransomware) | NTH | REvil script with 5 phases covering ransomware deployment with MITRE mapping |
+| REQ-002-003-004 | SolarWinds scenario script (6 phases, supply chain) | NTH | SolarWinds script with 6 phases covering supply chain compromise with MITRE mapping |
+| REQ-002-003-005 | Insider Threat scenario script (3 phases, credential abuse) | NTH | Insider script with 3 phases covering credential abuse and data exfiltration |
 
-**Acceptance Criteria**:
-- [ ] Controles play/pause/stop visibles
-- [ ] Velocidad ajustable 0.5x-4x
-- [ ] Indicador de etapa actual
-- [ ] Atajos de teclado funcionan
+##### FEAT-002-004: Tool Handler Integration `MTH`
 
-##### Features
+**Description:** All 25 SOC domain tool handlers query ScenarioStateManager for phase-appropriate data.
 
-###### FEAT-006-001: Control Panel UI [NTH]
-**Description**: Componente React del panel de control
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-004-001 | 25 tool handlers integrated with ScenarioStateManager query methods | MTH | Each of the 25 SOC tool handlers calls ScenarioStateManager before returning data |
+| REQ-002-004-002 | Backward compatibility when no scenario is active (return static data) | MTH | When no scenario is active, tools return existing static mock data unchanged |
+| REQ-002-004-003 | Agent mutations (contain, close, comment) reflected immediately in queries | MTH | After mutation call, next query to any tool reflects the mutation |
+| REQ-002-004-004 | Tools must not reveal future-phase data (data isolation) | MTH | Query for current phase data never includes events from phases not yet reached (BR-013) |
 
-**Requirements**:
-- REQ-006-001-001: Botones Play/Pause/Stop [NTH]
-- REQ-006-001-002: Slider de velocidad (0.5x-4x) [NTH]
-- REQ-006-001-003: Dropdown de selección de escenario [NTH]
-- REQ-006-001-004: Progress bar con etapas MITRE [NTH]
-- REQ-006-001-005: Atajos de teclado (Space=pause, +/-=speed) [NTH]
+##### FEAT-002-005: Agent Orchestration Enhancement `NTH`
 
-###### FEAT-006-002: Demo State Management [NTH]
-**Description**: Gestión de estado del demo
+**Description:** 6 agent orchestration tools use scenario data instead of separate mock stores.
 
-**Requirements**:
-- REQ-006-002-001: Context React para estado global del demo [NTH]
-- REQ-006-002-002: Persistencia de estado entre recargas (localStorage) [NTH]
-- REQ-006-002-003: Sync de estado con MCP Frontend Server [NTH]
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-005-001 | Agent orchestration tools query ScenarioStateManager for analysis context | NTH | 6 orchestration tools use ScenarioStateManager data for contextual responses |
+| REQ-002-005-002 | Optional Vega gateway enrichment for text analysis portion | NTH | If Vega gateway is available, agent analysis text is enriched with LLM output |
 
----
+##### FEAT-002-006: Simulation Phase Synchronization `MTH`
 
-### 2.3 Technical Requirements
+**Description:** Phase advances in the simulation sync with ScenarioStateManager.
 
-| ID | Category | Requirement | Priority |
-|----|----------|-------------|----------|
-| TECH-001 | Architecture | Nuevo MCP Server para Agent Orchestration en Python/FastAPI | MTH |
-| TECH-002 | Architecture | Cola de jobs con PostgreSQL (no Redis para simplicidad) | MTH |
-| TECH-003 | Architecture | WebSocket bidireccional para streaming de narración | NTH |
-| TECH-004 | Database | Tabla analysis_jobs para tracking de análisis | MTH |
-| TECH-005 | Database | Tabla webhook_configs para configuración de webhooks | MTH |
-| TECH-006 | Database | Tabla playbook_executions para estado de playbooks | NTH |
-| TECH-007 | Database | Tabla narration_messages para historial | NTH |
-| TECH-008 | API | Rate limiting de 100 requests/minuto por sesión | MTH |
-| TECH-009 | API | Autenticación de webhooks con HMAC signature | MTH |
-| TECH-010 | Frontend | Nuevo componente NarrationPanel.tsx | NTH |
-| TECH-011 | Frontend | Nuevo componente DemoControlPanel.tsx | NTH |
-| TECH-012 | Frontend | Nuevo componente CopilotWidget.tsx | NTH |
-| TECH-013 | Testing | Tests E2E con Playwright para flujos de demo | MTH |
-| TECH-014 | Testing | Tests unitarios para cada MCP tool | MTH |
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-006-001 | attack_start_scenario initializes both SimulationStateManager and ScenarioStateManager | MTH | Starting scenario loads data into both managers atomically |
+| REQ-002-006-002 | Phase advance and jump-to-stage apply cumulative events to ScenarioStateManager | MTH | Advancing or jumping to phase N accumulates all events from phase 1 through N |
 
-### 2.4 Integration Requirements
+## 2.5 Technical Requirements
 
-| ID | System | Description | Priority |
+| ID | Category | Requirement | Priority | Verification |
+|----|----------|-------------|----------|--------------|
+| TECH-001 | Frontend | useMcpStateSync React hook with WebSocket connection to port 3001 | MTH | Hook connects and syncs state on mount |
+| TECH-002 | Backend | UIBridge Python class with async WebSocket client | MTH | Class sends commands to WS Server |
+| TECH-003 | API | REST endpoint POST /api/v1/ui/action for programmatic UI control | MTH | Endpoint accepts and forwards UI commands |
+| TECH-004 | Frontend | Chart overlay React component with auto-dismiss timer | MTH | Component renders chart and auto-dismisses |
+| TECH-005 | Frontend | Asset highlight effects via CSS animations (pulse, glow, zoom) | MTH | Three animation modes apply to nodes |
+| TECH-006 | Frontend | Timeline sliding panel React component | MTH | Panel slides from right on state update |
+| TECH-007 | Frontend | KPI animation component (counting number effect) | MTH | Numbers animate from old to new value |
+| TECH-008 | Backend | ScenarioStateManager singleton class with async-safe state | MTH | Singleton with asyncio Lock protection |
+| TECH-009 | Backend | Scenario script files in backend/src/mcp/scenarios/ directory | MTH | Scripts load via standard file pattern |
+| TECH-010 | Backend | PhaseEvents data structure with SIEM, EDR, Intel event lists | MTH | Data structure holds typed event lists |
+| TECH-011 | Backend | 25 tool handler modifications to query ScenarioStateManager | MTH | Each handler queries manager for data |
+| TECH-012 | Backend | Backward compatibility: if no scenario active, return static data | MTH | Tools return static data when no scenario |
+| TECH-013 | Testing | E2E tests with Playwright for UI control flows | MTH | Playwright tests verify UI actions work |
+
+## 2.6 Integration Requirements
+
+| ID | Systems | Description | Priority | Verification |
+|----|---------|-------------|----------|--------------|
+| INT-001 | React, MCP WS Server | WebSocket protocol for state synchronization (port 3001) | MTH | WS messages parsed and state applied |
+| INT-002 | Backend, MCP WS Server | UIBridge WebSocket client for forwarding UI commands | MTH | Commands reach WS Server from backend |
+| INT-003 | Tool Handlers, ScenarioStateManager | Query interface for phase-aware data retrieval | MTH | Tools receive phase-appropriate data |
+| INT-004 | Simulation, Data Engine | Phase advance synchronization between SimulationStateManager and ScenarioStateManager | MTH | Both managers advance atomically |
+| INT-005 | Agent Gateway, UI Pipeline | Agent analysis triggers UI actions through UIBridge | MTH | Agent analysis produces visible UI change |
+
+## 2.7 Data Requirements
+
+| ID | Entity | Description | Priority |
 |----|--------|-------------|----------|
-| INT-001 | SoulInTheBot | Endpoint HTTP para recibir webhooks de análisis | MTH |
-| INT-002 | SoulInTheBot | WebSocket para streaming de narración | NTH |
-| INT-003 | OpenSearch | Índice attack_simulations para eventos de escenarios | MTH |
-| INT-004 | OpenSearch | Índice narration_logs para historial de narración | NTH |
-| INT-005 | PostgreSQL | Schema extensions para nuevas tablas | MTH |
-| INT-006 | Frontend MCP | Nuevos tools para control de demo | MTH |
+| DATA-001 | PhaseEvents | Data structure containing SIEM events, EDR detections, Intel IOCs per phase | MTH |
+| DATA-002 | ScenarioState | Cumulative state structure with incidents, detections, IOCs, containment, tickets | MTH |
+| DATA-003 | APT29Script | Complete event data: 14 SIEM incidents, 15 EDR detections, 7 IOCs across 8 phases | MTH |
+| DATA-004 | AdditionalScripts | Event data for FIN7, Lazarus, REvil, SolarWinds, Insider Threat scenarios | NTH |
+| DATA-005 | WSCommandFormat | WebSocket UI command message format (MCP tool_call and state_update protocols) | MTH |
+| DATA-006 | MutationFormat | Agent mutation persistence format (comments, containment status, tickets, approvals) | MTH |
+| DATA-007 | PhaseUIMapping | Phase-to-UI-Action mapping configuration for each scenario | MTH |
+
+## 2.8 Full Traceability Matrix
+
+| Req ID | Source | Description | Code | Tests | Verified |
+|--------|--------|-------------|------|-------|----------|
+| REQ-001-001-001 | US-001 | React hook connects to MCP WS Server on mount with auto-reconnect | [ ] | [ ] | [ ] |
+| REQ-001-001-002 | US-001 | State updates from WS Server trigger UI navigation | [ ] | [ ] | [ ] |
+| REQ-001-001-003 | US-001 | highlightedAssets state changes trigger node highlighting | [ ] | [ ] | [ ] |
+| REQ-001-001-004 | US-001 | Charts array entries render as floating overlay | [ ] | [ ] | [ ] |
+| REQ-001-001-005 | US-001 | Timeline state renders as sliding panel | [ ] | [ ] | [ ] |
+| REQ-001-001-006 | US-001 | Graceful degradation if WS Server unavailable | [ ] | [ ] | [ ] |
+| REQ-001-002-001 | US-002 | UIBridge WebSocket client connects to WS Server | [ ] | [ ] | [ ] |
+| REQ-001-002-002 | US-002 | REST endpoint POST /api/v1/ui/action | [ ] | [ ] | [ ] |
+| REQ-001-002-003 | US-002 | Silent failure when WS Server unavailable | [ ] | [ ] | [ ] |
+| REQ-001-003-001 | US-003 | Phase-to-UI-Action mapping for APT29 | [ ] | [ ] | [ ] |
+| REQ-001-003-002 | US-003 | UI actions trigger after agent analysis | [ ] | [ ] | [ ] |
+| REQ-001-003-003 | US-003 | Presenter toggle for auto-UI-actions | [ ] | [ ] | [ ] |
+| REQ-001-003-004 | BR-005 | Rate-limit agent UI actions (max 2/sec) | [ ] | [ ] | [ ] |
+| REQ-001-003-005 | BR-008 | Queue UI actions during user interaction | [ ] | [ ] | [ ] |
+| REQ-001-004-001 | US-004 | Charts render as floating overlays with animation | [ ] | [ ] | [ ] |
+| REQ-001-004-002 | US-004 | Three highlight modes (pulse, glow, zoom) | [ ] | [ ] | [ ] |
+| REQ-001-004-003 | US-004 | Timeline sliding panel with animation | [ ] | [ ] | [ ] |
+| REQ-001-004-004 | US-004 | Dashboard KPI counting animation | [ ] | [ ] | [ ] |
+| REQ-001-005-001 | US-005 | WS Server integrated startup with npm run dev | [ ] | [ ] | [ ] |
+| REQ-002-001-001 | US-006 | ScenarioStateManager singleton with start/advance/reset | [ ] | [ ] | [ ] |
+| REQ-002-001-002 | US-006 | Cumulative phase data application | [ ] | [ ] | [ ] |
+| REQ-002-001-003 | US-006 | Agent mutation persistence in state | [ ] | [ ] | [ ] |
+| REQ-002-001-004 | US-006 | Thread-safe state with asyncio Lock | [ ] | [ ] | [ ] |
+| REQ-002-001-005 | BR-011 | Only one scenario active at a time | [ ] | [ ] | [ ] |
+| REQ-002-002-001 | US-007 | APT29 phase 1-8 event definitions | [ ] | [ ] | [ ] |
+| REQ-002-002-002 | US-007 | 14 cumulative SIEM incidents | [ ] | [ ] | [ ] |
+| REQ-002-002-003 | US-007 | 15 cumulative EDR detections | [ ] | [ ] | [ ] |
+| REQ-002-002-004 | US-007 | 7 cumulative Intel IOCs | [ ] | [ ] | [ ] |
+| REQ-002-002-005 | US-007 | Cross-reference consistency | [ ] | [ ] | [ ] |
+| REQ-002-003-001 | US-008 | FIN7 scenario script | [ ] | [ ] | [ ] |
+| REQ-002-003-002 | US-008 | Lazarus scenario script | [ ] | [ ] | [ ] |
+| REQ-002-003-003 | US-008 | REvil scenario script | [ ] | [ ] | [ ] |
+| REQ-002-003-004 | US-008 | SolarWinds scenario script | [ ] | [ ] | [ ] |
+| REQ-002-003-005 | US-008 | Insider Threat scenario script | [ ] | [ ] | [ ] |
+| REQ-002-004-001 | US-009 | 25 tool handlers integrated with ScenarioStateManager | [ ] | [ ] | [ ] |
+| REQ-002-004-002 | US-009 | Backward compatibility when no scenario active | [ ] | [ ] | [ ] |
+| REQ-002-004-003 | US-009 | Mutations reflected immediately in queries | [ ] | [ ] | [ ] |
+| REQ-002-004-004 | BR-013 | Tools must not reveal future-phase data | [ ] | [ ] | [ ] |
+| REQ-002-005-001 | US-010 | Agent orchestration tools use scenario data | [ ] | [ ] | [ ] |
+| REQ-002-005-002 | US-010 | Optional Vega gateway enrichment | [ ] | [ ] | [ ] |
+| REQ-002-006-001 | US-011 | Phase sync between simulation and data engine | [ ] | [ ] | [ ] |
+| REQ-002-006-002 | US-011 | Jump-to-phase applies cumulative events | [ ] | [ ] | [ ] |
+| TECH-001 | US-001 | useMcpStateSync React hook | [ ] | [ ] | [ ] |
+| TECH-002 | US-002 | UIBridge Python class | [ ] | [ ] | [ ] |
+| TECH-003 | US-002 | REST endpoint POST /api/v1/ui/action | [ ] | [ ] | [ ] |
+| TECH-004 | US-004 | Chart overlay component | [ ] | [ ] | [ ] |
+| TECH-005 | US-004 | Asset highlight CSS animations | [ ] | [ ] | [ ] |
+| TECH-006 | US-004 | Timeline sliding panel component | [ ] | [ ] | [ ] |
+| TECH-007 | US-004 | KPI animation component | [ ] | [ ] | [ ] |
+| TECH-008 | US-006 | ScenarioStateManager singleton | [ ] | [ ] | [ ] |
+| TECH-009 | US-007 | Scenario script file structure | [ ] | [ ] | [ ] |
+| TECH-010 | US-007 | PhaseEvents data structure | [ ] | [ ] | [ ] |
+| TECH-011 | US-009 | 25 tool handler modifications | [ ] | [ ] | [ ] |
+| TECH-012 | US-009 | Backward compatibility logic | [ ] | [ ] | [ ] |
+| TECH-013 | US-003 | E2E tests for UI control flows | [ ] | [ ] | [ ] |
+| INT-001 | Sec 2.6 | React and MCP WS Server WebSocket protocol | [ ] | [ ] | [ ] |
+| INT-002 | Sec 2.6 | Backend UIBridge WebSocket client | [ ] | [ ] | [ ] |
+| INT-003 | Sec 2.6 | Tool Handler to ScenarioStateManager interface | [ ] | [ ] | [ ] |
+| INT-004 | Sec 2.6 | Simulation to Data Engine phase sync | [ ] | [ ] | [ ] |
+| INT-005 | Sec 2.6 | Agent Gateway to UI action pipeline | [ ] | [ ] | [ ] |
+| DATA-001 | Sec 2.7 | PhaseEvents data structure | [ ] | [ ] | [ ] |
+| DATA-002 | Sec 2.7 | ScenarioStateManager cumulative state structure | [ ] | [ ] | [ ] |
+| DATA-003 | Sec 2.7 | APT29 complete event data | [ ] | [ ] | [ ] |
+| DATA-004 | Sec 2.7 | Additional scenario event data | [ ] | [ ] | [ ] |
+| DATA-005 | Sec 2.7 | WebSocket UI command message format | [ ] | [ ] | [ ] |
+| DATA-006 | Sec 2.7 | Agent mutation persistence format | [ ] | [ ] | [ ] |
+| DATA-007 | Sec 2.7 | Phase-to-UI-Action mapping configuration | [ ] | [ ] | [ ] |
+| NFR-001 | Sec 1.5 | UI state updates render within 100ms | [ ] | [ ] | [ ] |
+| NFR-002 | Sec 1.5 | WS auto-reconnect with exponential backoff | [ ] | [ ] | [ ] |
+| NFR-003 | Sec 1.5 | Graceful degradation if WS Server down | [ ] | [ ] | [ ] |
+| NFR-004 | Sec 1.5 | No memory leaks from WS connections | [ ] | [ ] | [ ] |
+| NFR-005 | Sec 1.5 | Maximum 50 concurrent React clients | [ ] | [ ] | [ ] |
+| NFR-006 | Sec 1.5 | ScenarioStateManager query response under 10ms | [ ] | [ ] | [ ] |
+| NFR-007 | Sec 1.5 | Memory usage for scenario data under 50MB | [ ] | [ ] | [ ] |
+| NFR-008 | Sec 1.5 | New scenario requires only new script file | [ ] | [ ] | [ ] |
+| NFR-009 | Sec 1.5 | Backward compatible with existing tests | [ ] | [ ] | [ ] |
 
 ---
 
-## VERIFICATION CHECKLIST
+## Verification Section
+
+### Part 1 to Part 2 Traceability
 
 | Part 1 Section | Covered in Part 2 | Requirements |
 |----------------|-------------------|--------------|
-| 1.4.1 Invocación Activa | Yes | EPIC-001, REQ-001-* |
-| 1.4.2 Escenarios de Ataque | Yes | EPIC-002, REQ-002-* |
-| 1.4.3 Narración en Tiempo Real | Yes | EPIC-003, REQ-003-* |
-| 1.4.4 Modo Copilot | Yes | EPIC-004, REQ-004-* |
-| 1.4.5 Playbooks Automatizados | Yes | EPIC-005, REQ-005-* |
-| 1.4.6 Panel de Control de Demo | Yes | EPIC-006, REQ-006-* |
-| 1.5 Non-Functional | Yes | TECH-001 to TECH-014 |
+| 1.4.1 Agent-to-UI Control | Covered | EPIC-001, FEAT-001-001 through FEAT-001-005, REQ-001-* |
+| 1.4.2 Dynamic Data Engine | Covered | EPIC-002, FEAT-002-001 through FEAT-002-006, REQ-002-* |
+| 1.5 Non-Functional | Covered | NFR-001 through NFR-009 |
+| 1.6 Dependencies | Covered | TECH-001 through TECH-013 |
+| 1.7 Constraints | Covered | INT-001 through INT-005 |
 
----
+### Summary Statistics
 
-## SUMMARY
+| Category | MTH | NTH | Total |
+|----------|-----|-----|-------|
+| Epics | 2 | 0 | 2 |
+| Features | 8 | 3 | 11 |
+| Requirements | 34 | 8 | 42 |
+| Technical | 13 | 0 | 13 |
+| Integration | 5 | 0 | 5 |
+| Data | 6 | 1 | 7 |
+| Non-Functional | 9 | 0 | 9 |
 
-| Metric | MTH | NTH | Total |
-|--------|-----|-----|-------|
-| Epics | 2 | 4 | 6 |
-| Features | 6 | 8 | 14 |
-| Requirements | 32 | 34 | 66 |
-| Technical Reqs | 10 | 4 | 14 |
-| Integration Reqs | 4 | 2 | 6 |
-
----
-
-*Document generated by SoftwareBuilderX v15.0.0*
-*Build ID: sbx-20260222-012823*
-*Phase: Design*
+*Document generated by SoftwareBuilderX v20.0.0*

@@ -100,19 +100,19 @@ class TestCopilotToolDefinitions:
     """Test that all copilot tools are properly defined."""
 
     def test_copilot_get_suggestion_tool_exists(self):
-        """Test copilot_get_suggestion tool is defined."""
+        """Test aip_get_suggestion tool is defined (aIP = AI Person branding)."""
         tool_names = [t["name"] for t in COPILOT_TOOLS]
-        assert "copilot_get_suggestion" in tool_names
+        assert "aip_get_suggestion" in tool_names
 
     def test_copilot_explain_why_tool_exists(self):
-        """Test copilot_explain_why tool is defined."""
+        """Test aip_explain_why tool is defined (aIP = AI Person branding)."""
         tool_names = [t["name"] for t in COPILOT_TOOLS]
-        assert "copilot_explain_why" in tool_names
+        assert "aip_explain_why" in tool_names
 
     def test_copilot_auto_complete_tool_exists(self):
-        """Test copilot_auto_complete tool is defined."""
+        """Test aip_auto_complete tool is defined (aIP = AI Person branding)."""
         tool_names = [t["name"] for t in COPILOT_TOOLS]
-        assert "copilot_auto_complete" in tool_names
+        assert "aip_auto_complete" in tool_names
 
     def test_all_tools_have_required_fields(self):
         """Test all tools have name, description, and inputSchema."""
@@ -131,16 +131,16 @@ class TestCopilotGetSuggestionTool:
 
     def test_tool_schema_has_required_fields(self):
         """
-        GIVEN the copilot_get_suggestion tool definition
+        GIVEN the aip_get_suggestion tool definition
         WHEN we inspect its schema
         THEN it must have name, description, and inputSchema
         """
         tool = next(
-            (t for t in COPILOT_TOOLS if t["name"] == "copilot_get_suggestion"),
+            (t for t in COPILOT_TOOLS if t["name"] == "aip_get_suggestion"),
             None
         )
 
-        assert tool is not None, "copilot_get_suggestion tool not found"
+        assert tool is not None, "aip_get_suggestion tool not found"
         assert "name" in tool
         assert "description" in tool
         assert "inputSchema" in tool
@@ -148,12 +148,12 @@ class TestCopilotGetSuggestionTool:
 
     def test_tool_requires_context(self):
         """
-        GIVEN the copilot_get_suggestion tool
+        GIVEN the aip_get_suggestion tool
         WHEN we check its input schema
         THEN context must be a required parameter
         """
         tool = next(
-            (t for t in COPILOT_TOOLS if t["name"] == "copilot_get_suggestion"),
+            (t for t in COPILOT_TOOLS if t["name"] == "aip_get_suggestion"),
             None
         )
 
@@ -270,7 +270,7 @@ class TestCopilotExplainWhyTool:
         THEN it must have name, description, and inputSchema
         """
         tool = next(
-            (t for t in COPILOT_TOOLS if t["name"] == "copilot_explain_why"),
+            (t for t in COPILOT_TOOLS if t["name"] == "aip_explain_why"),
             None
         )
 
@@ -286,7 +286,7 @@ class TestCopilotExplainWhyTool:
         THEN action and context must be required parameters
         """
         tool = next(
-            (t for t in COPILOT_TOOLS if t["name"] == "copilot_explain_why"),
+            (t for t in COPILOT_TOOLS if t["name"] == "aip_explain_why"),
             None
         )
 
@@ -401,7 +401,7 @@ class TestCopilotAutoCompleteTool:
         THEN it must have name, description, and inputSchema
         """
         tool = next(
-            (t for t in COPILOT_TOOLS if t["name"] == "copilot_auto_complete"),
+            (t for t in COPILOT_TOOLS if t["name"] == "aip_auto_complete"),
             None
         )
 
@@ -417,7 +417,7 @@ class TestCopilotAutoCompleteTool:
         THEN partial_input and field_type must be required
         """
         tool = next(
-            (t for t in COPILOT_TOOLS if t["name"] == "copilot_auto_complete"),
+            (t for t in COPILOT_TOOLS if t["name"] == "aip_auto_complete"),
             None
         )
 
@@ -580,9 +580,9 @@ class TestCopilotToolsRegistration:
         tool_names = {t["name"] for t in tools}
 
         expected_tools = {
-            "copilot_get_suggestion",
-            "copilot_explain_why",
-            "copilot_auto_complete",
+            "aip_get_suggestion",
+            "aip_explain_why",
+            "aip_auto_complete",
         }
 
         for tool_name in expected_tools:
@@ -592,16 +592,16 @@ class TestCopilotToolsRegistration:
         """
         GIVEN the MCP tool handlers
         WHEN we get all handlers
-        THEN copilot handlers should be present
+        THEN aip handlers should be present (aIP = AI Person branding)
         """
         from src.mcp.tools import get_tool_handlers
 
         handlers = get_tool_handlers()
 
         expected_handlers = [
-            "copilot_get_suggestion",
-            "copilot_explain_why",
-            "copilot_auto_complete",
+            "aip_get_suggestion",
+            "aip_explain_why",
+            "aip_auto_complete",
         ]
 
         for handler_name in expected_handlers:

@@ -177,11 +177,11 @@ describe("Sidebar", () => {
   });
 
   describe("Menu Structure", () => {
-    it("should render all 15 navigation items", () => {
+    it("should render all 16 navigation items", () => {
       renderWithRouter();
       const navLinks = screen.getAllByRole("link");
-      // 15 nav items
-      expect(navLinks.length).toBe(15);
+      // 16 nav items (including Simulation)
+      expect(navLinks.length).toBe(16);
     });
 
     it("should have Threat Intel positioned after Vulnerabilities in the menu", () => {

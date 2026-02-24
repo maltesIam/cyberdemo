@@ -170,7 +170,7 @@ export function useAipAssist(
       return;
     }
 
-    const url = wsUrl || `ws://localhost:8000/api/v1/aip-assist/ws/${sessionId}`;
+    const url = wsUrl || `ws://${window.location.host}/aip-assist/ws/${sessionId}`;
 
     try {
       const ws = new WebSocket(url);

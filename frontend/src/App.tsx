@@ -22,10 +22,13 @@ import {
   CVEExploitsPage,
   SSVCDashboard,
 } from "./pages/vuln-pages";
+import { SimulationPage } from "./pages/SimulationPage";
 import { ToastProvider } from "./utils/toast";
+import { DemoProvider } from "./context/DemoContext";
 
 function App() {
   return (
+    <DemoProvider persistToStorage={true}>
     <ToastProvider>
       <BrowserRouter>
         <Routes>
@@ -52,11 +55,13 @@ function App() {
             <Route path="vulnerabilities/cves/:cveId/assets" element={<CVEAssetsPage />} />
             <Route path="vulnerabilities/cves/:cveId/exploits" element={<CVEExploitsPage />} />
             <Route path="vulnerabilities/ssvc" element={<SSVCDashboard />} />
+            <Route path="simulation" element={<SimulationPage />} />
             <Route path="*" element={<Navigate to="/generation" replace />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </ToastProvider>
+    </DemoProvider>
   );
 }
 

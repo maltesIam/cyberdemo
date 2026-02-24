@@ -1,190 +1,319 @@
 {
-  "analyzedAt": "2026-02-22T01:30:00.000Z",
-  "buildId": "sbx-20260222-012823",
-  "functionalSpec": "docs/FUNCTIONAL_SPEC.md",
-  "buildPlan": "docs/BUILD_PLAN.md",
-  "status": "PASSED",
-  "fixedAt": "2026-02-22T01:55:00.000Z",
+  "generatedAt": "2026-02-24T16:30:00Z",
+  "buildId": "sbx-20260224-155636",
+  "documents": {
+    "functionalSpec": "docs/FUNCTIONAL_SPEC.md",
+    "buildPlan": "docs/BUILD_PLAN.md",
+    "testPlan": "docs/TEST_PLAN.md"
+  },
   "summary": {
-    "totalRequirements": 71,
-    "coveredRequirements": 71,
-    "uncoveredRequirements": 0,
-    "orphanTasks": 0,
-    "technicalRequirements": 14,
-    "integrationRequirements": 6
+    "total": 12,
+    "critical": 3,
+    "high": 5,
+    "warning": 3,
+    "info": 1
   },
   "statistics": {
-    "byEpic": {
-      "EPIC-001": {
-        "requirements": 17,
-        "covered": 17,
-        "percentage": 100
-      },
-      "EPIC-002": {
-        "requirements": 16,
-        "covered": 16,
-        "percentage": 100
-      },
-      "EPIC-003": {
-        "requirements": 9,
-        "covered": 9,
-        "percentage": 100
-      },
-      "EPIC-004": {
-        "requirements": 9,
-        "covered": 9,
-        "percentage": 100
-      },
-      "EPIC-005": {
-        "requirements": 12,
-        "covered": 12,
-        "percentage": 100
-      },
-      "EPIC-006": {
-        "requirements": 8,
-        "covered": 8,
-        "percentage": 100
-      }
+    "requirements": {
+      "functionalTotal": 42,
+      "functionalWithTasks": 42,
+      "functionalWithUnitTests": 42,
+      "techTotal": 13,
+      "techWithTasks": 13,
+      "techWithTests": 13,
+      "intTotal": 5,
+      "intWithTasks": 5,
+      "intWithTests": 5,
+      "dataTotal": 7,
+      "dataWithTasks": 7,
+      "dataWithTests": 7,
+      "nfrTotal": 9,
+      "nfrWithTasks": 9,
+      "nfrWithTests": 9,
+      "grandTotal": 76,
+      "grandTotalWithTasks": 76,
+      "grandTotalWithTests": 76
     },
-    "byPriority": {
-      "MTH": {
-        "total": 33,
-        "covered": 33,
-        "percentage": 100
-      },
-      "NTH": {
-        "total": 38,
-        "covered": 38,
-        "percentage": 100
-      }
+    "coverage": {
+      "taskCoverage": 100.0,
+      "unitTestCoverage": 100.0,
+      "integrationTestCoverageMTH": 64.7,
+      "e2eTestCoverageMTH": 52.9,
+      "note": "34 MTH requirements: 22 have IT coverage, 18 have E2E coverage"
     }
   },
-  "uncoveredRequirements": [],
-  "fixedGaps": [
+  "gaps": [
     {
-      "id": "REQ-002-003-004",
-      "description": "Visualization of attack chain in UI",
-      "priority": "MTH",
-      "epic": "EPIC-002",
-      "feature": "FEAT-002-003",
-      "section": "Section 1.4.2 - MITRE ATT&CK Integration",
-      "fixedBy": "T-1.3.017",
-      "fixedAt": "2026-02-22T01:55:00.000Z"
+      "id": "GAP-001",
+      "type": "AGENT_DISTRIBUTION_MISMATCH",
+      "severity": "CRITICAL",
+      "status": "RESOLVED",
+      "location": "docs/BUILD_PLAN.md",
+      "section": "Build Agent Distribution",
+      "description": "Agent task count in distribution table does not match actual task assignments. Agent 2 is listed as 10 tasks but has 8. Agent 3 is listed as 10 tasks but has 14. Agent 4 is listed as 6 tasks but has 10.",
+      "details": {
+        "agent1": { "declared": 10, "actual": 10, "match": true },
+        "agent2": { "declared": 10, "actual": 8, "match": false },
+        "agent3": { "declared": 10, "actual": 14, "match": false },
+        "agent4": { "declared": 6, "actual": 10, "match": false }
+      },
+      "impact": "Incorrect agent workload distribution could cause scheduling and dependency issues during construction",
+      "action": "Update Build Agent Distribution table to reflect actual task counts: Agent 1=10, Agent 2=8, Agent 3=14, Agent 4=10",
+      "suggestedFix": {
+        "location": "docs/BUILD_PLAN.md",
+        "section": "Build Agent Distribution",
+        "content": "| Agent 1 | Frontend (React hooks, WS, UI components) | 10 tasks |\n| Agent 2 | Backend Core (UIBridge, ScenarioStateManager, data structures) | 8 tasks |\n| Agent 3 | Scenario Scripts & Tool Handler Integration | 14 tasks |\n| Agent 4 | Integration, Sync, Testing & NTH Features | 10 tasks |"
+      }
+    },
+    {
+      "id": "GAP-002",
+      "type": "COVERAGE_MATRIX_INCONSISTENCY",
+      "severity": "CRITICAL",
+      "status": "RESOLVED",
+      "location": "docs/BUILD_PLAN.md vs docs/TEST_PLAN.md",
+      "section": "Requirements Coverage Matrix",
+      "description": "Build Plan and Test Plan disagree on E2E test coverage for REQ-001-004-002 and REQ-001-004-003. Build Plan shows no E2E tests. Test Plan shows E2E-001 covers both.",
+      "details": {
+        "REQ-001-004-002": {
+          "buildPlanTests": "UT-016",
+          "testPlanTests": "UT-016, E2E-001",
+          "discrepancy": "Build Plan missing E2E-001 reference"
+        },
+        "REQ-001-004-003": {
+          "buildPlanTests": "UT-017",
+          "testPlanTests": "UT-017, E2E-001",
+          "discrepancy": "Build Plan missing E2E-001 reference"
+        }
+      },
+      "impact": "Inconsistent coverage matrices will cause confusion about what is actually tested during verification",
+      "action": "Synchronize Build Plan Coverage Matrix with Test Plan. Add E2E-001 reference to REQ-001-004-002 and REQ-001-004-003 in BUILD_PLAN.md",
+      "suggestedFix": {
+        "location": "docs/BUILD_PLAN.md",
+        "section": "Requirements Coverage Matrix",
+        "content": "| REQ-001-004-002 | T-014 | UT-016, E2E-001 | [ ] |\n| REQ-001-004-003 | T-015 | UT-017, E2E-001 | [ ] |"
+      }
+    },
+    {
+      "id": "GAP-003",
+      "type": "MISSING_INTEGRATION_TEST",
+      "severity": "CRITICAL",
+      "status": "RESOLVED",
+      "requirements": ["REQ-001-003-004", "REQ-001-003-005"],
+      "description": "Two MTH requirements for rate limiting (REQ-001-003-004) and user interaction queuing (REQ-001-003-005) have only unit test coverage. These are behavioral requirements that enforce business rules BR-005 and BR-008, which require integration testing to verify they work correctly across the frontend pipeline.",
+      "details": {
+        "REQ-001-003-004": {
+          "priority": "MTH",
+          "businessRule": "BR-005",
+          "description": "Rate-limit agent UI actions (max 2/sec)",
+          "currentTests": "UT-013 only",
+          "missingTests": "Integration test verifying rate limiting works across WS pipeline"
+        },
+        "REQ-001-003-005": {
+          "priority": "MTH",
+          "businessRule": "BR-008",
+          "description": "Queue UI actions during user interaction (no interruption)",
+          "currentTests": "UT-014 only",
+          "missingTests": "Integration test verifying queuing works with real user events"
+        }
+      },
+      "impact": "Rate limiting and queuing are cross-cutting concerns that unit tests alone cannot adequately verify. A rate limiter that passes unit tests may fail under real WebSocket message flow",
+      "action": "Add integration tests for rate limiting and interaction queuing to IT-003 scope or create new IT-007",
+      "suggestedFix": {
+        "location": "docs/TEST_PLAN.md",
+        "section": "Integration Tests",
+        "content": "| IT-007 | REQ-001-003-004, REQ-001-003-005 | Rate limiting and user interaction queuing across WS pipeline | tests/integration/frontend/rateLimitQueue.integration.test.ts | Pending |"
+      }
+    },
+    {
+      "id": "GAP-004",
+      "type": "MISSING_INTEGRATION_TEST",
+      "severity": "HIGH",
+      "requirements": ["REQ-002-001-004", "REQ-002-001-005"],
+      "description": "Two MTH requirements for thread safety (REQ-002-001-004) and exclusive scenario lock (REQ-002-001-005) have only unit test coverage. Concurrency requirements are notoriously difficult to verify with unit tests alone.",
+      "details": {
+        "REQ-002-001-004": {
+          "priority": "MTH",
+          "businessRule": "BR-016",
+          "description": "Thread-safe state with asyncio Lock",
+          "currentTests": "UT-023 only",
+          "missingTests": "Integration test with concurrent tool handler queries"
+        },
+        "REQ-002-001-005": {
+          "priority": "MTH",
+          "businessRule": "BR-011",
+          "description": "Only one scenario active at a time (exclusive lock)",
+          "currentTests": "UT-024 only",
+          "missingTests": "Integration test with concurrent start_scenario calls"
+        }
+      },
+      "impact": "Concurrency bugs may only manifest under real concurrent access patterns, not in isolated unit tests",
+      "action": "Expand IT-004 scope to include concurrent access tests or create new integration test",
+      "suggestedFix": {
+        "location": "docs/TEST_PLAN.md",
+        "section": "Integration Tests",
+        "content": "Expand IT-004 description to: 'ScenarioStateManager with tool handler queries including concurrent access and exclusive lock verification'"
+      }
+    },
+    {
+      "id": "GAP-005",
+      "type": "MISSING_E2E_TEST",
+      "severity": "HIGH",
+      "requirements": ["REQ-001-004-004"],
+      "description": "REQ-001-004-004 (Dashboard KPI counting animation, MTH) has only unit test coverage (UT-018). No E2E test verifies this visual effect is visible in the browser. Other FEAT-001-004 requirements have E2E-001 coverage but this one does not.",
+      "details": {
+        "REQ-001-004-004": {
+          "priority": "MTH",
+          "feature": "FEAT-001-004",
+          "description": "Dashboard KPI counting number animation",
+          "currentTests": "UT-018 only",
+          "siblingRequirementsWithE2E": ["REQ-001-004-001 (E2E-001)", "REQ-001-004-002 (E2E-001)", "REQ-001-004-003 (E2E-001)"]
+        }
+      },
+      "impact": "KPI animation is the only FEAT-001-004 requirement without E2E coverage, creating an inconsistent test boundary within the feature",
+      "action": "Add REQ-001-004-004 to E2E-001 scope or create targeted E2E test for KPI animation",
+      "suggestedFix": {
+        "location": "docs/TEST_PLAN.md",
+        "section": "Coverage Verification Matrix",
+        "content": "| REQ-001-004-004 | UT-018 | - | E2E-001 | [ ] Complete |"
+      }
+    },
+    {
+      "id": "GAP-006",
+      "type": "MISSING_E2E_TEST",
+      "severity": "HIGH",
+      "requirements": ["REQ-002-006-002"],
+      "description": "REQ-002-006-002 (Jump-to-phase applies cumulative events, MTH) has UT-042 and IT-006 but no E2E test. Its sibling REQ-002-006-001 is covered by E2E-005 but jump-to-phase is not. Jump-to-phase is a user-facing feature (presenter can jump to any stage) that should be E2E tested.",
+      "details": {
+        "REQ-002-006-002": {
+          "priority": "MTH",
+          "feature": "FEAT-002-006",
+          "description": "Jump-to-phase applies cumulative events to ScenarioStateManager",
+          "currentTests": "UT-042, IT-006",
+          "missingTests": "E2E test for jump-to-stage user flow"
+        }
+      },
+      "impact": "Jump-to-stage is a presenter-facing feature that needs E2E verification to ensure the entire stack works together",
+      "action": "Add REQ-002-006-002 to E2E-005 scope",
+      "suggestedFix": {
+        "location": "docs/TEST_PLAN.md",
+        "section": "E2E Tests",
+        "content": "Update E2E-005 description to: 'Simulation phase sync with data engine including jump-to-stage'"
+      }
+    },
+    {
+      "id": "GAP-007",
+      "type": "MISSING_E2E_TEST",
+      "severity": "HIGH",
+      "requirements": ["REQ-001-002-001", "REQ-001-002-002", "REQ-001-002-003"],
+      "description": "FEAT-001-002 (Backend UIBridge, MTH) has 3 requirements with only UT and IT-002 coverage. No E2E test. The UIBridge is a critical path component: backend -> WS Server -> React. E2E testing ensures the full pipeline works.",
+      "details": {
+        "REQ-001-002-001": { "currentTests": "UT-007, IT-002", "missingTests": "E2E" },
+        "REQ-001-002-002": { "currentTests": "UT-008, IT-002", "missingTests": "E2E" },
+        "REQ-001-002-003": { "currentTests": "UT-009, IT-002", "missingTests": "E2E" }
+      },
+      "impact": "The UIBridge is the backbone of EPIC-001. Without E2E testing, we cannot verify the backend-to-frontend UI command pipeline works end-to-end in a real browser",
+      "action": "Add UIBridge pipeline verification to E2E-002 scope or create dedicated E2E test",
+      "suggestedFix": {
+        "location": "docs/TEST_PLAN.md",
+        "section": "E2E Tests",
+        "content": "Update E2E-002 to also cover FEAT-001-002, or add E2E-007 for UIBridge end-to-end pipeline verification"
+      }
+    },
+    {
+      "id": "GAP-008",
+      "type": "CIRCULAR_TEST_REFERENCE",
+      "severity": "HIGH",
+      "requirements": ["TECH-013"],
+      "description": "TECH-013 states 'E2E tests with Playwright for UI control flows'. Its test is UT-TECH-013 which maps to tests/e2e/agentUIControl.spec.ts (which is E2E-001). This is a circular reference: the requirement is 'create E2E tests' and its verification is 'the E2E tests exist'. There is no independent unit test that verifies TECH-013 is satisfied.",
+      "details": {
+        "requirement": "TECH-013: E2E tests with Playwright for UI control flows",
+        "testMapping": "UT-TECH-013 -> tests/e2e/agentUIControl.spec.ts (which IS E2E-001)",
+        "issue": "A TECH requirement about testing infrastructure cannot be verified by the tests it mandates"
+      },
+      "impact": "TECH-013 verification becomes self-referential. If E2E-001 is incomplete, TECH-013 would still appear 'tested'",
+      "action": "Add a meta-test or checklist verification for TECH-013 that validates E2E test coverage metrics (e.g., all FEAT-xxx user flows have at least one E2E test)"
+    },
+    {
+      "id": "GAP-009",
+      "type": "E2E_SCOPE_OVERLOAD",
+      "severity": "WARNING",
+      "requirements": ["E2E-001"],
+      "description": "E2E-001 covers FEAT-001-001 (6 requirements) and FEAT-001-004 (4 requirements) = 10 requirements in a single test file. This creates a monolithic test that will be difficult to maintain and debug when individual requirements fail.",
+      "details": {
+        "testId": "E2E-001",
+        "coveredFeatures": ["FEAT-001-001", "FEAT-001-004"],
+        "coveredRequirements": [
+          "REQ-001-001-001", "REQ-001-001-002", "REQ-001-001-003",
+          "REQ-001-001-004", "REQ-001-001-005", "REQ-001-001-006",
+          "REQ-001-004-001", "REQ-001-004-002", "REQ-001-004-003", "REQ-001-004-004"
+        ],
+        "totalRequirements": 10
+      },
+      "impact": "A single test failure in E2E-001 could mask which of 10 requirements is actually broken",
+      "action": "Consider splitting E2E-001 into E2E-001a (FEAT-001-001: WS connection and state sync) and E2E-001b (FEAT-001-004: enhanced visual effects). Keep both in same spec file but as separate test.describe blocks"
+    },
+    {
+      "id": "GAP-010",
+      "type": "MISSING_TECH_INTEGRATION_TESTS",
+      "severity": "WARNING",
+      "requirements": ["TECH-011"],
+      "description": "TECH-011 (25 tool handler modifications) maps only to UT-TECH-011 in the Test Plan Coverage Verification Matrix. IT-005 exists and covers the corresponding functional requirement REQ-002-004-001, but the TECH requirement row does not reference it.",
+      "details": {
+        "TECH-011": {
+          "description": "25 tool handler modifications to query ScenarioStateManager",
+          "testPlanCoverage": "UT-TECH-011 only",
+          "relatedIT": "IT-005 (via REQ-002-004-001) but not mapped to TECH-011"
+        }
+      },
+      "impact": "TECH-011 coverage appears weaker than it actually is. The Coverage Matrix should reflect IT-005's relevance",
+      "action": "Add IT-005 reference to TECH-011 row in Test Plan Coverage Verification Matrix",
+      "suggestedFix": {
+        "location": "docs/TEST_PLAN.md",
+        "section": "Coverage Verification Matrix",
+        "content": "| TECH-011 | UT-TECH-011 | IT-005 | - | [ ] Complete |"
+      }
+    },
+    {
+      "id": "GAP-011",
+      "type": "MISSING_INT_E2E_MAPPING",
+      "severity": "WARNING",
+      "requirements": ["INT-001", "INT-004", "INT-005"],
+      "description": "Integration requirements INT-001, INT-004, and INT-005 have only IT-level tests but should logically also be verified by existing E2E tests. E2E-001 exercises INT-001 (React to WS Server), E2E-005 exercises INT-004 (phase sync), and E2E-002 exercises INT-005 (agent to UI pipeline). These E2E mappings are missing from both the Build Plan and Test Plan.",
+      "details": {
+        "INT-001": { "existingTests": "IT-INT-001", "implicitE2E": "E2E-001" },
+        "INT-004": { "existingTests": "IT-INT-004", "implicitE2E": "E2E-005" },
+        "INT-005": { "existingTests": "IT-INT-005", "implicitE2E": "E2E-002" }
+      },
+      "impact": "The Coverage Matrix understates actual E2E coverage for integration requirements",
+      "action": "Add E2E references to INT-001, INT-004, INT-005 in both Build Plan and Test Plan coverage matrices"
+    },
+    {
+      "id": "GAP-012",
+      "type": "MISSING_E2E_FEAT_COVERAGE",
+      "severity": "INFO",
+      "requirements": ["FEAT-002-001"],
+      "description": "FEAT-002-001 (ScenarioStateManager, MTH) is the core data engine with 5 requirements. It has UT and IT-004 coverage but no dedicated E2E test. E2E-003 (APT29 scenario) indirectly exercises it, and E2E-004 (tool handlers) also indirectly exercises it. The indirect coverage is likely sufficient, but this should be documented explicitly.",
+      "details": {
+        "feature": "FEAT-002-001",
+        "requirements": ["REQ-002-001-001", "REQ-002-001-002", "REQ-002-001-003", "REQ-002-001-004", "REQ-002-001-005"],
+        "directE2E": "None",
+        "indirectE2E": ["E2E-003 (APT29 scenario uses SSM)", "E2E-004 (tool handlers query SSM)", "E2E-005 (phase sync uses SSM)"]
+      },
+      "impact": "Low impact since indirect E2E coverage exists through dependent features, but documentation should note the indirect coverage relationship",
+      "action": "Add note to Test Plan that FEAT-002-001 is indirectly E2E tested via E2E-003, E2E-004, E2E-005"
     }
   ],
-  "orphanTasks": [],
-  "priorityMismatches": [],
-  "technicalRequirementsCoverage": {
-    "TECH-001": {
-      "description": "Nuevo MCP Server para Agent Orchestration en Python/FastAPI",
-      "priority": "MTH",
-      "coveredBy": ["T-1.2.017", "T-1.1.004", "T-1.3.001"]
-    },
-    "TECH-002": {
-      "description": "Cola de jobs con PostgreSQL",
-      "priority": "MTH",
-      "coveredBy": ["T-1.2.009", "T-1.2.010"]
-    },
-    "TECH-003": {
-      "description": "WebSocket bidireccional para streaming de narración",
-      "priority": "NTH",
-      "coveredBy": ["T-2.1.008"]
-    },
-    "TECH-004": {
-      "description": "Tabla analysis_jobs para tracking de análisis",
-      "priority": "MTH",
-      "coveredBy": ["T-1.1.001", "T-1.1.003"]
-    },
-    "TECH-005": {
-      "description": "Tabla webhook_configs para configuración de webhooks",
-      "priority": "MTH",
-      "coveredBy": ["T-1.1.002", "T-1.1.003"]
-    },
-    "TECH-006": {
-      "description": "Tabla playbook_executions para estado de playbooks",
-      "priority": "NTH",
-      "coveredBy": ["T-2.3.001"]
-    },
-    "TECH-007": {
-      "description": "Tabla narration_messages para historial",
-      "priority": "NTH",
-      "coveredBy": ["T-2.1.001"]
-    },
-    "TECH-008": {
-      "description": "Rate limiting de 100 requests/minuto por sesión",
-      "priority": "MTH",
-      "coveredBy": ["T-1.2.018"]
-    },
-    "TECH-009": {
-      "description": "Autenticación de webhooks con HMAC signature",
-      "priority": "MTH",
-      "coveredBy": ["T-1.2.019"]
-    },
-    "TECH-010": {
-      "description": "Nuevo componente NarrationPanel.tsx",
-      "priority": "NTH",
-      "coveredBy": ["T-2.1.003"]
-    },
-    "TECH-011": {
-      "description": "Nuevo componente DemoControlPanel.tsx",
-      "priority": "NTH",
-      "coveredBy": ["T-2.4.001"]
-    },
-    "TECH-012": {
-      "description": "Nuevo componente CopilotWidget.tsx",
-      "priority": "NTH",
-      "coveredBy": ["T-2.2.008"]
-    },
-    "TECH-013": {
-      "description": "Tests E2E con Playwright para flujos de demo",
-      "priority": "MTH",
-      "coveredBy": ["T-1.4.008", "T-1.4.009"]
-    },
-    "TECH-014": {
-      "description": "Tests unitarios para cada MCP tool",
-      "priority": "MTH",
-      "coveredBy": ["T-1.4.001", "T-1.4.002", "T-1.4.003", "T-1.4.004", "T-1.4.005"]
-    }
-  },
-  "integrationRequirementsCoverage": {
-    "INT-001": {
-      "description": "Endpoint HTTP para recibir webhooks de análisis",
-      "priority": "MTH",
-      "coveredBy": ["T-1.2.001", "T-1.2.002"]
-    },
-    "INT-002": {
-      "description": "WebSocket para streaming de narración",
-      "priority": "NTH",
-      "coveredBy": ["T-2.1.008"]
-    },
-    "INT-003": {
-      "description": "Índice attack_simulations para eventos de escenarios",
-      "priority": "MTH",
-      "coveredBy": ["T-1.1.005"]
-    },
-    "INT-004": {
-      "description": "Índice narration_logs para historial de narración",
-      "priority": "NTH",
-      "coveredBy": ["T-2.1.002"]
-    },
-    "INT-005": {
-      "description": "Schema extensions para nuevas tablas",
-      "priority": "MTH",
-      "coveredBy": ["T-1.1.001", "T-1.1.002", "T-1.1.003"]
-    },
-    "INT-006": {
-      "description": "Nuevos tools para control de demo",
-      "priority": "MTH",
-      "coveredBy": ["T-1.3.008", "T-1.3.009", "T-1.3.010", "T-1.3.011", "T-1.3.012"]
-    }
-  },
-  "notes": [
-    "All 71 functional requirements are properly covered by build tasks",
-    "All 14 technical requirements (TECH-001 to TECH-014) are covered",
-    "All 6 integration requirements (INT-001 to INT-006) are covered",
-    "No orphan tasks found - all tasks trace back to requirements",
-    "No priority mismatches found - MTH requirements are in Cycle 1, NTH in Cycle 2",
-    "GAP FIXED: REQ-002-003-004 was added as T-1.3.017 in Phase 1.3"
-  ],
-  "recommendations": []
+  "recommendations": [
+    "CRITICAL: Fix agent distribution counts in BUILD_PLAN.md before construction begins (Agent 2=8, Agent 3=14, Agent 4=10). Incorrect workload distribution will cause construction delays.",
+    "CRITICAL: Synchronize Coverage Matrices between BUILD_PLAN.md and TEST_PLAN.md. Both documents must agree on which tests cover which requirements.",
+    "CRITICAL: Add integration test IT-007 for rate limiting (REQ-001-003-004) and user interaction queuing (REQ-001-003-005). These are behavioral MTH requirements enforcing BR-005 and BR-008 that cannot be adequately verified with unit tests alone.",
+    "HIGH: Expand IT-004 scope to include concurrent access testing for REQ-002-001-004 (asyncio Lock) and REQ-002-001-005 (exclusive scenario lock).",
+    "HIGH: Add E2E coverage for REQ-001-004-004 (KPI animation) to E2E-001 scope -- it is the only FEAT-001-004 requirement without E2E coverage.",
+    "HIGH: Add E2E coverage for REQ-002-006-002 (jump-to-phase) to E2E-005 scope.",
+    "HIGH: Add E2E coverage for FEAT-001-002 (UIBridge) -- either expand E2E-002 or add E2E-007.",
+    "HIGH: Resolve TECH-013 circular test reference by adding a meta-verification checklist.",
+    "WARNING: Consider splitting E2E-001 into focused test blocks (WS sync vs visual effects) for better failure isolation.",
+    "WARNING: Add IT-005 mapping to TECH-011 in Test Plan coverage matrix.",
+    "WARNING: Add implicit E2E mappings for INT-001, INT-004, INT-005 to coverage matrices."
+  ]
 }

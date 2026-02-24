@@ -1,369 +1,233 @@
-# CyberDemo - Plan de Pruebas E2E Completo
+# Test Plan: CyberDemo Agent-to-UI Enhancement
 
-## Objetivo
-
-Verificar que **todas las 13 páginas** de CyberDemo funcionan correctamente:
-
-1. Las páginas cargan sin errores
-2. No hay páginas en blanco
-3. Las funcionalidades principales de cada página funcionan
-4. La navegación entre páginas funciona
-5. Las interacciones de usuario funcionan correctamente
+| Attribute | Value |
+|-----------|-------|
+| Build ID | sbx-20260224-155636 |
+| Created | 2026-02-24 |
+| Template Version | SBX v20.0.0 |
 
 ---
 
-## Resumen de Cobertura
+## Test Strategy
 
-| Página         | URL          | Tests Básicos | Tests Funcionales | Estado    |
-| -------------- | ------------ | ------------- | ----------------- | --------- |
-| Generation     | /generation  | 4             | 5                 | ✅ PASSED |
-| Dashboard      | /dashboard   | 4             | 4                 | ✅ PASSED |
-| Assets         | /assets      | 4             | 4                 | ✅ PASSED |
-| Incidents      | /incidents   | 4             | 4                 | ✅ PASSED |
-| Detections     | /detections  | 4             | 4                 | ✅ PASSED |
-| Timeline       | /timeline    | 4             | 3                 | ✅ PASSED |
-| Postmortems    | /postmortems | 4             | 4                 | ✅ PASSED |
-| Tickets        | /tickets     | 4             | 4                 | ✅ PASSED |
-| CTEM           | /ctem        | 4             | 4                 | ✅ PASSED |
-| Graph          | /graph       | 4             | 4                 | ✅ PASSED |
-| Collaboration  | /collab      | 4             | 4                 | ✅ PASSED |
-| Configuration  | /config      | 4             | 5                 | ✅ PASSED |
-| Audit Log      | /audit       | 5             | 5                 | ✅ PASSED |
-| Navigation     | (cross-page) | 3             | 3                 | ✅ PASSED |
-| Responsive     | (all pages)  | 3             | 3                 | ✅ PASSED |
-| Error Handling | (all pages)  | -             | 3                 | ✅ PASSED |
-
-**Total Tests Planificados: ~100 tests**
+| Type | Framework | Coverage Target |
+|------|-----------|-----------------|
+| Unit Tests | Vitest (frontend), pytest (backend) | All REQ-xxx, TECH-xxx, DATA-xxx, NFR-xxx |
+| Integration Tests | Vitest + pytest | All INT-xxx, cross-component flows |
+| E2E Tests | Playwright | All FEAT-xxx user-facing flows |
 
 ---
 
-## 1. GENERATION PAGE (/generation)
+## Unit Tests
 
-### Tests Básicos
+| Test ID | Requirement | Description | File | Status |
+|---------|-------------|-------------|------|--------|
+| UT-001 | REQ-001-001-001 | useMcpStateSync hook connects to WS Server and auto-reconnects | tests/unit/frontend/useMcpStateSync.test.ts | Pending |
+| UT-002 | REQ-001-001-002 | State updates trigger UI navigation with toast notification | tests/unit/frontend/wsNavigation.test.ts | Pending |
+| UT-003 | REQ-001-001-003 | highlightedAssets state triggers node highlighting | tests/unit/frontend/assetHighlight.test.ts | Pending |
+| UT-004 | REQ-001-001-004 | Charts array entries render as floating overlay | tests/unit/frontend/chartOverlay.test.ts | Pending |
+| UT-005 | REQ-001-001-005 | Timeline state renders as sliding panel | tests/unit/frontend/timelinePanel.test.ts | Pending |
+| UT-006 | REQ-001-001-006 | Graceful degradation if WS Server unavailable | tests/unit/frontend/wsGracefulDegradation.test.ts | Pending |
+| UT-007 | REQ-001-002-001 | UIBridge WebSocket client connects and sends commands | tests/unit/backend/test_ui_bridge.py | Pending |
+| UT-008 | REQ-001-002-002 | REST endpoint /api/v1/ui/action forwards commands | tests/unit/backend/test_ui_action_endpoint.py | Pending |
+| UT-009 | REQ-001-002-003 | UIBridge silent failure when WS Server unavailable | tests/unit/backend/test_ui_bridge_failure.py | Pending |
+| UT-010 | REQ-001-003-001 | Phase-to-UI-Action mapping for APT29 (8 phases) | tests/unit/backend/test_phase_ui_mapping.py | Pending |
+| UT-011 | REQ-001-003-002 | UI actions trigger after agent analysis with delay | tests/unit/frontend/agentUIActions.test.ts | Pending |
+| UT-012 | REQ-001-003-003 | Presenter toggle enables/disables auto-UI-actions | tests/unit/frontend/presenterToggle.test.ts | Pending |
+| UT-013 | REQ-001-003-004 | Rate limiter for agent UI actions (max 2/sec) | tests/unit/frontend/rateLimiter.test.ts | Pending |
+| UT-014 | REQ-001-003-005 | Queue UI actions during user interaction | tests/unit/frontend/actionQueue.test.ts | Pending |
+| UT-015 | REQ-001-004-001 | Chart overlay smooth animation and auto-dismiss | tests/unit/frontend/chartOverlayAnimation.test.ts | Pending |
+| UT-016 | REQ-001-004-002 | Three highlight modes (pulse, glow, zoom) | tests/unit/frontend/highlightModes.test.ts | Pending |
+| UT-017 | REQ-001-004-003 | Timeline panel sliding animation and staggered entries | tests/unit/frontend/timelinePanelAnimation.test.ts | Pending |
+| UT-018 | REQ-001-004-004 | Dashboard KPI counting number animation | tests/unit/frontend/kpiAnimation.test.ts | Pending |
+| UT-019 | REQ-001-005-001 | npm run dev starts both React and WS Server | tests/unit/frontend/devStartup.test.ts | Pending |
+| UT-020 | REQ-002-001-001 | ScenarioStateManager singleton with start/advance/reset | tests/unit/backend/test_scenario_state_manager.py | Pending |
+| UT-021 | REQ-002-001-002 | Cumulative phase data (phase N includes 1..N) | tests/unit/backend/test_cumulative_phases.py | Pending |
+| UT-022 | REQ-002-001-003 | Agent mutations persist in state | tests/unit/backend/test_agent_mutations.py | Pending |
+| UT-023 | REQ-002-001-004 | Thread-safe state with asyncio Lock | tests/unit/backend/test_thread_safety.py | Pending |
+| UT-024 | REQ-002-001-005 | Only one scenario active at a time | tests/unit/backend/test_exclusive_scenario.py | Pending |
+| UT-025 | REQ-002-002-001 | APT29 phase 1-8 event definitions | tests/unit/backend/test_apt29_phases.py | Pending |
+| UT-026 | REQ-002-002-002 | APT29 14 cumulative SIEM incidents | tests/unit/backend/test_apt29_siem.py | Pending |
+| UT-027 | REQ-002-002-003 | APT29 15 cumulative EDR detections | tests/unit/backend/test_apt29_edr.py | Pending |
+| UT-028 | REQ-002-002-004 | APT29 7 cumulative Intel IOCs | tests/unit/backend/test_apt29_iocs.py | Pending |
+| UT-029 | REQ-002-002-005 | APT29 cross-reference consistency | tests/unit/backend/test_apt29_consistency.py | Pending |
+| UT-030 | REQ-002-003-001 | FIN7 scenario script structure | tests/unit/backend/test_fin7_scenario.py | Pending |
+| UT-031 | REQ-002-003-002 | Lazarus scenario script structure | tests/unit/backend/test_lazarus_scenario.py | Pending |
+| UT-032 | REQ-002-003-003 | REvil scenario script structure | tests/unit/backend/test_revil_scenario.py | Pending |
+| UT-033 | REQ-002-003-004 | SolarWinds scenario script structure | tests/unit/backend/test_solarwinds_scenario.py | Pending |
+| UT-034 | REQ-002-003-005 | Insider Threat scenario script structure | tests/unit/backend/test_insider_scenario.py | Pending |
+| UT-035 | REQ-002-004-001 | 25 tool handlers query ScenarioStateManager | tests/unit/backend/test_tool_handler_integration.py | Pending |
+| UT-036 | REQ-002-004-002 | Backward compatibility (static data fallback) | tests/unit/backend/test_backward_compatibility.py | Pending |
+| UT-037 | REQ-002-004-003 | Mutations reflected immediately in queries | tests/unit/backend/test_mutation_queries.py | Pending |
+| UT-038 | REQ-002-004-004 | No future-phase data leakage | tests/unit/backend/test_phase_isolation.py | Pending |
+| UT-039 | REQ-002-005-001 | Orchestration tools use scenario data | tests/unit/backend/test_orchestration_scenario.py | Pending |
+| UT-040 | REQ-002-005-002 | Vega gateway enrichment integration | tests/unit/backend/test_vega_enrichment.py | Pending |
+| UT-041 | REQ-002-006-001 | Phase sync between simulation and data engine | tests/unit/backend/test_phase_sync.py | Pending |
+| UT-042 | REQ-002-006-002 | Jump-to-phase applies cumulative events | tests/unit/backend/test_jump_to_phase.py | Pending |
 
-- [x] GEN-001: Page loads without errors
-- [x] GEN-002: Title or header is visible
-- [x] GEN-003: Generation controls are present
-- [x] GEN-004: Generate button is functional
+### Technical Requirement Unit Tests
 
-### Tests Funcionales (NUEVOS)
+| Test ID | Requirement | Description | File | Status |
+|---------|-------------|-------------|------|--------|
+| UT-TECH-001 | TECH-001 | useMcpStateSync hook implementation | tests/unit/frontend/useMcpStateSync.test.ts | Pending |
+| UT-TECH-002 | TECH-002 | UIBridge Python class | tests/unit/backend/test_ui_bridge.py | Pending |
+| UT-TECH-003 | TECH-003 | REST endpoint implementation | tests/unit/backend/test_ui_action_endpoint.py | Pending |
+| UT-TECH-004 | TECH-004 | Chart overlay component | tests/unit/frontend/chartOverlay.test.ts | Pending |
+| UT-TECH-005 | TECH-005 | Asset highlight CSS animations | tests/unit/frontend/highlightModes.test.ts | Pending |
+| UT-TECH-006 | TECH-006 | Timeline panel component | tests/unit/frontend/timelinePanel.test.ts | Pending |
+| UT-TECH-007 | TECH-007 | KPI animation component | tests/unit/frontend/kpiAnimation.test.ts | Pending |
+| UT-TECH-008 | TECH-008 | ScenarioStateManager singleton | tests/unit/backend/test_scenario_state_manager.py | Pending |
+| UT-TECH-009 | TECH-009 | Scenario script file structure | tests/unit/backend/test_apt29_phases.py | Pending |
+| UT-TECH-010 | TECH-010 | PhaseEvents data structure | tests/unit/backend/test_scenario_state_manager.py | Pending |
+| UT-TECH-011 | TECH-011 | Tool handler modifications | tests/unit/backend/test_tool_handler_integration.py | Pending |
+| UT-TECH-012 | TECH-012 | Backward compatibility logic | tests/unit/backend/test_backward_compatibility.py | Pending |
+| UT-TECH-013 | TECH-013 | E2E tests for UI control | tests/e2e/agentUIControl.spec.ts | Pending |
 
-- [ ] GEN-F001: Can select data type to generate (incidents, alerts, tickets, etc.)
-- [ ] GEN-F002: Can input number of records to generate
-- [ ] GEN-F003: Generate button triggers API call
-- [ ] GEN-F004: Loading state shows during generation
-- [ ] GEN-F005: Success/error message displays after generation
-- [ ] GEN-F006: Generated data appears in UI or confirmation shown
+### NFR Unit Tests
 
----
+| Test ID | Requirement | Description | File | Status |
+|---------|-------------|-------------|------|--------|
+| UT-NFR-001 | NFR-001 | UI state update render performance (<100ms) | tests/unit/frontend/useMcpStateSync.test.ts | Pending |
+| UT-NFR-002 | NFR-002 | WS auto-reconnect with exponential backoff | tests/unit/frontend/useMcpStateSync.test.ts | Pending |
+| UT-NFR-003 | NFR-003 | Graceful degradation if WS down | tests/unit/frontend/wsGracefulDegradation.test.ts | Pending |
+| UT-NFR-004 | NFR-004 | No memory leaks from WS connections | tests/unit/frontend/useMcpStateSync.test.ts | Pending |
+| UT-NFR-005 | NFR-005 | Max 50 concurrent clients | tests/unit/frontend/useMcpStateSync.test.ts | Pending |
+| UT-NFR-006 | NFR-006 | ScenarioStateManager query <10ms | tests/unit/backend/test_scenario_state_manager.py | Pending |
+| UT-NFR-007 | NFR-007 | Memory under 50MB for scenario data | tests/unit/backend/test_scenario_state_manager.py | Pending |
+| UT-NFR-008 | NFR-008 | New scenario = new script file only | tests/unit/backend/test_apt29_phases.py | Pending |
+| UT-NFR-009 | NFR-009 | Backward compatible with existing tests | tests/unit/backend/test_backward_compatibility.py | Pending |
 
-## 2. DASHBOARD PAGE (/dashboard)
+### Data Requirement Unit Tests
 
-### Tests Básicos
-
-- [x] DASH-001: Page loads without errors
-- [x] DASH-002: Dashboard title or header visible
-- [x] DASH-003: Metric cards are present
-- [x] DASH-004: Enrichment buttons are visible
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] DASH-F001: Metric cards display numeric values
-- [ ] DASH-F002: Charts/graphs render (no empty containers)
-- [ ] DASH-F003: Refresh/reload data button works
-- [ ] DASH-F004: Enrichment button can be clicked
-- [ ] DASH-F005: Quick stats show recent activity
-- [ ] DASH-F006: Links to other pages work from dashboard
-
----
-
-## 3. ASSETS PAGE (/assets)
-
-### Tests Básicos
-
-- [x] ASSET-001: Page loads without errors
-- [x] ASSET-002: Assets title or header visible
-- [x] ASSET-003: Assets table or list is present
-- [x] ASSET-004: Layer toggles are present
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] ASSET-F001: Assets table shows data rows
-- [ ] ASSET-F002: Layer toggle changes displayed content
-- [ ] ASSET-F003: Search/filter by asset name works
-- [ ] ASSET-F004: Sort columns work (if table has sorting)
-- [ ] ASSET-F005: Asset row click opens detail (if applicable)
-
----
-
-## 4. INCIDENTS PAGE (/incidents)
-
-### Tests Básicos
-
-- [x] INC-001: Page loads without errors
-- [x] INC-002: Incidents title or header visible
-- [x] INC-003: Incidents list is present
-- [x] INC-004: Filter controls are present
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] INC-F001: Incidents list shows incident cards/rows
-- [ ] INC-F002: Severity filter changes displayed incidents
-- [ ] INC-F003: Status filter works (open/closed/all)
-- [ ] INC-F004: Click incident opens detail view
-- [ ] INC-F005: Investigate button triggers action
-
----
-
-## 5. DETECTIONS PAGE (/detections)
-
-### Tests Básicos
-
-- [x] DET-001: Page loads without errors
-- [x] DET-002: Detections title or header visible
-- [x] DET-003: Detections table is present
-- [x] DET-004: Severity indicators are visible
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] DET-F001: Detections table shows rows with data
-- [ ] DET-F002: Severity badges have correct colors
-- [ ] DET-F003: Detection row can be clicked for details
-- [ ] DET-F004: Source column shows detection source
-- [ ] DET-F005: Timestamp displays correctly
+| Test ID | Requirement | Description | File | Status |
+|---------|-------------|-------------|------|--------|
+| UT-DATA-001 | DATA-001 | PhaseEvents data structure | tests/unit/backend/test_scenario_state_manager.py | Pending |
+| UT-DATA-002 | DATA-002 | ScenarioState cumulative structure | tests/unit/backend/test_scenario_state_manager.py | Pending |
+| UT-DATA-003 | DATA-003 | APT29 event data completeness | tests/unit/backend/test_apt29_phases.py | Pending |
+| UT-DATA-004 | DATA-004 | Additional scenario data | tests/unit/backend/test_fin7_scenario.py | Pending |
+| UT-DATA-005 | DATA-005 | WS UI command format | tests/unit/frontend/useMcpStateSync.test.ts | Pending |
+| UT-DATA-006 | DATA-006 | Agent mutation format | tests/unit/backend/test_agent_mutations.py | Pending |
+| UT-DATA-007 | DATA-007 | Phase-to-UI-Action mapping | tests/unit/backend/test_phase_ui_mapping.py | Pending |
 
 ---
 
-## 6. TIMELINE PAGE (/timeline)
+## Integration Tests
 
-### Tests Básicos
+| Test ID | Requirements | Description | File | Status |
+|---------|--------------|-------------|------|--------|
+| IT-001 | REQ-001-001-001, INT-001 | React to MCP WS Server full WebSocket flow | tests/integration/frontend/wsConnection.integration.test.ts | Pending |
+| IT-002 | REQ-001-002-001, INT-002 | UIBridge to MCP WS Server command forwarding | tests/integration/backend/test_ui_bridge_integration.py | Pending |
+| IT-003 | REQ-001-003-001, INT-005 | Agent analysis triggers UI actions through pipeline | tests/integration/backend/test_agent_ui_pipeline.py | Pending |
+| IT-004 | REQ-002-001-001, INT-003 | ScenarioStateManager with tool handler queries | tests/integration/backend/test_scenario_tool_flow.py | Pending |
+| IT-005 | REQ-002-004-001, INT-003 | 25 tool handlers with ScenarioStateManager integration | tests/integration/backend/test_tool_integration.py | Pending |
+| IT-006 | REQ-002-006-001, INT-004 | Simulation phase advance syncs both managers | tests/integration/backend/test_phase_sync_integration.py | Pending |
+| IT-007 | REQ-001-003-004, REQ-001-003-005 | Rate limiting and user interaction queuing across WS pipeline | tests/integration/frontend/rateLimitQueue.integration.test.ts | Pending |
 
-- [x] TIME-001: Page loads without errors
-- [x] TIME-002: Timeline title or header visible
-- [x] TIME-003: Timeline events are present
-- [x] TIME-004: Filter controls work
+### Integration Requirement Tests
 
-### Tests Funcionales (NUEVOS)
-
-- [ ] TIME-F001: Timeline shows chronological events
-- [ ] TIME-F002: Event cards display type and timestamp
-- [ ] TIME-F003: Scroll loads more events (if pagination)
-- [ ] TIME-F004: Date range filter works
-
----
-
-## 7. POSTMORTEMS PAGE (/postmortems)
-
-### Tests Básicos
-
-- [x] POST-001: Page loads without errors
-- [x] POST-002: Postmortems title or header visible
-- [x] POST-003: Postmortems list is present
-- [x] POST-004: Search functionality exists
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] POST-F001: Postmortem cards show title and date
-- [ ] POST-F002: Click postmortem opens full content
-- [ ] POST-F003: Search filters postmortems by text
-- [ ] POST-F004: Status badge shows (completed/draft)
-- [ ] POST-F005: Create new postmortem button exists
+| Test ID | Requirement | Description | File | Status |
+|---------|-------------|-------------|------|--------|
+| IT-INT-001 | INT-001 | WebSocket protocol React to WS Server | tests/integration/frontend/wsConnection.integration.test.ts | Pending |
+| IT-INT-002 | INT-002 | UIBridge to WS Server | tests/integration/backend/test_ui_bridge_integration.py | Pending |
+| IT-INT-003 | INT-003 | Tool Handler to ScenarioStateManager | tests/integration/backend/test_tool_integration.py | Pending |
+| IT-INT-004 | INT-004 | Simulation to Data Engine sync | tests/integration/backend/test_phase_sync_integration.py | Pending |
+| IT-INT-005 | INT-005 | Agent to UI pipeline | tests/integration/backend/test_agent_ui_pipeline.py | Pending |
 
 ---
 
-## 8. TICKETS PAGE (/tickets)
+## E2E Tests (Playwright)
 
-### Tests Básicos
-
-- [x] TICK-001: Page loads without errors
-- [x] TICK-002: Tickets title or header visible
-- [x] TICK-003: Tickets table is present
-- [x] TICK-004: Ticket status indicators visible
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] TICK-F001: Tickets table shows ticket data
-- [ ] TICK-F002: Status badges show correct state
-- [ ] TICK-F003: Priority indicator visible
-- [ ] TICK-F004: Assignee column populated
-- [ ] TICK-F005: Click ticket shows detail
+| Test ID | Feature | Description | File | Status |
+|---------|---------|-------------|------|--------|
+| E2E-001 | FEAT-001-001, FEAT-001-004 | WS state sync triggers UI components (charts, highlights, timeline) | tests/e2e/agentUIControl.spec.ts | Pending |
+| E2E-002 | FEAT-001-003 | Agent analysis triggers UI actions with presenter controls | tests/e2e/agentUIActions.spec.ts | Pending |
+| E2E-003 | FEAT-002-002 | APT29 scenario loads and phases advance with data | tests/e2e/apt29Scenario.spec.ts | Pending |
+| E2E-004 | FEAT-002-004 | Tool handlers return scenario-aware data | tests/e2e/scenarioToolData.spec.ts | Pending |
+| E2E-005 | FEAT-002-006 | Simulation phase sync with data engine | tests/e2e/phaseSync.spec.ts | Pending |
+| E2E-006 | FEAT-001-001 | Graceful degradation when WS Server is down | tests/e2e/gracefulDegradation.spec.ts | Pending |
 
 ---
 
-## 9. CTEM PAGE (/ctem)
+## Coverage Verification Matrix
 
-### Tests Básicos
-
-- [x] CTEM-001: Page loads without errors
-- [x] CTEM-002: CTEM title or header visible
-- [x] CTEM-003: Vulnerabilities list is present
-- [x] CTEM-004: Risk indicators are visible
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] CTEM-F001: Vulnerabilities show CVE identifiers
-- [ ] CTEM-F002: CVSS scores displayed
-- [ ] CTEM-F003: Risk level indicators have colors
-- [ ] CTEM-F004: Filter by severity works
-- [ ] CTEM-F005: Click vulnerability shows detail
-
----
-
-## 10. GRAPH PAGE (/graph)
-
-### Tests Básicos
-
-- [x] GRAPH-001: Page loads without errors
-- [x] GRAPH-002: Graph title or header visible
-- [x] GRAPH-003: Graph container is present
-- [x] GRAPH-004: Graph controls are present
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] GRAPH-F001: Graph renders nodes (visible elements)
-- [ ] GRAPH-F002: Zoom controls work (zoom in/out)
-- [ ] GRAPH-F003: Node click shows info panel
-- [ ] GRAPH-F004: Layout options available
-- [ ] GRAPH-F005: Graph with incident ID shows related nodes
-
----
-
-## 11. COLLABORATION PAGE (/collab)
-
-### Tests Básicos
-
-- [x] COLLAB-001: Page loads without errors
-- [x] COLLAB-002: Collaboration title or header visible
-- [x] COLLAB-003: Chat area is present
-- [x] COLLAB-004: Message input is functional
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] COLLAB-F001: Message list displays messages
-- [ ] COLLAB-F002: Can type in message input
-- [ ] COLLAB-F003: Send button is visible
-- [ ] COLLAB-F004: Channel/room selector works (if present)
-- [ ] COLLAB-F005: User presence indicators visible
-
----
-
-## 12. CONFIGURATION PAGE (/config)
-
-### Tests Básicos
-
-- [x] CONFIG-001: Page loads without errors
-- [x] CONFIG-002: Configuration title or header visible
-- [x] CONFIG-003: Configuration sections are present
-- [x] CONFIG-004: Toggle controls work
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] CONFIG-F001: Configuration sections are labeled
-- [ ] CONFIG-F002: Toggle switches can be clicked
-- [ ] CONFIG-F003: Input fields accept text
-- [ ] CONFIG-F004: Save/Apply button present
-- [ ] CONFIG-F005: Changes persist (or show confirmation)
-
----
-
-## 13. AUDIT LOG PAGE (/audit)
-
-### Tests Básicos
-
-- [x] AUDIT-001: Page loads without errors
-- [x] AUDIT-002: Audit title or header visible
-- [x] AUDIT-003: Audit table is present
-- [x] AUDIT-004: Filter controls work
-- [x] AUDIT-005: Export button exists
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] AUDIT-F001: Audit entries show timestamp
-- [ ] AUDIT-F002: Action type column populated
-- [ ] AUDIT-F003: User/actor shown in entries
-- [ ] AUDIT-F004: Filter by action type works
-- [ ] AUDIT-F005: Export button is clickable
+| Req ID | UT IDs | IT IDs | E2E IDs | Coverage |
+|--------|--------|--------|---------|----------|
+| REQ-001-001-001 | UT-001 | IT-001 | E2E-001 | [ ] Complete |
+| REQ-001-001-002 | UT-002 | IT-001 | E2E-001 | [ ] Complete |
+| REQ-001-001-003 | UT-003 | IT-001 | E2E-001 | [ ] Complete |
+| REQ-001-001-004 | UT-004 | IT-001 | E2E-001 | [ ] Complete |
+| REQ-001-001-005 | UT-005 | IT-001 | E2E-001 | [ ] Complete |
+| REQ-001-001-006 | UT-006 | IT-001 | E2E-006 | [ ] Complete |
+| REQ-001-002-001 | UT-007 | IT-002 | - | [ ] Complete |
+| REQ-001-002-002 | UT-008 | IT-002 | - | [ ] Complete |
+| REQ-001-002-003 | UT-009 | IT-002 | - | [ ] Complete |
+| REQ-001-003-001 | UT-010 | IT-003 | - | [ ] Complete |
+| REQ-001-003-002 | UT-011 | IT-003 | E2E-002 | [ ] Complete |
+| REQ-001-003-003 | UT-012 | - | E2E-002 | [ ] Complete |
+| REQ-001-003-004 | UT-013 | IT-007 | - | [ ] Complete |
+| REQ-001-003-005 | UT-014 | IT-007 | - | [ ] Complete |
+| REQ-001-004-001 | UT-015 | - | E2E-001 | [ ] Complete |
+| REQ-001-004-002 | UT-016 | - | E2E-001 | [ ] Complete |
+| REQ-001-004-003 | UT-017 | - | E2E-001 | [ ] Complete |
+| REQ-001-004-004 | UT-018 | - | - | [ ] Complete |
+| REQ-001-005-001 | UT-019 | - | - | [ ] Complete |
+| REQ-002-001-001 | UT-020 | IT-004 | - | [ ] Complete |
+| REQ-002-001-002 | UT-021 | IT-004 | - | [ ] Complete |
+| REQ-002-001-003 | UT-022 | IT-004 | - | [ ] Complete |
+| REQ-002-001-004 | UT-023 | - | - | [ ] Complete |
+| REQ-002-001-005 | UT-024 | - | - | [ ] Complete |
+| REQ-002-002-001 | UT-025 | - | E2E-003 | [ ] Complete |
+| REQ-002-002-002 | UT-026 | - | E2E-003 | [ ] Complete |
+| REQ-002-002-003 | UT-027 | - | E2E-003 | [ ] Complete |
+| REQ-002-002-004 | UT-028 | - | E2E-003 | [ ] Complete |
+| REQ-002-002-005 | UT-029 | IT-004 | - | [ ] Complete |
+| REQ-002-003-001 | UT-030 | - | - | [ ] Complete |
+| REQ-002-003-002 | UT-031 | - | - | [ ] Complete |
+| REQ-002-003-003 | UT-032 | - | - | [ ] Complete |
+| REQ-002-003-004 | UT-033 | - | - | [ ] Complete |
+| REQ-002-003-005 | UT-034 | - | - | [ ] Complete |
+| REQ-002-004-001 | UT-035 | IT-005 | E2E-004 | [ ] Complete |
+| REQ-002-004-002 | UT-036 | IT-005 | - | [ ] Complete |
+| REQ-002-004-003 | UT-037 | IT-005 | - | [ ] Complete |
+| REQ-002-004-004 | UT-038 | IT-005 | - | [ ] Complete |
+| REQ-002-005-001 | UT-039 | - | - | [ ] Complete |
+| REQ-002-005-002 | UT-040 | - | - | [ ] Complete |
+| REQ-002-006-001 | UT-041 | IT-006 | E2E-005 | [ ] Complete |
+| REQ-002-006-002 | UT-042 | IT-006 | - | [ ] Complete |
+| TECH-001 | UT-TECH-001 | - | - | [ ] Complete |
+| TECH-002 | UT-TECH-002 | - | - | [ ] Complete |
+| TECH-003 | UT-TECH-003 | - | - | [ ] Complete |
+| TECH-004 | UT-TECH-004 | - | - | [ ] Complete |
+| TECH-005 | UT-TECH-005 | - | - | [ ] Complete |
+| TECH-006 | UT-TECH-006 | - | - | [ ] Complete |
+| TECH-007 | UT-TECH-007 | - | - | [ ] Complete |
+| TECH-008 | UT-TECH-008 | - | - | [ ] Complete |
+| TECH-009 | UT-TECH-009 | - | - | [ ] Complete |
+| TECH-010 | UT-TECH-010 | - | - | [ ] Complete |
+| TECH-011 | UT-TECH-011 | - | - | [ ] Complete |
+| TECH-012 | UT-TECH-012 | - | - | [ ] Complete |
+| TECH-013 | UT-TECH-013 | - | E2E-001 | [ ] Complete |
+| INT-001 | - | IT-INT-001 | - | [ ] Complete |
+| INT-002 | - | IT-INT-002 | - | [ ] Complete |
+| INT-003 | - | IT-INT-003 | - | [ ] Complete |
+| INT-004 | - | IT-INT-004 | - | [ ] Complete |
+| INT-005 | - | IT-INT-005 | - | [ ] Complete |
+| DATA-001 | UT-DATA-001 | - | - | [ ] Complete |
+| DATA-002 | UT-DATA-002 | - | - | [ ] Complete |
+| DATA-003 | UT-DATA-003 | - | - | [ ] Complete |
+| DATA-004 | UT-DATA-004 | - | - | [ ] Complete |
+| DATA-005 | UT-DATA-005 | - | - | [ ] Complete |
+| DATA-006 | UT-DATA-006 | - | - | [ ] Complete |
+| DATA-007 | UT-DATA-007 | - | - | [ ] Complete |
+| NFR-001 | UT-NFR-001 | - | - | [ ] Complete |
+| NFR-002 | UT-NFR-002 | - | - | [ ] Complete |
+| NFR-003 | UT-NFR-003 | - | - | [ ] Complete |
+| NFR-004 | UT-NFR-004 | - | - | [ ] Complete |
+| NFR-005 | UT-NFR-005 | - | - | [ ] Complete |
+| NFR-006 | UT-NFR-006 | - | - | [ ] Complete |
+| NFR-007 | UT-NFR-007 | - | - | [ ] Complete |
+| NFR-008 | UT-NFR-008 | - | - | [ ] Complete |
+| NFR-009 | UT-NFR-009 | - | - | [ ] Complete |
 
 ---
-
-## 14. NAVIGATION TESTS
-
-### Tests Básicos
-
-- [x] NAV-001: Sidebar navigation works
-- [x] NAV-002: All routes are accessible
-- [x] NAV-003: Invalid routes redirect properly
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] NAV-F001: Clicking sidebar item navigates correctly
-- [ ] NAV-F002: Active menu item is highlighted
-- [ ] NAV-F003: Browser back/forward works
-
----
-
-## 15. RESPONSIVE DESIGN TESTS
-
-### Tests Básicos
-
-- [x] RESP-001: Mobile viewport works
-- [x] RESP-002: Tablet viewport works
-- [x] RESP-003: Desktop viewport works
-
-### Tests Funcionales (NUEVOS)
-
-- [ ] RESP-F001: Sidebar collapses on mobile
-- [ ] RESP-F002: Tables scroll horizontally on mobile
-
----
-
-## Criterios de Aceptación
-
-Para que el test plan se considere COMPLETADO:
-
-1. ✅ Todas las 13 páginas cargan sin errores
-2. ✅ Ninguna página muestra contenido en blanco
-3. ✅ Los elementos principales de cada página son visibles
-4. ✅ Las funcionalidades básicas de cada página funcionan
-5. ✅ La navegación entre páginas funciona correctamente
-6. ✅ La aplicación es responsive (móvil, tablet, desktop)
-
----
-
-## Archivos de Test
-
-| Archivo                              | Descripción                          |
-| ------------------------------------ | ------------------------------------ |
-| `tests/e2e/all-pages.spec.ts`        | Tests básicos de todas las páginas   |
-| `tests/e2e/functional-pages.spec.ts` | Tests funcionales detallados (NUEVO) |
-| `tests/e2e/generation.spec.ts`       | Tests específicos de generación      |
-| `tests/e2e/dashboard-charts.spec.ts` | Tests de gráficos del dashboard      |
-
----
-
-## Comandos de Ejecución
-
-```bash
-# Instalar dependencias
-cd CyberDemo/frontend && npm install
-
-# Instalar Playwright browsers
-npx playwright install
-
-# Ejecutar todos los tests E2E
-npx playwright test
-
-# Ejecutar tests con UI visual
-npx playwright test --ui
-
-# Ejecutar tests de una página específica
-npx playwright test all-pages.spec.ts
-
-# Ver reporte HTML
-npx playwright show-report
-```
-
----
-
-_Documento generado: 2026-02-15_
-_Proyecto: CyberDemo SOC Dashboard_
+_Document generated by SoftwareBuilderX v20.0.0_
