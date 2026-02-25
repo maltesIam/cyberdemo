@@ -97,7 +97,7 @@ describe("CopilotWidget", () => {
     it("should render with proper styling classes", () => {
       renderCopilotWidget();
       const widget = screen.getByTestId("aip-assist-widget");
-      expect(widget).toHaveClass("bg-gray-800");
+      expect(widget).toHaveClass("bg-secondary");
     });
 
     it("should render the aIP Assist header", () => {

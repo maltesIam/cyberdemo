@@ -42,9 +42,9 @@ const PlaybackButton = ({
   variant = "default",
 }: PlaybackButtonProps) => {
   const variantClasses = {
-    primary: "bg-cyan-600 hover:bg-cyan-700 text-white",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
-    default: "bg-gray-700 hover:bg-gray-600 text-gray-200",
+    primary: "bg-cyan-600 hover:bg-cyan-700 text-primary",
+    danger: "bg-red-600 hover:bg-red-700 text-primary",
+    default: "bg-tertiary hover:bg-tertiary text-primary",
   };
 
   return (
@@ -161,11 +161,11 @@ export function DemoControlPanel({
     <div
       data-testid="demo-control-panel"
       aria-label="Demo simulation controls"
-      className="bg-gray-800 border border-gray-700 rounded-lg p-4 space-y-4"
+      className="bg-secondary border border-primary rounded-lg p-4 space-y-4"
     >
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-gray-200">Demo Controls</h3>
+        <h3 className="text-sm font-semibold text-primary">Demo Controls</h3>
         <div className="flex items-center space-x-2">
           <div
             data-testid="status-indicator"
@@ -173,7 +173,7 @@ export function DemoControlPanel({
               isPlaying ? "animate-pulse" : ""
             }`}
           />
-          <span className="text-xs text-gray-400">{getStatusText(playState)}</span>
+          <span className="text-xs text-secondary">{getStatusText(playState)}</span>
         </div>
       </div>
 
@@ -217,10 +217,10 @@ export function DemoControlPanel({
       {/* Speed Slider */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label htmlFor="speed-slider" className="text-xs text-gray-400">
+          <label htmlFor="speed-slider" className="text-xs text-secondary">
             Speed
           </label>
-          <span className="text-xs font-medium text-gray-200">{speed}x</span>
+          <span className="text-xs font-medium text-primary">{speed}x</span>
         </div>
         <input
           id="speed-slider"
@@ -232,9 +232,9 @@ export function DemoControlPanel({
           step="0.5"
           value={speed}
           onChange={handleSpeedChange}
-          className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+          className="w-full h-2 bg-tertiary rounded-lg appearance-none cursor-pointer accent-cyan-500"
         />
-        <div className="flex justify-between text-[10px] text-gray-500">
+        <div className="flex justify-between text-[10px] text-tertiary">
           <span>0.5x</span>
           <span>1x</span>
           <span>2x</span>
@@ -250,22 +250,22 @@ export function DemoControlPanel({
       />
 
       {/* Keyboard Shortcuts Help */}
-      <div className="border-t border-gray-700 pt-3">
-        <div className="text-[10px] text-gray-500 space-y-1">
+      <div className="border-t border-primary pt-3">
+        <div className="text-[10px] text-tertiary space-y-1">
           <div className="flex justify-between">
             <span>Play/Pause</span>
-            <kbd className="px-1.5 py-0.5 bg-gray-700 rounded text-gray-400">Space</kbd>
+            <kbd className="px-1.5 py-0.5 bg-tertiary rounded text-secondary">Space</kbd>
           </div>
           <div className="flex justify-between">
             <span>Stop</span>
-            <kbd className="px-1.5 py-0.5 bg-gray-700 rounded text-gray-400">Esc</kbd>
+            <kbd className="px-1.5 py-0.5 bg-tertiary rounded text-secondary">Esc</kbd>
           </div>
           <div className="flex justify-between">
             <span>Speed +/-</span>
             <span>
-              <kbd className="px-1.5 py-0.5 bg-gray-700 rounded text-gray-400">+</kbd>
+              <kbd className="px-1.5 py-0.5 bg-tertiary rounded text-secondary">+</kbd>
               {" / "}
-              <kbd className="px-1.5 py-0.5 bg-gray-700 rounded text-gray-400">-</kbd>
+              <kbd className="px-1.5 py-0.5 bg-tertiary rounded text-secondary">-</kbd>
             </span>
           </div>
         </div>

@@ -315,7 +315,7 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
       {/* Input with type badge */}
       <div className="relative flex items-center">
         <svg
-          className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"
+          className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-tertiary"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -347,7 +347,7 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
           onKeyDown={handleKeyDown}
           placeholder="Search hostname, IP, CVE, hash..."
           className={clsx(
-            "w-48 lg:w-72 py-1.5 pr-16 bg-gray-900 border border-gray-600 rounded-lg text-sm text-gray-200",
+            "w-48 lg:w-72 py-1.5 pr-16 bg-primary border border-primary rounded-lg text-sm text-primary",
             "placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors",
             value.trim() && searchType !== "generic" ? "pl-[4.5rem]" : "pl-8",
           )}
@@ -356,7 +356,7 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
         {/* Ctrl+K hint */}
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
           {!value && (
-            <span className="hidden md:flex items-center gap-0.5 text-[10px] text-gray-600 bg-gray-800 px-1.5 py-0.5 rounded border border-gray-700">
+            <span className="hidden md:flex items-center gap-0.5 text-[10px] text-tertiary bg-secondary px-1.5 py-0.5 rounded border border-primary">
               <kbd>Ctrl</kbd>+<kbd>K</kbd>
             </span>
           )}
@@ -367,7 +367,7 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
                 setIsOpen(false);
                 inputRef.current?.focus();
               }}
-              className="text-gray-500 hover:text-gray-300 transition-colors"
+              className="text-tertiary hover:text-secondary transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -384,7 +384,7 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
 
       {/* Dropdown results */}
       {showDropdown && (
-        <div className="absolute z-50 top-full mt-1 w-full min-w-[320px] bg-gray-800 border border-gray-600 rounded-lg shadow-xl overflow-hidden">
+        <div className="absolute z-50 top-full mt-1 w-full min-w-[320px] bg-secondary border border-primary rounded-lg shadow-xl overflow-hidden">
           {Array.from(grouped.entries()).map(([groupKey, items]) => {
             const groupLabel = GROUP_LABELS[groupKey] ?? groupKey;
             const icon = GROUP_ICONS[groupKey] ?? null;
@@ -392,12 +392,12 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
             return (
               <div key={groupKey}>
                 {/* Group header */}
-                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-750 border-b border-gray-700">
-                  <span className="text-gray-500">{icon}</span>
-                  <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary border-b border-primary">
+                  <span className="text-tertiary">{icon}</span>
+                  <span className="text-[10px] font-medium text-secondary uppercase tracking-wider">
                     {groupLabel}
                   </span>
-                  <span className="text-[10px] text-gray-600">({items.length})</span>
+                  <span className="text-[10px] text-tertiary">({items.length})</span>
                 </div>
 
                 {/* Results */}
@@ -412,15 +412,15 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
                       onMouseEnter={() => setActiveIndex(globalIdx)}
                       className={clsx(
                         "w-full text-left px-3 py-2 flex items-center gap-2 transition-colors",
-                        isActive ? "bg-gray-700" : "hover:bg-gray-700/50",
+                        isActive ? "bg-tertiary" : "hover:bg-tertiary/50",
                       )}
                     >
                       <div className="flex-1 min-w-0">
-                        <div className="text-sm text-gray-200 truncate">{result.label}</div>
-                        <div className="text-[11px] text-gray-500 truncate">{result.sublabel}</div>
+                        <div className="text-sm text-primary truncate">{result.label}</div>
+                        <div className="text-[11px] text-tertiary truncate">{result.sublabel}</div>
                       </div>
                       <svg
-                        className="w-3.5 h-3.5 text-gray-600 flex-shrink-0"
+                        className="w-3.5 h-3.5 text-tertiary flex-shrink-0"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -440,13 +440,13 @@ export function SearchBar({ value, onChange, onSelect }: Props) {
           })}
 
           {/* Footer hint */}
-          <div className="px-3 py-1.5 border-t border-gray-700 flex items-center justify-between text-[10px] text-gray-600">
+          <div className="px-3 py-1.5 border-t border-primary flex items-center justify-between text-[10px] text-tertiary">
             <span>
-              <kbd className="px-1 bg-gray-700 rounded">Up</kbd> /{" "}
-              <kbd className="px-1 bg-gray-700 rounded">Down</kbd> to navigate
+              <kbd className="px-1 bg-tertiary rounded">Up</kbd> /{" "}
+              <kbd className="px-1 bg-tertiary rounded">Down</kbd> to navigate
             </span>
             <span>
-              <kbd className="px-1 bg-gray-700 rounded">Enter</kbd> to select
+              <kbd className="px-1 bg-tertiary rounded">Enter</kbd> to select
             </span>
           </div>
         </div>

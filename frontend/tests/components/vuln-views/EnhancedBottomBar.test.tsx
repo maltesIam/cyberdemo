@@ -155,7 +155,7 @@ describe("EnhancedBottomBar Component", () => {
 
       expect(remediatedSegment).toHaveClass("bg-green-500");
       expect(inProgressSegment).toHaveClass("bg-blue-500");
-      expect(openSegment).toHaveClass("bg-gray-600");
+      expect(openSegment).toHaveClass("bg-tertiary");
     });
 
     it("should render segment legend with counts", () => {

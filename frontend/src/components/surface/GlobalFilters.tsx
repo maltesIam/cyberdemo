@@ -86,10 +86,10 @@ function FilterSection({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-gray-700 last:border-b-0">
+    <div className="border-b border-primary last:border-b-0">
       <button
         onClick={() => setIsOpen((o) => !o)}
-        className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-gray-400 uppercase tracking-wider hover:text-gray-200 transition-colors"
+        className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-secondary uppercase tracking-wider hover:text-primary transition-colors"
       >
         <span>{title}</span>
         <svg
@@ -135,7 +135,7 @@ function ChipGroup({
               "px-2 py-1 rounded text-[11px] font-medium transition-colors border",
               isActive
                 ? "border-cyan-500/50 bg-cyan-900/30 text-cyan-300"
-                : "border-gray-600 bg-gray-700/50 text-gray-400 hover:text-gray-200 hover:border-gray-500",
+                : "border-primary bg-tertiary/50 text-secondary hover:text-primary hover:border-gray-500",
             )}
             style={
               isActive && opt.color
@@ -189,12 +189,12 @@ export function GlobalFilters({ filters, onFilterChange }: Props) {
   }, [onFilterChange]);
 
   return (
-    <div className="flex flex-col bg-gray-800 border-t border-gray-700">
+    <div className="flex flex-col bg-secondary border-t border-primary">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-700">
+      <div className="flex items-center justify-between px-3 py-2 border-b border-primary">
         <div className="flex items-center gap-2">
           <svg
-            className="w-3.5 h-3.5 text-gray-400"
+            className="w-3.5 h-3.5 text-secondary"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -206,9 +206,9 @@ export function GlobalFilters({ filters, onFilterChange }: Props) {
               d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
             />
           </svg>
-          <span className="text-xs font-medium text-gray-300">Filters</span>
+          <span className="text-xs font-medium text-secondary">Filters</span>
           {activeCount > 0 && (
-            <span className="px-1.5 py-0.5 bg-cyan-600 text-white text-[10px] rounded-full font-bold">
+            <span className="px-1.5 py-0.5 bg-cyan-600 text-primary text-[10px] rounded-full font-bold">
               {activeCount}
             </span>
           )}
@@ -216,7 +216,7 @@ export function GlobalFilters({ filters, onFilterChange }: Props) {
         {activeCount > 0 && (
           <button
             onClick={handleReset}
-            className="text-[10px] text-gray-500 hover:text-cyan-400 transition-colors"
+            className="text-[10px] text-tertiary hover:text-cyan-400 transition-colors"
           >
             Clear all
           </button>
@@ -236,7 +236,7 @@ export function GlobalFilters({ filters, onFilterChange }: Props) {
                   "px-2 py-1 rounded text-[11px] font-medium transition-colors border",
                   filters.timeRange === tr
                     ? "border-cyan-500/50 bg-cyan-900/30 text-cyan-300"
-                    : "border-gray-600 bg-gray-700/50 text-gray-400 hover:text-gray-200 hover:border-gray-500",
+                    : "border-primary bg-tertiary/50 text-secondary hover:text-primary hover:border-gray-500",
                 )}
               >
                 {tr}
@@ -257,7 +257,7 @@ export function GlobalFilters({ filters, onFilterChange }: Props) {
         {/* Risk Range */}
         <FilterSection title="Risk Range" defaultOpen={false}>
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-[11px] text-gray-400">
+            <div className="flex items-center justify-between text-[11px] text-secondary">
               <span>Min: {filters.riskMin}</span>
               <span>Max: {filters.riskMax}</span>
             </div>
@@ -271,7 +271,7 @@ export function GlobalFilters({ filters, onFilterChange }: Props) {
                   const val = Number(e.target.value);
                   update({ riskMin: Math.min(val, filters.riskMax) });
                 }}
-                className="flex-1 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                className="flex-1 h-1 bg-tertiary rounded-lg appearance-none cursor-pointer accent-cyan-500"
               />
               <input
                 type="range"
@@ -282,7 +282,7 @@ export function GlobalFilters({ filters, onFilterChange }: Props) {
                   const val = Number(e.target.value);
                   update({ riskMax: Math.max(val, filters.riskMin) });
                 }}
-                className="flex-1 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                className="flex-1 h-1 bg-tertiary rounded-lg appearance-none cursor-pointer accent-cyan-500"
               />
             </div>
           </div>

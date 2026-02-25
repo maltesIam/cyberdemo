@@ -192,14 +192,14 @@ export function RiskPanel({
     <aside
       data-testid="risk-panel"
       className={clsx(
-        "w-72 bg-gray-800 rounded-lg overflow-y-auto",
+        "w-72 bg-secondary rounded-lg overflow-y-auto",
         className
       )}
       aria-label="Risk filters panel"
     >
       {/* Header */}
-      <div className="p-4 border-b border-gray-700 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+      <div className="p-4 border-b border-primary flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-primary flex items-center gap-2">
           <svg className="w-5 h-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
           </svg>
@@ -208,19 +208,19 @@ export function RiskPanel({
         <button
           onClick={resetFilters}
           aria-label="Reset filters"
-          className="text-xs text-gray-400 hover:text-white transition-colors"
+          className="text-xs text-secondary hover:text-primary transition-colors"
         >
           Reset
         </button>
       </div>
 
       {/* Presets Dropdown */}
-      <div className="p-4 border-b border-gray-700">
+      <div className="p-4 border-b border-primary">
         <div className="relative">
           <button
             data-testid="presets-dropdown"
             onClick={() => setPresetsOpen(!presetsOpen)}
-            className="w-full px-3 py-2 bg-gray-700 rounded-lg text-sm text-white flex items-center justify-between hover:bg-gray-600 transition-colors"
+            className="w-full px-3 py-2 bg-tertiary rounded-lg text-sm text-primary flex items-center justify-between hover:bg-tertiary transition-colors"
           >
             <span>Filter Presets</span>
             <svg
@@ -234,12 +234,12 @@ export function RiskPanel({
           </button>
 
           {presetsOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-gray-700 rounded-lg shadow-lg z-10 overflow-hidden">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-tertiary rounded-lg shadow-lg z-10 overflow-hidden">
               {FILTER_PRESETS.map((preset) => (
                 <button
                   key={preset.name}
                   onClick={() => applyPreset(preset)}
-                  className="w-full px-3 py-2 text-sm text-left text-gray-300 hover:bg-gray-600 hover:text-white transition-colors"
+                  className="w-full px-3 py-2 text-sm text-left text-secondary hover:bg-tertiary hover:text-primary transition-colors"
                 >
                   {preset.name}
                 </button>
@@ -360,8 +360,8 @@ export function RiskPanel({
       </FilterSection>
 
       {/* Product/Vendor Search */}
-      <div className="p-4 border-b border-gray-700">
-        <label className="block text-sm font-semibold text-gray-400 uppercase mb-2">
+      <div className="p-4 border-b border-primary">
+        <label className="block text-sm font-semibold text-secondary uppercase mb-2">
           Product/Vendor
         </label>
         <input
@@ -369,7 +369,7 @@ export function RiskPanel({
           placeholder="Search product or vendor..."
           value={filters.productSearch}
           onChange={(e) => updateSearch(e.target.value)}
-          className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+          className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500"
         />
       </div>
 
@@ -450,15 +450,15 @@ function FilterSection({
   children,
 }: FilterSectionProps) {
   return (
-    <div className="border-b border-gray-700">
+    <div className="border-b border-primary">
       <button
         data-testid={`${sectionKey}-section-header`}
         onClick={onToggle}
-        className="w-full p-4 flex items-center justify-between hover:bg-gray-700/50 transition-colors"
+        className="w-full p-4 flex items-center justify-between hover:bg-tertiary/50 transition-colors"
       >
-        <h3 className="text-sm font-semibold text-gray-400 uppercase">{title}</h3>
+        <h3 className="text-sm font-semibold text-secondary uppercase">{title}</h3>
         <svg
-          className={clsx("w-4 h-4 text-gray-500 transition-transform", isCollapsed && "rotate-180")}
+          className={clsx("w-4 h-4 text-tertiary transition-transform", isCollapsed && "rotate-180")}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -527,15 +527,15 @@ function FilterCheckbox({
         onChange={onChange}
         aria-label={label}
         className={clsx(
-          "w-4 h-4 rounded border-gray-600 bg-gray-700 focus:ring-2 focus:ring-offset-0",
+          "w-4 h-4 rounded border-primary bg-tertiary focus:ring-2 focus:ring-offset-0",
           `text-${color}-500 focus:ring-${color}-500`
         )}
       />
-      <span className={clsx("text-sm group-hover:text-white transition-colors", colorClasses[color])}>
+      <span className={clsx("text-sm group-hover:text-primary transition-colors", colorClasses[color])}>
         {label}
       </span>
       <span
-        className="text-xs text-gray-500 ml-auto"
+        className="text-xs text-tertiary ml-auto"
         aria-label={`${label} count: ${count}`}
       >
         {count}

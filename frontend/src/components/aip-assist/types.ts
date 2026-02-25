@@ -101,7 +101,7 @@ export const getConfidenceColor = (confidence: SuggestionConfidence): string => 
     case "low":
       return "text-red-400";
     default:
-      return "text-gray-400";
+      return "text-secondary";
   }
 };
 

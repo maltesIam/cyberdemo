@@ -123,7 +123,7 @@ export function DNAView({
     return (
       <div
         data-testid="dna-loading"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
@@ -133,7 +133,7 @@ export function DNAView({
   // Error state
   if (error) {
     return (
-      <div className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}>
+      <div className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}>
         <div className="text-center">
           <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -149,10 +149,10 @@ export function DNAView({
     return (
       <div
         data-testid="dna-view"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
         aria-label="DNA view - no data"
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-tertiary">
           <svg className="w-16 h-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
           </svg>
@@ -165,7 +165,7 @@ export function DNAView({
   return (
     <div
       data-testid="dna-view"
-      className={`bg-gray-900 rounded-lg p-4 ${className}`}
+      className={`bg-primary rounded-lg p-4 ${className}`}
       aria-label="CVE-Asset DNA helix visualization"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -371,12 +371,12 @@ export function DNAView({
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: color }}
             />
-            <span className="text-gray-300">{severity}</span>
+            <span className="text-secondary">{severity}</span>
           </div>
         ))}
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-full border-2 border-orange-500" />
-          <span className="text-gray-300">KEV</span>
+          <span className="text-secondary">KEV</span>
         </div>
       </div>
 
@@ -384,7 +384,7 @@ export function DNAView({
       {tooltip && (
         <div
           role="tooltip"
-          className="fixed z-50 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl text-sm pointer-events-none"
+          className="fixed z-50 px-3 py-2 bg-secondary border border-primary rounded-lg shadow-xl text-sm pointer-events-none"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
@@ -392,8 +392,8 @@ export function DNAView({
           }}
         >
           <div className="font-mono text-cyan-400">{tooltip.cve_id}</div>
-          <div className="text-gray-300">{tooltip.asset_hostname}</div>
-          <div className="text-gray-400 text-xs">Asset: {tooltip.asset_id}</div>
+          <div className="text-secondary">{tooltip.asset_hostname}</div>
+          <div className="text-secondary text-xs">Asset: {tooltip.asset_id}</div>
           <div className="flex gap-2 mt-1">
             <span className="text-orange-400">CVSS: {tooltip.cvss_score}</span>
             <span

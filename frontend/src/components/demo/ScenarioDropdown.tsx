@@ -161,22 +161,22 @@ export function ScenarioDropdown({
           isSelected
             ? "bg-cyan-600/30 text-cyan-300"
             : isFocused
-            ? "bg-gray-700"
-            : "hover:bg-gray-700"
+            ? "bg-tertiary"
+            : "hover:bg-tertiary"
         }`}
         onClick={() => handleSelect(scenario)}
         onMouseEnter={() => setFocusedIndex(globalIndex)}
       >
         <div className="flex items-center justify-between">
           <div className="flex-1 min-w-0">
-            <div className="font-medium text-sm text-gray-200 truncate">
+            <div className="font-medium text-sm text-primary truncate">
               {scenario.name}
             </div>
-            <div className="text-xs text-gray-400 truncate">
+            <div className="text-xs text-secondary truncate">
               {scenario.description}
             </div>
           </div>
-          <div className="ml-2 flex-shrink-0 text-xs text-gray-500">
+          <div className="ml-2 flex-shrink-0 text-xs text-tertiary">
             {scenario.stages} stages
           </div>
         </div>
@@ -204,7 +204,7 @@ export function ScenarioDropdown({
       {/* Label */}
       <label
         id="scenario-label"
-        className="block text-xs text-gray-400 mb-1"
+        className="block text-xs text-secondary mb-1"
       >
         Scenario
       </label>
@@ -219,7 +219,7 @@ export function ScenarioDropdown({
         aria-expanded={isOpen}
         aria-controls="scenario-listbox"
         disabled={isDisabled}
-        className={`w-full flex items-center justify-between px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm transition-colors ${
+        className={`w-full flex items-center justify-between px-3 py-2 bg-tertiary border border-primary rounded-lg text-sm transition-colors ${
           isDisabled
             ? "opacity-50 cursor-not-allowed"
             : "hover:border-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
@@ -227,7 +227,7 @@ export function ScenarioDropdown({
         onClick={toggleDropdown}
         onKeyDown={handleKeyDown}
       >
-        <span className={selectedScenario ? "text-gray-200" : "text-gray-400"}>
+        <span className={selectedScenario ? "text-primary" : "text-secondary"}>
           {selectedScenario?.name || "Select Scenario"}
         </span>
         <ChevronIcon isOpen={isOpen} />
@@ -239,13 +239,13 @@ export function ScenarioDropdown({
           id="scenario-listbox"
           role="listbox"
           aria-labelledby="scenario-label"
-          className="absolute z-50 w-full mt-1 bg-gray-800 border border-gray-600 rounded-lg shadow-lg max-h-80 overflow-y-auto"
+          className="absolute z-50 w-full mt-1 bg-secondary border border-primary rounded-lg shadow-lg max-h-80 overflow-y-auto"
           onKeyDown={handleKeyDown}
         >
           {Array.from(groupedScenarios.entries()).map(([category, categoryScenarios]) => (
             <div key={category}>
               {/* Category Header */}
-              <div className="px-3 py-1.5 text-xs font-semibold text-gray-500 bg-gray-900/50 sticky top-0">
+              <div className="px-3 py-1.5 text-xs font-semibold text-tertiary bg-primary/50 sticky top-0">
                 {category}
               </div>
               {/* Category Options */}

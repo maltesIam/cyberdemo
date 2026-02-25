@@ -166,16 +166,16 @@ export function CVEDetailPanel({
       <div
         data-testid="cve-detail-loading"
         className={clsx(
-          "fixed right-0 top-0 h-full w-96 bg-gray-800 shadow-2xl z-50 p-6",
+          "fixed right-0 top-0 h-full w-96 bg-secondary shadow-2xl z-50 p-6",
           "animate-slide-in-right",
           className
         )}
       >
         <div className="space-y-4">
-          <div data-testid="skeleton-header" className="h-8 bg-gray-700 rounded animate-pulse" />
-          <div data-testid="skeleton-title" className="h-6 bg-gray-700 rounded animate-pulse w-3/4" />
-          <div data-testid="skeleton-content" className="h-32 bg-gray-700 rounded animate-pulse" />
-          <div data-testid="skeleton-chart" className="h-48 bg-gray-700 rounded animate-pulse" />
+          <div data-testid="skeleton-header" className="h-8 bg-tertiary rounded animate-pulse" />
+          <div data-testid="skeleton-title" className="h-6 bg-tertiary rounded animate-pulse w-3/4" />
+          <div data-testid="skeleton-content" className="h-32 bg-tertiary rounded animate-pulse" />
+          <div data-testid="skeleton-chart" className="h-48 bg-tertiary rounded animate-pulse" />
         </div>
       </div>
     );
@@ -189,13 +189,13 @@ export function CVEDetailPanel({
       aria-labelledby="cve-detail-title"
       aria-describedby="cve-detail-description"
       className={clsx(
-        "fixed right-0 top-0 h-full w-[420px] bg-gray-800 shadow-2xl z-50 overflow-y-auto",
-        "animate-slide-in-right border-l border-gray-700",
+        "fixed right-0 top-0 h-full w-[420px] bg-secondary shadow-2xl z-50 overflow-y-auto",
+        "animate-slide-in-right border-l border-primary",
         className
       )}
     >
       {/* Header */}
-      <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-4 z-10">
+      <div className="sticky top-0 bg-secondary border-b border-primary p-4 z-10">
         <div className="flex items-center justify-between mb-2">
           <h2
             id="cve-detail-title"
@@ -207,48 +207,48 @@ export function CVEDetailPanel({
             <button
               onClick={() => onPin(cve.cve_id)}
               aria-label="Pin CVE"
-              className="p-2 hover:bg-gray-700 rounded transition-colors"
+              className="p-2 hover:bg-tertiary rounded transition-colors"
             >
-              <svg className="w-4 h-4 text-gray-400 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-secondary hover:text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
               </svg>
             </button>
             <button
               onClick={() => onExpand(cve.cve_id)}
               aria-label="Expand CVE"
-              className="p-2 hover:bg-gray-700 rounded transition-colors"
+              className="p-2 hover:bg-tertiary rounded transition-colors"
             >
-              <svg className="w-4 h-4 text-gray-400 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-secondary hover:text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
               </svg>
             </button>
             <button
               onClick={onClose}
               aria-label="Close panel"
-              className="p-2 hover:bg-gray-700 rounded transition-colors"
+              className="p-2 hover:bg-tertiary rounded transition-colors"
             >
-              <svg className="w-4 h-4 text-gray-400 hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-secondary hover:text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
         </div>
-        <p className="text-sm text-gray-300 line-clamp-2">{cve.title}</p>
+        <p className="text-sm text-secondary line-clamp-2">{cve.title}</p>
       </div>
 
       {/* Content */}
       <div className="p-4 space-y-6">
         {/* Risk Profile Section */}
         <section>
-          <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">Risk Profile</h3>
+          <h3 className="text-sm font-semibold text-secondary uppercase mb-3">Risk Profile</h3>
 
           {/* CVSS Bar */}
           <div className="mb-3">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-400">CVSS</span>
-              <span className="text-sm font-bold text-white">{cve.cvss_v3_score}</span>
+              <span className="text-xs text-secondary">CVSS</span>
+              <span className="text-sm font-bold text-primary">{cve.cvss_v3_score}</span>
             </div>
-            <div data-testid="cvss-bar" className="h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div data-testid="cvss-bar" className="h-2 bg-tertiary rounded-full overflow-hidden">
               <div
                 className={clsx("h-full transition-all duration-500", SEVERITY_COLORS[cve.severity])}
                 style={{ width: `${(cve.cvss_v3_score / 10) * 100}%` }}
@@ -259,10 +259,10 @@ export function CVEDetailPanel({
           {/* EPSS Bar */}
           <div className="mb-3">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-400">EPSS</span>
-              <span className="text-sm font-bold text-white">{(cve.epss_score * 100).toFixed(1)}%</span>
+              <span className="text-xs text-secondary">EPSS</span>
+              <span className="text-sm font-bold text-primary">{(cve.epss_score * 100).toFixed(1)}%</span>
             </div>
-            <div data-testid="epss-bar" className="h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div data-testid="epss-bar" className="h-2 bg-tertiary rounded-full overflow-hidden">
               <div
                 className="h-full bg-purple-500 transition-all duration-500"
                 style={{ width: `${cve.epss_score * 100}%` }}
@@ -275,7 +275,7 @@ export function CVEDetailPanel({
             {cve.is_kev && (
               <span
                 data-testid="kev-badge"
-                className="px-2 py-1 bg-orange-600 text-white text-xs font-bold rounded animate-fire flex items-center gap-1"
+                className="px-2 py-1 bg-orange-600 text-primary text-xs font-bold rounded animate-fire flex items-center gap-1"
               >
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
@@ -286,7 +286,7 @@ export function CVEDetailPanel({
             <span
               data-testid="ssvc-badge"
               className={clsx(
-                "px-2 py-1 text-white text-xs font-bold rounded",
+                "px-2 py-1 text-primary text-xs font-bold rounded",
                 SSVC_COLORS[cve.ssvc_decision]?.bg,
                 SSVC_COLORS[cve.ssvc_decision]?.glow
               )}
@@ -294,7 +294,7 @@ export function CVEDetailPanel({
               {cve.ssvc_decision}
             </span>
             {cve.kev_ransomware_use && (
-              <span className="px-2 py-1 bg-red-700 text-white text-xs font-bold rounded">
+              <span className="px-2 py-1 bg-red-700 text-primary text-xs font-bold rounded">
                 Ransomware
               </span>
             )}
@@ -303,11 +303,11 @@ export function CVEDetailPanel({
 
         {/* Risk Radar Chart */}
         <section>
-          <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">Risk Radar</h3>
+          <h3 className="text-sm font-semibold text-secondary uppercase mb-3">Risk Radar</h3>
           <div
             data-testid="risk-radar"
             data-axes="5"
-            className="h-40 bg-gray-900 rounded-lg flex items-center justify-center relative"
+            className="h-40 bg-primary rounded-lg flex items-center justify-center relative"
           >
             <RiskRadarMini
               cvss={cve.cvss_v3_score}
@@ -321,8 +321,8 @@ export function CVEDetailPanel({
 
         {/* Description */}
         <section id="cve-detail-description">
-          <h3 className="text-sm font-semibold text-gray-400 uppercase mb-2">Description</h3>
-          <p className="text-sm text-gray-300 leading-relaxed">{cve.description}</p>
+          <h3 className="text-sm font-semibold text-secondary uppercase mb-2">Description</h3>
+          <p className="text-sm text-secondary leading-relaxed">{cve.description}</p>
 
           {/* CWE Links */}
           {cve.cwe_ids && cve.cwe_ids.length > 0 && (
@@ -345,19 +345,19 @@ export function CVEDetailPanel({
 
         {/* Enrichment Sources */}
         <section>
-          <h3 className="text-sm font-semibold text-gray-400 uppercase mb-2">Enrichment Sources</h3>
+          <h3 className="text-sm font-semibold text-secondary uppercase mb-2">Enrichment Sources</h3>
           <div data-testid="enrichment-sources-grid" className="flex flex-wrap gap-2">
             {cve.enrichment_sources?.map((source) => (
               <span
                 key={source}
-                className="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded"
+                className="px-2 py-1 bg-tertiary text-secondary text-xs rounded"
               >
                 {source}
               </span>
             ))}
           </div>
           {cve.last_enriched_at && (
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="text-xs text-tertiary mt-2">
               Last enriched: {new Date(cve.last_enriched_at).toLocaleString()}
             </p>
           )}
@@ -366,8 +366,8 @@ export function CVEDetailPanel({
         {/* Affected Assets */}
         <section>
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase">Affected Assets</h3>
-            <span className="text-xs bg-cyan-600 text-white px-2 py-0.5 rounded-full">
+            <h3 className="text-sm font-semibold text-secondary uppercase">Affected Assets</h3>
+            <span className="text-xs bg-cyan-600 text-primary px-2 py-0.5 rounded-full">
               {cve.affected_asset_count}
             </span>
           </div>
@@ -376,15 +376,15 @@ export function CVEDetailPanel({
               <div
                 key={asset.id}
                 data-testid={`asset-${asset.id}`}
-                className="flex items-center justify-between p-2 bg-gray-900 rounded text-sm"
+                className="flex items-center justify-between p-2 bg-primary rounded text-sm"
               >
-                <span className="text-gray-300 font-mono">{asset.hostname}</span>
+                <span className="text-secondary font-mono">{asset.hostname}</span>
                 <span
                   className={clsx(
                     "text-xs px-2 py-0.5 rounded",
-                    asset.criticality === "Critical" && "bg-red-600 text-white",
-                    asset.criticality === "High" && "bg-orange-600 text-white",
-                    asset.criticality === "Low" && "bg-gray-600 text-gray-300"
+                    asset.criticality === "Critical" && "bg-red-600 text-primary",
+                    asset.criticality === "High" && "bg-orange-600 text-primary",
+                    asset.criticality === "Low" && "bg-tertiary text-secondary"
                   )}
                 >
                   {asset.criticality}
@@ -402,8 +402,8 @@ export function CVEDetailPanel({
         {/* Exploits */}
         <section>
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase">Exploits</h3>
-            <span className="text-xs bg-red-600 text-white px-2 py-0.5 rounded-full">
+            <h3 className="text-sm font-semibold text-secondary uppercase">Exploits</h3>
+            <span className="text-xs bg-red-600 text-primary px-2 py-0.5 rounded-full">
               {cve.exploit_count}
             </span>
           </div>
@@ -411,10 +411,10 @@ export function CVEDetailPanel({
             {cve.exploits?.slice(0, 3).map((exploit) => (
               <div
                 key={exploit.id}
-                className="flex items-center justify-between p-2 bg-gray-900 rounded text-sm"
+                className="flex items-center justify-between p-2 bg-primary rounded text-sm"
               >
-                <span className="text-gray-300 truncate max-w-[200px]">{exploit.name}</span>
-                <span className="text-xs text-gray-400">{exploit.source}</span>
+                <span className="text-secondary truncate max-w-[200px]">{exploit.name}</span>
+                <span className="text-xs text-secondary">{exploit.source}</span>
               </div>
             ))}
           </div>
@@ -428,31 +428,31 @@ export function CVEDetailPanel({
         {/* Attack Chain */}
         {cve.attack_chain && (
           <section>
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-2">Attack Chain</h3>
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-2">Attack Chain</h3>
             <div
               data-testid="attack-chain"
-              className="flex items-center justify-between p-3 bg-gray-900 rounded"
+              className="flex items-center justify-between p-3 bg-primary rounded"
             >
               <div className="flex flex-col items-center">
-                <span className="text-xs text-gray-400">CWE</span>
+                <span className="text-xs text-secondary">CWE</span>
                 <span className="text-sm text-cyan-400 font-mono">{cve.attack_chain.cwe}</span>
               </div>
-              <div data-testid="attack-chain-arrow" className="text-gray-600">
+              <div data-testid="attack-chain-arrow" className="text-tertiary">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-xs text-gray-400">MITRE</span>
+                <span className="text-xs text-secondary">MITRE</span>
                 <span className="text-sm text-orange-400 font-mono">{cve.attack_chain.technique}</span>
               </div>
-              <div data-testid="attack-chain-arrow" className="text-gray-600">
+              <div data-testid="attack-chain-arrow" className="text-tertiary">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-xs text-gray-400">Actor</span>
+                <span className="text-xs text-secondary">Actor</span>
                 <span className="text-sm text-red-400 font-mono">{cve.attack_chain.actor}</span>
               </div>
             </div>
@@ -461,7 +461,7 @@ export function CVEDetailPanel({
 
         {/* Vendor Patches */}
         <section>
-          <h3 className="text-sm font-semibold text-gray-400 uppercase mb-2">Vendor Patches</h3>
+          <h3 className="text-sm font-semibold text-secondary uppercase mb-2">Vendor Patches</h3>
           {cve.patch_available ? (
             <>
               <div
@@ -477,11 +477,11 @@ export function CVEDetailPanel({
                 {cve.patches?.map((patch, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2 bg-gray-900 rounded text-sm"
+                    className="flex items-center justify-between p-2 bg-primary rounded text-sm"
                   >
                     <div>
-                      <span className="text-gray-300">{patch.vendor}</span>
-                      <span className="text-gray-500 ml-2">v{patch.version}</span>
+                      <span className="text-secondary">{patch.vendor}</span>
+                      <span className="text-tertiary ml-2">v{patch.version}</span>
                     </div>
                     <a
                       data-testid={`patch-link-${idx}`}
@@ -499,40 +499,40 @@ export function CVEDetailPanel({
               </div>
             </>
           ) : (
-            <div className="text-sm text-gray-500 bg-gray-900 px-3 py-2 rounded">
+            <div className="text-sm text-tertiary bg-primary px-3 py-2 rounded">
               No patches available
             </div>
           )}
         </section>
 
         {/* Actions */}
-        <section className="border-t border-gray-700 pt-4">
+        <section className="border-t border-primary pt-4">
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => handleAction("create_ticket")}
               aria-label="Create Ticket"
-              className="px-3 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm rounded transition-colors"
+              className="px-3 py-2 bg-cyan-600 hover:bg-cyan-700 text-primary text-sm rounded transition-colors"
             >
               Create Ticket
             </button>
             <button
               onClick={() => handleAction("escalate")}
               aria-label="Escalate"
-              className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition-colors"
+              className="px-3 py-2 bg-red-600 hover:bg-red-700 text-primary text-sm rounded transition-colors"
             >
               Escalate
             </button>
             <button
               onClick={() => handleAction("accept_risk")}
               aria-label="Accept Risk"
-              className="px-3 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded transition-colors"
+              className="px-3 py-2 bg-tertiary hover:bg-hover text-primary text-sm rounded transition-colors"
             >
               Accept Risk
             </button>
             <button
               onClick={() => handleAction("watchlist")}
               aria-label="Add to Watchlist"
-              className="px-3 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded transition-colors"
+              className="px-3 py-2 bg-tertiary hover:bg-hover text-primary text-sm rounded transition-colors"
             >
               Watchlist
             </button>
@@ -540,7 +540,7 @@ export function CVEDetailPanel({
           <button
             onClick={() => handleAction("export")}
             aria-label="Export CVE"
-            className="w-full mt-2 px-3 py-2 border border-gray-600 hover:border-gray-500 text-gray-300 text-sm rounded transition-colors flex items-center justify-center gap-2"
+            className="w-full mt-2 px-3 py-2 border border-primary hover:border-gray-500 text-secondary text-sm rounded transition-colors flex items-center justify-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

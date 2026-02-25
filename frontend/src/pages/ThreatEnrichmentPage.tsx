@@ -7,6 +7,8 @@
  * - MITRE ATT&CK technique visualization
  * - Malware families and threat actors
  * - Detailed IOC inspection
+ *
+ * Migrated to AgentFlow Design Tokens (REQ-005-007-001)
  */
 
 import { useState, useEffect, useCallback } from "react";
@@ -80,20 +82,20 @@ interface EnrichedThreat {
   };
 }
 
-// MITRE ATT&CK Tactics
+// MITRE ATT&CK Tactics - using CSS variable-based colors
 const MITRE_TACTICS = [
-  { id: "TA0001", name: "Initial Access", color: "bg-red-600" },
-  { id: "TA0002", name: "Execution", color: "bg-orange-600" },
-  { id: "TA0003", name: "Persistence", color: "bg-amber-600" },
-  { id: "TA0004", name: "Privilege Escalation", color: "bg-yellow-600" },
-  { id: "TA0005", name: "Defense Evasion", color: "bg-lime-600" },
-  { id: "TA0006", name: "Credential Access", color: "bg-green-600" },
-  { id: "TA0007", name: "Discovery", color: "bg-emerald-600" },
-  { id: "TA0008", name: "Lateral Movement", color: "bg-teal-600" },
-  { id: "TA0009", name: "Collection", color: "bg-cyan-600" },
-  { id: "TA0011", name: "Command and Control", color: "bg-blue-600" },
-  { id: "TA0010", name: "Exfiltration", color: "bg-indigo-600" },
-  { id: "TA0040", name: "Impact", color: "bg-purple-600" },
+  { id: "TA0001", name: "Initial Access", color: "bg-[var(--color-error)]" },
+  { id: "TA0002", name: "Execution", color: "bg-[var(--soc-orange)]" },
+  { id: "TA0003", name: "Persistence", color: "bg-[var(--color-accent-600)]" },
+  { id: "TA0004", name: "Privilege Escalation", color: "bg-[var(--color-warning)]" },
+  { id: "TA0005", name: "Defense Evasion", color: "bg-[var(--color-success)]" },
+  { id: "TA0006", name: "Credential Access", color: "bg-[var(--color-success-dark)]" },
+  { id: "TA0007", name: "Discovery", color: "bg-[var(--color-success)]" },
+  { id: "TA0008", name: "Lateral Movement", color: "bg-[var(--color-secondary-600)]" },
+  { id: "TA0009", name: "Collection", color: "bg-[var(--color-secondary-400)]" },
+  { id: "TA0011", name: "Command and Control", color: "bg-[var(--color-info)]" },
+  { id: "TA0010", name: "Exfiltration", color: "bg-[var(--color-primary-600)]" },
+  { id: "TA0040", name: "Impact", color: "bg-[var(--accent)]" },
 ];
 
 export function ThreatEnrichmentPage() {
@@ -257,13 +259,13 @@ export function ThreatEnrichmentPage() {
     generateDemoData();
   }, []);
 
-  // Risk level colors
+  // Risk level colors using design tokens
   const riskColors = {
-    critical: "text-red-500 bg-red-500/20 border-red-500/50",
-    high: "text-orange-500 bg-orange-500/20 border-orange-500/50",
-    medium: "text-yellow-500 bg-yellow-500/20 border-yellow-500/50",
-    low: "text-green-500 bg-green-500/20 border-green-500/50",
-    unknown: "text-gray-500 bg-gray-500/20 border-gray-500/50",
+    critical: "text-[var(--color-error)] bg-[var(--color-error)]/20 border-[var(--color-error)]/50",
+    high: "text-[var(--soc-orange)] bg-[var(--soc-orange)]/20 border-[var(--soc-orange)]/50",
+    medium: "text-[var(--color-warning)] bg-[var(--color-warning)]/20 border-[var(--color-warning)]/50",
+    low: "text-[var(--color-success)] bg-[var(--color-success)]/20 border-[var(--color-success)]/50",
+    unknown: "text-tertiary bg-tertiary/20 border-secondary",
   };
 
   return (
@@ -271,9 +273,9 @@ export function ThreatEnrichmentPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-primary flex items-center gap-3">
             <svg
-              className="w-8 h-8 text-red-500"
+              className="w-8 h-8 text-[var(--color-error)]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -287,14 +289,14 @@ export function ThreatEnrichmentPage() {
             </svg>
             Threat Intelligence Enrichment
           </h1>
-          <p className="text-gray-400 mt-1">
+          <p className="text-secondary mt-1">
             Real-time IOC enrichment from 18+ threat intelligence sources
           </p>
         </div>
         <button
           onClick={generateDemoData}
           disabled={loading}
-          className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors disabled:opacity-50"
+          className="px-4 py-2 bg-[var(--color-secondary-600)] hover:bg-[var(--color-secondary-500)] text-inverse rounded-lg transition-colors disabled:opacity-50"
         >
           {loading ? "Loading..." : "Refresh Demo Data"}
         </button>
@@ -302,37 +304,37 @@ export function ThreatEnrichmentPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-          <div className="text-3xl font-bold text-cyan-400">{stats.total}</div>
-          <div className="text-sm text-gray-400">Total IOCs</div>
+        <div className="bg-secondary rounded-lg p-4 border border-primary">
+          <div className="text-3xl font-bold text-[var(--color-secondary-400)]">{stats.total}</div>
+          <div className="text-sm text-secondary">Total IOCs</div>
         </div>
-        <div className="bg-gray-800 rounded-lg p-4 border border-red-500/30">
-          <div className="text-3xl font-bold text-red-500">{stats.critical}</div>
-          <div className="text-sm text-gray-400">Critical</div>
+        <div className="bg-secondary rounded-lg p-4 border-l-4 border border-[var(--color-error)]">
+          <div className="text-3xl font-bold text-[var(--color-error)]">{stats.critical}</div>
+          <div className="text-sm text-secondary">Critical</div>
         </div>
-        <div className="bg-gray-800 rounded-lg p-4 border border-orange-500/30">
-          <div className="text-3xl font-bold text-orange-500">{stats.high}</div>
-          <div className="text-sm text-gray-400">High</div>
+        <div className="bg-secondary rounded-lg p-4 border-l-4 border border-[var(--soc-orange)]">
+          <div className="text-3xl font-bold text-[var(--soc-orange)]">{stats.high}</div>
+          <div className="text-sm text-secondary">High</div>
         </div>
-        <div className="bg-gray-800 rounded-lg p-4 border border-yellow-500/30">
-          <div className="text-3xl font-bold text-yellow-500">{stats.medium}</div>
-          <div className="text-sm text-gray-400">Medium</div>
+        <div className="bg-secondary rounded-lg p-4 border-l-4 border border-[var(--color-warning)]">
+          <div className="text-3xl font-bold text-[var(--color-warning)]">{stats.medium}</div>
+          <div className="text-sm text-secondary">Medium</div>
         </div>
-        <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-          <div className="text-3xl font-bold text-purple-400">{stats.countries}</div>
-          <div className="text-sm text-gray-400">Countries</div>
+        <div className="bg-secondary rounded-lg p-4 border border-primary">
+          <div className="text-3xl font-bold text-[var(--accent)]">{stats.countries}</div>
+          <div className="text-sm text-secondary">Countries</div>
         </div>
-        <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-          <div className="text-3xl font-bold text-blue-400">{stats.techniques.length}</div>
-          <div className="text-sm text-gray-400">ATT&CK TTPs</div>
+        <div className="bg-secondary rounded-lg p-4 border border-primary">
+          <div className="text-3xl font-bold text-[var(--color-info)]">{stats.techniques.length}</div>
+          <div className="text-sm text-secondary">ATT&CK TTPs</div>
         </div>
       </div>
 
       {/* IOC Input */}
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
           <svg
-            className="w-5 h-5 text-cyan-400"
+            className="w-5 h-5 text-[var(--color-secondary-400)]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -350,14 +352,14 @@ export function ThreatEnrichmentPage() {
 evil-domain.com
 d41d8cd98f00b204e9800998ecf8427e
 http://malware.com/payload.exe"
-            className="flex-1 bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 font-mono text-sm"
+            className="flex-1 bg-primary border border-primary rounded-lg px-4 py-3 text-primary placeholder:text-tertiary focus:outline-none focus:border-[var(--border-focus)] font-mono text-sm"
             rows={4}
           />
           <div className="flex flex-col gap-2">
             <button
               onClick={handleEnrich}
               disabled={isEnriching || !iocInput.trim()}
-              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+              className="px-6 py-3 bg-[var(--color-error)] hover:bg-[var(--color-error-dark)] text-inverse rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               {isEnriching ? (
                 <span className="flex items-center gap-2">
@@ -382,7 +384,7 @@ http://malware.com/payload.exe"
                 "Enrich Threats"
               )}
             </button>
-            <div className="text-xs text-gray-500 text-center">
+            <div className="text-xs text-tertiary text-center">
               Auto-detects: IP, Domain, Hash, URL, Email
             </div>
           </div>
@@ -404,53 +406,53 @@ http://malware.com/payload.exe"
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* IOC List */}
-        <div className="lg:col-span-2 bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-700">
-            <h3 className="text-lg font-semibold text-white">Enriched IOCs</h3>
+        <div className="lg:col-span-2 bg-secondary rounded-lg border border-primary overflow-hidden">
+          <div className="px-6 py-4 border-b border-primary">
+            <h3 className="text-lg font-semibold text-primary">Enriched IOCs</h3>
           </div>
           <div className="max-h-[500px] overflow-y-auto">
             {threats.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">
+              <div className="p-8 text-center text-tertiary">
                 No threats enriched yet. Add IOCs above or load demo data.
               </div>
             ) : (
               <table className="w-full">
-                <thead className="bg-gray-900 sticky top-0">
+                <thead className="bg-primary sticky top-0">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase">
                       IOC
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase">
                       Type
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase">
                       Risk
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase">
                       Country
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase">
                       Malware
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase">
                       Sources
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-700">
+                <tbody className="divide-y divide-[var(--border-primary)]">
                   {threats.map((threat) => (
                     <tr
                       key={threat.id}
                       onClick={() => setSelectedThreat(threat)}
-                      className="hover:bg-gray-700/50 cursor-pointer transition-colors"
+                      className="hover:bg-hover cursor-pointer transition-colors"
                     >
-                      <td className="px-4 py-3 font-mono text-sm text-white">
+                      <td className="px-4 py-3 font-mono text-sm text-primary">
                         {threat.value.length > 20
                           ? `${threat.value.slice(0, 20)}...`
                           : threat.value}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="px-2 py-1 text-xs rounded bg-gray-700 text-gray-300 uppercase">
+                        <span className="px-2 py-1 text-xs rounded bg-tertiary text-secondary uppercase">
                           {threat.type}
                         </span>
                       </td>
@@ -464,7 +466,7 @@ http://malware.com/payload.exe"
                           {threat.risk_score}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-300">
+                      <td className="px-4 py-3 text-sm text-secondary">
                         {threat.geo?.country || "-"}
                       </td>
                       <td className="px-4 py-3">
@@ -472,13 +474,13 @@ http://malware.com/payload.exe"
                           {threat.threat_intel.malware_families.slice(0, 2).map((m) => (
                             <span
                               key={m}
-                              className="px-1.5 py-0.5 text-xs bg-red-500/20 text-red-400 rounded"
+                              className="px-1.5 py-0.5 text-xs bg-[var(--color-error)]/20 text-[var(--color-error)] rounded"
                             >
                               {m}
                             </span>
                           ))}
                           {threat.threat_intel.malware_families.length > 2 && (
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-tertiary">
                               +{threat.threat_intel.malware_families.length - 2}
                             </span>
                           )}
@@ -486,11 +488,11 @@ http://malware.com/payload.exe"
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1">
-                          <span className="text-green-400 text-sm">
+                          <span className="text-[var(--color-success)] text-sm">
                             {threat.enrichment_meta.sources_successful.length}
                           </span>
-                          <span className="text-gray-500">/</span>
-                          <span className="text-gray-400 text-sm">
+                          <span className="text-tertiary">/</span>
+                          <span className="text-secondary text-sm">
                             {threat.enrichment_meta.sources_successful.length +
                               threat.enrichment_meta.sources_failed.length}
                           </span>
@@ -507,10 +509,10 @@ http://malware.com/payload.exe"
         {/* Side Panels */}
         <div className="space-y-6">
           {/* Malware Families */}
-          <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="bg-secondary rounded-lg p-6 border border-primary">
+            <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
               <svg
-                className="w-5 h-5 text-red-400"
+                className="w-5 h-5 text-[var(--color-error)]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -534,13 +536,16 @@ http://malware.com/payload.exe"
                 return (
                   <div key={family}>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-300">{family}</span>
-                      <span className="text-gray-500">{count}</span>
+                      <span className="text-secondary">{family}</span>
+                      <span className="text-tertiary">{count}</span>
                     </div>
-                    <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-2 bg-tertiary rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-red-500 to-orange-500 rounded-full transition-all duration-500"
-                        style={{ width: `${percentage}%` }}
+                        className="h-full rounded-full transition-all duration-500"
+                        style={{
+                          width: `${percentage}%`,
+                          background: `linear-gradient(to right, var(--color-error), var(--soc-orange))`,
+                        }}
                       />
                     </div>
                   </div>
@@ -550,10 +555,10 @@ http://malware.com/payload.exe"
           </div>
 
           {/* Threat Actors */}
-          <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="bg-secondary rounded-lg p-6 border border-primary">
+            <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
               <svg
-                className="w-5 h-5 text-purple-400"
+                className="w-5 h-5 text-[var(--accent)]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -571,22 +576,22 @@ http://malware.com/payload.exe"
               {stats.threatActors.map((actor) => (
                 <span
                   key={actor}
-                  className="px-3 py-1.5 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium border border-purple-500/30 hover:bg-purple-500/30 cursor-pointer transition-colors"
+                  className="px-3 py-1.5 bg-[var(--accent)]/20 text-[var(--accent)] rounded-full text-sm font-medium border border-[var(--accent)]/30 hover:bg-[var(--accent)]/30 cursor-pointer transition-colors"
                 >
                   {actor}
                 </span>
               ))}
               {stats.threatActors.length === 0 && (
-                <span className="text-gray-500 text-sm">No actors identified</span>
+                <span className="text-tertiary text-sm">No actors identified</span>
               )}
             </div>
           </div>
 
           {/* MITRE ATT&CK */}
-          <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <div className="bg-secondary rounded-lg p-6 border border-primary">
+            <h3 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
               <svg
-                className="w-5 h-5 text-blue-400"
+                className="w-5 h-5 text-[var(--color-info)]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -612,8 +617,8 @@ http://malware.com/payload.exe"
                 return (
                   <div key={tactic.id} className="flex items-center gap-3">
                     <div className={clsx("w-2 h-2 rounded-full", tactic.color)} />
-                    <span className="text-sm text-gray-300 flex-1">{tactic.name}</span>
-                    <span className="text-sm text-gray-500">{count || "-"}</span>
+                    <span className="text-sm text-secondary flex-1">{tactic.name}</span>
+                    <span className="text-sm text-tertiary">{count || "-"}</span>
                   </div>
                 );
               })}
@@ -629,14 +634,14 @@ http://malware.com/payload.exe"
           onClick={() => setSelectedThreat(null)}
         >
           <div
-            className="bg-gray-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-700"
+            className="bg-secondary rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-primary"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="sticky top-0 bg-gray-800 px-6 py-4 border-b border-gray-700 flex items-center justify-between">
+            <div className="sticky top-0 bg-secondary px-6 py-4 border-b border-primary flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-bold text-white font-mono">{selectedThreat.value}</h2>
-                <p className="text-gray-400 text-sm">Type: {selectedThreat.type.toUpperCase()}</p>
+                <h2 className="text-xl font-bold text-primary font-mono">{selectedThreat.value}</h2>
+                <p className="text-secondary text-sm">Type: {selectedThreat.type.toUpperCase()}</p>
               </div>
               <div className="flex items-center gap-4">
                 <span
@@ -649,7 +654,7 @@ http://malware.com/payload.exe"
                 </span>
                 <button
                   onClick={() => setSelectedThreat(null)}
-                  className="text-gray-400 hover:text-white"
+                  className="text-secondary hover:text-primary"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -667,132 +672,132 @@ http://malware.com/payload.exe"
             <div className="p-6 space-y-6">
               {/* Geo & Network */}
               <div className="grid grid-cols-2 gap-6">
-                <div className="bg-gray-900 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-gray-400 mb-3">Geolocation</h4>
+                <div className="bg-primary rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-secondary mb-3">Geolocation</h4>
                   {selectedThreat.geo ? (
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Country</span>
-                        <span className="text-white">
+                        <span className="text-secondary">Country</span>
+                        <span className="text-primary">
                           {selectedThreat.geo.country_name} ({selectedThreat.geo.country})
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">City</span>
-                        <span className="text-white">{selectedThreat.geo.city}</span>
+                        <span className="text-secondary">City</span>
+                        <span className="text-primary">{selectedThreat.geo.city}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Coordinates</span>
-                        <span className="text-white">
+                        <span className="text-secondary">Coordinates</span>
+                        <span className="text-primary">
                           {selectedThreat.geo.latitude?.toFixed(2)},{" "}
                           {selectedThreat.geo.longitude?.toFixed(2)}
                         </span>
                       </div>
                     </div>
                   ) : (
-                    <span className="text-gray-500">No geolocation data</span>
+                    <span className="text-tertiary">No geolocation data</span>
                   )}
                 </div>
 
-                <div className="bg-gray-900 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-gray-400 mb-3">Network</h4>
+                <div className="bg-primary rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-secondary mb-3">Network</h4>
                   {selectedThreat.network ? (
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">ASN</span>
-                        <span className="text-white">AS{selectedThreat.network.asn}</span>
+                        <span className="text-secondary">ASN</span>
+                        <span className="text-primary">AS{selectedThreat.network.asn}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Organization</span>
-                        <span className="text-white">{selectedThreat.network.asn_org}</span>
+                        <span className="text-secondary">Organization</span>
+                        <span className="text-primary">{selectedThreat.network.asn_org}</span>
                       </div>
                       <div className="flex gap-2 mt-2">
                         {selectedThreat.network.is_vpn && (
-                          <span className="px-2 py-1 text-xs bg-yellow-500/20 text-yellow-400 rounded">
+                          <span className="px-2 py-1 text-xs bg-[var(--color-warning)]/20 text-[var(--color-warning)] rounded">
                             VPN
                           </span>
                         )}
                         {selectedThreat.network.is_proxy && (
-                          <span className="px-2 py-1 text-xs bg-orange-500/20 text-orange-400 rounded">
+                          <span className="px-2 py-1 text-xs bg-[var(--soc-orange)]/20 text-[var(--soc-orange)] rounded">
                             Proxy
                           </span>
                         )}
                         {selectedThreat.network.is_tor && (
-                          <span className="px-2 py-1 text-xs bg-purple-500/20 text-purple-400 rounded">
+                          <span className="px-2 py-1 text-xs bg-[var(--accent)]/20 text-[var(--accent)] rounded">
                             Tor
                           </span>
                         )}
                         {selectedThreat.network.is_datacenter && (
-                          <span className="px-2 py-1 text-xs bg-blue-500/20 text-blue-400 rounded">
+                          <span className="px-2 py-1 text-xs bg-[var(--color-info)]/20 text-[var(--color-info)] rounded">
                             Datacenter
                           </span>
                         )}
                       </div>
                     </div>
                   ) : (
-                    <span className="text-gray-500">No network data</span>
+                    <span className="text-tertiary">No network data</span>
                   )}
                 </div>
               </div>
 
               {/* Reputation Sources */}
-              <div className="bg-gray-900 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-400 mb-3">Reputation Sources</h4>
+              <div className="bg-primary rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-secondary mb-3">Reputation Sources</h4>
                 <div className="grid grid-cols-3 gap-4">
                   {selectedThreat.reputation.abuseipdb && (
-                    <div className="bg-gray-800 rounded p-3">
-                      <div className="text-xs text-gray-500 mb-1">AbuseIPDB</div>
-                      <div className="text-2xl font-bold text-red-400">
+                    <div className="bg-secondary rounded p-3">
+                      <div className="text-xs text-tertiary mb-1">AbuseIPDB</div>
+                      <div className="text-2xl font-bold text-[var(--color-error)]">
                         {selectedThreat.reputation.abuseipdb.confidence_score}%
                       </div>
-                      <div className="text-xs text-gray-400">
+                      <div className="text-xs text-secondary">
                         {selectedThreat.reputation.abuseipdb.total_reports} reports
                       </div>
                     </div>
                   )}
                   {selectedThreat.reputation.greynoise && (
-                    <div className="bg-gray-800 rounded p-3">
-                      <div className="text-xs text-gray-500 mb-1">GreyNoise</div>
+                    <div className="bg-secondary rounded p-3">
+                      <div className="text-xs text-tertiary mb-1">GreyNoise</div>
                       <div
                         className={clsx(
                           "text-lg font-bold uppercase",
                           selectedThreat.reputation.greynoise.classification === "malicious"
-                            ? "text-red-400"
-                            : "text-gray-400",
+                            ? "text-[var(--color-error)]"
+                            : "text-secondary",
                         )}
                       >
                         {selectedThreat.reputation.greynoise.classification}
                       </div>
-                      <div className="text-xs text-gray-400">
+                      <div className="text-xs text-secondary">
                         {selectedThreat.reputation.greynoise.noise ? "Internet noise" : "Not noise"}
                       </div>
                     </div>
                   )}
                   {selectedThreat.reputation.virustotal && (
-                    <div className="bg-gray-800 rounded p-3">
-                      <div className="text-xs text-gray-500 mb-1">VirusTotal</div>
-                      <div className="text-2xl font-bold text-orange-400">
+                    <div className="bg-secondary rounded p-3">
+                      <div className="text-xs text-tertiary mb-1">VirusTotal</div>
+                      <div className="text-2xl font-bold text-[var(--soc-orange)]">
                         {selectedThreat.reputation.virustotal.malicious_count}/
                         {selectedThreat.reputation.virustotal.malicious_count +
                           selectedThreat.reputation.virustotal.harmless_count}
                       </div>
-                      <div className="text-xs text-gray-400">detections</div>
+                      <div className="text-xs text-secondary">detections</div>
                     </div>
                   )}
                 </div>
               </div>
 
               {/* Threat Intel */}
-              <div className="bg-gray-900 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-400 mb-3">Threat Intelligence</h4>
+              <div className="bg-primary rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-secondary mb-3">Threat Intelligence</h4>
                 <div className="space-y-3">
                   <div>
-                    <span className="text-xs text-gray-500">Malware Families</span>
+                    <span className="text-xs text-tertiary">Malware Families</span>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {selectedThreat.threat_intel.malware_families.map((m) => (
                         <span
                           key={m}
-                          className="px-2 py-1 text-sm bg-red-500/20 text-red-400 rounded"
+                          className="px-2 py-1 text-sm bg-[var(--color-error)]/20 text-[var(--color-error)] rounded"
                         >
                           {m}
                         </span>
@@ -800,12 +805,12 @@ http://malware.com/payload.exe"
                     </div>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Threat Actors</span>
+                    <span className="text-xs text-tertiary">Threat Actors</span>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {selectedThreat.threat_intel.threat_actors.map((a) => (
                         <span
                           key={a}
-                          className="px-2 py-1 text-sm bg-purple-500/20 text-purple-400 rounded"
+                          className="px-2 py-1 text-sm bg-[var(--accent)]/20 text-[var(--accent)] rounded"
                         >
                           {a}
                         </span>
@@ -813,12 +818,12 @@ http://malware.com/payload.exe"
                     </div>
                   </div>
                   <div>
-                    <span className="text-xs text-gray-500">Tags</span>
+                    <span className="text-xs text-tertiary">Tags</span>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {selectedThreat.threat_intel.tags.map((t) => (
                         <span
                           key={t}
-                          className="px-2 py-1 text-sm bg-gray-700 text-gray-300 rounded"
+                          className="px-2 py-1 text-sm bg-tertiary text-secondary rounded"
                         >
                           {t}
                         </span>
@@ -829,15 +834,15 @@ http://malware.com/payload.exe"
               </div>
 
               {/* MITRE ATT&CK */}
-              <div className="bg-gray-900 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-400 mb-3">
+              <div className="bg-primary rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-secondary mb-3">
                   MITRE ATT&CK Techniques
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedThreat.mitre_attack.techniques.map((tech) => (
                     <span
                       key={tech.id}
-                      className="px-3 py-1.5 text-sm bg-blue-500/20 text-blue-300 rounded border border-blue-500/30"
+                      className="px-3 py-1.5 text-sm bg-[var(--color-info)]/20 text-[var(--color-info)] rounded border border-[var(--color-info)]/30"
                       title={tech.name}
                     >
                       {tech.id}
@@ -847,17 +852,17 @@ http://malware.com/payload.exe"
               </div>
 
               {/* Intel Feeds */}
-              <div className="bg-gray-900 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-gray-400 mb-3">Intelligence Feeds</h4>
+              <div className="bg-primary rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-secondary mb-3">Intelligence Feeds</h4>
                 <div className="space-y-2">
                   {selectedThreat.intel_feeds.slice(0, 5).map((feed, i) => (
                     <div
                       key={i}
-                      className="flex items-center justify-between py-2 border-b border-gray-700 last:border-0"
+                      className="flex items-center justify-between py-2 border-b border-primary last:border-0"
                     >
                       <div>
-                        <div className="text-white text-sm">{feed.feed_name}</div>
-                        <div className="text-gray-500 text-xs">
+                        <div className="text-primary text-sm">{feed.feed_name}</div>
+                        <div className="text-tertiary text-xs">
                           {feed.source} · {feed.author}
                         </div>
                       </div>
@@ -865,12 +870,12 @@ http://malware.com/payload.exe"
                         className={clsx(
                           "px-2 py-1 text-xs rounded uppercase",
                           feed.tlp === "red"
-                            ? "bg-red-500/20 text-red-400"
+                            ? "bg-[var(--color-error)]/20 text-[var(--color-error)]"
                             : feed.tlp === "amber"
-                              ? "bg-amber-500/20 text-amber-400"
+                              ? "bg-[var(--color-accent-500)]/20 text-[var(--color-accent-400)]"
                               : feed.tlp === "green"
-                                ? "bg-green-500/20 text-green-400"
-                                : "bg-gray-500/20 text-gray-400",
+                                ? "bg-[var(--color-success)]/20 text-[var(--color-success)]"
+                                : "bg-tertiary text-secondary",
                         )}
                       >
                         TLP:{feed.tlp}
@@ -881,7 +886,7 @@ http://malware.com/payload.exe"
               </div>
 
               {/* Enrichment Meta */}
-              <div className="text-xs text-gray-500 flex items-center justify-between">
+              <div className="text-xs text-tertiary flex items-center justify-between">
                 <span>
                   Enriched: {new Date(selectedThreat.enrichment_meta.enriched_at).toLocaleString()}
                 </span>

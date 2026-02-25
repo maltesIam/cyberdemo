@@ -51,7 +51,7 @@ export function CVEDetailPage() {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
               />
             </svg>
-            <span className="text-gray-400">Loading CVE details...</span>
+            <span className="text-secondary">Loading CVE details...</span>
           </div>
         </div>
       </div>
@@ -72,12 +72,12 @@ export function CVEDetailPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="text-red-500 text-xl mb-2">Error</div>
-            <p className="text-gray-400">
+            <p className="text-secondary">
               {error instanceof Error ? error.message : "CVE not found"}
             </p>
             <button
               onClick={() => navigate("/vulnerabilities")}
-              className="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg"
+              className="mt-4 px-4 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg"
             >
               Back to Vulnerabilities
             </button>
@@ -102,7 +102,7 @@ export function CVEDetailPage() {
   };
 
   const statusColors = {
-    open: "text-gray-400 bg-gray-500/10",
+    open: "text-secondary bg-gray-500/10",
     in_progress: "text-blue-400 bg-blue-500/10",
     remediated: "text-green-400 bg-green-500/10",
     accepted_risk: "text-yellow-400 bg-yellow-500/10",
@@ -123,7 +123,7 @@ export function CVEDetailPage() {
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-2xl font-bold text-white">{cve.cve_id}</h1>
+            <h1 className="text-2xl font-bold text-primary">{cve.cve_id}</h1>
             <span
               className={clsx(
                 "px-2 py-1 rounded text-xs font-medium border",
@@ -146,12 +146,12 @@ export function CVEDetailPage() {
               SSVC: {cve.ssvc_decision}
             </span>
           </div>
-          <h2 className="text-lg text-gray-300 mb-4">{cve.title}</h2>
+          <h2 className="text-lg text-secondary mb-4">{cve.title}</h2>
         </div>
         <button
           onClick={() => navigate(-1)}
           aria-label="Back"
-          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg flex items-center gap-2"
+          className="px-4 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg flex items-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -165,18 +165,18 @@ export function CVEDetailPage() {
         {/* Left Column - Main Info */}
         <div className="lg:col-span-2 space-y-4">
           {/* Description */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
               Description
             </h3>
-            <p className="text-gray-300">
+            <p className="text-secondary">
               {cve.description ?? "No description available."}
             </p>
           </div>
 
           {/* Scores Section */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
               Risk Scores
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -207,35 +207,35 @@ export function CVEDetailPage() {
           </div>
 
           {/* CWE & Ecosystems */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
               Technical Details
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <span className="text-gray-500 text-sm">CWE IDs:</span>
+                <span className="text-tertiary text-sm">CWE IDs:</span>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {cve.cwe_ids?.map((cwe) => (
                     <span
                       key={cwe}
-                      className="px-2 py-1 bg-gray-700 rounded text-xs text-cyan-400"
+                      className="px-2 py-1 bg-tertiary rounded text-xs text-cyan-400"
                     >
                       {cwe}
                     </span>
-                  )) ?? <span className="text-gray-500">None</span>}
+                  )) ?? <span className="text-tertiary">None</span>}
                 </div>
               </div>
               <div>
-                <span className="text-gray-500 text-sm">Ecosystems:</span>
+                <span className="text-tertiary text-sm">Ecosystems:</span>
                 <div className="flex flex-wrap gap-2 mt-1">
                   {cve.ecosystems?.map((eco) => (
                     <span
                       key={eco}
-                      className="px-2 py-1 bg-gray-700 rounded text-xs text-purple-400"
+                      className="px-2 py-1 bg-tertiary rounded text-xs text-purple-400"
                     >
                       {eco}
                     </span>
-                  )) ?? <span className="text-gray-500">None</span>}
+                  )) ?? <span className="text-tertiary">None</span>}
                 </div>
               </div>
             </div>
@@ -255,12 +255,12 @@ export function CVEDetailPage() {
               </h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Added:</span>
-                  <span className="text-white">{cve.kev_date_added}</span>
+                  <span className="text-secondary">Added:</span>
+                  <span className="text-primary">{cve.kev_date_added}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Due Date:</span>
-                  <span className="text-white">{cve.kev_due_date}</span>
+                  <span className="text-secondary">Due Date:</span>
+                  <span className="text-primary">{cve.kev_due_date}</span>
                 </div>
                 {cve.kev_ransomware_use && (
                   <div className="flex items-center gap-2 text-red-400 mt-2">
@@ -275,13 +275,13 @@ export function CVEDetailPage() {
           )}
 
           {/* Remediation Status */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
               Remediation
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-400">Status:</span>
+                <span className="text-secondary">Status:</span>
                 <span
                   className={clsx(
                     "px-2 py-1 rounded text-xs font-medium",
@@ -293,13 +293,13 @@ export function CVEDetailPage() {
               </div>
               {cve.assigned_to && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Assigned:</span>
-                  <span className="text-white">{cve.assigned_to}</span>
+                  <span className="text-secondary">Assigned:</span>
+                  <span className="text-primary">{cve.assigned_to}</span>
                 </div>
               )}
               {cve.sla_due_date && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">SLA Due:</span>
+                  <span className="text-secondary">SLA Due:</span>
                   <span
                     className={clsx(
                       "text-sm",
@@ -324,15 +324,15 @@ export function CVEDetailPage() {
           </div>
 
           {/* Affected Assets */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
               Affected Assets
             </h3>
             <div className="text-center mb-4">
               <div className="text-3xl font-bold text-cyan-400">
                 {cve.affected_asset_count ?? 0}
               </div>
-              <div className="text-sm text-gray-500">Total Assets</div>
+              <div className="text-sm text-tertiary">Total Assets</div>
               {(cve.affected_critical_assets ?? 0) > 0 && (
                 <div className="text-sm text-red-400 mt-1">
                   {cve.affected_critical_assets} Critical
@@ -342,15 +342,15 @@ export function CVEDetailPage() {
             <Link
               to={`/vulnerabilities/cves/${cve.cve_id}/assets`}
               aria-label="View Affected Assets"
-              className="block w-full text-center px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+              className="block w-full text-center px-4 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg transition-colors"
             >
               View Assets
             </Link>
           </div>
 
           {/* Exploits */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
               Exploits
             </h3>
             <div className="text-center mb-4">
@@ -362,7 +362,7 @@ export function CVEDetailPage() {
               >
                 {cve.exploit_count}
               </div>
-              <div className="text-sm text-gray-500">Known Exploits</div>
+              <div className="text-sm text-tertiary">Known Exploits</div>
               {cve.has_nuclei_template && (
                 <div className="text-sm text-purple-400 mt-1 flex items-center justify-center gap-1">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -375,35 +375,35 @@ export function CVEDetailPage() {
             <Link
               to={`/vulnerabilities/cves/${cve.cve_id}/exploits`}
               aria-label="View Exploits"
-              className="block w-full text-center px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+              className="block w-full text-center px-4 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg transition-colors"
             >
               View Exploits
             </Link>
           </div>
 
           {/* Metadata */}
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
               Metadata
             </h3>
             <div className="space-y-2 text-sm">
               {cve.published_date && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Published:</span>
-                  <span className="text-white">{cve.published_date}</span>
+                  <span className="text-secondary">Published:</span>
+                  <span className="text-primary">{cve.published_date}</span>
                 </div>
               )}
               {cve.last_enriched_at && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Last Enriched:</span>
-                  <span className="text-white">
+                  <span className="text-secondary">Last Enriched:</span>
+                  <span className="text-primary">
                     {new Date(cve.last_enriched_at).toLocaleDateString()}
                   </span>
                 </div>
               )}
               {cve.enrichment_level && (
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Enrichment:</span>
+                  <span className="text-secondary">Enrichment:</span>
                   <span className="text-cyan-400 capitalize">
                     {cve.enrichment_level}
                   </span>
@@ -439,13 +439,13 @@ function ScoreCard({ label, value, subtext, color }: ScoreCardProps) {
   };
 
   return (
-    <div className="bg-gray-900/50 rounded-lg p-3 text-center">
+    <div className="bg-primary/50 rounded-lg p-3 text-center">
       <div className={clsx("text-2xl font-bold", colorClasses[color])}>
         {value}
       </div>
-      <div className="text-xs text-gray-500 uppercase">{label}</div>
+      <div className="text-xs text-tertiary uppercase">{label}</div>
       {subtext && (
-        <div className="text-xs text-gray-600 mt-1 truncate" title={subtext}>
+        <div className="text-xs text-tertiary mt-1 truncate" title={subtext}>
           {subtext}
         </div>
       )}

@@ -117,7 +117,7 @@ export function CollabMessage({
   if (isSystemMessage) {
     return (
       <div className="flex justify-center my-2">
-        <div className="bg-gray-700/50 text-gray-400 text-sm px-4 py-1 rounded-full">
+        <div className="bg-tertiary/50 text-secondary text-sm px-4 py-1 rounded-full">
           {message.content}
         </div>
       </div>
@@ -126,7 +126,7 @@ export function CollabMessage({
 
   return (
     <div
-      className={clsx("group flex gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors", {
+      className={clsx("group flex gap-3 p-3 rounded-lg hover:bg-secondary/50 transition-colors", {
         "bg-cyan-900/20 border-l-2 border-cyan-500": isActionMessage,
       })}
       onMouseEnter={() => setShowReactions(true)}
@@ -135,7 +135,7 @@ export function CollabMessage({
       {/* Avatar */}
       <div
         className={clsx(
-          "w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-white font-medium text-sm bg-gradient-to-br",
+          "w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-primary font-medium text-sm bg-gradient-to-br",
           getUserColor(message.user),
         )}
       >
@@ -146,7 +146,7 @@ export function CollabMessage({
       <div className="flex-1 min-w-0">
         {/* Header */}
         <div className="flex items-center gap-2 mb-1">
-          <span className="font-medium text-gray-200">{message.user}</span>
+          <span className="font-medium text-primary">{message.user}</span>
           {isActionMessage && (
             <span className="bg-cyan-500/20 text-cyan-300 text-xs px-2 py-0.5 rounded">ACTION</span>
           )}
@@ -155,12 +155,12 @@ export function CollabMessage({
               EVIDENCE
             </span>
           )}
-          <span className="text-gray-500 text-sm">{formatTimestamp(message.created_at)}</span>
-          {message.is_edited && <span className="text-gray-500 text-xs">(edited)</span>}
+          <span className="text-tertiary text-sm">{formatTimestamp(message.created_at)}</span>
+          {message.is_edited && <span className="text-tertiary text-xs">(edited)</span>}
         </div>
 
         {/* Content */}
-        <div className="text-gray-300 break-words">{highlightMentions(message.content)}</div>
+        <div className="text-secondary break-words">{highlightMentions(message.content)}</div>
 
         {/* Attachments */}
         {message.attachments.length > 0 && (
@@ -168,10 +168,10 @@ export function CollabMessage({
             {message.attachments.map((attachment, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 bg-gray-700/50 px-3 py-2 rounded-lg"
+                className="flex items-center gap-2 bg-tertiary/50 px-3 py-2 rounded-lg"
               >
                 <svg
-                  className="w-4 h-4 text-gray-400"
+                  className="w-4 h-4 text-secondary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -183,9 +183,9 @@ export function CollabMessage({
                     d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
                   />
                 </svg>
-                <span className="text-sm text-gray-300">{attachment.filename}</span>
+                <span className="text-sm text-secondary">{attachment.filename}</span>
                 {attachment.size && (
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-tertiary">
                     ({Math.round(attachment.size / 1024)}KB)
                   </span>
                 )}
@@ -205,7 +205,7 @@ export function CollabMessage({
                   "flex items-center gap-1 px-2 py-0.5 rounded-full text-sm transition-colors",
                   users.includes(currentUser)
                     ? "bg-cyan-500/30 text-cyan-300"
-                    : "bg-gray-700/50 text-gray-400 hover:bg-gray-700",
+                    : "bg-tertiary/50 text-secondary hover:bg-tertiary",
                 )}
               >
                 <span>{EMOJI_MAP[emoji] || emoji}</span>
@@ -224,12 +224,12 @@ export function CollabMessage({
         )}
       >
         {/* Quick reactions */}
-        <div className="flex items-center bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+        <div className="flex items-center bg-secondary rounded-lg border border-primary overflow-hidden">
           {QUICK_REACTIONS.map((emoji) => (
             <button
               key={emoji}
               onClick={() => onReact?.(message.id, emoji)}
-              className="p-1.5 hover:bg-gray-700 transition-colors"
+              className="p-1.5 hover:bg-tertiary transition-colors"
               title={emoji}
             >
               <span className="text-sm">{EMOJI_MAP[emoji]}</span>
@@ -241,7 +241,7 @@ export function CollabMessage({
         <div className="flex items-center gap-1">
           <button
             onClick={() => onReply?.(message.id)}
-            className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
+            className="p-1.5 text-secondary hover:text-primary hover:bg-tertiary rounded transition-colors"
             title="Reply"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -257,7 +257,7 @@ export function CollabMessage({
           {isOwnMessage && (
             <button
               onClick={() => onDelete?.(message.id)}
-              className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-gray-700 rounded transition-colors"
+              className="p-1.5 text-secondary hover:text-red-400 hover:bg-tertiary rounded transition-colors"
               title="Delete"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -79,7 +79,7 @@ const TYPE_COLORS: Record<string, string> = {
   screenshot: "bg-green-500/20 text-green-400",
   log: "bg-blue-500/20 text-blue-400",
   pcap: "bg-purple-500/20 text-purple-400",
-  file: "bg-gray-500/20 text-gray-400",
+  file: "bg-gray-500/20 text-secondary",
 };
 
 function formatFileSize(bytes?: number): string {
@@ -109,12 +109,12 @@ export function CollabAttachments({
           <button
             key={index}
             onClick={() => onPreview?.(attachment)}
-            className="flex items-center gap-1 bg-gray-700/50 px-2 py-1 rounded text-sm hover:bg-gray-700 transition-colors"
+            className="flex items-center gap-1 bg-tertiary/50 px-2 py-1 rounded text-sm hover:bg-tertiary transition-colors"
           >
             <span className={TYPE_COLORS[attachment.type] || TYPE_COLORS.file}>
               {FILE_TYPE_ICONS[attachment.type] || FILE_TYPE_ICONS.file}
             </span>
-            <span className="text-gray-300 max-w-[100px] truncate">{attachment.filename}</span>
+            <span className="text-secondary max-w-[100px] truncate">{attachment.filename}</span>
           </button>
         ))}
       </div>
@@ -126,7 +126,7 @@ export function CollabAttachments({
       {attachments.map((attachment, index) => (
         <div
           key={index}
-          className="flex items-center gap-3 bg-gray-800/50 border border-gray-700 rounded-lg p-3 group hover:border-gray-600 transition-colors"
+          className="flex items-center gap-3 bg-secondary/50 border border-primary rounded-lg p-3 group hover:border-primary transition-colors"
         >
           {/* File icon */}
           <div
@@ -140,8 +140,8 @@ export function CollabAttachments({
 
           {/* File info */}
           <div className="flex-1 min-w-0">
-            <div className="text-gray-200 font-medium truncate">{attachment.filename}</div>
-            <div className="text-gray-500 text-sm flex items-center gap-2">
+            <div className="text-primary font-medium truncate">{attachment.filename}</div>
+            <div className="text-tertiary text-sm flex items-center gap-2">
               <span className="uppercase">{getFileExtension(attachment.filename)}</span>
               {attachment.size && (
                 <>
@@ -157,7 +157,7 @@ export function CollabAttachments({
             {(attachment.type === "image" || attachment.type === "screenshot") && (
               <button
                 onClick={() => onPreview?.(attachment)}
-                className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
+                className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded transition-colors"
                 title="Preview"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,7 +178,7 @@ export function CollabAttachments({
             )}
             <button
               onClick={() => onDownload?.(attachment)}
-              className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded transition-colors"
+              className="p-2 text-secondary hover:text-primary hover:bg-tertiary rounded transition-colors"
               title="Download"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,7 +216,7 @@ export function ImagePreviewModal({ isOpen, onClose, attachment }: ImagePreviewM
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 p-2 bg-gray-800 rounded-full text-white hover:bg-gray-700 transition-colors z-10"
+          className="absolute top-2 right-2 p-2 bg-secondary rounded-full text-primary hover:bg-tertiary transition-colors z-10"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -236,14 +236,14 @@ export function ImagePreviewModal({ isOpen, onClose, attachment }: ImagePreviewM
             className="max-w-full max-h-[80vh] object-contain rounded-lg"
           />
         ) : (
-          <div className="bg-gray-800 rounded-lg p-8 text-center">
-            <div className="text-gray-400 mb-2">Preview not available</div>
-            <div className="text-gray-500 text-sm">{attachment.filename}</div>
+          <div className="bg-secondary rounded-lg p-8 text-center">
+            <div className="text-secondary mb-2">Preview not available</div>
+            <div className="text-tertiary text-sm">{attachment.filename}</div>
           </div>
         )}
 
         {/* File info */}
-        <div className="mt-2 text-center text-gray-400 text-sm">
+        <div className="mt-2 text-center text-secondary text-sm">
           {attachment.filename}
           {attachment.size && <span className="ml-2">({formatFileSize(attachment.size)})</span>}
         </div>

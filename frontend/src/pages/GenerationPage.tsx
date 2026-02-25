@@ -17,12 +17,12 @@ interface CounterCardProps {
   label: string;
   count: number;
   icon: React.ReactNode;
-  color: string;
+  colorVar: string;
   href?: string;
   onClick?: () => void;
 }
 
-function CounterCard({ label, count, icon, color, href, onClick }: CounterCardProps) {
+function CounterCard({ label, count, icon, colorVar, href, onClick }: CounterCardProps) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -38,8 +38,8 @@ function CounterCard({ label, count, icon, color, href, onClick }: CounterCardPr
   return (
     <div
       className={clsx(
-        "bg-gray-800 rounded-lg p-4 border border-gray-700 transition-colors",
-        isClickable && "cursor-pointer hover:bg-gray-700 hover:border-gray-600",
+        "bg-secondary rounded-lg p-4 border border-primary transition-colors",
+        isClickable && "cursor-pointer hover:bg-tertiary hover:border-primary",
       )}
       onClick={isClickable ? handleClick : undefined}
       role={isClickable ? "button" : undefined}
@@ -56,10 +56,13 @@ function CounterCard({ label, count, icon, color, href, onClick }: CounterCardPr
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-gray-400 text-sm">{label}</p>
-          <p className={clsx("text-2xl font-bold", color)}>{(count ?? 0).toLocaleString()}</p>
+          <p className="text-secondary text-sm">{label}</p>
+          <p className="text-2xl font-bold" style={{ color: `var(${colorVar})` }}>{(count ?? 0).toLocaleString()}</p>
         </div>
-        <div className={clsx("p-3 rounded-lg bg-opacity-20", color.replace("text-", "bg-"))}>
+        <div
+          className="p-3 rounded-lg"
+          style={{ backgroundColor: `color-mix(in srgb, var(${colorVar}), transparent 80%)` }}
+        >
           {icon}
         </div>
       </div>
@@ -87,9 +90,9 @@ function ActionButton({
   variant,
 }: ActionButtonProps) {
   const variants = {
-    primary: "bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800",
-    secondary: "bg-gray-600 hover:bg-gray-500 disabled:bg-gray-700",
-    danger: "bg-red-600 hover:bg-red-700 disabled:bg-red-800",
+    primary: "bg-[var(--primary-600)] hover:bg-[var(--primary-700)] disabled:opacity-50",
+    secondary: "bg-tertiary hover:bg-hover disabled:bg-tertiary",
+    danger: "bg-[var(--color-error)] hover:bg-[var(--color-error-dark)] disabled:opacity-50",
   };
 
   return (
@@ -99,7 +102,7 @@ function ActionButton({
       className={clsx(
         "flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors disabled:cursor-not-allowed",
         variants[variant],
-        "text-white",
+        "text-primary",
       )}
     >
       {loading ? (
@@ -188,18 +191,18 @@ export function GenerationPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Data Generation</h1>
-        <p className="text-gray-400 mt-1">
+        <h1 className="text-2xl font-bold text-primary">Data Generation</h1>
+        <p className="text-secondary mt-1">
           Generate synthetic SOC data for testing and demonstration
         </p>
       </div>
 
       {/* Seed Input */}
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h2 className="text-lg font-semibold text-white mb-4">Configuration</h2>
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h2 className="text-lg font-semibold text-primary mb-4">Configuration</h2>
         <div className="flex items-end space-x-4">
           <div className="flex-1 max-w-xs">
-            <label htmlFor="seed" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="seed" className="block text-sm font-medium text-secondary mb-2">
               Random Seed (optional)
             </label>
             <input
@@ -208,18 +211,18 @@ export function GenerationPage() {
               value={seed}
               onChange={(e) => setSeed(e.target.value)}
               placeholder="Enter seed for reproducible data"
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-tertiary border border-primary rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)] focus:border-transparent"
             />
           </div>
-          <p className="text-sm text-gray-500 pb-2">
+          <p className="text-sm text-tertiary pb-2">
             Using the same seed will generate identical data
           </p>
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h2 className="text-lg font-semibold text-white mb-4">Actions</h2>
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h2 className="text-lg font-semibold text-primary mb-4">Actions</h2>
         <div className="flex flex-wrap gap-4">
           <ActionButton
             onClick={handleGenerateAll}
@@ -371,21 +374,21 @@ export function GenerationPage() {
         {isAnyLoading && (
           <div className="mt-6">
             <div className="flex items-center space-x-3">
-              <div className="w-full bg-gray-700 rounded-full h-2">
+              <div className="w-full bg-tertiary rounded-full h-2">
                 <div
-                  className="bg-cyan-500 h-2 rounded-full animate-pulse"
+                  className="bg-[var(--primary)] h-2 rounded-full animate-pulse"
                   style={{ width: "60%" }}
                 />
               </div>
-              <span className="text-sm text-gray-400 whitespace-nowrap">Processing...</span>
+              <span className="text-sm text-secondary whitespace-nowrap">Processing...</span>
             </div>
           </div>
         )}
 
         {/* Success/Error Messages */}
         {generateAll.isSuccess && (
-          <div className="mt-4 p-4 bg-green-900/30 border border-green-700 rounded-lg">
-            <p className="text-green-400">Data generated successfully!</p>
+          <div className="mt-4 p-4 rounded-lg border border-[var(--color-success)]" style={{ backgroundColor: 'color-mix(in srgb, var(--color-success-dark), transparent 70%)' }}>
+            <p style={{ color: 'var(--color-success)' }}>Data generated successfully!</p>
           </div>
         )}
         {(generateAll.isError ||
@@ -396,8 +399,8 @@ export function GenerationPage() {
           generateTickets.isError ||
           generateAgentActions.isError ||
           resetData.isError) && (
-          <div className="mt-4 p-4 bg-red-900/30 border border-red-700 rounded-lg">
-            <p className="text-red-400">
+          <div className="mt-4 p-4 rounded-lg border border-[var(--color-error)]" style={{ backgroundColor: 'color-mix(in srgb, var(--color-error-dark), transparent 70%)' }}>
+            <p style={{ color: 'var(--color-error)' }}>
               Error:{" "}
               {
                 (
@@ -417,12 +420,12 @@ export function GenerationPage() {
       </div>
 
       {/* Record Counters */}
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h2 className="text-lg font-semibold text-white mb-4">Current Data Status</h2>
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h2 className="text-lg font-semibold text-primary mb-4">Current Data Status</h2>
 
         {statusLoading && (
           <div className="flex items-center justify-center py-8">
-            <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 animate-spin" style={{ color: 'var(--primary)' }} fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -441,8 +444,8 @@ export function GenerationPage() {
         )}
 
         {statusError && (
-          <div className="p-4 bg-red-900/30 border border-red-700 rounded-lg">
-            <p className="text-red-400">Failed to load status: {statusError.message}</p>
+          <div className="p-4 rounded-lg border border-[var(--color-error)]" style={{ backgroundColor: 'color-mix(in srgb, var(--color-error-dark), transparent 70%)' }}>
+            <p style={{ color: 'var(--color-error)' }}>Failed to load status: {statusError.message}</p>
           </div>
         )}
 
@@ -451,11 +454,12 @@ export function GenerationPage() {
             <CounterCard
               label="Assets"
               count={status.assets}
-              color="text-cyan-400"
+              colorVar="--color-info"
               href="/assets"
               icon={
                 <svg
-                  className="w-6 h-6 text-cyan-400"
+                  className="w-6 h-6"
+                  style={{ color: 'var(--color-info)' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -472,11 +476,12 @@ export function GenerationPage() {
             <CounterCard
               label="Incidents"
               count={status.incidents}
-              color="text-orange-400"
+              colorVar="--color-warning"
               href="/incidents"
               icon={
                 <svg
-                  className="w-6 h-6 text-orange-400"
+                  className="w-6 h-6"
+                  style={{ color: 'var(--color-warning)' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -493,11 +498,12 @@ export function GenerationPage() {
             <CounterCard
               label="Detections"
               count={status.detections}
-              color="text-red-400"
+              colorVar="--color-error"
               href="/detections"
               icon={
                 <svg
-                  className="w-6 h-6 text-red-400"
+                  className="w-6 h-6"
+                  style={{ color: 'var(--color-error)' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -514,11 +520,12 @@ export function GenerationPage() {
             <CounterCard
               label="Postmortems"
               count={status.postmortems}
-              color="text-purple-400"
+              colorVar="--accent"
               href="/postmortems"
               icon={
                 <svg
-                  className="w-6 h-6 text-purple-400"
+                  className="w-6 h-6"
+                  style={{ color: 'var(--accent)' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -535,11 +542,12 @@ export function GenerationPage() {
             <CounterCard
               label="Tickets"
               count={status.tickets}
-              color="text-green-400"
+              colorVar="--color-success"
               href="/tickets"
               icon={
                 <svg
-                  className="w-6 h-6 text-green-400"
+                  className="w-6 h-6"
+                  style={{ color: 'var(--color-success)' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -556,11 +564,12 @@ export function GenerationPage() {
             <CounterCard
               label="Agent Actions"
               count={status.agent_actions}
-              color="text-yellow-400"
+              colorVar="--color-warning"
               href="/audit"
               icon={
                 <svg
-                  className="w-6 h-6 text-yellow-400"
+                  className="w-6 h-6"
+                  style={{ color: 'var(--color-warning)' }}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"

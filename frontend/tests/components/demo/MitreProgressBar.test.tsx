@@ -116,7 +116,7 @@ describe("MitreProgressBar", () => {
       const pendingStages = screen.getAllByTestId("stage-marker-pending");
       expect(pendingStages).toHaveLength(2);
       pendingStages.forEach(stage => {
-        expect(stage).toHaveClass("bg-gray-600");
+        expect(stage).toHaveClass("bg-tertiary");
       });
     });
 

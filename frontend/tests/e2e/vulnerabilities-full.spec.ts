@@ -63,7 +63,7 @@ test.describe("Vulnerability Dashboard - Page Loading", () => {
 
   test("should have proper page title", async ({ page }) => {
     await page.goto("/vulnerabilities");
-    await expect(page).toHaveTitle(/CyberDemo/i);
+    await expect(page).toHaveTitle(/SoulBot/i);
   });
 });
 

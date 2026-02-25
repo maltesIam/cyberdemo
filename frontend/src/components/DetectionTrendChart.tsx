@@ -56,9 +56,9 @@ export function DetectionTrendChart({ data }: DetectionTrendChartProps) {
 
   if (chartData.every((d) => d.count === 0)) {
     return (
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h3 className="text-lg font-semibold text-white mb-4">Detection Trend (Last 7 Days)</h3>
-        <div className="h-48 flex items-center justify-center text-gray-500">
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h3 className="text-lg font-semibold text-primary mb-4">Detection Trend (Last 7 Days)</h3>
+        <div className="h-48 flex items-center justify-center text-tertiary">
           No detection data available for the last 7 days
         </div>
       </div>
@@ -93,8 +93,8 @@ export function DetectionTrendChart({ data }: DetectionTrendChartProps) {
   const linePath = `M ${linePoints.map((p) => `${p.x},${p.y}`).join(" L ")}`;
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <h3 className="text-lg font-semibold text-white mb-4">Detection Trend (Last 7 Days)</h3>
+    <div className="bg-secondary rounded-lg p-6 border border-primary">
+      <h3 className="text-lg font-semibold text-primary mb-4">Detection Trend (Last 7 Days)</h3>
       <div className="w-full" data-testid="detection-trend-chart">
         <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto">
           {/* Grid lines */}

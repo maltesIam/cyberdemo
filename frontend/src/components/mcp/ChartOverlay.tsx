@@ -19,8 +19,8 @@ function ChartBar({ point, maxValue }: { point: ChartDataPoint; maxValue: number
   const widthPercent = maxValue > 0 ? (point.value / maxValue) * 100 : 0;
   return (
     <div className="flex items-center gap-2 text-sm">
-      <span className="w-20 text-gray-300 truncate">{point.label}</span>
-      <div className="flex-1 bg-gray-700 rounded-full h-3">
+      <span className="w-20 text-secondary truncate">{point.label}</span>
+      <div className="flex-1 bg-tertiary rounded-full h-3">
         <div
           className="h-3 rounded-full transition-all duration-700 ease-out mcp-chart-bar-enter"
           style={{
@@ -29,7 +29,7 @@ function ChartBar({ point, maxValue }: { point: ChartDataPoint; maxValue: number
           }}
         />
       </div>
-      <span className="w-8 text-right text-gray-400">{point.value}</span>
+      <span className="w-8 text-right text-secondary">{point.value}</span>
     </div>
   );
 }
@@ -66,7 +66,7 @@ export function ChartOverlay({ chart, onDismiss }: ChartOverlayProps) {
     <div
       data-testid={`chart-overlay-${chart.id}`}
       className={`
-        fixed z-40 bg-gray-800/95 backdrop-blur-sm border border-gray-600 rounded-lg shadow-2xl
+        fixed z-40 bg-secondary/95 backdrop-blur-sm border border-primary rounded-lg shadow-2xl
         p-4 min-w-[280px] max-w-[400px]
         transition-all duration-300 ease-out
         ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}
@@ -78,15 +78,15 @@ export function ChartOverlay({ chart, onDismiss }: ChartOverlayProps) {
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-white">{chart.title}</h3>
+        <h3 className="text-sm font-semibold text-primary">{chart.title}</h3>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 bg-gray-700 px-1.5 py-0.5 rounded">
+          <span className="text-xs text-tertiary bg-tertiary px-1.5 py-0.5 rounded">
             {chart.type}
           </span>
           <button
             onClick={handleClose}
             aria-label="Close chart"
-            className="text-gray-400 hover:text-white transition-colors p-0.5"
+            className="text-secondary hover:text-primary transition-colors p-0.5"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

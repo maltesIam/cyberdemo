@@ -235,7 +235,7 @@ function KPIChipEnhanced({
       <span className="font-bold tabular-nums" style={{ color: def.color }}>
         {displayed.toLocaleString()}
       </span>
-      <span className="text-gray-400 text-[10px] hidden sm:inline">{def.label}</span>
+      <span className="text-secondary text-[10px] hidden sm:inline">{def.label}</span>
     </button>
   );
 }
@@ -320,11 +320,11 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
   const sliderValue = presetToSlider[timeRange.preset] ?? 60;
 
   return (
-    <footer className="flex-shrink-0 bg-gray-800 border-t border-gray-700">
+    <footer className="flex-shrink-0 bg-secondary border-t border-primary">
       {/* Main row: KPIs + Timeline controls */}
       <div className="flex items-center gap-2 px-3 py-2">
         {/* KPI chips section */}
-        <div className="flex items-center gap-1.5 overflow-x-auto flex-shrink-0 pr-3 border-r border-gray-700">
+        <div className="flex items-center gap-1.5 overflow-x-auto flex-shrink-0 pr-3 border-r border-primary">
           {KPI_DEFS.map((def) => (
             <KPIChipEnhanced
               key={def.key}
@@ -344,8 +344,8 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
             className={clsx(
               "p-1.5 rounded-md transition-colors flex-shrink-0",
               timeRange.isPlaying
-                ? "bg-cyan-600 text-white"
-                : "bg-gray-700 text-gray-400 hover:text-gray-200",
+                ? "bg-cyan-600 text-primary"
+                : "bg-tertiary text-secondary hover:text-primary",
             )}
             title={timeRange.isPlaying ? "Pause replay" : "Play replay"}
           >
@@ -363,7 +363,7 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
           {/* Speed control */}
           <button
             onClick={cycleSpeed}
-            className="px-1.5 py-1 bg-gray-700 rounded text-[10px] font-mono text-gray-300 hover:bg-gray-600 transition-colors flex-shrink-0"
+            className="px-1.5 py-1 bg-tertiary rounded text-[10px] font-mono text-secondary hover:bg-tertiary transition-colors flex-shrink-0"
             title="Change playback speed"
           >
             {timeRange.speed}x
@@ -381,7 +381,7 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
                 const preset = sliderToPreset(Number(e.target.value));
                 updateTimeRange({ preset });
               }}
-              className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+              className="w-full h-1 bg-tertiary rounded-lg appearance-none cursor-pointer accent-cyan-500"
             />
             {/* Marks below slider */}
             <div className="relative h-3 mt-0.5">
@@ -390,7 +390,7 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
                   key={mark.label}
                   className={clsx(
                     "absolute text-[8px] -translate-x-1/2 transition-colors",
-                    timeRange.preset === mark.label ? "text-cyan-400 font-bold" : "text-gray-600",
+                    timeRange.preset === mark.label ? "text-cyan-400 font-bold" : "text-tertiary",
                   )}
                   style={{ left: `${mark.pos}%` }}
                 >
@@ -409,8 +409,8 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
                 className={clsx(
                   "px-2 py-0.5 rounded text-[10px] font-medium transition-colors",
                   timeRange.preset === preset
-                    ? "bg-cyan-600 text-white"
-                    : "bg-gray-700 text-gray-400 hover:text-gray-200",
+                    ? "bg-cyan-600 text-primary"
+                    : "bg-tertiary text-secondary hover:text-primary",
                 )}
               >
                 {preset}
@@ -421,8 +421,8 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
               className={clsx(
                 "px-2 py-0.5 rounded text-[10px] font-medium transition-colors",
                 timeRange.preset === "custom"
-                  ? "bg-cyan-600 text-white"
-                  : "bg-gray-700 text-gray-400 hover:text-gray-200",
+                  ? "bg-cyan-600 text-primary"
+                  : "bg-tertiary text-secondary hover:text-primary",
               )}
             >
               Custom
@@ -430,7 +430,7 @@ export function BottomBar({ overview, onKpiClick, timeRange, onTimeRangeChange }
           </div>
 
           {/* Current time indicator */}
-          <div className="flex-shrink-0 text-[10px] text-gray-500 font-mono pl-2 border-l border-gray-700">
+          <div className="flex-shrink-0 text-[10px] text-tertiary font-mono pl-2 border-l border-primary">
             {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
           </div>
         </div>

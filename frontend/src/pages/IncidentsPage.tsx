@@ -6,17 +6,17 @@ import type { Incident } from "../types";
 
 function SeverityBadge({ severity }: { severity: string }) {
   const colors: Record<string, string> = {
-    critical: "bg-red-900 text-red-300 border-red-700",
-    high: "bg-orange-900 text-orange-300 border-orange-700",
-    medium: "bg-yellow-900 text-yellow-300 border-yellow-700",
-    low: "bg-green-900 text-green-300 border-green-700",
+    critical: "bg-[var(--badge-critical-bg)] text-[var(--badge-critical-text)] border-[var(--badge-critical-border)]",
+    high: "bg-[var(--badge-high-bg)] text-[var(--badge-high-text)] border-[var(--badge-high-border)]",
+    medium: "bg-[var(--badge-medium-bg)] text-[var(--badge-medium-text)] border-[var(--badge-medium-border)]",
+    low: "bg-[var(--badge-low-bg)] text-[var(--badge-low-text)] border-[var(--badge-low-border)]",
   };
 
   return (
     <span
       className={clsx(
         "px-2 py-1 rounded text-xs font-medium border",
-        colors[severity] || "bg-gray-700 text-gray-300",
+        colors[severity] || "bg-tertiary text-secondary",
       )}
     >
       {severity.toUpperCase()}
@@ -26,18 +26,18 @@ function SeverityBadge({ severity }: { severity: string }) {
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
-    open: "bg-red-900/50 text-red-300",
-    investigating: "bg-yellow-900/50 text-yellow-300",
-    contained: "bg-orange-900/50 text-orange-300",
-    resolved: "bg-green-900/50 text-green-300",
-    closed: "bg-gray-700 text-gray-400",
+    open: "bg-[var(--badge-open-bg)] text-[var(--badge-open-text)]",
+    investigating: "bg-[var(--badge-investigating-bg)] text-[var(--badge-investigating-text)]",
+    contained: "bg-[var(--badge-contained-bg)] text-[var(--badge-contained-text)]",
+    resolved: "bg-[var(--badge-resolved-bg)] text-[var(--badge-resolved-text)]",
+    closed: "bg-tertiary text-secondary",
   };
 
   return (
     <span
       className={clsx(
         "px-2 py-1 rounded text-xs font-medium capitalize",
-        colors[status] || "bg-gray-700 text-gray-300",
+        colors[status] || "bg-tertiary text-secondary",
       )}
     >
       {status}
@@ -50,11 +50,11 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-gray-800 rounded-lg border border-gray-700 shadow-xl w-full max-w-3xl max-h-[90vh] overflow-hidden">
+      <div className="bg-secondary rounded-lg border border-primary shadow-xl w-full max-w-3xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-700 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">Incident Details</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white">
+        <div className="px-6 py-4 border-b border-primary flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-primary">Incident Details</h2>
+          <button onClick={onClose} className="text-secondary hover:text-primary">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -70,7 +70,7 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           {isLoading && (
             <div className="flex items-center justify-center py-12">
-              <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 animate-spin text-[var(--accent-link)]" fill="none" viewBox="0 0 24 24">
                 <circle
                   className="opacity-25"
                   cx="12"
@@ -89,7 +89,7 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
           )}
 
           {error && (
-            <div className="text-red-400 text-center py-8">
+            <div className="text-[var(--error-text)] text-center py-8">
               Failed to load incident details: {error.message}
             </div>
           )}
@@ -99,15 +99,15 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
               {/* Header Info */}
               <div>
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-xl font-semibold text-white">{incident.title}</h3>
-                  <span className="text-gray-500 font-mono text-sm">{incident.incident_id}</span>
+                  <h3 className="text-xl font-semibold text-primary">{incident.title}</h3>
+                  <span className="text-tertiary font-mono text-sm">{incident.incident_id}</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <SeverityBadge severity={incident.severity} />
                   <StatusBadge status={incident.status} />
                   {incident.assigned_to && (
-                    <span className="text-gray-400 text-sm">
-                      Assigned to: <span className="text-white">{incident.assigned_to}</span>
+                    <span className="text-secondary text-sm">
+                      Assigned to: <span className="text-primary">{incident.assigned_to}</span>
                     </span>
                   )}
                 </div>
@@ -115,33 +115,33 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
 
               {/* Description */}
               <div>
-                <h4 className="text-sm font-medium text-gray-400 mb-2">Description</h4>
-                <p className="text-gray-300">{incident.description}</p>
+                <h4 className="text-sm font-medium text-secondary mb-2">Description</h4>
+                <p className="text-secondary">{incident.description}</p>
               </div>
 
               {/* Timestamps */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-1">Created</h4>
-                  <p className="text-gray-300">{format(new Date(incident.created_at), "PPpp")}</p>
+                  <h4 className="text-sm font-medium text-secondary mb-1">Created</h4>
+                  <p className="text-secondary">{format(new Date(incident.created_at), "PPpp")}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-1">Last Updated</h4>
-                  <p className="text-gray-300">{format(new Date(incident.updated_at), "PPpp")}</p>
+                  <h4 className="text-sm font-medium text-secondary mb-1">Last Updated</h4>
+                  <p className="text-secondary">{format(new Date(incident.updated_at), "PPpp")}</p>
                 </div>
               </div>
 
               {/* Affected Assets */}
               {incident.asset_ids?.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-2">
+                  <h4 className="text-sm font-medium text-secondary mb-2">
                     Affected Assets ({incident.asset_ids.length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {incident.asset_ids.map((asset) => (
                       <span
                         key={asset}
-                        className="px-2 py-1 bg-gray-700 text-cyan-400 rounded text-sm font-mono"
+                        className="px-2 py-1 bg-tertiary text-[var(--accent-link)] rounded text-sm font-mono"
                       >
                         {asset.slice(0, 8)}...
                       </span>
@@ -153,14 +153,14 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
               {/* Detections */}
               {incident.detection_ids?.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-2">
+                  <h4 className="text-sm font-medium text-secondary mb-2">
                     Related Detections ({incident.detection_ids.length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {incident.detection_ids.map((detection) => (
                       <span
                         key={detection}
-                        className="px-2 py-1 bg-red-900/30 text-red-400 rounded text-sm font-mono"
+                        className="px-2 py-1 bg-[var(--error-bg)] text-[var(--error-text)] rounded text-sm font-mono"
                       >
                         {detection.slice(0, 8)}...
                       </span>
@@ -172,12 +172,12 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
               {/* Tags */}
               {incident.tags?.length > 0 && (
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-2">Tags</h4>
+                  <h4 className="text-sm font-medium text-secondary mb-2">Tags</h4>
                   <div className="flex flex-wrap gap-2">
                     {incident.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs"
+                        className="px-2 py-1 bg-tertiary text-secondary rounded text-xs"
                       >
                         {tag}
                       </span>
@@ -190,22 +190,22 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
               <div className="grid grid-cols-2 gap-4">
                 {incident.category && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-400 mb-1">Category</h4>
-                    <p className="text-gray-300 capitalize">
+                    <h4 className="text-sm font-medium text-secondary mb-1">Category</h4>
+                    <p className="text-secondary capitalize">
                       {incident.category.replace("_", " ")}
                     </p>
                   </div>
                 )}
                 {incident.source && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-400 mb-1">Source</h4>
-                    <p className="text-gray-300">{incident.source}</p>
+                    <h4 className="text-sm font-medium text-secondary mb-1">Source</h4>
+                    <p className="text-secondary">{incident.source}</p>
                   </div>
                 )}
                 {incident.ttd_minutes && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-400 mb-1">Time to Detect</h4>
-                    <p className="text-gray-300">{incident.ttd_minutes} minutes</p>
+                    <h4 className="text-sm font-medium text-secondary mb-1">Time to Detect</h4>
+                    <p className="text-secondary">{incident.ttd_minutes} minutes</p>
                   </div>
                 )}
               </div>
@@ -214,10 +214,10 @@ function IncidentDetailModal({ incidentId, onClose }: { incidentId: string; onCl
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-700 flex justify-end space-x-3">
+        <div className="px-6 py-4 border-t border-primary flex justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
+            className="px-4 py-2 bg-tertiary text-secondary rounded-lg hover:bg-tertiary transition-colors"
           >
             Close
           </button>
@@ -253,32 +253,32 @@ export function IncidentsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Incidents</h1>
-        <p className="text-gray-400 mt-1">Track and manage security incidents</p>
+        <h1 className="text-2xl font-bold text-primary">Incidents</h1>
+        <p className="text-secondary mt-1">Track and manage security incidents</p>
       </div>
 
       {/* Filters */}
-      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+      <div className="bg-secondary rounded-lg p-4 border border-primary">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-400 mb-1">Search</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Search</label>
             <input
               type="text"
               value={filters.search}
               onChange={(e) => handleFilterChange("search", e.target.value)}
               placeholder="Search incidents..."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary placeholder-[var(--text-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             />
           </div>
 
           {/* Status Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Status</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Status</label>
             <select
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             >
               <option value="">All Status</option>
               <option value="open">Open</option>
@@ -291,11 +291,11 @@ export function IncidentsPage() {
 
           {/* Severity Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Severity</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Severity</label>
             <select
               value={filters.severity}
               onChange={(e) => handleFilterChange("severity", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             >
               <option value="">All Severities</option>
               <option value="critical">Critical</option>
@@ -308,10 +308,10 @@ export function IncidentsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+      <div className="bg-secondary rounded-lg border border-primary overflow-hidden">
         {isLoading && (
           <div className="flex items-center justify-center py-16">
-            <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 animate-spin text-[var(--accent-link)]" fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -331,7 +331,7 @@ export function IncidentsPage() {
 
         {error && (
           <div className="p-8 text-center">
-            <p className="text-red-400">Failed to load incidents: {error.message}</p>
+            <p className="text-[var(--error-text)]">Failed to load incidents: {error.message}</p>
           </div>
         )}
 
@@ -339,45 +339,45 @@ export function IncidentsPage() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-900">
+                <thead className="bg-primary">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       ID
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Title
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Severity
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Created
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Assets
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-700">
+                <tbody className="divide-y divide-[var(--border-primary)]">
                   {incidentsData.data.map((incident: Incident) => (
                     <tr
                       key={incident.incident_id}
                       onClick={() => setSelectedIncidentId(incident.incident_id)}
-                      className="hover:bg-gray-750 cursor-pointer transition-colors"
+                      className="hover:bg-hover cursor-pointer transition-colors"
                     >
                       <td className="px-4 py-3">
-                        <span className="text-cyan-400 font-mono text-sm">
+                        <span className="text-[var(--accent-link)] font-mono text-sm">
                           {incident.incident_id}
                         </span>
                       </td>
                       <td className="px-4 py-3">
                         <div className="max-w-md">
-                          <p className="text-white font-medium truncate">{incident.title}</p>
+                          <p className="text-primary font-medium truncate">{incident.title}</p>
                           {incident.assigned_to && (
-                            <p className="text-gray-500 text-xs mt-0.5">
+                            <p className="text-tertiary text-xs mt-0.5">
                               Assigned: {incident.assigned_to}
                             </p>
                           )}
@@ -389,11 +389,11 @@ export function IncidentsPage() {
                       <td className="px-4 py-3">
                         <StatusBadge status={incident.status} />
                       </td>
-                      <td className="px-4 py-3 text-gray-400 text-sm">
+                      <td className="px-4 py-3 text-secondary text-sm">
                         {format(new Date(incident.created_at), "MMM d, HH:mm")}
                       </td>
                       <td className="px-4 py-3">
-                        <span className="text-gray-400">{incident.asset_ids?.length ?? 0}</span>
+                        <span className="text-secondary">{incident.asset_ids?.length ?? 0}</span>
                       </td>
                     </tr>
                   ))}
@@ -402,8 +402,8 @@ export function IncidentsPage() {
             </div>
 
             {/* Pagination */}
-            <div className="px-4 py-3 bg-gray-900 border-t border-gray-700 flex items-center justify-between">
-              <div className="text-sm text-gray-400">
+            <div className="px-4 py-3 bg-primary border-t border-primary flex items-center justify-between">
+              <div className="text-sm text-secondary">
                 Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, incidentsData.total)} of{" "}
                 {incidentsData.total} incidents
               </div>
@@ -411,14 +411,14 @@ export function IncidentsPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={page >= incidentsData.total_pages}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
                 >
                   Next
                 </button>
@@ -430,7 +430,7 @@ export function IncidentsPage() {
         {incidentsData?.data.length === 0 && (
           <div className="p-8 text-center">
             <svg
-              className="w-12 h-12 text-gray-600 mx-auto mb-4"
+              className="w-12 h-12 text-tertiary mx-auto mb-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -442,8 +442,8 @@ export function IncidentsPage() {
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
               />
             </svg>
-            <p className="text-gray-400">No incidents found</p>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-secondary">No incidents found</p>
+            <p className="text-tertiary text-sm mt-1">
               Try adjusting your filters or generate some data
             </p>
           </div>

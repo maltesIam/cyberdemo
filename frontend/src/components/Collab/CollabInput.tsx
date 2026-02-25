@@ -181,14 +181,14 @@ export function CollabInput({
   };
 
   return (
-    <div className="border-t border-gray-700 p-4">
+    <div className="border-t border-primary p-4">
       {/* Reply indicator */}
       {replyingTo && (
-        <div className="flex items-center justify-between bg-gray-800/50 px-3 py-2 rounded-t-lg mb-1">
-          <span className="text-sm text-gray-400">
+        <div className="flex items-center justify-between bg-secondary/50 px-3 py-2 rounded-t-lg mb-1">
+          <span className="text-sm text-secondary">
             Replying to message <span className="text-cyan-400">{replyingTo}</span>
           </span>
-          <button onClick={onCancelReply} className="text-gray-500 hover:text-white">
+          <button onClick={onCancelReply} className="text-tertiary hover:text-primary">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -207,10 +207,10 @@ export function CollabInput({
           {attachments.map((file, index) => (
             <div
               key={index}
-              className="flex items-center gap-2 bg-gray-700/50 px-3 py-2 rounded-lg group"
+              className="flex items-center gap-2 bg-tertiary/50 px-3 py-2 rounded-lg group"
             >
               <svg
-                className="w-4 h-4 text-gray-400"
+                className="w-4 h-4 text-secondary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -222,11 +222,11 @@ export function CollabInput({
                   d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
                 />
               </svg>
-              <span className="text-sm text-gray-300 max-w-[150px] truncate">{file.name}</span>
-              <span className="text-xs text-gray-500">({Math.round(file.size / 1024)}KB)</span>
+              <span className="text-sm text-secondary max-w-[150px] truncate">{file.name}</span>
+              <span className="text-xs text-tertiary">({Math.round(file.size / 1024)}KB)</span>
               <button
                 onClick={() => removeAttachment(index)}
-                className="text-gray-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="text-tertiary hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -244,12 +244,12 @@ export function CollabInput({
 
       {/* Input area */}
       <div className="relative">
-        <div className="flex items-end gap-2 bg-gray-800 rounded-lg border border-gray-700 focus-within:border-cyan-500 transition-colors">
+        <div className="flex items-end gap-2 bg-secondary rounded-lg border border-primary focus-within:border-cyan-500 transition-colors">
           {/* Attachment button */}
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={disabled}
-            className="p-3 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+            className="p-3 text-secondary hover:text-primary transition-colors disabled:opacity-50"
             title="Attach file"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -279,7 +279,7 @@ export function CollabInput({
             placeholder={placeholder}
             disabled={disabled}
             rows={1}
-            className="flex-1 bg-transparent text-gray-200 placeholder-gray-500 py-3 resize-none focus:outline-none disabled:opacity-50"
+            className="flex-1 bg-transparent text-primary placeholder-gray-500 py-3 resize-none focus:outline-none disabled:opacity-50"
           />
 
           {/* Send button */}
@@ -290,7 +290,7 @@ export function CollabInput({
               "p-3 rounded-r-lg transition-colors",
               content.trim() || attachments.length > 0
                 ? "text-cyan-400 hover:text-cyan-300"
-                : "text-gray-600 cursor-not-allowed",
+                : "text-tertiary cursor-not-allowed",
             )}
             title="Send message"
           >
@@ -307,14 +307,14 @@ export function CollabInput({
 
         {/* Autocomplete suggestions */}
         {suggestions.length > 0 && (
-          <div className="absolute bottom-full left-0 right-0 mb-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden z-10">
+          <div className="absolute bottom-full left-0 right-0 mb-2 bg-secondary border border-primary rounded-lg shadow-lg overflow-hidden z-10">
             {suggestions.map((suggestion, index) => (
               <button
                 key={`${suggestion.type}-${suggestion.value}`}
                 onClick={() => insertMention(suggestion)}
                 className={clsx(
                   "w-full flex items-center gap-3 px-3 py-2 text-left transition-colors",
-                  index === selectedSuggestion ? "bg-gray-700" : "hover:bg-gray-700/50",
+                  index === selectedSuggestion ? "bg-tertiary" : "hover:bg-tertiary/50",
                 )}
               >
                 <div
@@ -346,8 +346,8 @@ export function CollabInput({
                   )}
                 </div>
                 <div>
-                  <div className="text-gray-200 font-medium">@{suggestion.value}</div>
-                  <div className="text-gray-500 text-sm">{suggestion.label}</div>
+                  <div className="text-primary font-medium">@{suggestion.value}</div>
+                  <div className="text-tertiary text-sm">{suggestion.label}</div>
                 </div>
               </button>
             ))}
@@ -356,15 +356,15 @@ export function CollabInput({
       </div>
 
       {/* Help text */}
-      <div className="mt-2 text-xs text-gray-500 flex items-center gap-4">
+      <div className="mt-2 text-xs text-tertiary flex items-center gap-4">
         <span>
-          <kbd className="px-1 py-0.5 bg-gray-700 rounded text-gray-400">@</kbd> to mention
+          <kbd className="px-1 py-0.5 bg-tertiary rounded text-secondary">@</kbd> to mention
         </span>
         <span>
-          <kbd className="px-1 py-0.5 bg-gray-700 rounded text-gray-400">Enter</kbd> to send
+          <kbd className="px-1 py-0.5 bg-tertiary rounded text-secondary">Enter</kbd> to send
         </span>
         <span>
-          <kbd className="px-1 py-0.5 bg-gray-700 rounded text-gray-400">Shift + Enter</kbd> for new
+          <kbd className="px-1 py-0.5 bg-tertiary rounded text-secondary">Shift + Enter</kbd> for new
           line
         </span>
       </div>

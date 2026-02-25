@@ -1,5 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import type { IncomingMessage } from "http";
+
+/**
+ * Bypass proxy for browser page navigation (SPA fallback).
+ * When the browser requests text/html, let Vite serve index.html.
+ * When JS code fetches JSON data, proxy to the backend.
+ */
+function bypassForHtml(req: IncomingMessage) {
+  if (req.headers.accept?.includes("text/html")) {
+    return "/index.html";
+  }
+}
 
 export default defineConfig({
   plugins: [react()],
@@ -47,22 +59,27 @@ export default defineConfig({
       "/threats": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/vulnerabilities": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/assets": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/surface": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/graph": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/agent": {
         target: "http://localhost:8000",
@@ -71,14 +88,17 @@ export default defineConfig({
       "/gen": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/postmortems": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/tickets": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/agent-actions": {
         target: "http://localhost:8000",
@@ -87,14 +107,17 @@ export default defineConfig({
       "/dashboard": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/audit": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
       "/config": {
         target: "http://localhost:8000",
         changeOrigin: true,
+        bypass: bypassForHtml,
       },
     },
   },

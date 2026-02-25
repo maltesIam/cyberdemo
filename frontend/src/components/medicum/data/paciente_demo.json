@@ -1,0 +1,440 @@
+{
+  "paciente": {
+    "datos_personales": {
+      "nombre": "María",
+      "apellidos": "García López",
+      "fecha_nacimiento": "1962-03-15",
+      "edad": 63,
+      "sexo": "Femenino",
+      "dni": "28.456.789-K",
+      "numero_historia_clinica": "HC-2025-04521",
+      "numero_seguridad_social": "28/12345678/09",
+      "direccion": "Calle Gran Vía 42, 3ºB",
+      "ciudad": "Madrid",
+      "codigo_postal": "28013",
+      "telefono": "+34 612 345 678",
+      "email": "maria.garcia@email.com",
+      "contacto_emergencia": {
+        "nombre": "Carlos García Martínez",
+        "relacion": "Hijo",
+        "telefono": "+34 678 901 234"
+      },
+      "medico_cabecera": "Dr. Antonio Fernández Ruiz",
+      "centro_salud": "Centro de Salud Chamberí",
+      "grupo_sanguineo": "A+",
+      "foto_url": "paciente_maria_garcia.jpg"
+    },
+    "antecedentes_personales": {
+      "enfermedades_cronicas": [
+        {
+          "enfermedad": "Diabetes mellitus tipo 2",
+          "fecha_diagnostico": "2015-06-20",
+          "codigo_cie10": "E11.9",
+          "codigo_snomed": "44054006",
+          "estado": "Activo",
+          "notas": "Control con HbA1c trimestral. Último valor: 7.2%"
+        },
+        {
+          "enfermedad": "Hipertensión arterial esencial",
+          "fecha_diagnostico": "2012-03-10",
+          "codigo_cie10": "I10",
+          "codigo_snomed": "59621000",
+          "estado": "Activo",
+          "notas": "Buen control con tratamiento actual. TA habitual: 135/82 mmHg"
+        },
+        {
+          "enfermedad": "Artrosis de rodilla derecha",
+          "fecha_diagnostico": "2023-09-15",
+          "codigo_cie10": "M17.1",
+          "codigo_snomed": "239873007",
+          "estado": "Activo",
+          "notas": "Gonartrosis grado II-III Kellgren-Lawrence"
+        },
+        {
+          "enfermedad": "Dislipemia mixta",
+          "fecha_diagnostico": "2016-01-08",
+          "codigo_cie10": "E78.2",
+          "codigo_snomed": "398036000",
+          "estado": "Activo",
+          "notas": "LDL objetivo <100 mg/dL"
+        }
+      ],
+      "cirugias_previas": [
+        {
+          "procedimiento": "Colecistectomía laparoscópica",
+          "fecha": "2018-11-22",
+          "hospital": "Hospital Universitario La Paz",
+          "codigo_cie10_proc": "0FB44ZZ",
+          "notas": "Sin complicaciones"
+        },
+        {
+          "procedimiento": "Artroscopia rodilla derecha",
+          "fecha": "2024-02-14",
+          "hospital": "Hospital Universitario La Paz",
+          "codigo_cie10_proc": "0SJC4ZZ",
+          "notas": "Meniscectomía parcial menisco interno"
+        }
+      ],
+      "alergias": [
+        {
+          "alergeno": "Penicilina",
+          "tipo": "Medicamento",
+          "reaccion": "Urticaria generalizada y angioedema",
+          "severidad": "Moderada",
+          "fecha_deteccion": "1985-07-12",
+          "codigo_snomed": "91936005"
+        },
+        {
+          "alergeno": "Ibuprofeno",
+          "tipo": "Medicamento",
+          "reaccion": "Broncoespasmo",
+          "severidad": "Grave",
+          "fecha_deteccion": "2010-03-20",
+          "codigo_snomed": "293586001"
+        }
+      ],
+      "habitos": {
+        "tabaco": {
+          "estado": "Exfumadora",
+          "detalle": "Fumó 1 paquete/día durante 20 años. Dejó de fumar en 2019",
+          "indice_paquetes_ano": 20
+        },
+        "alcohol": {
+          "estado": "Consumo ocasional",
+          "detalle": "1-2 copas de vino los fines de semana"
+        },
+        "ejercicio": {
+          "estado": "Sedentaria",
+          "detalle": "Camina 20-30 min/día. Limitada por dolor de rodilla"
+        }
+      },
+      "antecedentes_familiares": [
+        "Padre: Infarto agudo de miocardio a los 65 años. Fallecido a los 72 por ICC",
+        "Madre: Diabetes mellitus tipo 2, Alzheimer. Fallecida a los 84 años",
+        "Hermano: Hipertensión arterial, Dislipemia",
+        "Hija: Sana"
+      ]
+    },
+    "medicacion_actual": [
+      {
+        "medicamento": "Metformina 850 mg",
+        "posologia": "1 comprimido cada 12 horas",
+        "via": "Oral",
+        "indicacion": "Diabetes mellitus tipo 2",
+        "fecha_inicio": "2015-07-01",
+        "prescriptor": "Dr. Antonio Fernández Ruiz",
+        "codigo_atc": "A10BA02"
+      },
+      {
+        "medicamento": "Amlodipino 5 mg",
+        "posologia": "1 comprimido cada 24 horas (mañana)",
+        "via": "Oral",
+        "indicacion": "Hipertensión arterial",
+        "fecha_inicio": "2012-04-15",
+        "prescriptor": "Dr. Antonio Fernández Ruiz",
+        "codigo_atc": "C08CA01"
+      },
+      {
+        "medicamento": "Atorvastatina 20 mg",
+        "posologia": "1 comprimido cada 24 horas (noche)",
+        "via": "Oral",
+        "indicacion": "Dislipemia",
+        "fecha_inicio": "2016-02-10",
+        "prescriptor": "Dr. Antonio Fernández Ruiz",
+        "codigo_atc": "C10AA05"
+      },
+      {
+        "medicamento": "Paracetamol 1 g",
+        "posologia": "1 comprimido cada 8 horas si dolor",
+        "via": "Oral",
+        "indicacion": "Dolor artrosis rodilla",
+        "fecha_inicio": "2023-10-01",
+        "prescriptor": "Dra. Elena Martín Sánchez",
+        "codigo_atc": "N02BE01"
+      },
+      {
+        "medicamento": "Condroitín sulfato 400 mg",
+        "posologia": "1 cápsula cada 12 horas",
+        "via": "Oral",
+        "indicacion": "Artrosis rodilla",
+        "fecha_inicio": "2024-03-01",
+        "prescriptor": "Dra. Elena Martín Sánchez",
+        "codigo_atc": "M01AX25"
+      }
+    ],
+    "episodios_clinicos": [
+      {
+        "episodio_id": "EP-2025-0892",
+        "tipo": "Consulta programada",
+        "fecha": "2025-11-18",
+        "hora": "09:30",
+        "motivo_consulta": "Dolor de garganta y malestar general",
+        "medico": "Dr. Antonio Fernández Ruiz",
+        "especialidad": "Medicina de Familia",
+        "centro": "Centro de Salud Chamberí",
+        "estado": "Completado",
+        "anamnesis": "Paciente de 63 años que acude por dolor de garganta y malestar general de aproximadamente 1 semana de evolución. Refiere sensación febril con temperatura máxima de 38.2°C, odinofagia progresiva que dificulta la deglución de sólidos, y astenia marcada. No refiere tos, rinorrea ni disnea. Antecedentes de amigdalitis recurrente, con una frecuencia de 3 episodios al año en los últimos 3 años.",
+        "exploracion_fisica": {
+          "constantes_vitales": {
+            "temperatura": "37.8°C",
+            "tension_arterial": "142/88 mmHg",
+            "frecuencia_cardiaca": "82 lpm",
+            "frecuencia_respiratoria": "16 rpm",
+            "saturacion_o2": "97%",
+            "peso": "78 kg",
+            "talla": "162 cm",
+            "imc": "29.7"
+          },
+          "estado_general": "Regular estado general, consciente y orientada, febrícula, facies de enfermedad",
+          "orl": "Orofaringe: Amígdalas eritematosas, hipertróficas (grado II-III), con exudado blanquecino puntiforme bilateral. Úvula centrada. Faringe posterior hiperémica.",
+          "cuello": "Adenopatías cervicales bilaterales, submandibulares, dolorosas a la palpación, de aproximadamente 1.5 cm, móviles, no adheridas a planos profundos.",
+          "auscultacion_cardiaca": "Rítmica, sin soplos ni ruidos patológicos",
+          "auscultacion_pulmonar": "Murmullo vesicular conservado bilateral. Sin ruidos sobreañadidos.",
+          "abdomen": "Blando, depresible, no doloroso. Sin masas ni megalias.",
+          "extremidades": "Sin edemas. Rodilla derecha con leve tumefacción y crepitación a la movilización."
+        },
+        "pruebas_complementarias": [
+          {
+            "prueba": "Test rápido de detección de antígeno estreptocócico (Strep A)",
+            "resultado": "Positivo",
+            "fecha": "2025-11-18"
+          },
+          {
+            "prueba": "Hemograma completo",
+            "resultado": "Leucocitosis 13.200/μL con neutrofilia (78%). Hb 13.1 g/dL. Plaquetas 245.000/μL",
+            "fecha": "2025-11-18"
+          },
+          {
+            "prueba": "PCR (Proteína C Reactiva)",
+            "resultado": "45 mg/L (elevada)",
+            "fecha": "2025-11-18"
+          },
+          {
+            "prueba": "Glucemia basal",
+            "resultado": "148 mg/dL",
+            "fecha": "2025-11-18"
+          }
+        ],
+        "diagnostico": {
+          "principal": "Amigdalitis aguda estreptocócica",
+          "secundarios": [
+            "Diabetes mellitus tipo 2 en tratamiento",
+            "Hipertensión arterial en tratamiento"
+          ],
+          "codificacion_cie10": [
+            { "codigo": "J03.0", "descripcion": "Amigdalitis estreptocócica" },
+            { "codigo": "J35.0", "descripcion": "Amigdalitis crónica (antecedente)" },
+            { "codigo": "E11.9", "descripcion": "Diabetes mellitus tipo 2 sin complicaciones" },
+            { "codigo": "I10", "descripcion": "Hipertensión esencial (primaria)" }
+          ],
+          "codificacion_snomed": [
+            { "codigo": "41582007", "descripcion": "Amigdalitis estreptocócica (trastorno)" },
+            { "codigo": "90979004", "descripcion": "Amigdalitis crónica (trastorno)" },
+            { "codigo": "44054006", "descripcion": "Diabetes mellitus tipo 2 (trastorno)" },
+            { "codigo": "59621000", "descripcion": "Hipertensión arterial esencial (trastorno)" }
+          ]
+        },
+        "plan_terapeutico": {
+          "tratamiento_farmacologico": [
+            {
+              "medicamento": "Azitromicina 500 mg",
+              "posologia": "1 comprimido cada 24 horas durante 3 días",
+              "via": "Oral",
+              "notas": "Alternativa a penicilina por alergia documentada"
+            },
+            {
+              "medicamento": "Paracetamol 1 g",
+              "posologia": "1 comprimido cada 8 horas si fiebre o dolor",
+              "via": "Oral",
+              "notas": "Evitar AINEs por alergia a ibuprofeno"
+            }
+          ],
+          "recomendaciones": [
+            "Reposo relativo durante 3-5 días",
+            "Hidratación abundante (2-2.5 litros/día)",
+            "Dieta blanda y templada",
+            "Control de temperatura cada 8 horas",
+            "Aconsejar cese definitivo del hábito tabáquico residual",
+            "Control glucémico estrecho durante el proceso infeccioso",
+            "Acudir a urgencias si fiebre >39°C persistente, dificultad respiratoria o imposibilidad para tragar líquidos"
+          ],
+          "seguimiento": "Control en consulta en 7-10 días. Si no mejora en 48-72h, reconsultar.",
+          "derivaciones": []
+        }
+      },
+      {
+        "episodio_id": "EP-2025-0756",
+        "tipo": "Consulta programada",
+        "fecha": "2025-09-22",
+        "hora": "10:15",
+        "motivo_consulta": "Revisión artrosis rodilla derecha. Dolor persistente",
+        "medico": "Dra. Elena Martín Sánchez",
+        "especialidad": "Traumatología y Cirugía Ortopédica",
+        "centro": "Hospital Universitario La Paz",
+        "estado": "Completado",
+        "anamnesis": "Paciente que acude a revisión por persistencia de dolor en rodilla derecha, de carácter mecánico, que empeora con la deambulación prolongada y al subir/bajar escaleras. Refiere rigidez matutina de unos 15-20 minutos. El dolor ha empeorado en los últimos 2 meses, con EVA 6/10 habitual y picos de 8/10 tras esfuerzos. Dificultad para caminar más de 500 metros. No refiere bloqueos articulares ni sensación de inestabilidad.",
+        "exploracion_fisica": {
+          "constantes_vitales": {
+            "tension_arterial": "138/85 mmHg",
+            "frecuencia_cardiaca": "76 lpm"
+          },
+          "rodilla_derecha": "Tumefacción leve. No derrame articular evidente. Dolor a la palpación de interlínea medial. Crepitación femoropatelar y femorotibial. Flexión 0-110° (limitada últimos grados por dolor). Extensión completa. Ligamentos estables. Meniscos: McMurray negativo. No signos de inestabilidad rotuliana.",
+          "marcha": "Claudicación antiálgica leve en miembro inferior derecho"
+        },
+        "pruebas_complementarias": [
+          {
+            "prueba": "Radiografía rodilla derecha AP y lateral",
+            "resultado": "Pinzamiento del espacio articular femorotibial medial. Osteofitos marginales en cóndilos femorales y platillos tibiales. Esclerosis subcondral. Compatible con gonartrosis grado III de Kellgren-Lawrence. No se observan cuerpos libres intraarticulares.",
+            "fecha": "2025-09-22",
+            "imagen": "radiografia_rodilla.jpg"
+          }
+        ],
+        "diagnostico": {
+          "principal": "Gonartrosis primaria de rodilla derecha, grado III K-L",
+          "codificacion_cie10": [
+            { "codigo": "M17.11", "descripcion": "Artrosis primaria unilateral, rodilla derecha" }
+          ],
+          "codificacion_snomed": [
+            { "codigo": "239873007", "descripcion": "Artrosis de rodilla (trastorno)" }
+          ]
+        },
+        "plan_terapeutico": {
+          "tratamiento_farmacologico": [
+            {
+              "medicamento": "Paracetamol 1 g",
+              "posologia": "1 comprimido cada 8 horas",
+              "via": "Oral",
+              "notas": "Mantener como analgesia de base"
+            },
+            {
+              "medicamento": "Tramadol 50 mg",
+              "posologia": "1 cápsula cada 12 horas si dolor intenso (rescate)",
+              "via": "Oral",
+              "notas": "Usar solo en picos de dolor EVA >7"
+            },
+            {
+              "medicamento": "Ácido hialurónico intraarticular",
+              "posologia": "Infiltración única",
+              "via": "Intraarticular",
+              "notas": "Programar viscosuplementación. Serie de 3 infiltraciones semanales"
+            }
+          ],
+          "recomendaciones": [
+            "Programa de rehabilitación: fortalecimiento cuádriceps e isquiotibiales",
+            "Pérdida de peso (IMC actual 29.7, objetivo <27)",
+            "Uso de rodillera elástica para actividades prolongadas",
+            "Evitar impactos y cargas excesivas en la rodilla",
+            "Natación y bicicleta estática como ejercicio recomendado",
+            "Valorar prótesis total de rodilla si no mejora con tratamiento conservador en 6-12 meses"
+          ],
+          "seguimiento": "Revisión en 3 meses tras ciclo de viscosuplementación",
+          "derivaciones": [
+            {
+              "especialidad": "Rehabilitación",
+              "motivo": "Programa de fortalecimiento muscular y fisioterapia para gonartrosis",
+              "prioridad": "Normal"
+            }
+          ]
+        }
+      },
+      {
+        "episodio_id": "EP-2025-0612",
+        "tipo": "Revisión periódica",
+        "fecha": "2025-06-10",
+        "hora": "11:00",
+        "motivo_consulta": "Control periódico diabetes e hipertensión",
+        "medico": "Dr. Antonio Fernández Ruiz",
+        "especialidad": "Medicina de Familia",
+        "centro": "Centro de Salud Chamberí",
+        "estado": "Completado",
+        "anamnesis": "Acude a control rutinario trimestral. Se encuentra bien en general. Refiere buen cumplimiento terapéutico. Controles de glucemia capilar en domicilio entre 120-180 mg/dL. No episodios de hipoglucemia. Tensiones en domicilio alrededor de 135-140/80-85 mmHg.",
+        "pruebas_complementarias": [
+          {
+            "prueba": "Analítica completa",
+            "resultado": "Glucemia basal: 138 mg/dL. HbA1c: 7.2%. Colesterol total: 195 mg/dL. LDL: 98 mg/dL. HDL: 52 mg/dL. Triglicéridos: 168 mg/dL. Creatinina: 0.9 mg/dL. FG estimado: 72 mL/min. Microalbuminuria: negativa. GOT: 22 U/L. GPT: 28 U/L.",
+            "fecha": "2025-06-05"
+          },
+          {
+            "prueba": "Fondo de ojo",
+            "resultado": "Sin signos de retinopatía diabética",
+            "fecha": "2025-06-10"
+          },
+          {
+            "prueba": "ECG",
+            "resultado": "Ritmo sinusal a 74 lpm. Eje normal. Sin alteraciones de la repolarización.",
+            "fecha": "2025-06-10"
+          }
+        ],
+        "diagnostico": {
+          "principal": "Control rutinario de diabetes mellitus tipo 2 e hipertensión arterial",
+          "codificacion_cie10": [
+            {
+              "codigo": "Z09",
+              "descripcion": "Examen de seguimiento después de tratamiento por otras afecciones"
+            },
+            { "codigo": "E11.9", "descripcion": "Diabetes mellitus tipo 2 sin complicaciones" },
+            { "codigo": "I10", "descripcion": "Hipertensión esencial" }
+          ]
+        },
+        "plan_terapeutico": {
+          "tratamiento_farmacologico": [],
+          "recomendaciones": [
+            "Mantener tratamiento actual sin cambios",
+            "Dieta mediterránea hipocalórica",
+            "Ejercicio moderado adaptado (caminar, natación)",
+            "Autocontrol glucémico 2-3 veces/semana",
+            "Próximo control analítico en 3 meses"
+          ],
+          "seguimiento": "Próxima revisión en 3 meses con analítica previa",
+          "derivaciones": []
+        }
+      }
+    ],
+    "resultados_laboratorio_historicos": [
+      {
+        "fecha": "2025-06-05",
+        "parametros": {
+          "glucemia_basal": { "valor": 138, "unidad": "mg/dL", "rango_normal": "70-110" },
+          "hba1c": { "valor": 7.2, "unidad": "%", "rango_normal": "<7.0" },
+          "colesterol_total": { "valor": 195, "unidad": "mg/dL", "rango_normal": "<200" },
+          "ldl": { "valor": 98, "unidad": "mg/dL", "rango_normal": "<100" },
+          "hdl": { "valor": 52, "unidad": "mg/dL", "rango_normal": ">40" },
+          "trigliceridos": { "valor": 168, "unidad": "mg/dL", "rango_normal": "<150" },
+          "creatinina": { "valor": 0.9, "unidad": "mg/dL", "rango_normal": "0.6-1.2" },
+          "fg_estimado": { "valor": 72, "unidad": "mL/min", "rango_normal": ">60" },
+          "got": { "valor": 22, "unidad": "U/L", "rango_normal": "5-40" },
+          "gpt": { "valor": 28, "unidad": "U/L", "rango_normal": "5-40" }
+        }
+      },
+      {
+        "fecha": "2025-03-10",
+        "parametros": {
+          "glucemia_basal": { "valor": 145, "unidad": "mg/dL", "rango_normal": "70-110" },
+          "hba1c": { "valor": 7.4, "unidad": "%", "rango_normal": "<7.0" },
+          "colesterol_total": { "valor": 210, "unidad": "mg/dL", "rango_normal": "<200" },
+          "ldl": { "valor": 112, "unidad": "mg/dL", "rango_normal": "<100" },
+          "hdl": { "valor": 48, "unidad": "mg/dL", "rango_normal": ">40" },
+          "trigliceridos": { "valor": 185, "unidad": "mg/dL", "rango_normal": "<150" }
+        }
+      }
+    ],
+    "imagenes_diagnosticas": [
+      {
+        "tipo": "Radiografía",
+        "region": "Rodilla derecha AP y lateral",
+        "fecha": "2025-09-22",
+        "archivo": "radiografia_rodilla.jpg",
+        "informe": "Pinzamiento del espacio articular femorotibial medial. Osteofitos marginales en cóndilos femorales y platillos tibiales. Esclerosis subcondral. Compatible con gonartrosis grado III de Kellgren-Lawrence.",
+        "medico_informante": "Dr. Javier Ruiz Moreno (Radiología)"
+      },
+      {
+        "tipo": "Radiografía",
+        "region": "Tórax PA y lateral",
+        "fecha": "2024-12-15",
+        "archivo": "radiografia_torax.jpg",
+        "informe": "Índice cardiotorácico normal. Campos pulmonares sin infiltrados ni condensaciones. Senos costofrénicos libres. Sin derrame pleural. Mediastino centrado.",
+        "medico_informante": "Dra. Laura Pérez Gómez (Radiología)"
+      }
+    ]
+  }
+}

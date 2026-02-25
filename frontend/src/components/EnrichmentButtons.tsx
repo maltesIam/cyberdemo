@@ -234,7 +234,7 @@ export function EnrichmentButtons({ onEnrichmentComplete }: EnrichmentButtonsPro
       <button
         onClick={handleEnrichVulnerabilities}
         disabled={!!vulnJobId}
-        className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium"
+        className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-tertiary disabled:cursor-not-allowed text-primary rounded-lg transition-colors font-medium"
         aria-label="Enriquecer Vulnerabilidades"
       >
         {vulnJobId ? (
@@ -286,7 +286,7 @@ export function EnrichmentButtons({ onEnrichmentComplete }: EnrichmentButtonsPro
       <button
         onClick={handleEnrichThreats}
         disabled={!!threatJobId}
-        className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium"
+        className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-tertiary disabled:cursor-not-allowed text-primary rounded-lg transition-colors font-medium"
         aria-label="Enriquecer Amenazas"
       >
         {threatJobId ? (

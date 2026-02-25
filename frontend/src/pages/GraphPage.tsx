@@ -3,6 +3,8 @@
  *
  * Displays an interactive graph of incident relationships
  * using Cytoscape.js with a side panel for node details.
+ *
+ * Migrated to AgentFlow Design Tokens (REQ-005-005-001)
  */
 
 import { useState, useCallback } from "react";
@@ -105,7 +107,7 @@ export function GraphPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
       </div>
     );
   }
@@ -113,7 +115,7 @@ export function GraphPage() {
   if (error) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-red-500 text-center">
+        <div className="text-[var(--color-error)] text-center">
           <p className="text-lg font-semibold">Error loading graph</p>
           <p className="text-sm">{(error as Error).message}</p>
         </div>
@@ -124,7 +126,7 @@ export function GraphPage() {
   if (!graphData || graphData.nodes.length === 0) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-slate-400 text-center">
+        <div className="text-tertiary text-center">
           <p className="text-lg">No graph data available</p>
           <p className="text-sm">Select an incident to view its graph</p>
         </div>
@@ -137,10 +139,10 @@ export function GraphPage() {
       {/* Main Graph Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 bg-slate-800 border-b border-slate-700">
+        <div className="flex items-center justify-between p-4 bg-secondary border-b border-primary">
           <div>
-            <h1 className="text-xl font-semibold text-white">Incident Graph</h1>
-            {incidentId && <p className="text-sm text-slate-400">Incident: {incidentId}</p>}
+            <h1 className="text-xl font-semibold text-primary">Incident Graph</h1>
+            {incidentId && <p className="text-sm text-tertiary">Incident: {incidentId}</p>}
           </div>
           <GraphControls
             onZoomIn={handleZoomIn}
@@ -160,35 +162,35 @@ export function GraphPage() {
         </div>
 
         {/* Legend */}
-        <div className="flex items-center gap-6 p-3 bg-slate-800 border-t border-slate-700 text-xs text-slate-400">
+        <div className="flex items-center gap-6 p-3 bg-secondary border-t border-primary text-xs text-tertiary">
           <span className="font-medium">Legend:</span>
           <div className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-green-500" />
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-success)' }} />
             <span>Normal</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-yellow-500" />
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-warning)' }} />
             <span>Suspicious</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-red-500" />
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-error)' }} />
             <span>Critical</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-blue-500" />
+            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--color-info)' }} />
             <span>Contained</span>
           </div>
           <span className="ml-4">|</span>
           <div className="flex items-center gap-1">
-            <span className="w-4 h-4 bg-slate-600 rotate-45" />
+            <span className="w-4 h-4 bg-tertiary rotate-45" />
             <span>Incident</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="w-4 h-4 bg-slate-600" />
+            <span className="w-4 h-4 bg-tertiary" />
             <span>Asset</span>
           </div>
           <div className="flex items-center gap-1">
-            <span className="w-4 h-4 bg-slate-600 clip-hexagon" />
+            <span className="w-4 h-4 bg-tertiary clip-hexagon" />
             <span>Detection</span>
           </div>
         </div>

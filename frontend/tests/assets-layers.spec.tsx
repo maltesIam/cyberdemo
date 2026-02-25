@@ -135,7 +135,7 @@ describe("Asset Layer Toggle UI", () => {
     renderAssetsPage();
 
     const baseButton = screen.getByRole("button", { name: /base/i });
-    expect(baseButton).toHaveClass("bg-cyan-600"); // Active state class
+    expect(baseButton).toHaveClass("bg-[var(--color-secondary-600)]"); // Active state class (design token)
   });
 
   it("should switch to EDR layer when clicked", () => {
@@ -144,7 +144,7 @@ describe("Asset Layer Toggle UI", () => {
     const edrButton = screen.getByRole("button", { name: /edr/i });
     fireEvent.click(edrButton);
 
-    expect(edrButton).toHaveClass("bg-cyan-600");
+    expect(edrButton).toHaveClass("bg-[var(--color-secondary-600)]");
   });
 
   it("should switch to SIEM layer when clicked", () => {
@@ -153,7 +153,7 @@ describe("Asset Layer Toggle UI", () => {
     const siemButton = screen.getByRole("button", { name: /siem/i });
     fireEvent.click(siemButton);
 
-    expect(siemButton).toHaveClass("bg-cyan-600");
+    expect(siemButton).toHaveClass("bg-[var(--color-secondary-600)]");
   });
 
   it("should switch to CTEM layer when clicked", () => {
@@ -162,7 +162,7 @@ describe("Asset Layer Toggle UI", () => {
     const ctemButton = screen.getByRole("button", { name: /ctem/i });
     fireEvent.click(ctemButton);
 
-    expect(ctemButton).toHaveClass("bg-cyan-600");
+    expect(ctemButton).toHaveClass("bg-[var(--color-secondary-600)]");
   });
 
   it("should allow multiple layers to be active simultaneously", () => {
@@ -172,13 +172,13 @@ describe("Asset Layer Toggle UI", () => {
     const edrButton = screen.getByRole("button", { name: /edr/i });
 
     // Base is active by default
-    expect(baseButton).toHaveClass("bg-cyan-600");
+    expect(baseButton).toHaveClass("bg-[var(--color-secondary-600)]");
 
     // Click EDR while holding Ctrl (or just clicking to toggle)
     fireEvent.click(edrButton);
 
     // Now EDR should also be active
-    expect(edrButton).toHaveClass("bg-cyan-600");
+    expect(edrButton).toHaveClass("bg-[var(--color-secondary-600)]");
   });
 });
 

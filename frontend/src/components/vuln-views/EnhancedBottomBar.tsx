@@ -134,7 +134,7 @@ export function EnhancedBottomBar({
     <div
       data-testid="enhanced-bottom-bar"
       className={clsx(
-        "bg-gray-800 rounded-lg px-4 py-3 transition-all duration-300 glow-subtle",
+        "bg-secondary rounded-lg px-4 py-3 transition-all duration-300 glow-subtle",
         className
       )}
     >
@@ -157,7 +157,7 @@ export function EnhancedBottomBar({
             >
               {totalCounter.value}
             </span>
-            <span className="text-xs text-gray-400">Total</span>
+            <span className="text-xs text-secondary">Total</span>
           </div>
 
           {/* Critical */}
@@ -169,7 +169,7 @@ export function EnhancedBottomBar({
             <span className="text-xl font-bold text-red-500">
               {criticalCounter.value}
             </span>
-            <span className="text-xs text-gray-400">Critical</span>
+            <span className="text-xs text-secondary">Critical</span>
           </div>
 
           {/* KEV */}
@@ -181,7 +181,7 @@ export function EnhancedBottomBar({
             <span className="text-xl font-bold text-orange-500">
               {kevCounter.value}
             </span>
-            <span className="text-xs text-gray-400">KEV</span>
+            <span className="text-xs text-secondary">KEV</span>
           </div>
 
           {/* MTTR */}
@@ -193,7 +193,7 @@ export function EnhancedBottomBar({
             <span className="text-xl font-bold text-blue-400">
               {stats.mttr_days.toFixed(1)}d
             </span>
-            <span className="text-xs text-gray-400">MTTR</span>
+            <span className="text-xs text-secondary">MTTR</span>
           </div>
 
           {/* SLA */}
@@ -208,14 +208,14 @@ export function EnhancedBottomBar({
             <span className="text-xl font-bold">
               {stats.sla_compliance_percent.toFixed(1)}%
             </span>
-            <span className="text-xs text-gray-400">SLA</span>
+            <span className="text-xs text-secondary">SLA</span>
           </div>
         </div>
 
         {/* Remediation Progress Bar */}
         <div className="flex-1 max-w-xs">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs text-gray-400">Remediation</span>
+            <span className="text-xs text-secondary">Remediation</span>
           </div>
           <div
             data-testid="remediation-progress"
@@ -223,7 +223,7 @@ export function EnhancedBottomBar({
             aria-valuenow={remediatedPercent}
             aria-valuemin={0}
             aria-valuemax={100}
-            className="h-3 bg-gray-700 rounded-full overflow-hidden flex animate-progress-fill"
+            className="h-3 bg-tertiary rounded-full overflow-hidden flex animate-progress-fill"
           >
             {/* Remediated Segment */}
             <div
@@ -244,7 +244,7 @@ export function EnhancedBottomBar({
             {/* Open Segment */}
             <div
               data-testid="segment-open"
-              className="bg-gray-600 h-full transition-all duration-500"
+              className="bg-tertiary h-full transition-all duration-500"
               style={{ width: `${openPercent}%` }}
               onMouseEnter={() => setHoveredSegment("open")}
               onMouseLeave={() => setHoveredSegment(null)}
@@ -255,21 +255,21 @@ export function EnhancedBottomBar({
           <div data-testid="progress-legend" className="flex items-center gap-3 mt-1 text-xs">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-green-500" />
-              <span className="text-gray-400">{stats.remediated_count}</span>
+              <span className="text-secondary">{stats.remediated_count}</span>
             </span>
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-blue-500" />
-              <span className="text-gray-400">{stats.in_progress_count}</span>
+              <span className="text-secondary">{stats.in_progress_count}</span>
             </span>
             <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-gray-600" />
-              <span className="text-gray-400">{stats.open_count}</span>
+              <span className="w-2 h-2 rounded-full bg-tertiary" />
+              <span className="text-secondary">{stats.open_count}</span>
             </span>
           </div>
 
           {/* Tooltip */}
           {hoveredSegment && (
-            <div role="tooltip" className="absolute -mt-8 bg-gray-900 text-white text-xs px-2 py-1 rounded shadow-lg">
+            <div role="tooltip" className="absolute -mt-8 bg-primary text-primary text-xs px-2 py-1 rounded shadow-lg">
               {hoveredSegment === "remediated" && `Remediated: ${stats.remediated_count}`}
               {hoveredSegment === "in_progress" && `In Progress: ${stats.in_progress_count}`}
               {hoveredSegment === "open" && `Open: ${stats.open_count}`}
@@ -287,8 +287,8 @@ export function EnhancedBottomBar({
               className={clsx(
                 "px-3 py-1.5 text-xs font-medium rounded transition-colors",
                 selectedTimeRange === range
-                  ? "bg-cyan-600 text-white"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  ? "bg-cyan-600 text-primary"
+                  : "bg-tertiary text-secondary hover:bg-tertiary"
               )}
             >
               {range === "all" ? "All" : range === "custom" ? "Custom" : range}
@@ -299,35 +299,35 @@ export function EnhancedBottomBar({
           {showDatePicker && (
             <div
               data-testid="date-range-picker"
-              className="absolute bottom-full right-0 mb-2 p-4 bg-gray-900 rounded-lg shadow-xl border border-gray-700 z-10"
+              className="absolute bottom-full right-0 mb-2 p-4 bg-primary rounded-lg shadow-xl border border-primary z-10"
             >
               <div className="flex gap-4 mb-4">
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">From</label>
+                  <label className="block text-xs text-secondary mb-1">From</label>
                   <input
                     type="date"
-                    className="px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white text-sm"
+                    className="px-2 py-1 bg-secondary border border-primary rounded text-primary text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">To</label>
+                  <label className="block text-xs text-secondary mb-1">To</label>
                   <input
                     type="date"
-                    className="px-2 py-1 bg-gray-800 border border-gray-600 rounded text-white text-sm"
+                    className="px-2 py-1 bg-secondary border border-primary rounded text-primary text-sm"
                   />
                 </div>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowDatePicker(false)}
-                  className="px-3 py-1 text-xs text-gray-400 hover:text-white"
+                  className="px-3 py-1 text-xs text-secondary hover:text-primary"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDatePickerApply}
                   aria-label="Apply date range"
-                  className="px-3 py-1 text-xs bg-cyan-600 text-white rounded hover:bg-cyan-700"
+                  className="px-3 py-1 text-xs bg-cyan-600 text-primary rounded hover:bg-cyan-700"
                 >
                   Apply
                 </button>
@@ -341,7 +341,7 @@ export function EnhancedBottomBar({
           <button
             onClick={onRefresh}
             aria-label="Refresh"
-            className="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors flex items-center gap-2"
+            className="px-3 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg transition-colors flex items-center gap-2"
           >
             <svg
               className={clsx("w-4 h-4", isLoading && "animate-spin")}
@@ -362,7 +362,7 @@ export function EnhancedBottomBar({
           <button
             onClick={onEnrich}
             aria-label="Enrich vulnerabilities"
-            className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center gap-2"
+            className="px-3 py-2 bg-red-600 hover:bg-red-700 text-primary rounded-lg transition-colors flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

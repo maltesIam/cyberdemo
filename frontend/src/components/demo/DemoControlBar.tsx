@@ -55,7 +55,7 @@ const StopIcon = () => (
 const getPhaseColor = (stage: MitreStage): string => {
   if (stage.completed) return 'bg-green-500';
   if (stage.active) return 'bg-cyan-500 animate-pulse';
-  return 'bg-gray-600';
+  return 'bg-tertiary';
 };
 
 export function DemoControlBar({
@@ -86,9 +86,9 @@ export function DemoControlBar({
     return (
       <div
         data-testid="demo-control-bar"
-        className="flex items-center justify-between px-4 py-1 bg-gray-800/50 border-b border-gray-700"
+        className="flex items-center justify-between px-4 py-1 bg-secondary/50 border-b border-primary"
       >
-        <span className="text-xs text-gray-400">Demo Controls</span>
+        <span className="text-xs text-secondary">Demo Controls</span>
         {onToggleCollapse && (
           <button
             type="button"
@@ -107,7 +107,7 @@ export function DemoControlBar({
     <div
       data-testid="demo-control-bar"
       aria-label="Demo simulation controls"
-      className="flex items-center gap-4 px-4 py-2 bg-gray-800/50 border-b border-gray-700"
+      className="flex items-center gap-4 px-4 py-2 bg-secondary/50 border-b border-primary"
     >
       {/* Scenario Dropdown */}
       <div className="w-48 flex-shrink-0">
@@ -126,7 +126,7 @@ export function DemoControlBar({
             type="button"
             aria-label="Pause"
             onClick={onPause}
-            className="p-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors"
+            className="p-2 bg-cyan-600 hover:bg-cyan-700 text-primary rounded-lg transition-colors"
           >
             <PauseIcon />
           </button>
@@ -136,7 +136,7 @@ export function DemoControlBar({
             aria-label="Play"
             onClick={onPlay}
             disabled={!canPlay}
-            className="p-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 bg-cyan-600 hover:bg-cyan-700 text-primary rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <PlayIcon />
           </button>
@@ -146,7 +146,7 @@ export function DemoControlBar({
           aria-label="Stop"
           onClick={onStop}
           disabled={!canStop}
-          className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-2 bg-red-600 hover:bg-red-700 text-primary rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <StopIcon />
         </button>
@@ -154,7 +154,7 @@ export function DemoControlBar({
 
       {/* Speed Slider */}
       <div className="flex items-center gap-2 flex-shrink-0">
-        <label htmlFor="header-speed-slider" className="text-xs text-gray-400">
+        <label htmlFor="header-speed-slider" className="text-xs text-secondary">
           Speed
         </label>
         <input
@@ -167,9 +167,9 @@ export function DemoControlBar({
           step="0.5"
           value={speed}
           onChange={handleSpeedChange}
-          className="w-20 h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+          className="w-20 h-1.5 bg-tertiary rounded-lg appearance-none cursor-pointer accent-cyan-500"
         />
-        <span className="text-xs font-medium text-gray-200 w-8">{speed}x</span>
+        <span className="text-xs font-medium text-primary w-8">{speed}x</span>
       </div>
 
       {/* MITRE Phase Progress Circles */}
@@ -183,7 +183,7 @@ export function DemoControlBar({
           />
         ))}
         {stages.length === 0 && (
-          <span className="text-xs text-gray-500">No scenario selected</span>
+          <span className="text-xs text-tertiary">No scenario selected</span>
         )}
       </div>
 
@@ -193,7 +193,7 @@ export function DemoControlBar({
           type="button"
           aria-label="Collapse control bar"
           onClick={onToggleCollapse}
-          className="p-1 text-gray-400 hover:text-white rounded transition-colors"
+          className="p-1 text-secondary hover:text-primary rounded transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />

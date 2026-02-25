@@ -4,7 +4,29 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CyberDemo - SOC Dashboard</title>
+    <title>SoulBot - Security Platform</title>
+    <!-- Synchronous theme + font-size detection to prevent FOUC (TECH-003, NFR-003) -->
+    <script>
+      (function() {
+        var VALID_THEMES = ['dark', 'light', 'system'];
+        var FONT_SIZES = [16, 18, 20];
+        try {
+          var pref = localStorage.getItem('theme-preference');
+          var theme = 'dark';
+          if (pref === 'light') { theme = 'light'; }
+          else if (pref === 'system') {
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.setAttribute('data-theme', theme);
+          var step = parseInt(localStorage.getItem('font-size-step') || '0', 10);
+          if (step >= 0 && step < FONT_SIZES.length) {
+            document.documentElement.style.fontSize = FONT_SIZES[step] + 'px';
+          }
+        } catch(e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

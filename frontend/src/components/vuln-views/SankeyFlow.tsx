@@ -231,7 +231,7 @@ export function SankeyFlow({
     return (
       <div
         data-testid="sankey-loading"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
@@ -241,7 +241,7 @@ export function SankeyFlow({
   // Error state
   if (error) {
     return (
-      <div className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}>
+      <div className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}>
         <div className="text-center">
           <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -257,10 +257,10 @@ export function SankeyFlow({
     return (
       <div
         data-testid="sankey-flow"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
         aria-label="Sankey flow - no data"
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-tertiary">
           <svg className="w-16 h-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
@@ -273,7 +273,7 @@ export function SankeyFlow({
   return (
     <div
       data-testid="sankey-flow"
-      className={`bg-gray-900 rounded-lg p-4 ${className}`}
+      className={`bg-primary rounded-lg p-4 ${className}`}
       aria-label="remediation workflow Sankey diagram"
     >
       {/* Header with time selector and stats */}
@@ -284,8 +284,8 @@ export function SankeyFlow({
             <button
               key={period}
               className={`px-3 py-1 text-sm rounded transition-colors ${selectedPeriod === period
-                  ? "bg-cyan-600 text-white"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  ? "bg-cyan-600 text-primary"
+                  : "bg-tertiary text-secondary hover:bg-tertiary"
                 }`}
               onClick={() => handlePeriodChange(period)}
             >
@@ -297,20 +297,20 @@ export function SankeyFlow({
         {/* Stats */}
         <div className="flex gap-6 text-sm">
           <div data-testid="sankey-stat-total" className="text-center">
-            <div className="text-xl font-bold text-white">{data.total_cves}</div>
-            <div className="text-xs text-gray-400">Total</div>
+            <div className="text-xl font-bold text-primary">{data.total_cves}</div>
+            <div className="text-xs text-secondary">Total</div>
           </div>
           <div data-testid="sankey-stat-remediated" className="text-center">
             <div className="text-xl font-bold text-green-400">{data.remediated_count}</div>
-            <div className="text-xs text-gray-400">Remediated</div>
+            <div className="text-xs text-secondary">Remediated</div>
           </div>
           <div data-testid="sankey-stat-progress" className="text-center">
             <div className="text-xl font-bold text-amber-400">{data.in_progress_count}</div>
-            <div className="text-xs text-gray-400">In Progress</div>
+            <div className="text-xs text-secondary">In Progress</div>
           </div>
           <div className="text-center">
             <div className="text-xl font-bold text-cyan-400">{remediationPercentage}%</div>
-            <div className="text-xs text-gray-400">Complete</div>
+            <div className="text-xs text-secondary">Complete</div>
           </div>
         </div>
       </div>
@@ -455,7 +455,7 @@ export function SankeyFlow({
       {tooltip && (
         <div
           role="tooltip"
-          className="fixed z-50 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl text-sm pointer-events-none"
+          className="fixed z-50 px-3 py-2 bg-secondary border border-primary rounded-lg shadow-xl text-sm pointer-events-none"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
@@ -464,12 +464,12 @@ export function SankeyFlow({
         >
           {tooltip.type === "node" ? (
             <>
-              <div className="font-medium text-white">{tooltip.name}</div>
+              <div className="font-medium text-primary">{tooltip.name}</div>
               <div className="text-cyan-400">{tooltip.count} CVEs</div>
             </>
           ) : (
             <>
-              <div className="text-gray-300">
+              <div className="text-secondary">
                 {tooltip.source} → {tooltip.target}
               </div>
               <div className="text-cyan-400">{tooltip.value} CVEs</div>

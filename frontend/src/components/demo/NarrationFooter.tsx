@@ -21,7 +21,7 @@ export type NarrationMessageType = 'info' | 'warning' | 'error' | 'success';
 
 /** Color mapping for message types: info=white, warning=yellow, error=red, success=green */
 const MESSAGE_COLORS: Record<NarrationMessageType, string> = {
-  info: 'text-gray-200',
+  info: 'text-primary',
   warning: 'text-yellow-400',
   error: 'text-red-400',
   success: 'text-green-400',
@@ -86,15 +86,15 @@ export function NarrationFooter({
     <footer
       data-testid="narration-footer"
       aria-label="Narration panel"
-      className={`bg-gray-900 border-t border-gray-700 transition-all ${
+      className={`bg-primary border-t border-primary transition-all ${
         isExpanded ? 'h-48' : 'h-10'
       } ${alwaysVisible ? '' : ''}`}
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between px-4 h-10 border-b border-gray-700/50">
+      <div className="flex items-center justify-between px-4 h-10 border-b border-primary/50">
         <div className="flex items-center gap-2">
           <span className="text-xs font-mono text-cyan-400">{'>'}_narration</span>
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-tertiary">
             {filteredMessages.length} message{filteredMessages.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -105,7 +105,7 @@ export function NarrationFooter({
               data-testid="narration-filter"
               value={filterType}
               onChange={(e) => onFilterChange(e.target.value as NarrationMessageType | 'all')}
-              className="text-xs bg-gray-800 text-gray-300 border border-gray-700 rounded px-1 py-0.5"
+              className="text-xs bg-secondary text-secondary border border-primary rounded px-1 py-0.5"
             >
               <option value="all">All</option>
               <option value="info">Info</option>
@@ -121,7 +121,7 @@ export function NarrationFooter({
               aria-label={isEnabled ? 'Disable narration' : 'Enable narration'}
               onClick={onToggleEnabled}
               className={`text-xs px-2 py-0.5 rounded ${
-                isEnabled ? 'bg-cyan-600/30 text-cyan-400' : 'bg-gray-700 text-gray-500'
+                isEnabled ? 'bg-cyan-600/30 text-cyan-400' : 'bg-tertiary text-tertiary'
               }`}
             >
               {isEnabled ? 'ON' : 'OFF'}
@@ -133,7 +133,7 @@ export function NarrationFooter({
               type="button"
               aria-label={isExpanded ? 'Collapse narration' : 'Expand narration'}
               onClick={onToggleExpand}
-              className="p-1 text-gray-400 hover:text-white rounded transition-colors"
+              className="p-1 text-secondary hover:text-primary rounded transition-colors"
             >
               <svg
                 className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
@@ -156,7 +156,7 @@ export function NarrationFooter({
           className="h-[calc(100%-2.5rem)] overflow-y-auto font-mono text-xs px-4 py-1"
         >
           {filteredMessages.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-gray-600">
+            <div className="flex items-center justify-center h-full text-tertiary">
               Waiting for narration events...
             </div>
           ) : (
@@ -166,8 +166,9 @@ export function NarrationFooter({
                 data-testid={`narration-msg-${msg.type}`}
                 className={`py-0.5 ${MESSAGE_COLORS[msg.type]}`}
               >
-                <span className="text-gray-500">[{formatTimestamp(msg.timestamp)}]</span>{' '}
-                <span className="text-gray-400">{MESSAGE_PREFIX[msg.type]}</span>{' '}
+                <span className="text-tertiary">[{formatTimestamp(msg.timestamp)}]</span>{' '}
+                <span className="text-secondary">{MESSAGE_PREFIX[msg.type]}</span>{' '}
+                {msg.source && <span className="text-cyan-400">[{msg.source}]</span>}{msg.source && ' '}
                 {msg.content}
               </div>
             ))

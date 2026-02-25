@@ -68,11 +68,11 @@ export function AttackChainVisualization({
     return (
       <div
         data-testid="attack-chain-visualization"
-        className={`flex ${layout === "horizontal" ? "flex-row" : "flex-col"} items-center justify-center p-8 bg-gray-800/50 rounded-lg border border-gray-700`}
+        className={`flex ${layout === "horizontal" ? "flex-row" : "flex-col"} items-center justify-center p-8 bg-secondary/50 rounded-lg border border-primary`}
       >
-        <div className="text-center text-gray-400">
+        <div className="text-center text-secondary">
           <svg
-            className="w-12 h-12 mx-auto mb-4 text-gray-500"
+            className="w-12 h-12 mx-auto mb-4 text-tertiary"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -94,7 +94,7 @@ export function AttackChainVisualization({
     <div className="space-y-4">
       {/* Title */}
       {title && (
-        <h3 className="text-lg font-semibold text-white">{title}</h3>
+        <h3 className="text-lg font-semibold text-primary">{title}</h3>
       )}
 
       {/* Progress Bar */}
@@ -104,7 +104,7 @@ export function AttackChainVisualization({
           aria-valuenow={progressPercentage}
           aria-valuemin={0}
           aria-valuemax={100}
-          className="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden"
+          className="flex-1 h-2 bg-tertiary rounded-full overflow-hidden"
         >
           <div
             className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-500"
@@ -113,7 +113,7 @@ export function AttackChainVisualization({
         </div>
         <span
           data-testid="progress-indicator"
-          className="text-sm text-gray-400 min-w-[3rem] text-right"
+          className="text-sm text-secondary min-w-[3rem] text-right"
         >
           {progressPercentage}%
         </span>
@@ -136,7 +136,7 @@ export function AttackChainVisualization({
                 relative flex flex-col items-center p-3 rounded-lg border-2 transition-all duration-300
                 ${stage.status === "active" ? "active bg-cyan-900/50 border-cyan-500" : ""}
                 ${stage.status === "completed" ? "completed bg-green-900/30 border-green-500" : ""}
-                ${stage.status === "pending" ? "pending bg-gray-800/50 border-gray-600" : ""}
+                ${stage.status === "pending" ? "pending bg-secondary/50 border-primary" : ""}
                 ${onStageClick ? "cursor-pointer hover:scale-105" : ""}
               `}
               onClick={() => onStageClick?.(stage.stage, stage)}
@@ -150,9 +150,9 @@ export function AttackChainVisualization({
               <div
                 className={`
                   w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mb-2
-                  ${stage.status === "completed" ? "bg-green-500 text-white" : ""}
-                  ${stage.status === "active" ? "bg-cyan-500 text-white" : ""}
-                  ${stage.status === "pending" ? "bg-gray-600 text-gray-400" : ""}
+                  ${stage.status === "completed" ? "bg-green-500 text-primary" : ""}
+                  ${stage.status === "active" ? "bg-cyan-500 text-primary" : ""}
+                  ${stage.status === "pending" ? "bg-tertiary text-secondary" : ""}
                 `}
               >
                 {stage.status === "completed" ? (
@@ -171,7 +171,7 @@ export function AttackChainVisualization({
                     text-xs font-mono mb-1
                     ${stage.status === "completed" ? "text-green-400" : ""}
                     ${stage.status === "active" ? "text-cyan-400" : ""}
-                    ${stage.status === "pending" ? "text-gray-500" : ""}
+                    ${stage.status === "pending" ? "text-tertiary" : ""}
                   `}
                 >
                   {stage.tactic_id}
@@ -181,7 +181,7 @@ export function AttackChainVisualization({
                     text-sm font-medium
                     ${stage.status === "completed" ? "text-green-300" : ""}
                     ${stage.status === "active" ? "text-cyan-300" : ""}
-                    ${stage.status === "pending" ? "text-gray-400" : ""}
+                    ${stage.status === "pending" ? "text-secondary" : ""}
                   `}
                 >
                   {stage.tactic_name}
@@ -189,9 +189,9 @@ export function AttackChainVisualization({
 
                 {/* Technique Details */}
                 {showTechniques && (
-                  <div className="mt-2 pt-2 border-t border-gray-600">
-                    <p className="text-xs font-mono text-gray-500">{stage.technique_id}</p>
-                    <p className="text-xs text-gray-400 truncate max-w-[120px]">
+                  <div className="mt-2 pt-2 border-t border-primary">
+                    <p className="text-xs font-mono text-tertiary">{stage.technique_id}</p>
+                    <p className="text-xs text-secondary truncate max-w-[120px]">
                       {stage.technique_name}
                     </p>
                   </div>
@@ -199,7 +199,7 @@ export function AttackChainVisualization({
 
                 {/* Events Count */}
                 {stage.events_count > 0 && (
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-xs text-tertiary mt-2">
                     {stage.events_count} events
                   </p>
                 )}
@@ -212,14 +212,14 @@ export function AttackChainVisualization({
                 data-testid="stage-connector"
                 className={`
                   ${layout === "horizontal" ? "w-8 h-0.5" : "w-0.5 h-8"}
-                  ${stages[index].status === "completed" ? "completed bg-green-500" : "bg-gray-600"}
+                  ${stages[index].status === "completed" ? "completed bg-green-500" : "bg-tertiary"}
                   transition-colors duration-300
                 `}
               >
                 {layout === "horizontal" && (
                   <svg
                     className={`w-3 h-3 absolute -right-1.5 -top-1 ${
-                      stages[index].status === "completed" ? "text-green-500" : "text-gray-600"
+                      stages[index].status === "completed" ? "text-green-500" : "text-tertiary"
                     }`}
                     fill="currentColor"
                     viewBox="0 0 20 20"

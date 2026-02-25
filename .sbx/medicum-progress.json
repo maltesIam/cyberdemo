@@ -1,0 +1,728 @@
+{
+  "build_id": "sbx-20260225-132308",
+  "project": "medicum",
+  "last_updated": "2026-02-25T14:20:00.000000",
+  "cycles": {
+    "mth": {
+      "total_tasks": 54,
+      "completed_tasks": 54,
+      "progress_pct": 100,
+      "status": "complete"
+    },
+    "nth": {
+      "total_tasks": 11,
+      "completed_tasks": 0,
+      "progress_pct": 0,
+      "status": "pending"
+    }
+  },
+  "overall": {
+    "total_tasks": 65,
+    "completed_tasks": 54,
+    "progress_pct": 83
+  },
+  "tasks": {
+    "T-TECH-001": {
+      "req_id": "TECH-001",
+      "description": "Tailwind config for CSS variables",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-TECH-002": {
+      "req_id": "TECH-002",
+      "description": "CSS file organization",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-001": {
+      "req_id": "REQ-001-001-001",
+      "description": "Color scale tokens",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-002": {
+      "req_id": "REQ-001-001-002",
+      "description": "Typography tokens",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-003": {
+      "req_id": "REQ-001-001-003",
+      "description": "Spacing and layout tokens",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-004": {
+      "req_id": "REQ-001-001-004",
+      "description": "Shadow and elevation tokens",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-005": {
+      "req_id": "REQ-001-001-005",
+      "description": "Transition and motion tokens",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-TECH-005": {
+      "req_id": "TECH-005",
+      "description": "Font loading strategy",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-TECH-006": {
+      "req_id": "TECH-006",
+      "description": "CSS animation definitions",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-INT-001": {
+      "req_id": "INT-001",
+      "description": "Google Fonts integration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 1,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-006": {
+      "req_id": "REQ-001-002-001",
+      "description": "Dark theme tokens",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-007": {
+      "req_id": "REQ-001-002-002",
+      "description": "Light theme tokens",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-001-008": {
+      "req_id": "REQ-001-002-003",
+      "description": "Z-index scale",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-INT-002": {
+      "req_id": "INT-002",
+      "description": "Lucide Icons integration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-TECH-003": {
+      "req_id": "TECH-003",
+      "description": "React context provider",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-002-001": {
+      "req_id": "REQ-002-001-001",
+      "description": "useTheme hook",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-002-002": {
+      "req_id": "REQ-002-001-002",
+      "description": "FOUC prevention",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-DATA-001": {
+      "req_id": "DATA-001",
+      "description": "LocalStorage theme preference",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 2,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-002-003": {
+      "req_id": "REQ-002-002-001",
+      "description": "ThemeToggle UI component",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-002-004": {
+      "req_id": "REQ-002-002-002",
+      "description": "Theme toggle placement",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-003-001": {
+      "req_id": "REQ-003-001-001",
+      "description": "useFontSize hook",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-DATA-002": {
+      "req_id": "DATA-002",
+      "description": "LocalStorage font size preference",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-003-002": {
+      "req_id": "REQ-003-002-001",
+      "description": "FontSizeButton UI component",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-001": {
+      "req_id": "REQ-004-001-001",
+      "description": "Button variants",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-002": {
+      "req_id": "REQ-004-001-002",
+      "description": "Button sizes",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-003": {
+      "req_id": "REQ-004-002-001",
+      "description": "Text input styling",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-NFR-002": {
+      "req_id": "NFR-002",
+      "description": "WCAG 2.2 AA color contrast",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-NFR-003": {
+      "req_id": "NFR-003",
+      "description": "Keyboard navigation all elements",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 3,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-004": {
+      "req_id": "REQ-004-003-001",
+      "description": "Base card styling",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-005": {
+      "req_id": "REQ-004-003-002",
+      "description": "Metric card component",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-006": {
+      "req_id": "REQ-004-004-001",
+      "description": "Sidebar navigation styling",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-007": {
+      "req_id": "REQ-004-004-002",
+      "description": "Tabs component styling",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-008": {
+      "req_id": "REQ-004-005-001",
+      "description": "Table styling",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-009": {
+      "req_id": "REQ-004-006-001",
+      "description": "Badge variants",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-004-010": {
+      "req_id": "REQ-004-007-001",
+      "description": "Modal overlay and container",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-TECH-004": {
+      "req_id": "TECH-004",
+      "description": "Hardcoded color cleanup",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 4,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-001": {
+      "req_id": "REQ-005-001-001",
+      "description": "Layout.tsx migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 5,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-002": {
+      "req_id": "REQ-005-001-002",
+      "description": "Sidebar.tsx migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 5,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-003": {
+      "req_id": "REQ-005-002-001",
+      "description": "DashboardPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 5,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-004": {
+      "req_id": "REQ-005-002-002",
+      "description": "SurfacePage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 5,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-005": {
+      "req_id": "REQ-005-002-003",
+      "description": "GenerationPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 5,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-006": {
+      "req_id": "REQ-005-003-001",
+      "description": "IncidentsPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 6,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-007": {
+      "req_id": "REQ-005-003-002",
+      "description": "DetectionsPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 6,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-008": {
+      "req_id": "REQ-005-003-003",
+      "description": "TimelinePage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 6,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-009": {
+      "req_id": "REQ-005-003-004",
+      "description": "PostmortemsPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 6,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-010": {
+      "req_id": "REQ-005-004-001",
+      "description": "VulnerabilityDashboard migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 6,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-011": {
+      "req_id": "REQ-005-004-002",
+      "description": "CTEMPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 6,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-012": {
+      "req_id": "REQ-005-005-001",
+      "description": "GraphPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 7,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-013": {
+      "req_id": "REQ-005-005-002",
+      "description": "SimulationPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 7,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-014": {
+      "req_id": "REQ-005-006-003",
+      "description": "AssetsPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 7,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-005-015": {
+      "req_id": "REQ-005-007-001",
+      "description": "ThreatEnrichmentPage migration",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 7,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-006-001": {
+      "req_id": "REQ-006-001-001",
+      "description": "Agent status badges",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 8,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-NFR-001": {
+      "req_id": "NFR-001",
+      "description": "Theme switch < 300ms",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 8,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    },
+    "T-NFR-004": {
+      "req_id": "NFR-004",
+      "description": "Visible focus indicators",
+      "status": "complete",
+      "priority": "MTH",
+      "agent": 8,
+      "completedAt": "2026-02-25T14:00:00.000Z",
+      "verification": {
+        "unitTests": {"passed": true},
+        "codeReview": {"verified": true},
+        "verifiedBy": "review-agent"
+      }
+    }
+  }
+}

@@ -111,8 +111,8 @@ describe("Breadcrumbs Component", () => {
       );
 
       const currentPage = await screen.findByText("Current Page");
-      // Should have different styling (e.g., text-white vs text-gray-400)
-      expect(currentPage.className).toMatch(/text-white|current/i);
+      // Should have different styling (e.g., text-primary vs text-secondary)
+      expect(currentPage.className).toMatch(/text-primary|current/i);
     });
   });
 

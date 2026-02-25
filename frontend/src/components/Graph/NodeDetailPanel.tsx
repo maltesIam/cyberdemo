@@ -26,7 +26,7 @@ export function NodeDetailPanel({ node, onClose, className = "" }: NodeDetailPan
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-slate-700">
-        <h3 className="text-lg font-semibold text-white">{node.label}</h3>
+        <h3 className="text-lg font-semibold text-primary">{node.label}</h3>
         <button
           onClick={onClose}
           className="p-1 hover:bg-slate-700 rounded"
@@ -68,26 +68,26 @@ export function NodeDetailPanel({ node, onClose, className = "" }: NodeDetailPan
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-slate-400">Hostname</dt>
-              <dd className="text-white">{node.assetInfo.hostname}</dd>
+              <dd className="text-primary">{node.assetInfo.hostname}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-400">IP Address</dt>
-              <dd className="text-white">{node.assetInfo.ip}</dd>
+              <dd className="text-primary">{node.assetInfo.ip}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-400">OS</dt>
-              <dd className="text-white">{node.assetInfo.os}</dd>
+              <dd className="text-primary">{node.assetInfo.os}</dd>
             </div>
             {node.assetInfo.owner && (
               <div className="flex justify-between">
                 <dt className="text-slate-400">Owner</dt>
-                <dd className="text-white">{node.assetInfo.owner}</dd>
+                <dd className="text-primary">{node.assetInfo.owner}</dd>
               </div>
             )}
             {node.assetInfo.department && (
               <div className="flex justify-between">
                 <dt className="text-slate-400">Department</dt>
-                <dd className="text-white">{node.assetInfo.department}</dd>
+                <dd className="text-primary">{node.assetInfo.department}</dd>
               </div>
             )}
             <div className="pt-2">
@@ -114,7 +114,7 @@ export function NodeDetailPanel({ node, onClose, className = "" }: NodeDetailPan
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-slate-400">Type</dt>
-              <dd className="text-white">{node.threatInfo.threatType}</dd>
+              <dd className="text-primary">{node.threatInfo.threatType}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-400">Severity</dt>
@@ -124,7 +124,7 @@ export function NodeDetailPanel({ node, onClose, className = "" }: NodeDetailPan
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-400">Confidence</dt>
-              <dd className="text-white">{node.threatInfo.confidence}%</dd>
+              <dd className="text-primary">{node.threatInfo.confidence}%</dd>
             </div>
             <div className="pt-2">
               <dt className="text-slate-400 mb-1">Indicators</dt>
@@ -168,7 +168,7 @@ export function NodeDetailPanel({ node, onClose, className = "" }: NodeDetailPan
                 {node.recommendation.urgency.toUpperCase()}
               </span>
             </div>
-            <div className="text-white font-medium">{node.recommendation.action}</div>
+            <div className="text-primary font-medium">{node.recommendation.action}</div>
             <p className="text-slate-400 text-sm">{node.recommendation.reason}</p>
             <div>
               <h5 className="text-slate-400 text-xs mb-1">Recommended Steps:</h5>
@@ -196,7 +196,7 @@ export function NodeDetailPanel({ node, onClose, className = "" }: NodeDetailPan
             {node.statusInfo.ticketId && (
               <div className="flex justify-between">
                 <dt className="text-slate-400">Ticket</dt>
-                <dd className="text-white">
+                <dd className="text-primary">
                   <a
                     href={`/tickets/${node.statusInfo.ticketId}`}
                     className="text-blue-400 hover:underline"
@@ -209,7 +209,7 @@ export function NodeDetailPanel({ node, onClose, className = "" }: NodeDetailPan
             {node.statusInfo.ticketStatus && (
               <div className="flex justify-between">
                 <dt className="text-slate-400">Ticket Status</dt>
-                <dd className="text-white">{node.statusInfo.ticketStatus}</dd>
+                <dd className="text-primary">{node.statusInfo.ticketStatus}</dd>
               </div>
             )}
             {node.statusInfo.approvalStatus && node.statusInfo.approvalStatus !== "none" && (

@@ -109,13 +109,13 @@ const SuggestionItem = ({
   return (
     <li
       role="listitem"
-      className="p-3 bg-gray-700/50 rounded-lg border border-gray-600 space-y-2"
+      className="p-3 bg-tertiary/50 rounded-lg border border-primary space-y-2"
     >
       {/* Header with type and confidence */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <span
-            className={`px-2 py-0.5 rounded text-xs font-medium text-white ${getSuggestionTypeColor(
+            className={`px-2 py-0.5 rounded text-xs font-medium text-primary ${getSuggestionTypeColor(
               suggestion.type
             )}`}
           >
@@ -133,13 +133,13 @@ const SuggestionItem = ({
 
       {/* Title and description */}
       <div>
-        <h4 className="text-sm font-medium text-gray-200">{suggestion.title}</h4>
-        <p className="text-xs text-gray-400 mt-1">{suggestion.description}</p>
+        <h4 className="text-sm font-medium text-primary">{suggestion.title}</h4>
+        <p className="text-xs text-secondary mt-1">{suggestion.description}</p>
       </div>
 
       {/* Reason if provided */}
       {suggestion.reason && (
-        <div className="text-xs text-gray-500 italic">
+        <div className="text-xs text-tertiary italic">
           Reason: {suggestion.reason}
         </div>
       )}
@@ -150,7 +150,7 @@ const SuggestionItem = ({
           type="button"
           aria-label="Accept suggestion"
           onClick={handleAccept}
-          className="flex items-center space-x-1 px-2 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded transition-colors"
+          className="flex items-center space-x-1 px-2 py-1 bg-green-600 hover:bg-green-700 text-primary text-xs rounded transition-colors"
         >
           <CheckIcon />
           <span>Accept</span>
@@ -159,7 +159,7 @@ const SuggestionItem = ({
           type="button"
           aria-label="Reject suggestion"
           onClick={handleReject}
-          className="flex items-center space-x-1 px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded transition-colors"
+          className="flex items-center space-x-1 px-2 py-1 bg-red-600 hover:bg-red-700 text-primary text-xs rounded transition-colors"
         >
           <XIcon />
           <span>Reject</span>
@@ -169,7 +169,7 @@ const SuggestionItem = ({
             type="button"
             aria-label="Why this suggestion"
             onClick={handleExplainWhy}
-            className="flex items-center space-x-1 px-2 py-1 bg-gray-600 hover:bg-gray-500 text-gray-200 text-xs rounded transition-colors"
+            className="flex items-center space-x-1 px-2 py-1 bg-tertiary hover:bg-hover text-primary text-xs rounded transition-colors"
           >
             <QuestionIcon />
             <span>Why?</span>
@@ -194,22 +194,22 @@ const StatsDisplay = ({
   rejectedCount,
   acceptanceRate,
 }: StatsDisplayProps) => (
-  <div className="grid grid-cols-4 gap-2 p-2 bg-gray-700/30 rounded-lg text-center">
+  <div className="grid grid-cols-4 gap-2 p-2 bg-tertiary/30 rounded-lg text-center">
     <div>
-      <div className="text-sm font-semibold text-gray-200">{totalSuggestions}</div>
-      <div className="text-[10px] text-gray-500">Total</div>
+      <div className="text-sm font-semibold text-primary">{totalSuggestions}</div>
+      <div className="text-[10px] text-tertiary">Total</div>
     </div>
     <div>
       <div className="text-sm font-semibold text-green-400">{acceptedCount}</div>
-      <div className="text-[10px] text-gray-500">Accepted</div>
+      <div className="text-[10px] text-tertiary">Accepted</div>
     </div>
     <div>
       <div className="text-sm font-semibold text-red-400">{rejectedCount}</div>
-      <div className="text-[10px] text-gray-500">Rejected</div>
+      <div className="text-[10px] text-tertiary">Rejected</div>
     </div>
     <div>
       <div className="text-sm font-semibold text-cyan-400">{acceptanceRate}%</div>
-      <div className="text-[10px] text-gray-500">Rate</div>
+      <div className="text-[10px] text-tertiary">Rate</div>
     </div>
   </div>
 );
@@ -231,15 +231,15 @@ export function AipAssistWidget({
     <div
       data-testid="aip-assist-widget"
       aria-label="aIP Assist suggestions"
-      className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden"
+      className="bg-secondary border border-primary rounded-lg overflow-hidden"
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-700">
+      <div className="flex items-center justify-between p-3 border-b border-primary">
         <div className="flex items-center space-x-2">
           <AipIcon />
-          <h3 className="text-sm font-semibold text-gray-200">aIP Assist</h3>
+          <h3 className="text-sm font-semibold text-primary">aIP Assist</h3>
           {!isExpanded && pendingSuggestions.length > 0 && (
-            <span className="px-1.5 py-0.5 bg-cyan-600 text-white text-xs rounded-full">
+            <span className="px-1.5 py-0.5 bg-cyan-600 text-primary text-xs rounded-full">
               {pendingSuggestions.length}
             </span>
           )}
@@ -253,7 +253,7 @@ export function AipAssistWidget({
             aria-checked={isEnabled}
             onClick={onToggleEnabled}
             className={`relative w-10 h-5 rounded-full transition-colors ${
-              isEnabled ? "bg-cyan-600" : "bg-gray-600"
+              isEnabled ? "bg-cyan-600" : "bg-tertiary"
             }`}
           >
             <div
@@ -267,7 +267,7 @@ export function AipAssistWidget({
             type="button"
             aria-label={isExpanded ? "Collapse widget" : "Expand widget"}
             onClick={onToggleExpand}
-            className="p-1 hover:bg-gray-700 rounded transition-colors"
+            className="p-1 hover:bg-tertiary rounded transition-colors"
           >
             <ChevronIcon isExpanded={isExpanded} />
           </button>
@@ -277,7 +277,7 @@ export function AipAssistWidget({
       {/* Disabled state */}
       {!isEnabled && (
         <div className="p-4 text-center">
-          <p className="text-sm text-gray-500">aIP Assist is disabled</p>
+          <p className="text-sm text-tertiary">aIP Assist is disabled</p>
           <button
             type="button"
             onClick={onToggleEnabled}
@@ -314,8 +314,8 @@ export function AipAssistWidget({
             </ul>
           ) : (
             <div className="py-4 text-center">
-              <p className="text-sm text-gray-500">No suggestions at the moment</p>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-sm text-tertiary">No suggestions at the moment</p>
+              <p className="text-xs text-tertiary mt-1">
                 aIP will provide suggestions based on your actions
               </p>
             </div>

@@ -6,18 +6,18 @@ import type { AgentAction } from "../types";
 
 function ActionTypeBadge({ type }: { type: string }) {
   const colors: Record<string, string> = {
-    query: "bg-blue-900/50 text-blue-300",
-    containment: "bg-red-900/50 text-red-300",
-    enrichment: "bg-purple-900/50 text-purple-300",
-    notification: "bg-green-900/50 text-green-300",
-    analysis: "bg-cyan-900/50 text-cyan-300",
+    query: "bg-[var(--badge-query-bg)] text-[var(--badge-query-text)]",
+    containment: "bg-[var(--badge-containment-bg)] text-[var(--badge-containment-text)]",
+    enrichment: "bg-[var(--badge-enrichment-bg)] text-[var(--badge-enrichment-text)]",
+    notification: "bg-[var(--badge-notification-bg)] text-[var(--badge-notification-text)]",
+    analysis: "bg-[var(--badge-analysis-bg)] text-[var(--badge-analysis-text)]",
   };
 
   return (
     <span
       className={clsx(
         "px-2 py-1 rounded text-xs font-medium capitalize",
-        colors[type] || "bg-gray-700 text-gray-300",
+        colors[type] || "bg-tertiary text-secondary",
       )}
     >
       {type}
@@ -28,7 +28,7 @@ function ActionTypeBadge({ type }: { type: string }) {
 function StatusIndicator({ status }: { status: string }) {
   const indicators: Record<string, { color: string; icon: React.ReactNode }> = {
     pending: {
-      color: "text-gray-400",
+      color: "text-[var(--status-pending)]",
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -41,7 +41,7 @@ function StatusIndicator({ status }: { status: string }) {
       ),
     },
     running: {
-      color: "text-yellow-400",
+      color: "text-[var(--status-running)]",
       icon: (
         <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
           <circle
@@ -61,7 +61,7 @@ function StatusIndicator({ status }: { status: string }) {
       ),
     },
     completed: {
-      color: "text-green-400",
+      color: "text-[var(--status-completed)]",
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -69,7 +69,7 @@ function StatusIndicator({ status }: { status: string }) {
       ),
     },
     failed: {
-      color: "text-red-400",
+      color: "text-[var(--status-failed)]",
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -98,10 +98,10 @@ function WaterfallBar({ action, maxDuration }: { action: AgentAction; maxDuratio
   const barWidth = maxDuration > 0 ? (duration / maxDuration) * 100 : 0;
 
   const statusColors: Record<string, string> = {
-    pending: "bg-gray-500",
-    running: "bg-yellow-500",
-    completed: "bg-cyan-500",
-    failed: "bg-red-500",
+    pending: "bg-[var(--bar-pending)]",
+    running: "bg-[var(--bar-running)]",
+    completed: "bg-[var(--bar-completed)]",
+    failed: "bg-[var(--bar-failed)]",
   };
 
   const formatMs = (ms: number) => {
@@ -113,7 +113,7 @@ function WaterfallBar({ action, maxDuration }: { action: AgentAction; maxDuratio
 
   return (
     <div className="flex items-center space-x-2 w-full">
-      <div className="flex-1 h-6 bg-gray-700 rounded-full overflow-hidden relative">
+      <div className="flex-1 h-6 bg-tertiary rounded-full overflow-hidden relative">
         <div
           className={clsx(
             "h-full rounded-full transition-all duration-300",
@@ -122,7 +122,7 @@ function WaterfallBar({ action, maxDuration }: { action: AgentAction; maxDuratio
           style={{ width: `${Math.max(barWidth, 2)}%` }}
         />
         {duration > 0 && (
-          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-300">
+          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-secondary">
             {formatMs(duration)}
           </span>
         )}
@@ -133,11 +133,11 @@ function WaterfallBar({ action, maxDuration }: { action: AgentAction; maxDuratio
 
 function ActionDetailPanel({ action, onClose }: { action: AgentAction; onClose: () => void }) {
   return (
-    <div className="fixed inset-y-0 right-0 w-[480px] bg-gray-800 border-l border-gray-700 shadow-xl z-50 overflow-y-auto">
+    <div className="fixed inset-y-0 right-0 w-[480px] bg-secondary border-l border-primary shadow-xl z-50 overflow-y-auto">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-white">Action Details</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white">
+          <h2 className="text-lg font-semibold text-primary">Action Details</h2>
+          <button onClick={onClose} className="text-secondary hover:text-primary">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -152,19 +152,19 @@ function ActionDetailPanel({ action, onClose }: { action: AgentAction; onClose: 
         <div className="space-y-6">
           {/* Basic Info */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 mb-3">Action Information</h3>
+            <h3 className="text-sm font-medium text-secondary mb-3">Action Information</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-500">Type</span>
+                <span className="text-tertiary">Type</span>
                 <ActionTypeBadge type={action.action_type} />
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Status</span>
+                <span className="text-tertiary">Status</span>
                 <StatusIndicator status={action.status} />
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Incident ID</span>
-                <span className="text-cyan-400 font-mono text-sm">
+                <span className="text-tertiary">Incident ID</span>
+                <span className="text-[var(--accent-link)] font-mono text-sm">
                   {action.incident_id.slice(0, 8)}
                 </span>
               </div>
@@ -173,32 +173,32 @@ function ActionDetailPanel({ action, onClose }: { action: AgentAction; onClose: 
 
           {/* Description */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 mb-2">Description</h3>
-            <p className="text-gray-300">{action.description}</p>
+            <h3 className="text-sm font-medium text-secondary mb-2">Description</h3>
+            <p className="text-secondary">{action.description}</p>
           </div>
 
           {/* Timing */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 mb-3">Timing</h3>
+            <h3 className="text-sm font-medium text-secondary mb-3">Timing</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-500">Started</span>
-                <span className="text-gray-300">
+                <span className="text-tertiary">Started</span>
+                <span className="text-secondary">
                   {format(new Date(action.started_at), "HH:mm:ss.SSS")}
                 </span>
               </div>
               {action.completed_at && (
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Completed</span>
-                  <span className="text-gray-300">
+                  <span className="text-tertiary">Completed</span>
+                  <span className="text-secondary">
                     {format(new Date(action.completed_at), "HH:mm:ss.SSS")}
                   </span>
                 </div>
               )}
               {action.duration_ms !== null && (
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Duration</span>
-                  <span className="text-cyan-400">{action.duration_ms}ms</span>
+                  <span className="text-tertiary">Duration</span>
+                  <span className="text-[var(--accent-link)]">{action.duration_ms}ms</span>
                 </div>
               )}
             </div>
@@ -207,8 +207,8 @@ function ActionDetailPanel({ action, onClose }: { action: AgentAction; onClose: 
           {/* Input */}
           {Object.keys(action.input).length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 mb-2">Input</h3>
-              <pre className="bg-gray-900 rounded-lg p-3 text-xs text-gray-300 overflow-x-auto">
+              <h3 className="text-sm font-medium text-secondary mb-2">Input</h3>
+              <pre className="bg-primary rounded-lg p-3 text-xs text-secondary overflow-x-auto">
                 {JSON.stringify(action.input, null, 2)}
               </pre>
             </div>
@@ -217,8 +217,8 @@ function ActionDetailPanel({ action, onClose }: { action: AgentAction; onClose: 
           {/* Output */}
           {Object.keys(action.output).length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 mb-2">Output</h3>
-              <pre className="bg-gray-900 rounded-lg p-3 text-xs text-gray-300 overflow-x-auto max-h-64">
+              <h3 className="text-sm font-medium text-secondary mb-2">Output</h3>
+              <pre className="bg-primary rounded-lg p-3 text-xs text-secondary overflow-x-auto max-h-64">
                 {JSON.stringify(action.output, null, 2)}
               </pre>
             </div>
@@ -227,8 +227,8 @@ function ActionDetailPanel({ action, onClose }: { action: AgentAction; onClose: 
           {/* Error */}
           {action.error && (
             <div>
-              <h3 className="text-sm font-medium text-red-400 mb-2">Error</h3>
-              <pre className="bg-red-900/30 border border-red-700 rounded-lg p-3 text-xs text-red-300 overflow-x-auto">
+              <h3 className="text-sm font-medium text-[var(--error-text)] mb-2">Error</h3>
+              <pre className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-[var(--error-text)] overflow-x-auto">
                 {action.error}
               </pre>
             </div>
@@ -270,29 +270,29 @@ export function TimelinePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Agent Timeline</h1>
-        <p className="text-gray-400 mt-1">Waterfall view of agent actions and operations</p>
+        <h1 className="text-2xl font-bold text-primary">Agent Timeline</h1>
+        <p className="text-secondary mt-1">Waterfall view of agent actions and operations</p>
       </div>
 
       {/* Filters */}
-      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+      <div className="bg-secondary rounded-lg p-4 border border-primary">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Incident ID</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Incident ID</label>
             <input
               type="text"
               value={filters.incident_id}
               onChange={(e) => handleFilterChange("incident_id", e.target.value)}
               placeholder="Filter by incident..."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary placeholder-[var(--text-tertiary)] focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Action Type</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Action Type</label>
             <select
               value={filters.action_type}
               onChange={(e) => handleFilterChange("action_type", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             >
               <option value="">All Types</option>
               <option value="query">Query</option>
@@ -303,11 +303,11 @@ export function TimelinePage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Status</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Status</label>
             <select
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             >
               <option value="">All Status</option>
               <option value="pending">Pending</option>
@@ -320,10 +320,10 @@ export function TimelinePage() {
       </div>
 
       {/* Timeline */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+      <div className="bg-secondary rounded-lg border border-primary overflow-hidden">
         {isLoading && (
           <div className="flex items-center justify-center py-16">
-            <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 animate-spin text-[var(--accent-link)]" fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -343,22 +343,22 @@ export function TimelinePage() {
 
         {error && (
           <div className="p-8 text-center">
-            <p className="text-red-400">Failed to load timeline: {error.message}</p>
+            <p className="text-[var(--error-text)]">Failed to load timeline: {error.message}</p>
           </div>
         )}
 
         {actionsData && actionsData.data.length > 0 && (
-          <div className="divide-y divide-gray-700">
+          <div className="divide-y divide-[var(--border-primary)]">
             {actionsData.data.map((action: AgentAction) => (
               <div
                 key={action.id}
                 onClick={() => setSelectedAction(action)}
-                className="p-4 hover:bg-gray-750 cursor-pointer transition-colors"
+                className="p-4 hover:bg-hover cursor-pointer transition-colors"
               >
                 <div className="flex items-start space-x-4">
                   {/* Left: Time & Type */}
                   <div className="w-32 flex-shrink-0">
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-secondary text-sm">
                       {format(new Date(action.started_at), "HH:mm:ss")}
                     </p>
                     <ActionTypeBadge type={action.action_type} />
@@ -368,11 +368,11 @@ export function TimelinePage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-2 mb-1">
                       <StatusIndicator status={action.status} />
-                      <span className="text-cyan-400 font-mono text-xs">
+                      <span className="text-[var(--accent-link)] font-mono text-xs">
                         {action.incident_id.slice(0, 8)}
                       </span>
                     </div>
-                    <p className="text-white truncate">{action.description}</p>
+                    <p className="text-primary truncate">{action.description}</p>
                   </div>
 
                   {/* Right: Waterfall Bar */}
@@ -388,7 +388,7 @@ export function TimelinePage() {
         {actionsData?.data.length === 0 && (
           <div className="p-8 text-center">
             <svg
-              className="w-12 h-12 text-gray-600 mx-auto mb-4"
+              className="w-12 h-12 text-tertiary mx-auto mb-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -400,8 +400,8 @@ export function TimelinePage() {
                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <p className="text-gray-400">No agent actions found</p>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-secondary">No agent actions found</p>
+            <p className="text-tertiary text-sm mt-1">
               Agent actions will appear here when incidents are processed
             </p>
           </div>
@@ -409,8 +409,8 @@ export function TimelinePage() {
 
         {/* Pagination */}
         {actionsData && actionsData.total > 0 && (
-          <div className="px-4 py-3 bg-gray-900 border-t border-gray-700 flex items-center justify-between">
-            <div className="text-sm text-gray-400">
+          <div className="px-4 py-3 bg-primary border-t border-primary flex items-center justify-between">
+            <div className="text-sm text-secondary">
               Showing {(page - 1) * 30 + 1} to {Math.min(page * 30, actionsData.total)} of{" "}
               {actionsData.total} actions
             </div>
@@ -418,14 +418,14 @@ export function TimelinePage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
               >
                 Previous
               </button>
               <button
                 onClick={() => setPage((p) => p + 1)}
                 disabled={page >= actionsData.total_pages}
-                className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
               >
                 Next
               </button>

@@ -257,9 +257,9 @@ export function CollabChat({
 
   if (compact) {
     return (
-      <div className={clsx("flex flex-col bg-gray-900 rounded-lg overflow-hidden", className)}>
+      <div className={clsx("flex flex-col bg-primary rounded-lg overflow-hidden", className)}>
         {/* Compact header */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-gray-700">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-primary">
           <div className="flex items-center gap-2">
             <svg
               className="w-4 h-4 text-cyan-400"
@@ -274,7 +274,7 @@ export function CollabChat({
                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
               />
             </svg>
-            <span className="text-sm font-medium text-gray-200">Team Chat</span>
+            <span className="text-sm font-medium text-primary">Team Chat</span>
           </div>
           <div
             className={clsx("w-2 h-2 rounded-full", wsConnected ? "bg-green-500" : "bg-red-500")}
@@ -287,14 +287,14 @@ export function CollabChat({
           {messages.slice(-5).map((message) => (
             <div key={message.id} className="text-sm">
               <span className="font-medium text-cyan-400">{message.user}:</span>{" "}
-              <span className="text-gray-300">{message.content}</span>
+              <span className="text-secondary">{message.content}</span>
             </div>
           ))}
           <div ref={messagesEndRef} />
         </div>
 
         {/* Compact input */}
-        <div className="border-t border-gray-700 p-2">
+        <div className="border-t border-primary p-2">
           <CollabInput onSend={handleSend} placeholder="Quick message..." />
         </div>
       </div>
@@ -302,9 +302,9 @@ export function CollabChat({
   }
 
   return (
-    <div className={clsx("flex flex-col bg-gray-900 h-full", className)}>
+    <div className={clsx("flex flex-col bg-primary h-full", className)}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-primary">
         <div className="flex items-center gap-3">
           <svg
             className="w-5 h-5 text-cyan-400"
@@ -320,10 +320,10 @@ export function CollabChat({
             />
           </svg>
           <div>
-            <h2 className="font-semibold text-gray-200">
+            <h2 className="font-semibold text-primary">
               {channels.find((c) => c.id === activeChannel)?.name || "Collaboration"}
             </h2>
-            {incidentId && <p className="text-xs text-gray-500">Incident: {incidentId}</p>}
+            {incidentId && <p className="text-xs text-tertiary">Incident: {incidentId}</p>}
           </div>
         </div>
 
@@ -347,8 +347,8 @@ export function CollabChat({
             className={clsx(
               "p-2 rounded transition-colors",
               showSearch
-                ? "bg-gray-700 text-cyan-400"
-                : "text-gray-400 hover:text-white hover:bg-gray-800",
+                ? "bg-tertiary text-cyan-400"
+                : "text-secondary hover:text-primary hover:bg-secondary",
             )}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -366,7 +366,7 @@ export function CollabChat({
             <select
               value={activeChannel}
               onChange={(e) => setActiveChannel(e.target.value)}
-              className="bg-gray-800 text-gray-200 text-sm rounded px-2 py-1 border border-gray-700"
+              className="bg-secondary text-primary text-sm rounded px-2 py-1 border border-primary"
             >
               {channels.map((channel) => (
                 <option key={channel.id} value={channel.id}>
@@ -380,18 +380,18 @@ export function CollabChat({
 
       {/* Search bar */}
       {showSearch && (
-        <div className="px-4 py-2 border-b border-gray-700 flex gap-2">
+        <div className="px-4 py-2 border-b border-primary flex gap-2">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             placeholder="Search messages..."
-            className="flex-1 bg-gray-800 text-gray-200 px-3 py-2 rounded border border-gray-700 focus:border-cyan-500 focus:outline-none"
+            className="flex-1 bg-secondary text-primary px-3 py-2 rounded border border-primary focus:border-cyan-500 focus:outline-none"
           />
           <button
             onClick={handleSearch}
-            className="px-4 py-2 bg-cyan-600 text-white rounded hover:bg-cyan-700 transition-colors"
+            className="px-4 py-2 bg-cyan-600 text-primary rounded hover:bg-cyan-700 transition-colors"
           >
             Search
           </button>
@@ -401,7 +401,7 @@ export function CollabChat({
                 setSearchQuery("");
                 fetchMessages();
               }}
-              className="px-4 py-2 bg-gray-700 text-gray-300 rounded hover:bg-gray-600 transition-colors"
+              className="px-4 py-2 bg-tertiary text-secondary rounded hover:bg-tertiary transition-colors"
             >
               Clear
             </button>
@@ -412,7 +412,7 @@ export function CollabChat({
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-2">
         {loading ? (
-          <div className="flex items-center justify-center h-full text-gray-500">
+          <div className="flex items-center justify-center h-full text-tertiary">
             <svg className="animate-spin w-6 h-6 mr-2" fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
@@ -431,7 +431,7 @@ export function CollabChat({
             Loading messages...
           </div>
         ) : error ? (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
+          <div className="flex flex-col items-center justify-center h-full text-tertiary">
             <svg
               className="w-12 h-12 mb-2 text-red-400"
               fill="none"
@@ -451,7 +451,7 @@ export function CollabChat({
             </button>
           </div>
         ) : messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500">
+          <div className="flex flex-col items-center justify-center h-full text-tertiary">
             <svg className="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"

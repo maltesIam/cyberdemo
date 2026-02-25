@@ -24,10 +24,11 @@ const renderWithRouter = (initialRoute = "/") => {
 
 describe("Sidebar", () => {
   describe("Menu Items Rendering", () => {
-    it("should render the CyberDemo logo and title", () => {
+    it("should render the SoulBot logo and title", () => {
       renderWithRouter();
-      expect(screen.getByText("CyberDemo")).toBeInTheDocument();
-      expect(screen.getByText("SOC Dashboard")).toBeInTheDocument();
+      expect(screen.getByText("Soul")).toBeInTheDocument();
+      expect(screen.getByText("Bot")).toBeInTheDocument();
+      expect(screen.getByText("Security Platform")).toBeInTheDocument();
     });
 
     it("should render Command Center menu item", () => {
@@ -154,25 +155,25 @@ describe("Sidebar", () => {
     it("should highlight Vulnerabilities when on /vulnerabilities route", () => {
       renderWithRouter("/vulnerabilities");
       const link = screen.getByText("Vulnerabilities").closest("a");
-      expect(link).toHaveClass("bg-cyan-600");
+      expect(link?.className).toContain("bg-[var(--primary-600)]");
     });
 
     it("should highlight Threat Intel when on /threats route", () => {
       renderWithRouter("/threats");
       const link = screen.getByText("Threat Intel").closest("a");
-      expect(link).toHaveClass("bg-cyan-600");
+      expect(link?.className).toContain("bg-[var(--primary-600)]");
     });
 
     it("should not highlight other items when on /threats route", () => {
       renderWithRouter("/threats");
       const vulnLink = screen.getByText("Vulnerabilities").closest("a");
-      expect(vulnLink).not.toHaveClass("bg-cyan-600");
+      expect(vulnLink?.className).not.toContain("bg-[var(--primary-600)]");
     });
 
     it("should highlight Generation when on /generation route", () => {
       renderWithRouter("/generation");
       const link = screen.getByText("Generation").closest("a");
-      expect(link).toHaveClass("bg-cyan-600");
+      expect(link?.className).toContain("bg-[var(--primary-600)]");
     });
   });
 

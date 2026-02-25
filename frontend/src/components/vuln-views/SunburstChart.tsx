@@ -227,7 +227,7 @@ export function SunburstChart({
     return (
       <div
         data-testid="sunburst-loading"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
@@ -237,7 +237,7 @@ export function SunburstChart({
   // Error state
   if (error) {
     return (
-      <div className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}>
+      <div className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}>
         <div className="text-center">
           <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -253,10 +253,10 @@ export function SunburstChart({
     return (
       <div
         data-testid="sunburst-chart"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
         aria-label="CWE Sunburst chart - no data"
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-tertiary">
           <svg className="w-16 h-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
@@ -274,7 +274,7 @@ export function SunburstChart({
   return (
     <div
       data-testid="sunburst-chart"
-      className={`bg-gray-900 rounded-lg p-4 ${className}`}
+      className={`bg-primary rounded-lg p-4 ${className}`}
       aria-label="CWE Sunburst chart showing vulnerability categories"
     >
       {/* Breadcrumb */}
@@ -282,9 +282,9 @@ export function SunburstChart({
         <div data-testid="sunburst-breadcrumb" className="flex items-center gap-2 mb-4 text-sm">
           {breadcrumb.map((node, idx) => (
             <span key={idx} className="flex items-center gap-2">
-              {idx > 0 && <span className="text-gray-500">/</span>}
+              {idx > 0 && <span className="text-tertiary">/</span>}
               <button
-                className="text-gray-400 hover:text-cyan-400 transition-colors"
+                className="text-secondary hover:text-cyan-400 transition-colors"
                 onClick={() => setZoomedNode(idx === 0 ? null : node)}
               >
                 {node.name}
@@ -377,20 +377,20 @@ export function SunburstChart({
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: color }}
             />
-            <span className="text-gray-300 capitalize">{severity}</span>
+            <span className="text-secondary capitalize">{severity}</span>
           </div>
         ))}
       </div>
 
       {/* Stats */}
-      <div className="flex justify-center gap-8 mt-4 pt-4 border-t border-gray-700">
+      <div className="flex justify-center gap-8 mt-4 pt-4 border-t border-primary">
         <div className="text-center">
-          <div className="text-xl font-bold text-white">{data.total_cves}</div>
-          <div className="text-xs text-gray-400">Total CVEs</div>
+          <div className="text-xl font-bold text-primary">{data.total_cves}</div>
+          <div className="text-xs text-secondary">Total CVEs</div>
         </div>
         <div className="text-center">
           <div className="text-xl font-bold text-cyan-400">{data.total_cwes}</div>
-          <div className="text-xs text-gray-400">CWE Categories</div>
+          <div className="text-xs text-secondary">CWE Categories</div>
         </div>
       </div>
 
@@ -398,18 +398,18 @@ export function SunburstChart({
       {tooltip && (
         <div
           role="tooltip"
-          className="fixed z-50 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl text-sm pointer-events-none"
+          className="fixed z-50 px-3 py-2 bg-secondary border border-primary rounded-lg shadow-xl text-sm pointer-events-none"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
             transform: "translate(-50%, -100%)",
           }}
         >
-          <div className="font-medium text-white">{tooltip.name}</div>
+          <div className="font-medium text-primary">{tooltip.name}</div>
           {tooltip.cwe_id && (
             <div className="text-cyan-400">{tooltip.cwe_id}</div>
           )}
-          <div className="text-gray-300">{tooltip.value} CVEs</div>
+          <div className="text-secondary">{tooltip.value} CVEs</div>
           {tooltip.severity_counts && (
             <div className="flex gap-2 mt-1 text-xs">
               <span className="text-red-400">{tooltip.severity_counts.critical} Crit</span>

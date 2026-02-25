@@ -88,7 +88,7 @@ export function TerrainView({
     return (
       <div
         data-testid="terrain-loading"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
@@ -99,7 +99,7 @@ export function TerrainView({
   if (error) {
     return (
       <div
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
       >
         <div className="text-center">
           <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,10 +116,10 @@ export function TerrainView({
     return (
       <div
         data-testid="terrain-view"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
         aria-label="Vulnerability terrain visualization - no data"
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-tertiary">
           <svg className="w-16 h-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
@@ -237,7 +237,7 @@ export function TerrainView({
       {tooltip && (
         <div
           role="tooltip"
-          className="fixed z-50 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl text-sm pointer-events-none"
+          className="fixed z-50 px-3 py-2 bg-secondary border border-primary rounded-lg shadow-xl text-sm pointer-events-none"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
@@ -245,8 +245,8 @@ export function TerrainView({
           }}
         >
           <div className="font-mono text-cyan-400">{tooltip.cve_id}</div>
-          <div className="text-gray-300">CVSS: {tooltip.cvss_score.toFixed(1)}</div>
-          <div className="text-gray-300">EPSS: {(tooltip.epss_score * 100).toFixed(1)}%</div>
+          <div className="text-secondary">CVSS: {tooltip.cvss_score.toFixed(1)}</div>
+          <div className="text-secondary">EPSS: {(tooltip.epss_score * 100).toFixed(1)}%</div>
           <div className={`text-${tooltip.severity === "Critical" ? "red" : tooltip.severity === "High" ? "orange" : tooltip.severity === "Medium" ? "yellow" : "green"}-400`}>
             {tooltip.severity}
           </div>
@@ -262,8 +262,8 @@ export function TerrainView({
       )}
 
       {/* Legend */}
-      <div className="absolute bottom-4 right-4 bg-gray-900/80 backdrop-blur-sm rounded-lg p-3 border border-gray-700">
-        <div className="text-xs text-gray-400 mb-2">Severity</div>
+      <div className="absolute bottom-4 right-4 bg-primary/80 backdrop-blur-sm rounded-lg p-3 border border-primary">
+        <div className="text-xs text-secondary mb-2">Severity</div>
         <div className="flex gap-3">
           {Object.entries(SEVERITY_COLORS).map(([severity, colors]) => (
             <div key={severity} className="flex items-center gap-1">
@@ -271,7 +271,7 @@ export function TerrainView({
                 className="w-3 h-3 rounded-sm"
                 style={{ background: colors.bg }}
               />
-              <span className="text-xs text-gray-300">{severity}</span>
+              <span className="text-xs text-secondary">{severity}</span>
             </div>
           ))}
         </div>
@@ -288,9 +288,9 @@ export function TerrainView({
       </div>
 
       {/* Stats */}
-      <div className="absolute top-4 left-4 bg-gray-900/80 backdrop-blur-sm rounded-lg p-3 border border-gray-700">
-        <div className="text-2xl font-bold text-white">{data.total_cves}</div>
-        <div className="text-xs text-gray-400">Total CVEs</div>
+      <div className="absolute top-4 left-4 bg-primary/80 backdrop-blur-sm rounded-lg p-3 border border-primary">
+        <div className="text-2xl font-bold text-primary">{data.total_cves}</div>
+        <div className="text-xs text-secondary">Total CVEs</div>
       </div>
     </div>
   );

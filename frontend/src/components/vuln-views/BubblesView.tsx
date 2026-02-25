@@ -221,7 +221,7 @@ export function BubblesView({
     return (
       <div
         data-testid="bubbles-loading"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
@@ -231,7 +231,7 @@ export function BubblesView({
   // Error state
   if (error) {
     return (
-      <div className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}>
+      <div className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}>
         <div className="text-center">
           <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -247,10 +247,10 @@ export function BubblesView({
     return (
       <div
         data-testid="bubbles-view"
-        className={`flex items-center justify-center h-96 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-96 bg-primary rounded-lg ${className}`}
         aria-label="Bubbles visualization - no data"
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-tertiary">
           <svg className="w-16 h-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 10a1 1 0 11-2 0 1 1 0 012 0zm8 0a1 1 0 11-2 0 1 1 0 012 0z" />
@@ -264,7 +264,7 @@ export function BubblesView({
   return (
     <div
       data-testid="bubbles-view"
-      className={`bg-gray-900 rounded-lg p-4 ${className}`}
+      className={`bg-primary rounded-lg p-4 ${className}`}
       aria-label="vulnerability bubbles visualization showing CVE risk distribution"
     >
       {/* SVG Canvas */}
@@ -374,14 +374,14 @@ export function BubblesView({
       {/* Legend */}
       <div data-testid="bubbles-legend" className="flex flex-wrap justify-center gap-4 mt-4 text-xs">
         <div className="flex items-center gap-4">
-          <span className="text-gray-400">Severity:</span>
+          <span className="text-secondary">Severity:</span>
           {Object.entries(SEVERITY_COLORS).map(([severity, color]) => (
             <div key={severity} className="flex items-center gap-1">
               <div
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: color }}
               />
-              <span className="text-gray-300">
+              <span className="text-secondary">
                 {severity} ({data.severity_distribution[severity.toLowerCase() as keyof typeof data.severity_distribution] || 0})
               </span>
             </div>
@@ -391,14 +391,14 @@ export function BubblesView({
 
       {/* SSVC Legend */}
       <div className="flex justify-center gap-4 mt-2 text-xs">
-        <span className="text-gray-400">SSVC:</span>
+        <span className="text-secondary">SSVC:</span>
         {Object.entries(SSVC_COLORS).map(([decision, color]) => (
           <div key={decision} className="flex items-center gap-1">
             <div
               className="w-2 h-2 rounded-full border-2"
               style={{ borderColor: color }}
             />
-            <span className="text-gray-300">{decision}</span>
+            <span className="text-secondary">{decision}</span>
           </div>
         ))}
       </div>
@@ -407,7 +407,7 @@ export function BubblesView({
       {tooltip && (
         <div
           role="tooltip"
-          className="fixed z-50 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl text-sm pointer-events-none max-w-xs"
+          className="fixed z-50 px-3 py-2 bg-secondary border border-primary rounded-lg shadow-xl text-sm pointer-events-none max-w-xs"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
@@ -415,7 +415,7 @@ export function BubblesView({
           }}
         >
           <div className="font-mono text-cyan-400">{tooltip.cve_id}</div>
-          <div className="text-gray-300 truncate">{tooltip.title}</div>
+          <div className="text-secondary truncate">{tooltip.title}</div>
           <div className="flex gap-3 mt-1">
             <span className="text-red-400">Risk: {tooltip.risk_score}</span>
             <span className="text-orange-400">CVSS: {tooltip.cvss_score}</span>

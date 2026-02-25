@@ -23,6 +23,8 @@ import {
   SSVCDashboard,
 } from "./pages/vuln-pages";
 import { SimulationPage } from "./pages/SimulationPage";
+import { MedicumPage } from "./pages/MedicumPage";
+import { FilesManagerPage } from "./pages/FilesManagerPage";
 import { ToastProvider } from "./utils/toast";
 import { DemoProvider } from "./context/DemoContext";
 
@@ -58,6 +60,9 @@ function App() {
             <Route path="simulation" element={<SimulationPage />} />
             <Route path="*" element={<Navigate to="/generation" replace />} />
           </Route>
+          {/* Standalone UIs - outside CyberDemo Layout */}
+          <Route path="medicum" element={<MedicumPage />} />
+          <Route path="files" element={<FilesManagerPage />} />
         </Routes>
       </BrowserRouter>
     </ToastProvider>

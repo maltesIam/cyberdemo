@@ -25,7 +25,7 @@ export function PresenterToggle({ enabled, onToggle }: PresenterToggleProps) {
       data-testid="presenter-toggle"
       className="flex items-center justify-between py-2"
     >
-      <span className="text-xs text-gray-400">Auto UI Actions</span>
+      <span className="text-xs text-secondary">Auto UI Actions</span>
       <button
         type="button"
         role="switch"
@@ -33,7 +33,7 @@ export function PresenterToggle({ enabled, onToggle }: PresenterToggleProps) {
         aria-label="Toggle auto UI actions"
         onClick={handleClick}
         className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-          enabled ? "bg-cyan-600" : "bg-gray-600"
+          enabled ? "bg-cyan-600" : "bg-tertiary"
         }`}
       >
         <span

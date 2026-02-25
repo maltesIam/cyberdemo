@@ -1,0 +1,18 @@
+{
+  "verify_documents": {
+    "timestamp": "2026-02-25T13:31:06.044612",
+    "files": {
+      "docs/MEDICUM_BUILD_PLAN.md": "3d330473dac8f3cfeea8074ba1c62dc79a673af9c10d0ea6bb5322bdf29d351f",
+      "docs/MEDICUM_PROGRESS.md": "e64ecfaaa2e7f50b032e2e3612629014d98f376f8541cbd5d71968360be75115",
+      "docs/MEDICUM_TEST_PLAN.md": "4e3f529de9606eae0c0202ae0e76223d995ef4a90da5d707276ab7abc5b9fc22"
+    }
+  },
+  "finalize": {
+    "timestamp": "2026-02-25T13:35:25.135038",
+    "files": {
+      "docs/MEDICUM_BUILD_PLAN.md": "3d330473dac8f3cfeea8074ba1c62dc79a673af9c10d0ea6bb5322bdf29d351f",
+      "docs/MEDICUM_PROGRESS.md": "e64ecfaaa2e7f50b032e2e3612629014d98f376f8541cbd5d71968360be75115",
+      "docs/MEDICUM_TEST_PLAN.md": "4e3f529de9606eae0c0202ae0e76223d995ef4a90da5d707276ab7abc5b9fc22"
+    }
+  }
+}

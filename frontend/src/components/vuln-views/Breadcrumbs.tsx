@@ -34,21 +34,21 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
         return (
           <div key={item.label} className="flex items-center space-x-2">
             {!isFirst && (
-              <span className="text-gray-500" aria-hidden="true">
+              <span className="text-tertiary" aria-hidden="true">
                 {">"}
               </span>
             )}
             {item.href && !isLast ? (
               <Link
                 to={item.href}
-                className="text-gray-400 hover:text-cyan-400 transition-colors"
+                className="text-secondary hover:text-cyan-400 transition-colors"
               >
                 {item.label}
               </Link>
             ) : (
               <span
                 className={clsx(
-                  isLast ? "text-white font-medium" : "text-gray-400"
+                  isLast ? "text-primary font-medium" : "text-secondary"
                 )}
                 aria-current={isLast ? "page" : undefined}
               >

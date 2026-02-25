@@ -45,7 +45,7 @@ function TimelineEntryItem({ entry, index, isVisible }: TimelineEntryItemProps) 
     <div
       data-testid={`timeline-entry-${entry.id}`}
       className={`
-        relative pl-6 pb-4 border-l-2 border-gray-700 last:border-l-0
+        relative pl-6 pb-4 border-l-2 border-primary last:border-l-0
         transition-all duration-300 ease-out
         ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
       `}
@@ -57,15 +57,15 @@ function TimelineEntryItem({ entry, index, isVisible }: TimelineEntryItemProps) 
       />
 
       {/* Timestamp */}
-      <span className="text-xs text-gray-500 font-mono">
+      <span className="text-xs text-tertiary font-mono">
         {formatTimestamp(entry.timestamp)}
       </span>
 
       {/* Title */}
-      <h4 className="text-sm font-semibold text-white mt-0.5">{entry.title}</h4>
+      <h4 className="text-sm font-semibold text-primary mt-0.5">{entry.title}</h4>
 
       {/* Description */}
-      <p className="text-xs text-gray-400 mt-0.5">{entry.description}</p>
+      <p className="text-xs text-secondary mt-0.5">{entry.description}</p>
     </div>
   );
 }
@@ -105,18 +105,18 @@ export function TimelinePanel({ timeline, onClose }: TimelinePanelProps) {
       data-testid="timeline-panel"
       className={`
         fixed top-0 right-0 h-full w-80 z-50
-        bg-gray-800/95 backdrop-blur-sm border-l border-gray-600 shadow-2xl
+        bg-secondary/95 backdrop-blur-sm border-l border-primary shadow-2xl
         transition-transform duration-300 ease-out overflow-y-auto
         ${isOpen ? 'translate-x-0' : 'translate-x-full'}
       `}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700 sticky top-0 bg-gray-800/95">
-        <h3 className="text-sm font-semibold text-white">{timeline.title}</h3>
+      <div className="flex items-center justify-between p-4 border-b border-primary sticky top-0 bg-secondary/95">
+        <h3 className="text-sm font-semibold text-primary">{timeline.title}</h3>
         <button
           onClick={handleClose}
           aria-label="Close timeline"
-          className="text-gray-400 hover:text-white transition-colors p-1"
+          className="text-secondary hover:text-primary transition-colors p-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

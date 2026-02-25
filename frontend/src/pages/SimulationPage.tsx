@@ -14,6 +14,8 @@
  * - REQ-003-001-006: Fixed narration footer (always visible, not collapsible)
  * - REQ-003-001-007: Scenario selector in page
  * - REQ-003-001-008: Real-time visualization
+ *
+ * Migrated to AgentFlow Design Tokens (REQ-005-005-002)
  */
 
 import { useState } from 'react';
@@ -62,7 +64,7 @@ export function SimulationPage() {
   return (
     <div data-testid="simulation-page" className="flex flex-col h-[calc(100vh-4rem)]">
       {/* Top controls bar */}
-      <div className="flex items-center gap-4 px-4 py-2 bg-gray-800 border-b border-gray-700">
+      <div className="flex items-center gap-4 px-4 py-2 bg-secondary border-b border-primary">
         {/* Scenario selector */}
         <div className="w-48">
           <ScenarioDropdown
@@ -80,7 +82,7 @@ export function SimulationPage() {
             aria-label={isPlaying ? 'Pause' : 'Play'}
             onClick={actions.togglePlayPause}
             disabled={!state.selectedScenario && isStopped}
-            className="p-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg disabled:opacity-50 transition-colors"
+            className="p-2 bg-[var(--color-secondary-600)] hover:bg-[var(--color-secondary-500)] text-inverse rounded-lg disabled:opacity-50 transition-colors"
           >
             {isPlaying ? '⏸' : '▶'}
           </button>
@@ -89,7 +91,7 @@ export function SimulationPage() {
             aria-label="Stop"
             onClick={actions.stop}
             disabled={isStopped}
-            className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg disabled:opacity-50 transition-colors"
+            className="p-2 bg-[var(--color-error)] hover:bg-[var(--color-error-dark)] text-inverse rounded-lg disabled:opacity-50 transition-colors"
           >
             ⏹
           </button>
@@ -97,14 +99,14 @@ export function SimulationPage() {
 
         {/* Speed */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-400">Speed:</span>
-          <span className="text-xs text-gray-200">{state.speed}x</span>
+          <span className="text-xs text-secondary">Speed:</span>
+          <span className="text-xs text-primary">{state.speed}x</span>
         </div>
 
         {/* Agent status */}
         <div className="flex items-center gap-1.5">
-          <div className={`w-2 h-2 rounded-full ${agentConnected ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`} />
-          <span className={`text-xs ${agentConnected ? 'text-green-400' : 'text-gray-500'}`}>
+          <div className={`w-2 h-2 rounded-full ${agentConnected ? 'bg-[var(--color-success)] animate-pulse' : 'bg-tertiary'}`} />
+          <span className={`text-xs ${agentConnected ? 'text-[var(--color-success)]' : 'text-tertiary'}`}>
             {agentConnected ? 'Vega AI' : 'Agent Offline'}
           </span>
         </div>
@@ -112,11 +114,11 @@ export function SimulationPage() {
         {/* Stage indicator */}
         {state.stages.length > 0 && (
           <div className="flex items-center gap-2 ml-auto">
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-secondary">
               Stage {state.currentStage + 1}/{state.stages.length}
             </span>
             {state.stages[state.currentStage] && (
-              <span className="text-xs text-cyan-400">
+              <span className="text-xs text-[var(--color-secondary-400)]">
                 {state.stages[state.currentStage].tacticName}
               </span>
             )}
@@ -129,7 +131,7 @@ export function SimulationPage() {
         {/* Left column: MITRE Phases */}
         <div
           data-testid="mitre-column"
-          className="w-64 flex-shrink-0 overflow-y-auto p-4 border-r border-gray-700 bg-gray-800/50"
+          className="w-64 flex-shrink-0 overflow-y-auto p-4 border-r border-primary bg-secondary/50"
         >
           <MitrePhasesList stages={state.stages} currentStage={state.currentStage} />
         </div>
@@ -142,7 +144,7 @@ export function SimulationPage() {
         {/* Right column: aIP Panel (integrated, not floating) */}
         <div
           data-testid="aip-column"
-          className="w-80 flex-shrink-0 overflow-y-auto border-l border-gray-700"
+          className="w-80 flex-shrink-0 overflow-y-auto border-l border-primary"
         >
           <AipAssistWidget
             suggestions={suggestions}

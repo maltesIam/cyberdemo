@@ -4,6 +4,8 @@ import { Sidebar } from "./Sidebar";
 import { DemoControlBar } from "./demo/DemoControlBar";
 import { DemoFloatingWidget } from "./demo/DemoFloatingWidget";
 import { NarrationFooter } from "./demo/NarrationFooter";
+import { ThemeToggle } from "./ThemeToggle";
+import { FontSizeButton } from "./FontSizeButton";
 import { useDemoContext } from "../context/DemoContext";
 import { useDemoOrchestrator } from "../hooks/useDemoOrchestrator";
 import type { DemoOutletContext } from "../hooks/useDemoOrchestrator";
@@ -38,19 +40,29 @@ export function Layout() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-900">
+    <div className="flex min-h-screen bg-primary">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         {/* Original header */}
-        <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
+        <header className="bg-secondary border-b border-primary px-6 py-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-white">CyberDemo - SOC Dashboard</h2>
+            <div className="flex items-center space-x-2.5">
+              <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
+                <svg className="w-5 h-5 text-inverse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h2 className="text-xl tracking-tight" style={{ fontFamily: 'var(--font-family-sans)', fontWeight: 800 }}>
+                <span className="text-primary">Soul</span>
+                <span style={{ color: 'var(--primary)' }}>Bot</span>
+              </h2>
+            </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 text-gray-400">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <div className="flex items-center space-x-2 text-secondary">
+                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-success)' }}></div>
                 <span className="text-sm">System Online</span>
               </div>
-              <button className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700 transition-colors">
+              <button className="p-2 text-secondary hover:text-primary rounded-lg hover:bg-tertiary transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -60,7 +72,7 @@ export function Layout() {
                   />
                 </svg>
               </button>
-              <button className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700 transition-colors">
+              <button className="p-2 text-secondary hover:text-primary rounded-lg hover:bg-tertiary transition-colors">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -76,6 +88,8 @@ export function Layout() {
                   />
                 </svg>
               </button>
+              <FontSizeButton />
+              <ThemeToggle />
             </div>
           </div>
         </header>

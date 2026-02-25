@@ -81,7 +81,7 @@ describe("NarrationPanel", () => {
     it("should render panel on the right side with proper styling", () => {
       const { container } = render(<NarrationPanel messages={[]} />);
       const panel = container.firstChild as HTMLElement;
-      expect(panel).toHaveClass("bg-gray-800");
+      expect(panel).toHaveClass("bg-secondary");
     });
   });
 
@@ -129,7 +129,7 @@ describe("NarrationPanel", () => {
       const messageContainer = screen.getByText("Test with timestamp").closest("div")?.parentElement;
       expect(messageContainer).toBeInTheDocument();
       // Check that there's a timestamp element with time-like content
-      const timeElement = messageContainer?.querySelector(".text-gray-500");
+      const timeElement = messageContainer?.querySelector(".text-tertiary");
       expect(timeElement).toBeInTheDocument();
       expect(timeElement?.textContent).toMatch(/\d{1,2}:\d{2}/);
     });

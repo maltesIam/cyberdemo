@@ -1,0 +1,84 @@
+{
+  "gaps": [
+    {
+      "id": "GAP-001",
+      "section": "1.2 System Overview",
+      "expected": "Substantial content",
+      "actual": "Too short (0 chars)",
+      "severity": "MEDIUM",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-002",
+      "section": "1.4 Functional Areas",
+      "expected": "Substantial content",
+      "actual": "Too short (0 chars)",
+      "severity": "MEDIUM",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-003",
+      "section": "2.4 Epics",
+      "expected": "Real content",
+      "actual": "Contains placeholder values",
+      "severity": "HIGH",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-004",
+      "section": "2.5 Technical Requirements",
+      "expected": "Real content",
+      "actual": "Contains placeholder values",
+      "severity": "HIGH",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-005",
+      "section": "2.6 Integration Requirements",
+      "expected": "Real content",
+      "actual": "Contains placeholder values",
+      "severity": "HIGH",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-006",
+      "section": "2.7 Data Requirements",
+      "expected": "Real content",
+      "actual": "Contains placeholder values",
+      "severity": "HIGH",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-007",
+      "section": "Checklist item",
+      "expected": "| [ ] | [ ] |",
+      "actual": "Not found in output",
+      "severity": "MEDIUM",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-008",
+      "section": "Checklist item",
+      "expected": "| [ ] | [ ] |",
+      "actual": "Not found in output",
+      "severity": "MEDIUM",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-009",
+      "section": "Checklist item",
+      "expected": "| [ ] | [ ] |",
+      "actual": "Not found in output",
+      "severity": "MEDIUM",
+      "fix_required": true
+    },
+    {
+      "id": "GAP-010",
+      "section": "Checklist item",
+      "expected": "| [ ] | [ ] |",
+      "actual": "Not found in output",
+      "severity": "MEDIUM",
+      "fix_required": true
+    }
+  ]
+}

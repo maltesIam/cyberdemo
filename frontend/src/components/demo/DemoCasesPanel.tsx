@@ -103,7 +103,7 @@ const ApprovalCard = ({
         type="button"
         aria-label="Approve containment"
         onClick={onApprove}
-        className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-sm rounded transition-colors"
+        className="px-3 py-1 bg-green-600 hover:bg-green-700 text-primary text-sm rounded transition-colors"
       >
         Approve
       </button>
@@ -111,7 +111,7 @@ const ApprovalCard = ({
         type="button"
         aria-label="Reject containment"
         onClick={onReject}
-        className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition-colors"
+        className="px-3 py-1 bg-red-600 hover:bg-red-700 text-primary text-sm rounded transition-colors"
       >
         Reject
       </button>
@@ -184,8 +184,8 @@ export function DemoCasesPanel({ onExecuteCase, onApprove, onReject }: DemoCases
   );
 
   return (
-    <div data-testid="demo-cases-panel" className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-      <h3 className="text-sm font-semibold text-gray-200 mb-3">Demo Cases</h3>
+    <div data-testid="demo-cases-panel" className="bg-secondary border border-primary rounded-lg p-4">
+      <h3 className="text-sm font-semibold text-primary mb-3">Demo Cases</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {DEMO_CASES.map((demoCase) => {
           const execState = execStates[demoCase.id] ?? { status: 'idle' };
@@ -205,7 +205,7 @@ export function DemoCasesPanel({ onExecuteCase, onApprove, onReject }: DemoCases
                   ? 'border-green-500/50 bg-green-900/10'
                   : needsApproval
                   ? 'border-yellow-500 bg-yellow-900/10'
-                  : 'border-gray-600 hover:border-gray-500 cursor-pointer'
+                  : 'border-primary hover:border-gray-500 cursor-pointer'
               } ${isDisabled ? 'opacity-50 pointer-events-none' : ''}`}
               onClick={() => execState.status === 'idle' && !isDisabled && handleExecute(demoCase)}
               role="button"
@@ -226,23 +226,23 @@ export function DemoCasesPanel({ onExecuteCase, onApprove, onReject }: DemoCases
               </div>
 
               {/* Card metadata */}
-              <h4 className="text-sm font-medium text-gray-200">{demoCase.name}</h4>
+              <h4 className="text-sm font-medium text-primary">{demoCase.name}</h4>
               <div className="mt-1 space-y-0.5">
-                <p className="text-xs text-gray-400">
-                  <span className="text-gray-500">Host:</span> {demoCase.host}
+                <p className="text-xs text-secondary">
+                  <span className="text-tertiary">Host:</span> {demoCase.host}
                 </p>
-                <p className="text-xs text-gray-400">
-                  <span className="text-gray-500">Type:</span> {demoCase.type}
+                <p className="text-xs text-secondary">
+                  <span className="text-tertiary">Type:</span> {demoCase.type}
                 </p>
-                <p className="text-xs text-gray-400">
-                  <span className="text-gray-500">Expected:</span>{' '}
+                <p className="text-xs text-secondary">
+                  <span className="text-tertiary">Expected:</span>{' '}
                   <span className="text-cyan-400">{demoCase.expectedResult}</span>
                 </p>
               </div>
 
               {/* Result display */}
               {isCompleted && execState.result && (
-                <div className="mt-2 px-2 py-1 bg-gray-700/50 rounded text-xs text-gray-200">
+                <div className="mt-2 px-2 py-1 bg-tertiary/50 rounded text-xs text-primary">
                   Result: {execState.result}
                 </div>
               )}

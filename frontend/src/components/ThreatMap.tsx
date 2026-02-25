@@ -180,10 +180,10 @@ export function ThreatMap({ threats, onCountryClick, onThreatClick: _onThreatCli
   };
 
   return (
-    <div className="relative bg-gray-900 rounded-xl border border-gray-700 overflow-hidden">
+    <div className="relative bg-primary rounded-xl border border-primary overflow-hidden">
       {/* Header */}
       <div className="absolute top-4 left-4 z-10">
-        <h3 className="text-lg font-bold text-white flex items-center gap-2">
+        <h3 className="text-lg font-bold text-primary flex items-center gap-2">
           <svg
             className="w-5 h-5 text-red-500 animate-pulse"
             fill="currentColor"
@@ -193,19 +193,19 @@ export function ThreatMap({ threats, onCountryClick, onThreatClick: _onThreatCli
           </svg>
           Threat Origins - Live Attack Map
         </h3>
-        <p className="text-gray-400 text-sm mt-1">
+        <p className="text-secondary text-sm mt-1">
           {threats.length} active threats from {Object.keys(threatsByCountry).length} countries
         </p>
       </div>
 
       {/* Legend */}
-      <div className="absolute top-4 right-4 z-10 bg-gray-800/80 backdrop-blur rounded-lg p-3">
-        <div className="text-xs text-gray-400 mb-2">Risk Level</div>
+      <div className="absolute top-4 right-4 z-10 bg-secondary/80 backdrop-blur rounded-lg p-3">
+        <div className="text-xs text-secondary mb-2">Risk Level</div>
         <div className="space-y-1">
           {Object.entries(riskColors).map(([level, color]) => (
             <div key={level} className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color }} />
-              <span className="text-xs text-gray-300 capitalize">{level}</span>
+              <span className="text-xs text-secondary capitalize">{level}</span>
             </div>
           ))}
         </div>
@@ -428,40 +428,40 @@ export function ThreatMap({ threats, onCountryClick, onThreatClick: _onThreatCli
 
       {/* Stats overlay */}
       <div className="absolute bottom-4 left-4 right-4 flex gap-4">
-        <div className="bg-gray-800/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
+        <div className="bg-secondary/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
           <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
           <div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-primary">
               {threatsByCountry["RU"]?.count || 0}
             </div>
-            <div className="text-xs text-gray-400">Russia</div>
+            <div className="text-xs text-secondary">Russia</div>
           </div>
         </div>
-        <div className="bg-gray-800/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
+        <div className="bg-secondary/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
           <div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse" />
           <div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-primary">
               {threatsByCountry["CN"]?.count || 0}
             </div>
-            <div className="text-xs text-gray-400">China</div>
+            <div className="text-xs text-secondary">China</div>
           </div>
         </div>
-        <div className="bg-gray-800/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
+        <div className="bg-secondary/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
           <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse" />
           <div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-primary">
               {threatsByCountry["KP"]?.count || 0}
             </div>
-            <div className="text-xs text-gray-400">North Korea</div>
+            <div className="text-xs text-secondary">North Korea</div>
           </div>
         </div>
-        <div className="bg-gray-800/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
+        <div className="bg-secondary/90 backdrop-blur rounded-lg px-4 py-2 flex items-center gap-3">
           <div className="w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
           <div>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-primary">
               {threatsByCountry["IR"]?.count || 0}
             </div>
-            <div className="text-xs text-gray-400">Iran</div>
+            <div className="text-xs text-secondary">Iran</div>
           </div>
         </div>
       </div>

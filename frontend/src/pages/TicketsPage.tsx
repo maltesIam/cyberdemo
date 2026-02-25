@@ -16,7 +16,7 @@ function PriorityBadge({ priority }: { priority: string }) {
     <span
       className={clsx(
         "px-2 py-1 rounded text-xs font-medium border",
-        colors[priority] || "bg-gray-700 text-gray-300",
+        colors[priority] || "bg-tertiary text-secondary",
       )}
     >
       {priority.toUpperCase()}
@@ -30,14 +30,14 @@ function StatusBadge({ status }: { status: string }) {
     in_progress: "bg-yellow-900/50 text-yellow-300",
     pending: "bg-purple-900/50 text-purple-300",
     resolved: "bg-green-900/50 text-green-300",
-    closed: "bg-gray-700 text-gray-400",
+    closed: "bg-tertiary text-secondary",
   };
 
   return (
     <span
       className={clsx(
         "px-2 py-1 rounded text-xs font-medium capitalize",
-        colors[status] || "bg-gray-700 text-gray-300",
+        colors[status] || "bg-tertiary text-secondary",
       )}
     >
       {status.replace("_", " ")}
@@ -83,12 +83,12 @@ function SystemBadge({ system }: { system: string }) {
     },
   };
 
-  const config = configs[system] || { bg: "bg-gray-600", icon: null };
+  const config = configs[system] || { bg: "bg-tertiary", icon: null };
 
   return (
     <div
       className={clsx(
-        "inline-flex items-center space-x-1.5 px-2 py-1 rounded text-xs font-medium text-white",
+        "inline-flex items-center space-x-1.5 px-2 py-1 rounded text-xs font-medium text-primary",
         config.bg,
       )}
     >
@@ -103,11 +103,11 @@ function TicketDetailModal({ ticketId, onClose }: { ticketId: string; onClose: (
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-gray-800 rounded-lg border border-gray-700 shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+      <div className="bg-secondary rounded-lg border border-primary shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-700 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">Ticket Details</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white">
+        <div className="px-6 py-4 border-b border-primary flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-primary">Ticket Details</h2>
+          <button onClick={onClose} className="text-secondary hover:text-primary">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -153,21 +153,21 @@ function TicketDetailModal({ ticketId, onClose }: { ticketId: string; onClose: (
               <div>
                 <div className="flex items-center space-x-3 mb-2">
                   <SystemBadge system={ticket.system} />
-                  <span className="text-gray-500 font-mono text-sm">{ticket.external_id}</span>
+                  <span className="text-tertiary font-mono text-sm">{ticket.external_id}</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white">{ticket.title}</h3>
+                <h3 className="text-xl font-semibold text-primary">{ticket.title}</h3>
               </div>
 
               {/* Status & Priority */}
               <div className="flex items-center space-x-4">
                 <div>
-                  <span className="text-gray-500 text-xs">Status</span>
+                  <span className="text-tertiary text-xs">Status</span>
                   <div className="mt-1">
                     <StatusBadge status={ticket.status} />
                   </div>
                 </div>
                 <div>
-                  <span className="text-gray-500 text-xs">Priority</span>
+                  <span className="text-tertiary text-xs">Priority</span>
                   <div className="mt-1">
                     <PriorityBadge priority={ticket.priority} />
                   </div>
@@ -176,29 +176,29 @@ function TicketDetailModal({ ticketId, onClose }: { ticketId: string; onClose: (
 
               {/* Description */}
               <div>
-                <h4 className="text-sm font-medium text-gray-400 mb-2">Description</h4>
-                <p className="text-gray-300 whitespace-pre-wrap">{ticket.description}</p>
+                <h4 className="text-sm font-medium text-secondary mb-2">Description</h4>
+                <p className="text-secondary whitespace-pre-wrap">{ticket.description}</p>
               </div>
 
               {/* Metadata */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-1">Incident ID</h4>
+                  <h4 className="text-sm font-medium text-secondary mb-1">Incident ID</h4>
                   <span className="text-cyan-400 font-mono">{ticket.incident_id.slice(0, 8)}</span>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-1">Assigned To</h4>
-                  <span className="text-white">{ticket.assigned_to || "Unassigned"}</span>
+                  <h4 className="text-sm font-medium text-secondary mb-1">Assigned To</h4>
+                  <span className="text-primary">{ticket.assigned_to || "Unassigned"}</span>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-1">Created</h4>
-                  <span className="text-gray-300">
+                  <h4 className="text-sm font-medium text-secondary mb-1">Created</h4>
+                  <span className="text-secondary">
                     {format(new Date(ticket.created_at), "PPpp")}
                   </span>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-400 mb-1">Last Updated</h4>
-                  <span className="text-gray-300">
+                  <h4 className="text-sm font-medium text-secondary mb-1">Last Updated</h4>
+                  <span className="text-secondary">
                     {format(new Date(ticket.updated_at), "PPpp")}
                   </span>
                 </div>
@@ -208,10 +208,10 @@ function TicketDetailModal({ ticketId, onClose }: { ticketId: string; onClose: (
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-700 flex justify-end space-x-3">
+        <div className="px-6 py-4 border-t border-primary flex justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
+            className="px-4 py-2 bg-tertiary text-secondary rounded-lg hover:bg-tertiary transition-colors"
           >
             Close
           </button>
@@ -247,19 +247,19 @@ export function TicketsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Tickets</h1>
-        <p className="text-gray-400 mt-1">Track tickets created across external systems</p>
+        <h1 className="text-2xl font-bold text-primary">Tickets</h1>
+        <p className="text-secondary mt-1">Track tickets created across external systems</p>
       </div>
 
       {/* Filters */}
-      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+      <div className="bg-secondary rounded-lg p-4 border border-primary">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Status</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Status</label>
             <select
               value={filters.status}
               onChange={(e) => handleFilterChange("status", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500"
             >
               <option value="">All Status</option>
               <option value="open">Open</option>
@@ -270,11 +270,11 @@ export function TicketsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Priority</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Priority</label>
             <select
               value={filters.priority}
               onChange={(e) => handleFilterChange("priority", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500"
             >
               <option value="">All Priorities</option>
               <option value="urgent">Urgent</option>
@@ -284,11 +284,11 @@ export function TicketsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">System</label>
+            <label className="block text-sm font-medium text-secondary mb-1">System</label>
             <select
               value={filters.system}
               onChange={(e) => handleFilterChange("system", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500"
             >
               <option value="">All Systems</option>
               <option value="jira">Jira</option>
@@ -300,7 +300,7 @@ export function TicketsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+      <div className="bg-secondary rounded-lg border border-primary overflow-hidden">
         {isLoading && (
           <div className="flex items-center justify-center py-16">
             <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
@@ -331,37 +331,37 @@ export function TicketsPage() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-900">
+                <thead className="bg-primary">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       System
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       External ID
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Title
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Priority
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Assigned
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Created
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-700">
                   {ticketsData.data.map((ticket: Ticket) => (
-                    <tr key={ticket.id} className="hover:bg-gray-750">
+                    <tr key={ticket.id} className="hover:bg-hover">
                       <td className="px-4 py-3">
                         <SystemBadge system={ticket.system} />
                       </td>
@@ -369,7 +369,7 @@ export function TicketsPage() {
                         {ticket.external_id}
                       </td>
                       <td className="px-4 py-3">
-                        <p className="text-white font-medium truncate max-w-xs">{ticket.title}</p>
+                        <p className="text-primary font-medium truncate max-w-xs">{ticket.title}</p>
                       </td>
                       <td className="px-4 py-3">
                         <PriorityBadge priority={ticket.priority} />
@@ -377,10 +377,10 @@ export function TicketsPage() {
                       <td className="px-4 py-3">
                         <StatusBadge status={ticket.status} />
                       </td>
-                      <td className="px-4 py-3 text-gray-300 text-sm">
+                      <td className="px-4 py-3 text-secondary text-sm">
                         {ticket.assigned_to || "-"}
                       </td>
-                      <td className="px-4 py-3 text-gray-400 text-sm">
+                      <td className="px-4 py-3 text-secondary text-sm">
                         {format(new Date(ticket.created_at), "MMM d, HH:mm")}
                       </td>
                       <td className="px-4 py-3">
@@ -417,8 +417,8 @@ export function TicketsPage() {
             </div>
 
             {/* Pagination */}
-            <div className="px-4 py-3 bg-gray-900 border-t border-gray-700 flex items-center justify-between">
-              <div className="text-sm text-gray-400">
+            <div className="px-4 py-3 bg-primary border-t border-primary flex items-center justify-between">
+              <div className="text-sm text-secondary">
                 Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, ticketsData.total)} of{" "}
                 {ticketsData.total} tickets
               </div>
@@ -426,14 +426,14 @@ export function TicketsPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={page >= ticketsData.total_pages}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
                 >
                   Next
                 </button>
@@ -445,7 +445,7 @@ export function TicketsPage() {
         {ticketsData?.data.length === 0 && (
           <div className="p-8 text-center">
             <svg
-              className="w-12 h-12 text-gray-600 mx-auto mb-4"
+              className="w-12 h-12 text-tertiary mx-auto mb-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -457,8 +457,8 @@ export function TicketsPage() {
                 d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
               />
             </svg>
-            <p className="text-gray-400">No tickets found</p>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-secondary">No tickets found</p>
+            <p className="text-tertiary text-sm mt-1">
               Tickets will appear here when incidents are processed
             </p>
           </div>

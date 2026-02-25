@@ -28,11 +28,11 @@ const getStageStatus = (stage: MitreStage): "completed" | "active" | "pending" =
 /** Tooltip component */
 const StageTooltip = ({ stage }: { stage: MitreStage }) => (
   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none">
-    <div className="bg-gray-900 border border-gray-700 rounded-lg p-2 shadow-lg min-w-[150px]">
-      <div className="text-xs font-semibold text-gray-200">{stage.tacticName}</div>
+    <div className="bg-primary border border-primary rounded-lg p-2 shadow-lg min-w-[150px]">
+      <div className="text-xs font-semibold text-primary">{stage.tacticName}</div>
       <div className="text-xs text-cyan-400">{stage.tacticId}</div>
       {stage.techniqueIds.length > 0 && (
-        <div className="text-xs text-gray-400 mt-1">
+        <div className="text-xs text-secondary mt-1">
           {stage.techniqueIds.join(", ")}
         </div>
       )}
@@ -60,7 +60,7 @@ const StageMarker = ({
   const statusClasses = {
     completed: "bg-green-500",
     active: "bg-cyan-500 animate-pulse",
-    pending: "bg-gray-600",
+    pending: "bg-tertiary",
   };
 
   const markerSize = isCompact ? "w-2 h-2" : "w-3 h-3";
@@ -77,7 +77,7 @@ const StageMarker = ({
         className={`${markerSize} rounded-full ${statusClasses[status]} transition-all cursor-pointer hover:ring-2 hover:ring-white/30`}
       />
       {!isCompact && (
-        <span className="text-[10px] text-gray-400 mt-1 whitespace-nowrap">
+        <span className="text-[10px] text-secondary mt-1 whitespace-nowrap">
           {stage.tacticName}
         </span>
       )}
@@ -122,8 +122,8 @@ export function MitreProgressBar({
     <div className="w-full">
       {/* Header with progress info */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-400">MITRE ATT&CK Progress</span>
-        <span className="text-xs text-gray-300">
+        <span className="text-xs text-secondary">MITRE ATT&CK Progress</span>
+        <span className="text-xs text-secondary">
           {completedCount}/{stages.length} ({progress}%)
         </span>
       </div>
@@ -135,7 +135,7 @@ export function MitreProgressBar({
         aria-valuemin={0}
         aria-valuemax={stages.length}
         aria-valuenow={completedCount}
-        className={`relative w-full bg-gray-700 rounded-full ${compact ? "h-2" : "h-3"}`}
+        className={`relative w-full bg-tertiary rounded-full ${compact ? "h-2" : "h-3"}`}
       >
         {/* Progress fill */}
         <div
@@ -171,7 +171,7 @@ export function MitreProgressBar({
               key={stage.tacticId}
               className="flex-1 text-center"
             >
-              <span className={`text-[10px] ${stage.active ? "text-cyan-400 font-medium" : "text-gray-500"}`}>
+              <span className={`text-[10px] ${stage.active ? "text-cyan-400 font-medium" : "text-tertiary"}`}>
                 {stage.tacticName}
               </span>
             </div>

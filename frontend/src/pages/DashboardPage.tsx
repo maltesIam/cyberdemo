@@ -9,24 +9,22 @@ interface KPICardProps {
   value: string | number;
   subtitle?: string;
   icon: React.ReactNode;
-  color: string;
+  colorVar: string;
   trend?: { value: number; direction: "up" | "down" };
 }
 
-function KPICard({ title, value, subtitle, icon, color, trend }: KPICardProps) {
+function KPICard({ title, value, subtitle, icon, colorVar, trend }: KPICardProps) {
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+    <div className="bg-secondary rounded-lg p-6 border border-primary">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-gray-400 text-sm font-medium">{title}</p>
-          <p className={clsx("text-3xl font-bold mt-2", color)}>{value}</p>
-          {subtitle && <p className="text-gray-500 text-sm mt-1">{subtitle}</p>}
+          <p className="text-secondary text-sm font-medium">{title}</p>
+          <p className="text-3xl font-bold mt-2" style={{ color: `var(${colorVar})` }}>{value}</p>
+          {subtitle && <p className="text-tertiary text-sm mt-1">{subtitle}</p>}
           {trend && (
             <div
-              className={clsx(
-                "flex items-center mt-2 text-sm",
-                trend.direction === "up" ? "text-red-400" : "text-green-400",
-              )}
+              className="flex items-center mt-2 text-sm"
+              style={{ color: trend.direction === "up" ? 'var(--color-error)' : 'var(--color-success)' }}
             >
               <svg
                 className={clsx("w-4 h-4 mr-1", trend.direction === "down" && "rotate-180")}
@@ -46,7 +44,8 @@ function KPICard({ title, value, subtitle, icon, color, trend }: KPICardProps) {
           )}
         </div>
         <div
-          className={clsx("p-3 rounded-lg", color.replace("text-", "bg-").replace("400", "900/50"))}
+          className="p-3 rounded-lg"
+          style={{ backgroundColor: `color-mix(in srgb, var(${colorVar}), transparent 80%)` }}
         >
           {icon}
         </div>
@@ -58,17 +57,17 @@ function KPICard({ title, value, subtitle, icon, color, trend }: KPICardProps) {
 function SeverityDistribution({ data }: { data: { severity: string; count: number }[] }) {
   const total = data.reduce((sum, item) => sum + item.count, 0);
   const severityColors: Record<string, string> = {
-    critical: "bg-red-500",
-    high: "bg-orange-500",
-    medium: "bg-yellow-500",
-    low: "bg-green-500",
+    critical: "bg-[var(--soc-red)]",
+    high: "bg-[var(--soc-orange)]",
+    medium: "bg-[var(--soc-yellow)]",
+    low: "bg-[var(--color-success)]",
   };
 
   if (total === 0) {
     return (
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h3 className="text-lg font-semibold text-white mb-4">Severity Distribution</h3>
-        <div className="h-64 flex items-center justify-center text-gray-500">
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h3 className="text-lg font-semibold text-primary mb-4">Severity Distribution</h3>
+        <div className="h-64 flex items-center justify-center text-tertiary">
           No incident data available
         </div>
       </div>
@@ -76,22 +75,22 @@ function SeverityDistribution({ data }: { data: { severity: string; count: numbe
   }
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <h3 className="text-lg font-semibold text-white mb-4">Severity Distribution</h3>
+    <div className="bg-secondary rounded-lg p-6 border border-primary">
+      <h3 className="text-lg font-semibold text-primary mb-4">Severity Distribution</h3>
       <div className="space-y-4">
         {data.map((item) => (
           <div key={item.severity}>
             <div className="flex items-center justify-between text-sm mb-1">
-              <span className="text-gray-300 capitalize">{item.severity}</span>
-              <span className="text-gray-400">
+              <span className="text-secondary capitalize">{item.severity}</span>
+              <span className="text-secondary">
                 {item.count} ({((item.count / total) * 100).toFixed(1)}%)
               </span>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-tertiary rounded-full h-2">
               <div
                 className={clsx(
                   "h-2 rounded-full transition-all duration-500",
-                  severityColors[item.severity] || "bg-gray-500",
+                  severityColors[item.severity] || "bg-tertiary",
                 )}
                 style={{ width: `${(item.count / total) * 100}%` }}
               />
@@ -106,9 +105,9 @@ function SeverityDistribution({ data }: { data: { severity: string; count: numbe
 function TopAffectedHosts({ data }: { data: { hostname: string; incident_count: number }[] }) {
   if (data.length === 0) {
     return (
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h3 className="text-lg font-semibold text-white mb-4">Top Affected Hosts</h3>
-        <div className="h-48 flex items-center justify-center text-gray-500">
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h3 className="text-lg font-semibold text-primary mb-4">Top Affected Hosts</h3>
+        <div className="h-48 flex items-center justify-center text-tertiary">
           No host data available
         </div>
       </div>
@@ -118,20 +117,20 @@ function TopAffectedHosts({ data }: { data: { hostname: string; incident_count: 
   const maxCount = Math.max(...data.map((h) => h.incident_count));
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <h3 className="text-lg font-semibold text-white mb-4">Top Affected Hosts</h3>
+    <div className="bg-secondary rounded-lg p-6 border border-primary">
+      <h3 className="text-lg font-semibold text-primary mb-4">Top Affected Hosts</h3>
       <div className="space-y-3">
         {data.slice(0, 5).map((host, index) => (
           <div key={host.hostname} className="flex items-center space-x-3">
-            <span className="text-gray-500 w-6">{index + 1}.</span>
+            <span className="text-tertiary w-6">{index + 1}.</span>
             <div className="flex-1">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-gray-300 font-mono text-sm">{host.hostname}</span>
-                <span className="text-gray-400 text-sm">{host.incident_count}</span>
+                <span className="text-secondary font-mono text-sm">{host.hostname}</span>
+                <span className="text-secondary text-sm">{host.incident_count}</span>
               </div>
-              <div className="w-full bg-gray-700 rounded-full h-1.5">
+              <div className="w-full bg-tertiary rounded-full h-1.5">
                 <div
-                  className="bg-cyan-500 h-1.5 rounded-full"
+                  className="bg-[var(--primary)] h-1.5 rounded-full"
                   style={{ width: `${(host.incident_count / maxCount) * 100}%` }}
                 />
               </div>
@@ -151,7 +150,7 @@ export function DashboardPage() {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <svg
-            className="w-12 h-12 animate-spin text-cyan-500 mx-auto mb-4"
+            className="w-12 h-12 animate-spin text-[var(--primary)] mx-auto mb-4"
             fill="none"
             viewBox="0 0 24 24"
           >
@@ -169,7 +168,7 @@ export function DashboardPage() {
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             />
           </svg>
-          <p className="text-gray-400">Loading dashboard...</p>
+          <p className="text-secondary">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -178,9 +177,9 @@ export function DashboardPage() {
   if (error) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="text-center bg-red-900/20 border border-red-700 rounded-lg p-8">
+        <div className="text-center rounded-lg p-8 border border-[var(--color-error)]" style={{ backgroundColor: 'color-mix(in srgb, var(--color-error-dark), transparent 80%)' }}>
           <svg
-            className="w-12 h-12 text-red-500 mx-auto mb-4"
+            className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--color-error)' }}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -192,8 +191,8 @@ export function DashboardPage() {
               d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
             />
           </svg>
-          <p className="text-red-400 font-medium">Failed to load dashboard</p>
-          <p className="text-gray-500 text-sm mt-2">{error.message}</p>
+          <p className="font-medium" style={{ color: 'var(--color-error)' }}>Failed to load dashboard</p>
+          <p className="text-tertiary text-sm mt-2">{error.message}</p>
         </div>
       </div>
     );
@@ -218,8 +217,8 @@ export function DashboardPage() {
       {/* Header with Enrichment Buttons */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-gray-400 mt-1">Real-time security operations overview</p>
+          <h1 className="text-2xl font-bold text-primary">Dashboard</h1>
+          <p className="text-secondary mt-1">Real-time security operations overview</p>
         </div>
         <EnrichmentButtons onEnrichmentComplete={() => window.location.reload()} />
       </div>
@@ -230,10 +229,11 @@ export function DashboardPage() {
           title="Total Incidents"
           value={data.total_incidents}
           subtitle="Active & resolved"
-          color="text-cyan-400"
+          colorVar="--color-info"
           icon={
             <svg
-              className="w-6 h-6 text-cyan-400"
+              className="w-6 h-6"
+              style={{ color: 'var(--color-info)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -251,11 +251,12 @@ export function DashboardPage() {
           title="Critical Open"
           value={data.critical_open}
           subtitle="Requires immediate attention"
-          color="text-red-400"
+          colorVar="--color-error"
           trend={{ value: 12, direction: "up" }}
           icon={
             <svg
-              className="w-6 h-6 text-red-400"
+              className="w-6 h-6"
+              style={{ color: 'var(--color-error)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -273,10 +274,11 @@ export function DashboardPage() {
           title="Hosts Contained"
           value={data.hosts_contained}
           subtitle="Network isolated"
-          color="text-orange-400"
+          colorVar="--color-warning"
           icon={
             <svg
-              className="w-6 h-6 text-orange-400"
+              className="w-6 h-6"
+              style={{ color: 'var(--color-warning)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -294,11 +296,12 @@ export function DashboardPage() {
           title="MTTR"
           value={`${data.mttr_hours.toFixed(1)}h`}
           subtitle="Mean time to resolve"
-          color="text-green-400"
+          colorVar="--color-success"
           trend={{ value: 8, direction: "down" }}
           icon={
             <svg
-              className="w-6 h-6 text-green-400"
+              className="w-6 h-6"
+              style={{ color: 'var(--color-success)' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

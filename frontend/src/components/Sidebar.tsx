@@ -254,12 +254,12 @@ const navItems: NavItem[] = [
 
 export function Sidebar() {
   return (
-    <aside className="w-64 bg-gray-800 min-h-screen flex flex-col">
-      <div className="p-4 border-b border-gray-700">
+    <aside className="w-64 bg-secondary min-h-screen flex flex-col">
+      <div className="p-4 border-b border-primary">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-primary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -273,8 +273,11 @@ export function Sidebar() {
             </svg>
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">CyberDemo</h1>
-            <p className="text-xs text-gray-400">SOC Dashboard</p>
+            <h1 className="text-lg tracking-tight" style={{ fontWeight: 800 }}>
+              <span className="text-primary">Soul</span>
+              <span style={{ color: 'var(--primary)' }}>Bot</span>
+            </h1>
+            <p className="text-xs text-secondary">Security Platform</p>
           </div>
         </div>
       </div>
@@ -288,8 +291,8 @@ export function Sidebar() {
               clsx(
                 "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors",
                 isActive
-                  ? "bg-cyan-600 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                  ? "bg-[var(--primary-600)] text-inverse"
+                  : "text-secondary hover:bg-tertiary hover:text-primary",
               )
             }
           >
@@ -299,9 +302,9 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-gray-700">
-        <div className="flex items-center space-x-3 text-gray-400">
-          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+      <div className="p-4 border-t border-primary">
+        <div className="flex items-center space-x-3 text-secondary">
+          <div className="w-8 h-8 bg-tertiary rounded-full flex items-center justify-center">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -312,7 +315,7 @@ export function Sidebar() {
             </svg>
           </div>
           <div className="text-sm">
-            <p className="text-gray-300">SOC Analyst</p>
+            <p className="text-secondary">SOC Analyst</p>
             <p className="text-xs">Demo Mode</p>
           </div>
         </div>

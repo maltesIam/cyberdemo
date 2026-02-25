@@ -58,7 +58,7 @@ export function CVEAssetsPage() {
   };
 
   const statusColors: Record<string, string> = {
-    pending: "text-gray-400 bg-gray-500/10",
+    pending: "text-secondary bg-gray-500/10",
     in_progress: "text-blue-400 bg-blue-500/10",
     remediated: "text-green-400 bg-green-500/10",
     accepted_risk: "text-yellow-400 bg-yellow-500/10",
@@ -97,7 +97,7 @@ export function CVEAssetsPage() {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
               />
             </svg>
-            <span className="text-gray-400">Loading affected assets...</span>
+            <span className="text-secondary">Loading affected assets...</span>
           </div>
         </div>
       </div>
@@ -119,12 +119,12 @@ export function CVEAssetsPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="text-red-500 text-xl mb-2">Error</div>
-            <p className="text-gray-400">
+            <p className="text-secondary">
               {error instanceof Error ? error.message : "Failed to load assets"}
             </p>
             <button
               onClick={() => navigate(`/vulnerabilities/cves/${cveId}`)}
-              className="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg"
+              className="mt-4 px-4 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg"
             >
               Back to CVE Details
             </button>
@@ -148,23 +148,23 @@ export function CVEAssetsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-primary flex items-center gap-3">
             <Link
               to={`/vulnerabilities/cves/${cveId}`}
               className="text-cyan-400 hover:text-cyan-300"
             >
               {cveId}
             </Link>
-            <span className="text-gray-500">/</span>
+            <span className="text-tertiary">/</span>
             <span>Affected Assets</span>
           </h1>
-          <p className="text-gray-400 mt-1">
+          <p className="text-secondary mt-1">
             <span className="text-cyan-400 font-medium">{data?.total ?? 0}</span> assets affected by this vulnerability
           </p>
         </div>
         <button
           onClick={() => navigate(-1)}
-          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg flex items-center gap-2"
+          className="px-4 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg flex items-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -174,30 +174,30 @@ export function CVEAssetsPage() {
       </div>
 
       {/* Table */}
-      <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden">
+      <div className="flex-1 bg-secondary rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-900/50">
+            <thead className="bg-primary/50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase">
                   Hostname
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase">
                   IP Address
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase">
                   Type
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase">
                   Criticality
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase">
                   Business Unit
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase">
                   Detected
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase">
                   Status
                 </th>
               </tr>
@@ -206,15 +206,15 @@ export function CVEAssetsPage() {
               {data?.assets.map((asset) => (
                 <tr
                   key={asset.asset_id}
-                  className="hover:bg-gray-700/50 transition-colors"
+                  className="hover:bg-tertiary/50 transition-colors"
                 >
-                  <td className="px-4 py-3 text-sm text-white font-mono">
+                  <td className="px-4 py-3 text-sm text-primary font-mono">
                     {asset.hostname}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-300 font-mono">
+                  <td className="px-4 py-3 text-sm text-secondary font-mono">
                     {asset.ip_address}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-400 capitalize">
+                  <td className="px-4 py-3 text-sm text-secondary capitalize">
                     {asset.asset_type}
                   </td>
                   <td className="px-4 py-3">
@@ -227,17 +227,17 @@ export function CVEAssetsPage() {
                       {asset.criticality}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-300">
+                  <td className="px-4 py-3 text-sm text-secondary">
                     {asset.business_unit}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-400">
+                  <td className="px-4 py-3 text-sm text-secondary">
                     {asset.detection_date}
                   </td>
                   <td className="px-4 py-3">
                     <span
                       className={clsx(
                         "px-2 py-1 rounded text-xs font-medium capitalize",
-                        statusColors[asset.remediation_status] ?? "text-gray-400 bg-gray-500/10"
+                        statusColors[asset.remediation_status] ?? "text-secondary bg-gray-500/10"
                       )}
                     >
                       {asset.remediation_status.replace("_", " ")}
@@ -254,7 +254,7 @@ export function CVEAssetsPage() {
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
               <svg
-                className="w-12 h-12 text-gray-600 mx-auto mb-4"
+                className="w-12 h-12 text-tertiary mx-auto mb-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -266,7 +266,7 @@ export function CVEAssetsPage() {
                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                 />
               </svg>
-              <p className="text-gray-500">No affected assets found</p>
+              <p className="text-tertiary">No affected assets found</p>
             </div>
           </div>
         )}
@@ -276,9 +276,9 @@ export function CVEAssetsPage() {
       {data && data.total_pages > 1 && (
         <nav
           aria-label="Pagination"
-          className="flex items-center justify-between bg-gray-800 rounded-lg px-4 py-3"
+          className="flex items-center justify-between bg-secondary rounded-lg px-4 py-3"
         >
-          <div className="text-sm text-gray-400">
+          <div className="text-sm text-secondary">
             Page {data.page} of {data.total_pages}
           </div>
           <div className="flex items-center gap-2">
@@ -289,8 +289,8 @@ export function CVEAssetsPage() {
               className={clsx(
                 "px-3 py-1 rounded text-sm",
                 page === 1
-                  ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-700 hover:bg-gray-600 text-white"
+                  ? "bg-tertiary text-tertiary cursor-not-allowed"
+                  : "bg-tertiary hover:bg-tertiary text-primary"
               )}
             >
               Previous
@@ -302,8 +302,8 @@ export function CVEAssetsPage() {
               className={clsx(
                 "px-3 py-1 rounded text-sm",
                 page === data.total_pages
-                  ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                  : "bg-gray-700 hover:bg-gray-600 text-white"
+                  ? "bg-tertiary text-tertiary cursor-not-allowed"
+                  : "bg-tertiary hover:bg-tertiary text-primary"
               )}
             >
               Next

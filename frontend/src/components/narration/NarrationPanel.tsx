@@ -116,7 +116,7 @@ const ConfidenceIndicator = ({ level }: { level: ConfidenceLevel }) => {
         data-testid="confidence-indicator"
         className={`w-2 h-2 rounded-full ${colorClass}`}
       />
-      <span className="text-xs text-gray-400 capitalize">{level}</span>
+      <span className="text-xs text-secondary capitalize">{level}</span>
     </div>
   );
 };
@@ -126,19 +126,19 @@ const NarrationMessageItem = ({ message }: { message: NarrationMessage }) => {
   const Icon = MessageTypeIcons[message.type];
 
   return (
-    <div className="p-3 border-b border-gray-700 last:border-b-0 hover:bg-gray-700/50 transition-colors">
+    <div className="p-3 border-b border-primary last:border-b-0 hover:bg-tertiary/50 transition-colors">
       <div className="flex items-start space-x-3">
         <div className="flex-shrink-0 text-cyan-400">
           <Icon />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-tertiary">
               {formatTimestamp(message.timestamp)}
             </span>
             <ConfidenceIndicator level={message.confidence} />
           </div>
-          <p className="text-sm text-gray-200 break-words">{message.content}</p>
+          <p className="text-sm text-primary break-words">{message.content}</p>
         </div>
       </div>
     </div>
@@ -167,7 +167,7 @@ const ToggleSwitch = ({
       />
       <div
         className={`w-10 h-5 rounded-full transition-colors ${
-          checked ? "bg-cyan-600" : "bg-gray-600"
+          checked ? "bg-cyan-600" : "bg-tertiary"
         }`}
       />
       <div
@@ -176,7 +176,7 @@ const ToggleSwitch = ({
         }`}
       />
     </div>
-    <span className="ml-2 text-xs text-gray-400">
+    <span className="ml-2 text-xs text-secondary">
       {checked ? "Enabled" : "Disabled"}
     </span>
   </label>
@@ -200,10 +200,10 @@ const CollapseToggle = ({
         onClick();
       }
     }}
-    className="p-1 rounded hover:bg-gray-700 transition-colors"
+    className="p-1 rounded hover:bg-tertiary transition-colors"
   >
     <svg
-      className={`w-5 h-5 text-gray-400 transition-transform ${
+      className={`w-5 h-5 text-secondary transition-transform ${
         isCollapsed ? "rotate-180" : ""
       }`}
       fill="none"
@@ -271,12 +271,12 @@ export function NarrationPanel({
     <aside
       role="region"
       aria-label="Agent Narration Panel"
-      className={`bg-gray-800 border-l border-gray-700 flex flex-col transition-all duration-300 ${
+      className={`bg-secondary border-l border-primary flex flex-col transition-all duration-300 ${
         isCollapsed ? "w-12" : "w-80"
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-700">
+      <div className="flex items-center justify-between p-3 border-b border-primary">
         {!isCollapsed && (
           <div className="flex items-center space-x-2">
             <svg
@@ -292,13 +292,13 @@ export function NarrationPanel({
                 d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
               />
             </svg>
-            <h2 className="text-sm font-semibold text-white">Agent Narration</h2>
+            <h2 className="text-sm font-semibold text-primary">Agent Narration</h2>
           </div>
         )}
 
         <div className="flex items-center space-x-2">
           {isCollapsed && messages.length > 0 && (
-            <span className="flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-cyan-600 rounded-full">
+            <span className="flex items-center justify-center w-5 h-5 text-xs font-bold text-primary bg-cyan-600 rounded-full">
               {messages.length}
             </span>
           )}
@@ -310,8 +310,8 @@ export function NarrationPanel({
       {!isCollapsed && (
         <>
           {/* Controls */}
-          <div className="flex items-center justify-between p-3 border-b border-gray-700 bg-gray-800/50">
-            <span className="text-xs text-gray-400">Narration</span>
+          <div className="flex items-center justify-between p-3 border-b border-primary bg-secondary/50">
+            <span className="text-xs text-secondary">Narration</span>
             <ToggleSwitch
               checked={isNarrationEnabled}
               onChange={handleNarrationToggle}
@@ -325,7 +325,7 @@ export function NarrationPanel({
             className="flex-1 overflow-y-auto"
           >
             {messages.length === 0 ? (
-              <div className="flex items-center justify-center h-32 text-gray-500 text-sm">
+              <div className="flex items-center justify-center h-32 text-tertiary text-sm">
                 No messages yet
               </div>
             ) : (

@@ -133,7 +133,7 @@ function LayerButton({
         compact ? "px-2 py-1.5" : "px-3 py-2",
         isEnabled
           ? "border-transparent shadow-md"
-          : "border-gray-600 bg-gray-800 text-gray-400 hover:bg-gray-700 hover:border-gray-500",
+          : "border-primary bg-secondary text-secondary hover:bg-tertiary hover:border-gray-500",
       )}
       style={
         isEnabled
@@ -192,8 +192,8 @@ function LayerLegend({ layers }: { layers: LayerState[] }) {
   if (enabledLayers.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-1.5 ml-3 pl-3 border-l border-gray-600">
-      <span className="text-xs text-gray-500">Active:</span>
+    <div className="flex items-center gap-1.5 ml-3 pl-3 border-l border-primary">
+      <span className="text-xs text-tertiary">Active:</span>
       <div className="flex items-center gap-1">
         {enabledLayers.map((layer) => (
           <span
@@ -227,7 +227,7 @@ export function LayerToggle({
   return (
     <div className={clsx("flex flex-col gap-3", className)}>
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-medium text-gray-300">Visualization Layers</h3>
+        <h3 className="text-sm font-medium text-secondary">Visualization Layers</h3>
         <LayerLegend layers={layers} />
       </div>
 
@@ -256,7 +256,7 @@ export function LayerToggle({
         >
           Enable All
         </button>
-        <span className="text-gray-600">|</span>
+        <span className="text-tertiary">|</span>
         <button
           onClick={() => {
             // Disable all except base
@@ -264,7 +264,7 @@ export function LayerToggle({
               if (l.enabled && l.id !== "base") onToggle(l.id);
             });
           }}
-          className="text-xs text-gray-400 hover:text-gray-300 transition-colors"
+          className="text-xs text-secondary hover:text-secondary transition-colors"
         >
           Reset
         </button>
@@ -293,7 +293,7 @@ export function LayerToggleInline({
             onClick={() => onToggle(layerId)}
             className={clsx(
               "w-7 h-7 rounded flex items-center justify-center transition-all",
-              layer.enabled ? "shadow-sm" : "bg-gray-800 text-gray-500 hover:bg-gray-700",
+              layer.enabled ? "shadow-sm" : "bg-secondary text-tertiary hover:bg-tertiary",
             )}
             style={
               layer.enabled

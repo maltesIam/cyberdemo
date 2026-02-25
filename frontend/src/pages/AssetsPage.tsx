@@ -1,3 +1,9 @@
+/**
+ * AssetsPage - Asset Management Page
+ *
+ * Migrated to AgentFlow Design Tokens (REQ-005-006-003)
+ */
+
 import { useState, useMemo } from "react";
 import clsx from "clsx";
 import { format } from "date-fns";
@@ -31,17 +37,17 @@ interface FilterState {
 }
 
 function RiskBadge({ score }: { score: number }) {
-  let color = "bg-green-900 text-green-300";
+  let color = "bg-[var(--color-success-dark)] text-[var(--color-success)]";
   let label = "Low";
 
   if (score >= 80) {
-    color = "bg-red-900 text-red-300";
+    color = "bg-[var(--color-error-dark)] text-[var(--color-error)]";
     label = "Critical";
   } else if (score >= 60) {
-    color = "bg-orange-900 text-orange-300";
+    color = "bg-[var(--soc-orange)]/20 text-[var(--soc-orange)]";
     label = "High";
   } else if (score >= 40) {
-    color = "bg-yellow-900 text-yellow-300";
+    color = "bg-[var(--color-warning-dark)] text-[var(--color-warning)]";
     label = "Medium";
   }
 
@@ -57,10 +63,10 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
 
   if (isLoading) {
     return (
-      <div className="fixed inset-y-0 right-0 w-96 bg-gray-800 border-l border-gray-700 shadow-xl z-50 overflow-y-auto">
+      <div className="fixed inset-y-0 right-0 w-96 bg-secondary border-l border-primary shadow-xl z-50 overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-center h-64">
-            <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 animate-spin text-[var(--color-secondary-400)]" fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -83,11 +89,11 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
 
   if (error || !asset) {
     return (
-      <div className="fixed inset-y-0 right-0 w-96 bg-gray-800 border-l border-gray-700 shadow-xl z-50">
+      <div className="fixed inset-y-0 right-0 w-96 bg-secondary border-l border-primary shadow-xl z-50">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-white">Asset Details</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-white">
+            <h2 className="text-lg font-semibold text-primary">Asset Details</h2>
+            <button onClick={onClose} className="text-secondary hover:text-primary">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -98,18 +104,18 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
               </svg>
             </button>
           </div>
-          <div className="text-red-400">Failed to load asset details</div>
+          <div className="text-[var(--color-error)]">Failed to load asset details</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="fixed inset-y-0 right-0 w-96 bg-gray-800 border-l border-gray-700 shadow-xl z-50 overflow-y-auto">
+    <div className="fixed inset-y-0 right-0 w-96 bg-secondary border-l border-primary shadow-xl z-50 overflow-y-auto">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-white">Asset Details</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-white">
+          <h2 className="text-lg font-semibold text-primary">Asset Details</h2>
+          <button onClick={onClose} className="text-secondary hover:text-primary">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -124,27 +130,27 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
         <div className="space-y-6">
           {/* Basic Info */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 mb-3">Basic Information</h3>
+            <h3 className="text-sm font-medium text-secondary mb-3">Basic Information</h3>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-500">Hostname</span>
-                <span className="text-white font-mono">{asset.hostname}</span>
+                <span className="text-tertiary">Hostname</span>
+                <span className="text-primary font-mono">{asset.hostname}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">IP Address</span>
-                <span className="text-white font-mono">{asset.ip}</span>
+                <span className="text-tertiary">IP Address</span>
+                <span className="text-primary font-mono">{asset.ip}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">MAC Address</span>
-                <span className="text-white font-mono text-sm">{asset.mac}</span>
+                <span className="text-tertiary">MAC Address</span>
+                <span className="text-primary font-mono text-sm">{asset.mac}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Type</span>
-                <span className="text-white capitalize">{asset.type.replace("_", " ")}</span>
+                <span className="text-tertiary">Type</span>
+                <span className="text-primary capitalize">{asset.type.replace("_", " ")}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">OS</span>
-                <span className="text-white">
+                <span className="text-tertiary">OS</span>
+                <span className="text-primary">
                   {asset.os} {asset.os_version}
                 </span>
               </div>
@@ -153,28 +159,28 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
 
           {/* Owner Info */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 mb-3">Ownership</h3>
+            <h3 className="text-sm font-medium text-secondary mb-3">Ownership</h3>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-500">Owner</span>
-                <span className="text-white">{asset.owner}</span>
+                <span className="text-tertiary">Owner</span>
+                <span className="text-primary">{asset.owner}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Department</span>
-                <span className="text-white">{asset.department}</span>
+                <span className="text-tertiary">Department</span>
+                <span className="text-primary">{asset.department}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Site</span>
-                <span className="text-white">{asset.site}</span>
+                <span className="text-tertiary">Site</span>
+                <span className="text-primary">{asset.site}</span>
               </div>
             </div>
           </div>
 
           {/* Risk Score */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 mb-3">Risk Assessment</h3>
+            <h3 className="text-sm font-medium text-secondary mb-3">Risk Assessment</h3>
             <div className="flex items-center justify-between">
-              <span className="text-gray-500">Risk Score</span>
+              <span className="text-tertiary">Risk Score</span>
               <RiskBadge score={asset.risk_score} />
             </div>
           </div>
@@ -182,10 +188,10 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
           {/* Tags */}
           {asset.tags.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 mb-3">Tags</h3>
+              <h3 className="text-sm font-medium text-secondary mb-3">Tags</h3>
               <div className="flex flex-wrap gap-2">
                 {asset.tags.map((tag) => (
-                  <span key={tag} className="px-2 py-1 bg-gray-700 text-gray-300 rounded text-xs">
+                  <span key={tag} className="px-2 py-1 bg-tertiary text-secondary rounded text-xs">
                     {tag}
                   </span>
                 ))}
@@ -196,12 +202,12 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
           {/* Open Ports */}
           {asset.open_ports.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 mb-3">Open Ports</h3>
+              <h3 className="text-sm font-medium text-secondary mb-3">Open Ports</h3>
               <div className="flex flex-wrap gap-2">
                 {asset.open_ports.map((port) => (
                   <span
                     key={port}
-                    className="px-2 py-1 bg-cyan-900/50 text-cyan-300 rounded text-xs font-mono"
+                    className="px-2 py-1 bg-[var(--color-secondary-600)]/20 text-[var(--color-secondary-400)] rounded text-xs font-mono"
                   >
                     {port}
                   </span>
@@ -213,27 +219,27 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
           {/* Vulnerabilities */}
           {asset.vulnerabilities.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 mb-3">
+              <h3 className="text-sm font-medium text-secondary mb-3">
                 Vulnerabilities ({asset.vulnerabilities.length})
               </h3>
               <div className="space-y-2">
                 {asset.vulnerabilities.slice(0, 5).map((vuln) => (
-                  <div key={vuln.cve_id} className="p-2 bg-gray-900 rounded border border-gray-700">
+                  <div key={vuln.cve_id} className="p-2 bg-primary rounded border border-primary">
                     <div className="flex items-center justify-between">
-                      <span className="text-cyan-400 font-mono text-sm">{vuln.cve_id}</span>
+                      <span className="text-[var(--color-secondary-400)] font-mono text-sm">{vuln.cve_id}</span>
                       <span
                         className={clsx(
                           "text-xs px-1.5 py-0.5 rounded",
-                          vuln.severity === "critical" && "bg-red-900 text-red-300",
-                          vuln.severity === "high" && "bg-orange-900 text-orange-300",
-                          vuln.severity === "medium" && "bg-yellow-900 text-yellow-300",
-                          vuln.severity === "low" && "bg-green-900 text-green-300",
+                          vuln.severity === "critical" && "bg-[var(--color-error)]/20 text-[var(--color-error)]",
+                          vuln.severity === "high" && "bg-[var(--soc-orange)]/20 text-[var(--soc-orange)]",
+                          vuln.severity === "medium" && "bg-[var(--color-warning)]/20 text-[var(--color-warning)]",
+                          vuln.severity === "low" && "bg-[var(--color-success)]/20 text-[var(--color-success)]",
                         )}
                       >
                         CVSS {vuln.cvss_score.toFixed(1)}
                       </span>
                     </div>
-                    <p className="text-gray-400 text-xs mt-1 line-clamp-2">{vuln.description}</p>
+                    <p className="text-secondary text-xs mt-1 line-clamp-2">{vuln.description}</p>
                   </div>
                 ))}
               </div>
@@ -241,10 +247,10 @@ function AssetDetailPanel({ assetId, onClose }: { assetId: string; onClose: () =
           )}
 
           {/* Last Seen */}
-          <div className="pt-4 border-t border-gray-700">
+          <div className="pt-4 border-t border-primary">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Last Seen</span>
-              <span className="text-gray-400">{format(new Date(asset.last_seen), "PPpp")}</span>
+              <span className="text-tertiary">Last Seen</span>
+              <span className="text-secondary">{format(new Date(asset.last_seen), "PPpp")}</span>
             </div>
           </div>
         </div>
@@ -263,7 +269,7 @@ function LayerToggle({
 }) {
   return (
     <div className="flex items-center space-x-2">
-      <span className="text-sm text-gray-400 mr-2">Layers:</span>
+      <span className="text-sm text-secondary mr-2">Layers:</span>
       {(Object.keys(LAYER_LABELS) as AssetLayer[]).map((layer) => {
         const isActive = activeLayers.includes(layer);
         return (
@@ -272,7 +278,7 @@ function LayerToggle({
             onClick={() => onToggle(layer)}
             className={clsx(
               "px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
-              isActive ? "bg-cyan-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600",
+              isActive ? "bg-[var(--color-secondary-600)] text-inverse" : "bg-tertiary text-secondary hover:bg-hover",
             )}
           >
             {LAYER_LABELS[layer]}
@@ -344,37 +350,37 @@ export function AssetsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Assets</h1>
-        <p className="text-gray-400 mt-1">Manage and monitor your infrastructure assets</p>
+        <h1 className="text-2xl font-bold text-primary">Assets</h1>
+        <p className="text-secondary mt-1">Manage and monitor your infrastructure assets</p>
       </div>
 
       {/* Layer Toggle */}
-      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+      <div className="bg-secondary rounded-lg p-4 border border-primary">
         <LayerToggle activeLayers={activeLayers} onToggle={handleLayerToggle} />
       </div>
 
       {/* Filters */}
-      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+      <div className="bg-secondary rounded-lg p-4 border border-primary">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Search */}
           <div className="lg:col-span-2">
-            <label className="block text-sm font-medium text-gray-400 mb-1">Search</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Search</label>
             <input
               type="text"
               value={filters.search}
               onChange={(e) => handleFilterChange("search", e.target.value)}
               placeholder="Hostname, IP, owner..."
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary placeholder:text-tertiary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             />
           </div>
 
           {/* Type Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Type</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Type</label>
             <select
               value={filters.type}
               onChange={(e) => handleFilterChange("type", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             >
               <option value="">All Types</option>
               <option value="workstation">Workstation</option>
@@ -387,11 +393,11 @@ export function AssetsPage() {
 
           {/* OS Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">OS</label>
+            <label className="block text-sm font-medium text-secondary mb-1">OS</label>
             <select
               value={filters.os}
               onChange={(e) => handleFilterChange("os", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             >
               <option value="">All OS</option>
               <option value="Windows">Windows</option>
@@ -402,7 +408,7 @@ export function AssetsPage() {
 
           {/* Risk Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Risk Score</label>
+            <label className="block text-sm font-medium text-secondary mb-1">Risk Score</label>
             <select
               value={`${filters.riskMin}-${filters.riskMax}`}
               onChange={(e) => {
@@ -410,7 +416,7 @@ export function AssetsPage() {
                 setFilters((prev) => ({ ...prev, riskMin: min, riskMax: max }));
                 setPage(1);
               }}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-[var(--border-focus)]"
             >
               <option value="0-100">All Risk Levels</option>
               <option value="80-100">Critical (80-100)</option>
@@ -423,10 +429,10 @@ export function AssetsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+      <div className="bg-secondary rounded-lg border border-primary overflow-hidden">
         {isLoading && (
           <div className="flex items-center justify-center py-16">
-            <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 animate-spin text-[var(--color-secondary-400)]" fill="none" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -446,7 +452,7 @@ export function AssetsPage() {
 
         {error && (
           <div className="p-8 text-center">
-            <p className="text-red-400">Failed to load assets: {error.message}</p>
+            <p className="text-[var(--color-error)]">Failed to load assets: {error.message}</p>
           </div>
         )}
 
@@ -454,81 +460,81 @@ export function AssetsPage() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-900">
+                <thead className="bg-primary">
                   <tr>
                     {/* Base Layer Columns */}
                     {visibleColumns.includes("hostname") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Hostname
                       </th>
                     )}
                     {visibleColumns.includes("network") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         IP
                       </th>
                     )}
                     {visibleColumns.includes("os") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         OS
                       </th>
                     )}
                     {visibleColumns.includes("owner") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Owner
                       </th>
                     )}
                     {/* EDR Layer Columns */}
                     {visibleColumns.includes("detectionCount") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Detection Count
                       </th>
                     )}
                     {visibleColumns.includes("lastAlert") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Last Alert
                       </th>
                     )}
                     {/* SIEM Layer Columns */}
                     {visibleColumns.includes("incidentCount") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Incident Count
                       </th>
                     )}
                     {visibleColumns.includes("severity") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Severity
                       </th>
                     )}
                     {/* CTEM Layer Columns */}
                     {visibleColumns.includes("riskColor") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         Risk
                       </th>
                     )}
                     {visibleColumns.includes("cveCount") && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                         CVE Count
                       </th>
                     )}
                     {/* Always show tags */}
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Tags
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-700">
+                <tbody className="divide-y divide-[var(--border-primary)]">
                   {assetsData.data.map((asset: Asset) => (
                     <tr
                       key={asset.id}
                       onClick={() => setSelectedAssetId(asset.id)}
-                      className="hover:bg-gray-750 cursor-pointer transition-colors"
+                      className="hover:bg-hover cursor-pointer transition-colors"
                     >
                       {/* Base Layer Cells */}
                       {visibleColumns.includes("hostname") && (
                         <td className="px-4 py-3">
                           <div className="flex items-center space-x-2">
                             <svg
-                              className="w-4 h-4 text-gray-500"
+                              className="w-4 h-4 text-tertiary"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -540,29 +546,29 @@ export function AssetsPage() {
                                 d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                               />
                             </svg>
-                            <span className="text-white font-mono">{asset.hostname}</span>
+                            <span className="text-primary font-mono">{asset.hostname}</span>
                           </div>
                         </td>
                       )}
                       {visibleColumns.includes("network") && (
-                        <td className="px-4 py-3 text-gray-300 font-mono text-sm">{asset.ip}</td>
+                        <td className="px-4 py-3 text-secondary font-mono text-sm">{asset.ip}</td>
                       )}
                       {visibleColumns.includes("os") && (
-                        <td className="px-4 py-3 text-gray-300">{asset.os}</td>
+                        <td className="px-4 py-3 text-secondary">{asset.os}</td>
                       )}
                       {visibleColumns.includes("owner") && (
-                        <td className="px-4 py-3 text-gray-300">{asset.owner}</td>
+                        <td className="px-4 py-3 text-secondary">{asset.owner}</td>
                       )}
                       {/* EDR Layer Cells - Using synthetic data */}
                       {visibleColumns.includes("detectionCount") && (
                         <td className="px-4 py-3">
-                          <span className="px-2 py-1 bg-purple-900/50 text-purple-300 rounded text-sm font-medium">
+                          <span className="px-2 py-1 bg-[var(--accent)]/20 text-[var(--accent)] rounded text-sm font-medium">
                             {Math.floor(asset.risk_score / 10)}
                           </span>
                         </td>
                       )}
                       {visibleColumns.includes("lastAlert") && (
-                        <td className="px-4 py-3 text-gray-400 text-sm">
+                        <td className="px-4 py-3 text-secondary text-sm">
                           {asset.risk_score > 50
                             ? format(new Date(asset.last_seen), "MMM d, HH:mm")
                             : "-"}
@@ -571,7 +577,7 @@ export function AssetsPage() {
                       {/* SIEM Layer Cells - Using synthetic data */}
                       {visibleColumns.includes("incidentCount") && (
                         <td className="px-4 py-3">
-                          <span className="px-2 py-1 bg-blue-900/50 text-blue-300 rounded text-sm font-medium">
+                          <span className="px-2 py-1 bg-[var(--color-info)]/20 text-[var(--color-info)] rounded text-sm font-medium">
                             {Math.floor(asset.risk_score / 20)}
                           </span>
                         </td>
@@ -581,14 +587,14 @@ export function AssetsPage() {
                           <span
                             className={clsx(
                               "px-2 py-1 rounded text-xs font-medium",
-                              asset.risk_score >= 80 && "bg-red-900 text-red-300",
+                              asset.risk_score >= 80 && "bg-[var(--color-error)]/20 text-[var(--color-error)]",
                               asset.risk_score >= 60 &&
                                 asset.risk_score < 80 &&
-                                "bg-orange-900 text-orange-300",
+                                "bg-[var(--soc-orange)]/20 text-[var(--soc-orange)]",
                               asset.risk_score >= 40 &&
                                 asset.risk_score < 60 &&
-                                "bg-yellow-900 text-yellow-300",
-                              asset.risk_score < 40 && "bg-green-900 text-green-300",
+                                "bg-[var(--color-warning)]/20 text-[var(--color-warning)]",
+                              asset.risk_score < 40 && "bg-[var(--color-success)]/20 text-[var(--color-success)]",
                             )}
                           >
                             {asset.risk_score >= 80
@@ -609,7 +615,7 @@ export function AssetsPage() {
                       )}
                       {visibleColumns.includes("cveCount") && (
                         <td className="px-4 py-3">
-                          <span className="px-2 py-1 bg-red-900/50 text-red-300 rounded text-sm font-medium">
+                          <span className="px-2 py-1 bg-[var(--color-error)]/20 text-[var(--color-error)] rounded text-sm font-medium">
                             {asset.vulnerabilities?.length ?? 0}
                           </span>
                         </td>
@@ -620,13 +626,13 @@ export function AssetsPage() {
                           {asset.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="px-1.5 py-0.5 bg-gray-700 text-gray-400 rounded text-xs"
+                              className="px-1.5 py-0.5 bg-tertiary text-secondary rounded text-xs"
                             >
                               {tag}
                             </span>
                           ))}
                           {asset.tags.length > 3 && (
-                            <span className="px-1.5 py-0.5 text-gray-500 text-xs">
+                            <span className="px-1.5 py-0.5 text-tertiary text-xs">
                               +{asset.tags.length - 3}
                             </span>
                           )}
@@ -639,8 +645,8 @@ export function AssetsPage() {
             </div>
 
             {/* Pagination */}
-            <div className="px-4 py-3 bg-gray-900 border-t border-gray-700 flex items-center justify-between">
-              <div className="text-sm text-gray-400">
+            <div className="px-4 py-3 bg-primary border-t border-primary flex items-center justify-between">
+              <div className="text-sm text-secondary">
                 Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, assetsData.total)} of{" "}
                 {assetsData.total} assets
               </div>
@@ -648,14 +654,14 @@ export function AssetsPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-hover"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={page >= assetsData.total_pages}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-hover"
                 >
                   Next
                 </button>
@@ -667,7 +673,7 @@ export function AssetsPage() {
         {assetsData?.data.length === 0 && (
           <div className="p-8 text-center">
             <svg
-              className="w-12 h-12 text-gray-600 mx-auto mb-4"
+              className="w-12 h-12 text-tertiary mx-auto mb-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -679,8 +685,8 @@ export function AssetsPage() {
                 d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
             </svg>
-            <p className="text-gray-400">No assets found</p>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-secondary">No assets found</p>
+            <p className="text-tertiary text-sm mt-1">
               Try adjusting your filters or generate some data
             </p>
           </div>

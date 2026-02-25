@@ -41,9 +41,9 @@ export function IncidentsByHourChart({ data }: IncidentsByHourChartProps) {
 
   if (data.length === 0) {
     return (
-      <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-        <h3 className="text-lg font-semibold text-white mb-4">Incidents by Hour (Last 24h)</h3>
-        <div className="h-48 flex items-center justify-center text-gray-500">
+      <div className="bg-secondary rounded-lg p-6 border border-primary">
+        <h3 className="text-lg font-semibold text-primary mb-4">Incidents by Hour (Last 24h)</h3>
+        <div className="h-48 flex items-center justify-center text-tertiary">
           No incident data available
         </div>
       </div>
@@ -80,8 +80,8 @@ export function IncidentsByHourChart({ data }: IncidentsByHourChartProps) {
   const xLabels = data.filter((_, i) => i % 4 === 0);
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-      <h3 className="text-lg font-semibold text-white mb-4">Incidents by Hour (Last 24h)</h3>
+    <div className="bg-secondary rounded-lg p-6 border border-primary">
+      <h3 className="text-lg font-semibold text-primary mb-4">Incidents by Hour (Last 24h)</h3>
       <div className="w-full" data-testid="incidents-by-hour-chart">
         <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto">
           {/* Grid lines */}

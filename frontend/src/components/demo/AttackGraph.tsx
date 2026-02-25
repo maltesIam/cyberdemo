@@ -122,11 +122,11 @@ export function AttackGraph({ graphData, onNodeClick }: AttackGraphProps) {
       <div
         ref={containerRef}
         data-testid="cytoscape-container"
-        className="w-full h-full bg-gray-900 rounded-lg"
+        className="w-full h-full bg-primary rounded-lg"
       />
       {graphData.nodes.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-sm text-gray-500">Start a simulation to see the attack graph</p>
+          <p className="text-sm text-tertiary">Start a simulation to see the attack graph</p>
         </div>
       )}
     </div>

@@ -22,7 +22,7 @@ export function GraphControls({
   onAutoLayout,
   className = "",
 }: GraphControlsProps) {
-  const buttonClass = "p-2 bg-slate-700 hover:bg-slate-600 text-white rounded-md transition-colors";
+  const buttonClass = "p-2 bg-slate-700 hover:bg-slate-600 text-primary rounded-md transition-colors";
 
   return (
     <div

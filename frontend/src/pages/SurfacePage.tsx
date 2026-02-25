@@ -348,7 +348,7 @@ function SurfaceAssetNode({
         {/* Detection count badge (top-left) */}
         {detectionCount > 0 && zoomLevel !== "clustered" && (
           <div
-            className="absolute -top-1 -left-1 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-white z-20"
+            className="absolute -top-1 -left-1 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-primary z-20"
             style={{ backgroundColor: LAYER_COLORS.edr.colorBase }}
             title={`${detectionCount} detections`}
           >
@@ -359,7 +359,7 @@ function SurfaceAssetNode({
         {/* Incident count badge (top-right) */}
         {incidentCount > 0 && zoomLevel !== "clustered" && (
           <div
-            className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-white z-20"
+            className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-primary z-20"
             style={{ backgroundColor: LAYER_COLORS.siem.colorBase }}
             title={`${incidentCount} incidents`}
           >
@@ -370,7 +370,7 @@ function SurfaceAssetNode({
         {/* Main circle */}
         <div
           className={clsx(
-            "absolute rounded-full flex items-center justify-center text-white font-bold text-xs",
+            "absolute rounded-full flex items-center justify-center text-primary font-bold text-xs",
             animationClass,
             isSelected && "ring-2 ring-cyan-400 ring-offset-2 ring-offset-gray-900",
           )}
@@ -386,7 +386,7 @@ function SurfaceAssetNode({
           }}
         >
           {zoomLevel === "detailed" ? (
-            <AssetTypeIcon type={type} className="text-white/90" />
+            <AssetTypeIcon type={type} className="text-primary/90" />
           ) : (
             <span>{riskScore}</span>
           )}
@@ -395,7 +395,7 @@ function SurfaceAssetNode({
 
       {/* Hostname label - hidden at clustered zoom */}
       {zoomLevel !== "clustered" && (
-        <span className="mt-1.5 text-[10px] font-mono text-gray-400 max-w-[80px] truncate text-center">
+        <span className="mt-1.5 text-[10px] font-mono text-secondary max-w-[80px] truncate text-center">
           {hostname}
         </span>
       )}
@@ -403,24 +403,24 @@ function SurfaceAssetNode({
       {/* Tooltip on hover */}
       {showTooltip && (
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none surface-fade-in">
-          <div className="bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 shadow-xl min-w-[180px]">
-            <div className="text-white text-xs font-bold mb-1">{hostname}</div>
+          <div className="bg-primary border border-primary rounded-lg px-3 py-2 shadow-xl min-w-[180px]">
+            <div className="text-primary text-xs font-bold mb-1">{hostname}</div>
             <div className="space-y-0.5 text-[10px]">
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-secondary">
                 <span>IP</span>
-                <span className="text-gray-300 font-mono">{ip}</span>
+                <span className="text-secondary font-mono">{ip}</span>
               </div>
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-secondary">
                 <span>Type</span>
-                <span className="text-gray-300 capitalize">
+                <span className="text-secondary capitalize">
                   {type?.replace?.(/_/g, " ") ?? type}
                 </span>
               </div>
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-secondary">
                 <span>Owner</span>
-                <span className="text-gray-300">{owner}</span>
+                <span className="text-secondary">{owner}</span>
               </div>
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-secondary">
                 <span>Risk</span>
                 <span
                   className={clsx(
@@ -468,16 +468,16 @@ function DetailPanel({
   const riskScore = node?.risk_score ?? node?.riskScore ?? 0;
 
   return (
-    <div className="w-[360px] bg-gray-800 border-l border-gray-700 flex flex-col h-full overflow-hidden animate-slide-in-right">
+    <div className="w-[360px] bg-secondary border-l border-primary flex flex-col h-full overflow-hidden animate-slide-in-right">
       {/* Panel header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
-        <h3 className="text-white font-semibold truncate">{hostname}</h3>
+      <div className="flex items-center justify-between p-4 border-b border-primary">
+        <h3 className="text-primary font-semibold truncate">{hostname}</h3>
         <div className="flex items-center gap-1">
           <button
             onClick={onTogglePin}
             className={clsx(
               "p-1.5 rounded transition-colors",
-              isPinned ? "text-cyan-400 bg-cyan-900/30" : "text-gray-500 hover:text-gray-300",
+              isPinned ? "text-cyan-400 bg-cyan-900/30" : "text-tertiary hover:text-secondary",
             )}
             title={isPinned ? "Unpin panel" : "Pin panel"}
           >
@@ -497,7 +497,7 @@ function DetailPanel({
           </button>
           <button
             onClick={onClose}
-            className="p-1.5 text-gray-500 hover:text-white transition-colors"
+            className="p-1.5 text-tertiary hover:text-primary transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -520,7 +520,7 @@ function DetailPanel({
           <InfoRow label="OS" value={os} />
           <InfoRow label="Owner" value={owner} />
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Risk Score</span>
+            <span className="text-tertiary">Risk Score</span>
             <span
               className={clsx(
                 "px-2 py-0.5 rounded text-xs font-bold",
@@ -593,7 +593,7 @@ function DetailPanel({
                     <DetailRow label="IOCs" value={layerData?.iocCount ?? 0} />
                     {(layerData?.threatActors?.length ?? 0) > 0 && (
                       <div className="mt-1">
-                        <span className="text-gray-500">Threat Actors:</span>
+                        <span className="text-tertiary">Threat Actors:</span>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {(layerData?.threatActors ?? []).map((actor: string) => (
                             <span
@@ -629,7 +629,7 @@ function DetailPanel({
       </div>
 
       {/* Action buttons */}
-      <div className="p-4 border-t border-gray-700 space-y-2">
+      <div className="p-4 border-t border-primary space-y-2">
         <div className="grid grid-cols-2 gap-2">
           <ActionButton label="Investigate" color="cyan" />
           <ActionButton label="Contain" color="orange" />
@@ -644,27 +644,27 @@ function DetailPanel({
 function InfoRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div className="flex justify-between text-sm">
-      <span className="text-gray-500">{label}</span>
-      <span className={clsx("text-gray-300", mono && "font-mono")}>{value}</span>
+      <span className="text-tertiary">{label}</span>
+      <span className={clsx("text-secondary", mono && "font-mono")}>{value}</span>
     </div>
   );
 }
 
 function DetailRow({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="flex justify-between text-gray-400">
+    <div className="flex justify-between text-secondary">
       <span>{label}</span>
-      <span className="text-white capitalize">{String(value)}</span>
+      <span className="text-primary capitalize">{String(value)}</span>
     </div>
   );
 }
 
 function ActionButton({ label, color }: { label: string; color: string }) {
   const colorMap: Record<string, string> = {
-    cyan: "bg-cyan-600 hover:bg-cyan-500 text-white",
-    orange: "bg-orange-600 hover:bg-orange-500 text-white",
-    blue: "bg-blue-600 hover:bg-blue-500 text-white",
-    gray: "bg-gray-600 hover:bg-gray-500 text-gray-200",
+    cyan: "bg-cyan-600 hover:bg-cyan-500 text-primary",
+    orange: "bg-orange-600 hover:bg-orange-500 text-primary",
+    blue: "bg-blue-600 hover:bg-blue-500 text-primary",
+    gray: "bg-tertiary hover:bg-hover text-primary",
   };
   return (
     <button
@@ -721,9 +721,9 @@ function ContextMenu({
 
   return (
     <div ref={menuRef} className="fixed z-50 surface-fade-in" style={{ left: x, top: y }}>
-      <div className="bg-gray-800 border border-gray-600 rounded-lg shadow-2xl py-1 min-w-[160px]">
+      <div className="bg-secondary border border-primary rounded-lg shadow-2xl py-1 min-w-[160px]">
         {nodeId && (
-          <div className="px-3 py-1.5 text-[10px] text-gray-500 border-b border-gray-700 font-mono truncate max-w-[200px]">
+          <div className="px-3 py-1.5 text-[10px] text-tertiary border-b border-primary font-mono truncate max-w-[200px]">
             {nodeId}
           </div>
         )}
@@ -737,10 +737,10 @@ function ContextMenu({
               console.log("[Surface] Context action:", item.label, nodeId);
               onClose();
             }}
-            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-secondary hover:bg-tertiary hover:text-primary transition-colors"
           >
             <svg
-              className="w-4 h-4 text-gray-500"
+              className="w-4 h-4 text-tertiary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1066,16 +1066,16 @@ export function SurfacePage() {
   }, [modeTransition]);
 
   return (
-    <div className="flex flex-col h-full bg-gray-900 overflow-hidden">
+    <div className="flex flex-col h-full bg-primary overflow-hidden">
       {/* ================================================================ */}
       {/* HEADER BAR */}
       {/* ================================================================ */}
-      <header className="flex-shrink-0 flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
+      <header className="flex-shrink-0 flex items-center justify-between px-4 py-2 bg-secondary border-b border-primary">
         {/* Title */}
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
             <svg
-              className="w-5 h-5 text-white"
+              className="w-5 h-5 text-primary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1088,13 +1088,13 @@ export function SurfacePage() {
               />
             </svg>
           </div>
-          <h1 className="text-white font-bold text-lg hidden lg:block">
+          <h1 className="text-primary font-bold text-lg hidden lg:block">
             Cyber Exposure Command Center
           </h1>
         </div>
 
         {/* Mode tabs */}
-        <div className="flex items-center bg-gray-900 rounded-lg p-0.5">
+        <div className="flex items-center bg-primary rounded-lg p-0.5">
           {MODE_TABS.map((tab) => (
             <button
               key={tab.id}
@@ -1102,8 +1102,8 @@ export function SurfacePage() {
               className={clsx(
                 "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors",
                 currentMode === tab.id
-                  ? "bg-cyan-600 text-white shadow"
-                  : "text-gray-400 hover:text-gray-200 hover:bg-gray-700",
+                  ? "bg-cyan-600 text-primary shadow"
+                  : "text-secondary hover:text-primary hover:bg-tertiary",
               )}
               title={tab.label}
             >
@@ -1118,7 +1118,7 @@ export function SurfacePage() {
           <SearchBar value={searchQuery} onChange={setSearchQuery} onSelect={handleSearchSelect} />
           <button
             onClick={() => setShowQueryBuilder(true)}
-            className="p-1.5 bg-gray-700 hover:bg-gray-600 text-gray-400 hover:text-cyan-400 rounded-lg transition-colors"
+            className="p-1.5 bg-tertiary hover:bg-tertiary text-secondary hover:text-cyan-400 rounded-lg transition-colors"
             title="Advanced Query Builder"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1133,7 +1133,7 @@ export function SurfacePage() {
           <div className="relative group">
             <button
               onClick={() => handleExport("json")}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg text-sm transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-tertiary hover:bg-tertiary text-secondary rounded-lg text-sm transition-colors"
               title="Export as JSON (right-click for CSV)"
               onContextMenu={(e) => {
                 e.preventDefault();
@@ -1159,10 +1159,10 @@ export function SurfacePage() {
       {/* ================================================================ */}
       <div className="flex flex-1 overflow-hidden">
         {/* LEFT: Layer Panel */}
-        <aside className="w-[240px] flex-shrink-0 bg-gray-800 border-r border-gray-700 flex flex-col overflow-y-auto">
+        <aside className="w-[240px] flex-shrink-0 bg-secondary border-r border-primary flex flex-col overflow-y-auto">
           {/* Preset chips */}
-          <div className="p-3 border-b border-gray-700">
-            <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2">Presets</p>
+          <div className="p-3 border-b border-primary">
+            <p className="text-[10px] text-tertiary uppercase tracking-wider mb-2">Presets</p>
             <div className="flex flex-wrap gap-1.5">
               {Object.entries(PRESETS).map(([key, preset]) => {
                 // Determine if this preset is currently active
@@ -1176,8 +1176,8 @@ export function SurfacePage() {
                     className={clsx(
                       "px-2.5 py-1 rounded text-xs font-medium transition-colors",
                       isActive
-                        ? "bg-cyan-600 text-white"
-                        : "bg-gray-700 text-gray-300 hover:bg-gray-600",
+                        ? "bg-cyan-600 text-primary"
+                        : "bg-tertiary text-secondary hover:bg-tertiary",
                     )}
                   >
                     {preset.label}
@@ -1189,7 +1189,7 @@ export function SurfacePage() {
 
           {/* Layer toggles */}
           <div className="flex-1 p-3 space-y-1">
-            <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2">Layers</p>
+            <p className="text-[10px] text-tertiary uppercase tracking-wider mb-2">Layers</p>
             {ALL_LAYERS.map((layerId) => {
               const config = LAYER_COLORS[layerId];
               const isEnabled = activeLayers.has(layerId);
@@ -1209,20 +1209,20 @@ export function SurfacePage() {
                   className={clsx(
                     "w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-left transition-colors",
                     isBase && "opacity-70 cursor-default",
-                    isEnabled && !isBase && "bg-gray-700/50",
-                    !isEnabled && !isBase && "hover:bg-gray-700/30",
+                    isEnabled && !isBase && "bg-tertiary/50",
+                    !isEnabled && !isBase && "hover:bg-tertiary/30",
                   )}
                 >
                   {/* Checkbox */}
                   <div
                     className={clsx(
                       "w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-colors",
-                      isEnabled ? "border-transparent" : "border-gray-600",
+                      isEnabled ? "border-transparent" : "border-primary",
                     )}
                     style={isEnabled ? { backgroundColor: config.colorBase } : undefined}
                   >
                     {isEnabled && (
-                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
                         <path
                           fillRule="evenodd"
                           d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -1242,7 +1242,7 @@ export function SurfacePage() {
                   <span
                     className={clsx(
                       "text-sm flex-1",
-                      isEnabled ? "text-gray-200" : "text-gray-400",
+                      isEnabled ? "text-primary" : "text-secondary",
                     )}
                   >
                     {config.label}
@@ -1268,16 +1268,16 @@ export function SurfacePage() {
             activeLayers.has("threats") ||
             activeLayers.has("containment") ||
             activeLayers.has("relations")) && (
-            <div className="border-t border-gray-700">
+            <div className="border-t border-primary">
               {(["vulnerabilities", "threats", "containment", "relations"] as LayerType[])
                 .filter((l) => activeLayers.has(l))
                 .map((layerId) => (
-                  <div key={layerId} className="border-b border-gray-700/50 last:border-b-0">
+                  <div key={layerId} className="border-b border-primary/50 last:border-b-0">
                     <button
                       onClick={() =>
                         setExpandedLayerFilter(expandedLayerFilter === layerId ? null : layerId)
                       }
-                      className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] text-gray-400 uppercase tracking-wider hover:text-gray-300 transition-colors"
+                      className="w-full flex items-center justify-between px-3 py-1.5 text-[10px] text-secondary uppercase tracking-wider hover:text-secondary transition-colors"
                     >
                       <span style={{ color: LAYER_COLORS[layerId]?.colorLight }}>
                         {LAYER_COLORS[layerId]?.label} Filters
@@ -1314,18 +1314,18 @@ export function SurfacePage() {
           )}
 
           {/* Global filters section */}
-          <div className="border-t border-gray-700">
+          <div className="border-t border-primary">
             <GlobalFilters filters={globalFilters} onFilterChange={setGlobalFilters} />
           </div>
 
           {/* Footer: counter + reset */}
-          <div className="p-3 border-t border-gray-700 flex items-center justify-between">
-            <span className="text-xs text-gray-500">
+          <div className="p-3 border-t border-primary flex items-center justify-between">
+            <span className="text-xs text-tertiary">
               {activeLayerCount}/{ALL_LAYERS.length} layers active
             </span>
             <button
               onClick={resetLayers}
-              className="text-xs text-gray-400 hover:text-cyan-400 transition-colors"
+              className="text-xs text-secondary hover:text-cyan-400 transition-colors"
             >
               Reset
             </button>
@@ -1384,7 +1384,7 @@ export function SurfacePage() {
       {/* Toast Notification (auto-dismiss) */}
       {/* ================================================================ */}
       {toastMessage && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[90] px-4 py-2.5 bg-gray-800 border border-cyan-500/40 text-cyan-300 text-sm rounded-lg shadow-lg animate-toast-in flex items-center gap-2">
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[90] px-4 py-2.5 bg-secondary border border-cyan-500/40 text-cyan-300 text-sm rounded-lg shadow-lg animate-toast-in flex items-center gap-2">
           <svg
             className="w-4 h-4 flex-shrink-0"
             fill="none"
@@ -1401,7 +1401,7 @@ export function SurfacePage() {
           <span>{toastMessage}</span>
           <button
             onClick={() => setToastMessage(null)}
-            className="ml-2 text-gray-500 hover:text-white"
+            className="ml-2 text-tertiary hover:text-primary"
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -1675,7 +1675,7 @@ function SurfaceCanvas({
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
           <svg
-            className="w-16 h-16 text-gray-600 mx-auto mb-4"
+            className="w-16 h-16 text-tertiary mx-auto mb-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -1687,8 +1687,8 @@ function SurfaceCanvas({
               d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
             />
           </svg>
-          <p className="text-gray-400 font-medium">No assets to display</p>
-          <p className="text-gray-500 text-sm mt-1">Generate data or adjust your search filter</p>
+          <p className="text-secondary font-medium">No assets to display</p>
+          <p className="text-tertiary text-sm mt-1">Generate data or adjust your search filter</p>
         </div>
       </div>
     );
@@ -1717,13 +1717,13 @@ function SurfaceCanvas({
       />
 
       {/* Zoom indicator */}
-      <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-gray-800/90 px-2.5 py-1 rounded-lg border border-gray-700 text-[10px] text-gray-400">
+      <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-secondary/90 px-2.5 py-1 rounded-lg border border-primary text-[10px] text-secondary">
         <span className={clsx(zoomLevel === "clustered" && "text-cyan-400 font-bold")}>C</span>
-        <span className="text-gray-600">/</span>
+        <span className="text-tertiary">/</span>
         <span className={clsx(zoomLevel === "grouped" && "text-cyan-400 font-bold")}>G</span>
-        <span className="text-gray-600">/</span>
+        <span className="text-tertiary">/</span>
         <span className={clsx(zoomLevel === "detailed" && "text-cyan-400 font-bold")}>D</span>
-        <span className="ml-1 text-gray-500">scroll to zoom</span>
+        <span className="ml-1 text-tertiary">scroll to zoom</span>
       </div>
 
       {/* Multi-selection count */}
@@ -1760,7 +1760,7 @@ function SurfaceCanvas({
                   className="flex flex-col items-center cursor-pointer hover:scale-105 transition-transform"
                 >
                   <div
-                    className="rounded-full flex flex-col items-center justify-center text-white border-2"
+                    className="rounded-full flex flex-col items-center justify-center text-primary border-2"
                     style={{
                       width: size,
                       height: size,
@@ -1771,11 +1771,11 @@ function SurfaceCanvas({
                     }}
                   >
                     <span className="text-lg font-bold">{group.length}</span>
-                    <span className="text-[9px] text-gray-400">
+                    <span className="text-[9px] text-secondary">
                       {criticalCount > 0 ? `${criticalCount} crit` : `avg ${avgRisk}`}
                     </span>
                   </div>
-                  <span className="mt-2 text-xs text-gray-400 capitalize">
+                  <span className="mt-2 text-xs text-secondary capitalize">
                     {type?.replace?.(/_/g, " ") ?? type}
                   </span>
                 </div>
@@ -1900,14 +1900,14 @@ function InvestigationGraph({
 
   if (nodes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-400">
+      <div className="flex items-center justify-center h-full text-secondary">
         No assets to visualize in graph mode
       </div>
     );
   }
 
   return (
-    <div ref={containerRef} className="h-full w-full overflow-hidden relative bg-gray-900">
+    <div ref={containerRef} className="h-full w-full overflow-hidden relative bg-primary">
       <svg width={dimensions.width} height={dimensions.height} className="absolute inset-0">
         {/* Grid pattern */}
         <defs>
@@ -2044,11 +2044,11 @@ function InvestigationGraph({
       </svg>
 
       {/* Legend */}
-      <div className="absolute bottom-4 left-4 bg-gray-800/90 border border-gray-700 rounded-lg p-3 z-10">
-        <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2">Connection Types</p>
+      <div className="absolute bottom-4 left-4 bg-secondary/90 border border-primary rounded-lg p-3 z-10">
+        <p className="text-[10px] text-tertiary uppercase tracking-wider mb-2">Connection Types</p>
         <div className="space-y-1">
           {Object.entries(CONNECTION_COLORS).map(([type, color]) => (
-            <div key={type} className="flex items-center gap-2 text-[10px] text-gray-400">
+            <div key={type} className="flex items-center gap-2 text-[10px] text-secondary">
               <div className="w-4 h-0.5 rounded" style={{ backgroundColor: color }} />
               <span className="capitalize">{type.replace(/_/g, " ")}</span>
             </div>
@@ -2169,10 +2169,10 @@ function VulnerabilityLandscape({ nodes }: { nodes: any[] }) {
 
   if (vulns.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-400">
+      <div className="flex items-center justify-center h-full text-secondary">
         <div className="text-center">
           <svg
-            className="w-16 h-16 text-gray-600 mx-auto mb-4"
+            className="w-16 h-16 text-tertiary mx-auto mb-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -2184,8 +2184,8 @@ function VulnerabilityLandscape({ nodes }: { nodes: any[] }) {
               d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-gray-400 font-medium">No vulnerability data available</p>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-secondary font-medium">No vulnerability data available</p>
+          <p className="text-tertiary text-sm mt-1">
             Generate data to see the vulnerability landscape
           </p>
         </div>
@@ -2194,10 +2194,10 @@ function VulnerabilityLandscape({ nodes }: { nodes: any[] }) {
   }
 
   return (
-    <div className="h-full w-full overflow-auto bg-gray-900 p-6">
+    <div className="h-full w-full overflow-auto bg-primary p-6">
       {/* Summary bar */}
       <div className="flex items-center gap-4 mb-6">
-        <h2 className="text-white font-bold text-lg">Vulnerability Landscape</h2>
+        <h2 className="text-primary font-bold text-lg">Vulnerability Landscape</h2>
         <div className="flex gap-2">
           {["critical", "high", "medium", "low"].map((sev) => {
             const count = severityCounts[sev] ?? 0;
@@ -2246,7 +2246,7 @@ function VulnerabilityLandscape({ nodes }: { nodes: any[] }) {
                 CVSS {v.cvss.toFixed(1)}
               </span>
               {v.asset && (
-                <span className="text-[8px] text-gray-500 mt-0.5 truncate max-w-[90%]">
+                <span className="text-[8px] text-tertiary mt-0.5 truncate max-w-[90%]">
                   {v.asset}
                 </span>
               )}
@@ -2316,7 +2316,7 @@ function ThreatWorldMap() {
   );
 
   return (
-    <div className="h-full w-full overflow-hidden relative bg-gray-900 flex items-center justify-center">
+    <div className="h-full w-full overflow-hidden relative bg-primary flex items-center justify-center">
       <svg
         viewBox="0 0 800 500"
         className="w-full h-full max-w-[1200px]"
@@ -2536,17 +2536,17 @@ function ThreatWorldMap() {
       </svg>
 
       {/* Stats overlay */}
-      <div className="absolute top-4 left-4 bg-gray-800/90 border border-gray-700 rounded-lg p-3 z-10">
-        <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-2">
+      <div className="absolute top-4 left-4 bg-secondary/90 border border-primary rounded-lg p-3 z-10">
+        <p className="text-[10px] text-tertiary uppercase tracking-wider mb-2">
           Threat Intelligence
         </p>
         <div className="space-y-1.5">
           <div className="flex items-center justify-between gap-4 text-xs">
-            <span className="text-gray-400">Active Origins</span>
-            <span className="text-white font-bold">{origins.length}</span>
+            <span className="text-secondary">Active Origins</span>
+            <span className="text-primary font-bold">{origins.length}</span>
           </div>
           <div className="flex items-center justify-between gap-4 text-xs">
-            <span className="text-gray-400">Total IOCs</span>
+            <span className="text-secondary">Total IOCs</span>
             <span className="text-red-400 font-bold">{totalIOCs}</span>
           </div>
         </div>
@@ -2680,10 +2680,10 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
   }, []);
 
   return (
-    <div className="h-full w-full overflow-hidden bg-gray-900 flex flex-col" ref={containerRef}>
+    <div className="h-full w-full overflow-hidden bg-primary flex flex-col" ref={containerRef}>
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
-        <h2 className="text-white font-bold text-lg">Timeline Replay</h2>
+      <div className="flex items-center justify-between px-6 py-4 border-b border-primary">
+        <h2 className="text-primary font-bold text-lg">Timeline Replay</h2>
         <div className="flex items-center gap-3">
           {/* Play/Pause */}
           <button
@@ -2694,21 +2694,21 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
             className={clsx(
               "px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
               isPlaying
-                ? "bg-orange-600 text-white hover:bg-orange-500"
-                : "bg-cyan-600 text-white hover:bg-cyan-500",
+                ? "bg-orange-600 text-primary hover:bg-orange-500"
+                : "bg-cyan-600 text-primary hover:bg-cyan-500",
             )}
           >
             {isPlaying ? "Pause" : cursorPos >= 100 ? "Replay" : "Play"}
           </button>
           {/* Speed control */}
-          <div className="flex items-center gap-1 bg-gray-800 rounded-lg p-0.5">
+          <div className="flex items-center gap-1 bg-secondary rounded-lg p-0.5">
             {speeds.map((s) => (
               <button
                 key={s}
                 onClick={() => setSpeed(s)}
                 className={clsx(
                   "px-2 py-1 rounded text-xs font-medium transition-colors",
-                  speed === s ? "bg-cyan-600 text-white" : "text-gray-400 hover:text-white",
+                  speed === s ? "bg-cyan-600 text-primary" : "text-secondary hover:text-primary",
                 )}
               >
                 {s}x
@@ -2716,7 +2716,7 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
             ))}
           </div>
           {/* Event counter */}
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-secondary">
             {visibleEvents.length}/{events.length} events
           </span>
         </div>
@@ -2725,7 +2725,7 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
       {/* Event feed - scrollable area showing events at/before cursor */}
       <div className="flex-1 overflow-auto px-6 py-4">
         {visibleEvents.length === 0 && (
-          <div className="flex items-center justify-center h-full text-gray-500 text-sm">
+          <div className="flex items-center justify-center h-full text-tertiary text-sm">
             {events.length === 0 ? "No events to display" : "Press Play to start timeline replay"}
           </div>
         )}
@@ -2738,7 +2738,7 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
                 className="flex items-center gap-3 surface-fade-in"
               >
                 {/* Time marker */}
-                <span className="text-[10px] text-gray-500 font-mono w-12 text-right flex-shrink-0">
+                <span className="text-[10px] text-tertiary font-mono w-12 text-right flex-shrink-0">
                   {Math.round(ev.time)}%
                 </span>
                 {/* Dot */}
@@ -2754,7 +2754,7 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
                   {ev.type}
                 </span>
                 {/* Label */}
-                <span className="text-xs text-gray-300">{ev.label}</span>
+                <span className="text-xs text-secondary">{ev.label}</span>
               </div>
             );
           })}
@@ -2762,9 +2762,9 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
       </div>
 
       {/* Timeline bar at bottom */}
-      <div className="px-6 py-4 border-t border-gray-700">
+      <div className="px-6 py-4 border-t border-primary">
         <div
-          className="relative h-8 bg-gray-800 rounded-lg cursor-pointer"
+          className="relative h-8 bg-secondary rounded-lg cursor-pointer"
           onClick={handleTimelineClick}
         >
           {/* Event markers on the timeline */}
@@ -2804,13 +2804,13 @@ function TimelineReplay({ nodes }: { nodes: any[] }) {
           />
 
           {/* Time labels */}
-          <div className="absolute -bottom-5 left-0 text-[9px] text-gray-500">T0</div>
-          <div className="absolute -bottom-5 left-1/4 text-[9px] text-gray-500">25%</div>
-          <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[9px] text-gray-500">
+          <div className="absolute -bottom-5 left-0 text-[9px] text-tertiary">T0</div>
+          <div className="absolute -bottom-5 left-1/4 text-[9px] text-tertiary">25%</div>
+          <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[9px] text-tertiary">
             50%
           </div>
-          <div className="absolute -bottom-5 left-3/4 text-[9px] text-gray-500">75%</div>
-          <div className="absolute -bottom-5 right-0 text-[9px] text-gray-500">T+</div>
+          <div className="absolute -bottom-5 left-3/4 text-[9px] text-tertiary">75%</div>
+          <div className="absolute -bottom-5 right-0 text-[9px] text-tertiary">T+</div>
         </div>
       </div>
     </div>

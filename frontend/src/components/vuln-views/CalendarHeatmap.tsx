@@ -10,7 +10,7 @@ import type { CalendarHeatmapData, VulnViewCommonProps } from "../../types/vulne
 
 // Intensity levels (0-4)
 const INTENSITY_COLORS = [
-  "bg-gray-800", // 0 - no CVEs
+  "bg-secondary", // 0 - no CVEs
   "bg-green-900", // 1 - low
   "bg-green-700", // 2 - medium-low
   "bg-green-500", // 3 - medium-high
@@ -158,7 +158,7 @@ export function CalendarHeatmap({
     return (
       <div
         data-testid="calendar-loading"
-        className={`flex items-center justify-center h-64 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-64 bg-primary rounded-lg ${className}`}
       >
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
@@ -168,7 +168,7 @@ export function CalendarHeatmap({
   // Error state
   if (error) {
     return (
-      <div className={`flex items-center justify-center h-64 bg-gray-900 rounded-lg ${className}`}>
+      <div className={`flex items-center justify-center h-64 bg-primary rounded-lg ${className}`}>
         <div className="text-center">
           <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -184,10 +184,10 @@ export function CalendarHeatmap({
     return (
       <div
         data-testid="calendar-heatmap"
-        className={`flex items-center justify-center h-64 bg-gray-900 rounded-lg ${className}`}
+        className={`flex items-center justify-center h-64 bg-primary rounded-lg ${className}`}
         aria-label="Calendar heatmap - no data"
       >
-        <div className="text-center text-gray-500">
+        <div className="text-center text-tertiary">
           <svg className="w-16 h-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
@@ -200,11 +200,11 @@ export function CalendarHeatmap({
   return (
     <div
       data-testid="calendar-heatmap"
-      className={`bg-gray-900 rounded-lg p-4 ${className}`}
+      className={`bg-primary rounded-lg p-4 ${className}`}
       aria-label="calendar heatmap showing CVE discoveries by date"
     >
       {/* Month labels */}
-      <div className="flex pl-8 mb-2 text-xs text-gray-400">
+      <div className="flex pl-8 mb-2 text-xs text-secondary">
         {monthLabels.map((month, idx) => (
           <div
             key={idx}
@@ -221,7 +221,7 @@ export function CalendarHeatmap({
 
       <div className="flex">
         {/* Day of week labels */}
-        <div className="flex flex-col gap-0.5 mr-2 text-xs text-gray-400">
+        <div className="flex flex-col gap-0.5 mr-2 text-xs text-secondary">
           {DAY_LABELS.map((day, idx) => (
             <div
               key={day}
@@ -278,7 +278,7 @@ export function CalendarHeatmap({
       </div>
 
       {/* Legend */}
-      <div data-testid="calendar-legend" className="flex items-center justify-end gap-2 mt-4 text-xs text-gray-400">
+      <div data-testid="calendar-legend" className="flex items-center justify-end gap-2 mt-4 text-xs text-secondary">
         <span>Less</span>
         {INTENSITY_COLORS.map((color, idx) => (
           <div key={idx} className={`w-3 h-3 rounded-sm ${color}`} />
@@ -287,22 +287,22 @@ export function CalendarHeatmap({
       </div>
 
       {/* Stats */}
-      <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-700">
+      <div className="flex items-center gap-6 mt-4 pt-4 border-t border-primary">
         <div>
-          <div className="text-2xl font-bold text-white">{data.total_cves}</div>
-          <div className="text-xs text-gray-400">Total CVEs</div>
+          <div className="text-2xl font-bold text-primary">{data.total_cves}</div>
+          <div className="text-xs text-secondary">Total CVEs</div>
         </div>
         <div>
           <div className="text-xl font-bold text-red-400">
             {data.days.reduce((sum, d) => sum + d.critical_count, 0)}
           </div>
-          <div className="text-xs text-gray-400">Critical</div>
+          <div className="text-xs text-secondary">Critical</div>
         </div>
         <div>
           <div className="text-xl font-bold text-orange-400">
             {data.days.reduce((sum, d) => sum + d.high_count, 0)}
           </div>
-          <div className="text-xs text-gray-400">High</div>
+          <div className="text-xs text-secondary">High</div>
         </div>
       </div>
 
@@ -310,14 +310,14 @@ export function CalendarHeatmap({
       {tooltip && (
         <div
           role="tooltip"
-          className="fixed z-50 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg shadow-xl text-sm pointer-events-none"
+          className="fixed z-50 px-3 py-2 bg-secondary border border-primary rounded-lg shadow-xl text-sm pointer-events-none"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y}px`,
             transform: "translate(-50%, -100%)",
           }}
         >
-          <div className="font-medium text-white">{tooltip.date}</div>
+          <div className="font-medium text-primary">{tooltip.date}</div>
           <div className="text-cyan-400">{tooltip.count} CVEs</div>
           {tooltip.critical_count > 0 && (
             <div className="text-red-400">{tooltip.critical_count} Critical</div>

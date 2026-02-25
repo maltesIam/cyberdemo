@@ -115,8 +115,8 @@ function RangeInput({
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between text-[11px]">
-        <span className="text-gray-400">{label}</span>
-        <span className="text-gray-300 font-mono">
+        <span className="text-secondary">{label}</span>
+        <span className="text-secondary font-mono">
           {currentValue.toFixed(step && step < 1 ? 2 : 0)}
         </span>
       </div>
@@ -127,7 +127,7 @@ function RangeInput({
         step={step ?? 1}
         value={currentValue}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+        className="w-full h-1 bg-tertiary rounded-lg appearance-none cursor-pointer accent-cyan-500"
       />
     </div>
   );
@@ -145,12 +145,12 @@ function Toggle({
 }) {
   return (
     <label className="flex items-center justify-between cursor-pointer">
-      <span className="text-[11px] text-gray-400">{label}</span>
+      <span className="text-[11px] text-secondary">{label}</span>
       <div
         onClick={() => onChange(!checked)}
         className={clsx(
           "relative w-8 h-4 rounded-full transition-colors",
-          checked ? "bg-cyan-600" : "bg-gray-600",
+          checked ? "bg-cyan-600" : "bg-tertiary",
         )}
       >
         <div
@@ -185,7 +185,7 @@ function SearchableDropdown({
 
   return (
     <div className="space-y-1 relative">
-      <span className="text-[11px] text-gray-400">{label}</span>
+      <span className="text-[11px] text-secondary">{label}</span>
       <div className="relative">
         <input
           type="text"
@@ -198,7 +198,7 @@ function SearchableDropdown({
           }}
           onFocus={() => setIsOpen(true)}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
-          className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-[11px] text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
+          className="w-full px-2 py-1 bg-tertiary border border-primary rounded text-[11px] text-primary placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
         />
         {value && (
           <button
@@ -206,7 +206,7 @@ function SearchableDropdown({
               onChange("");
               setQuery("");
             }}
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 text-tertiary hover:text-secondary"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -220,7 +220,7 @@ function SearchableDropdown({
         )}
       </div>
       {isOpen && filtered.length > 0 && (
-        <div className="absolute z-20 w-full mt-1 bg-gray-700 border border-gray-600 rounded shadow-lg max-h-32 overflow-y-auto">
+        <div className="absolute z-20 w-full mt-1 bg-tertiary border border-primary rounded shadow-lg max-h-32 overflow-y-auto">
           {filtered.slice(0, 10).map((opt) => (
             <button
               key={opt}
@@ -229,7 +229,7 @@ function SearchableDropdown({
                 setQuery("");
                 setIsOpen(false);
               }}
-              className="w-full text-left px-2 py-1 text-[11px] text-gray-300 hover:bg-gray-600 transition-colors"
+              className="w-full text-left px-2 py-1 text-[11px] text-secondary hover:bg-tertiary transition-colors"
             >
               {opt}
             </button>
@@ -262,7 +262,7 @@ function LayerChipGroup({
               "px-2 py-0.5 rounded text-[10px] font-medium transition-colors border",
               isActive
                 ? "border-cyan-500/50 bg-cyan-900/30 text-cyan-300"
-                : "border-gray-600 bg-gray-700/40 text-gray-400 hover:text-gray-200",
+                : "border-primary bg-tertiary/40 text-secondary hover:text-primary",
             )}
           >
             {opt.label}
@@ -392,7 +392,7 @@ function ThreatFilters({
   return (
     <div className="space-y-3">
       <div>
-        <span className="text-[11px] text-gray-400 mb-1 block">IOC Type</span>
+        <span className="text-[11px] text-secondary mb-1 block">IOC Type</span>
         <LayerChipGroup
           options={IOC_TYPES}
           selected={state?.iocType ?? []}
@@ -448,7 +448,7 @@ function ContainmentFilters({
   return (
     <div className="space-y-3">
       <div>
-        <span className="text-[11px] text-gray-400 mb-1 block">Status</span>
+        <span className="text-[11px] text-secondary mb-1 block">Status</span>
         <div className="flex gap-1.5">
           {["contained", "lifted"].map((s) => (
             <button
@@ -458,7 +458,7 @@ function ContainmentFilters({
                 "px-2.5 py-1 rounded text-[11px] font-medium transition-colors border",
                 state?.status === s
                   ? "border-cyan-500/50 bg-cyan-900/30 text-cyan-300"
-                  : "border-gray-600 bg-gray-700/40 text-gray-400 hover:text-gray-200",
+                  : "border-primary bg-tertiary/40 text-secondary hover:text-primary",
               )}
             >
               {s.charAt(0).toUpperCase() + s.slice(1)}
@@ -467,21 +467,21 @@ function ContainmentFilters({
         </div>
       </div>
       <div className="space-y-1">
-        <span className="text-[11px] text-gray-400">Date From</span>
+        <span className="text-[11px] text-secondary">Date From</span>
         <input
           type="date"
           value={state?.dateFrom ?? ""}
           onChange={(e) => onChange({ ...state, dateFrom: e.target.value })}
-          className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-[11px] text-gray-200 focus:outline-none focus:border-cyan-500"
+          className="w-full px-2 py-1 bg-tertiary border border-primary rounded text-[11px] text-primary focus:outline-none focus:border-cyan-500"
         />
       </div>
       <div className="space-y-1">
-        <span className="text-[11px] text-gray-400">Date To</span>
+        <span className="text-[11px] text-secondary">Date To</span>
         <input
           type="date"
           value={state?.dateTo ?? ""}
           onChange={(e) => onChange({ ...state, dateTo: e.target.value })}
-          className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-[11px] text-gray-200 focus:outline-none focus:border-cyan-500"
+          className="w-full px-2 py-1 bg-tertiary border border-primary rounded text-[11px] text-primary focus:outline-none focus:border-cyan-500"
         />
       </div>
     </div>
@@ -507,7 +507,7 @@ function RelationFilters({
   return (
     <div className="space-y-3">
       <div>
-        <span className="text-[11px] text-gray-400 mb-1 block">Relation Type</span>
+        <span className="text-[11px] text-secondary mb-1 block">Relation Type</span>
         <LayerChipGroup
           options={RELATION_TYPES}
           selected={state?.types ?? []}
@@ -542,7 +542,7 @@ export function LayerFilters({ activeLayer, filters, onFilterChange }: Props) {
   };
 
   return (
-    <div className="bg-gray-800/50 border-t border-gray-700 p-3">
+    <div className="bg-secondary/50 border-t border-primary p-3">
       <div className="flex items-center gap-2 mb-3">
         <svg
           className="w-3 h-3 text-cyan-400"
@@ -557,7 +557,7 @@ export function LayerFilters({ activeLayer, filters, onFilterChange }: Props) {
             d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
           />
         </svg>
-        <span className="text-[11px] font-medium text-gray-300 capitalize">
+        <span className="text-[11px] font-medium text-secondary capitalize">
           {activeLayer} Filters
         </span>
       </div>

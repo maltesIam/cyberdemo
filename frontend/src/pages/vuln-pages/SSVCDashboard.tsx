@@ -109,7 +109,7 @@ export function SSVCDashboard() {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
               />
             </svg>
-            <span className="text-gray-400">Loading SSVC data...</span>
+            <span className="text-secondary">Loading SSVC data...</span>
           </div>
         </div>
       </div>
@@ -130,12 +130,12 @@ export function SSVCDashboard() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="text-red-500 text-xl mb-2">Error</div>
-            <p className="text-gray-400">
+            <p className="text-secondary">
               {error instanceof Error ? error.message : "Failed to load SSVC data"}
             </p>
             <button
               onClick={() => navigate("/vulnerabilities")}
-              className="mt-4 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg"
+              className="mt-4 px-4 py-2 bg-tertiary hover:bg-tertiary text-primary rounded-lg"
             >
               Back to Vulnerabilities
             </button>
@@ -162,19 +162,19 @@ export function SSVCDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-primary flex items-center gap-3">
             <svg className="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
             SSVC Decision Dashboard
           </h1>
-          <p className="text-gray-400 mt-1">
+          <p className="text-secondary mt-1">
             Stakeholder-Specific Vulnerability Categorization for prioritization
           </p>
         </div>
         <div className="text-right">
           <div className="text-3xl font-bold text-cyan-400">{data?.summary?.total_cves ?? 0}</div>
-          <div className="text-sm text-gray-500">Total CVEs</div>
+          <div className="text-sm text-tertiary">Total CVEs</div>
         </div>
       </div>
 
@@ -210,23 +210,23 @@ export function SSVCDashboard() {
                   {count ?? 0}
                 </span>
               </div>
-              <div className="text-xs text-gray-400 mb-2">
+              <div className="text-xs text-secondary mb-2">
                 {dist?.percentage?.toFixed(1) ?? 0}% of total
               </div>
-              <div className="text-xs text-gray-500">{config.description}</div>
+              <div className="text-xs text-tertiary">{config.description}</div>
             </button>
           );
         })}
       </div>
 
       {/* Decision Tree Visualization */}
-      <div className="flex-1 bg-gray-800 rounded-lg p-6" data-testid="ssvc-decision-tree">
-        <h3 className="text-lg font-semibold text-white mb-4">Decision Tree</h3>
+      <div className="flex-1 bg-secondary rounded-lg p-6" data-testid="ssvc-decision-tree">
+        <h3 className="text-lg font-semibold text-primary mb-4">Decision Tree</h3>
 
         <div className="grid grid-cols-3 gap-8">
           {/* Exploitation Column */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-400 uppercase mb-4">
+            <h4 className="text-sm font-semibold text-secondary uppercase mb-4">
               Exploitation Status
             </h4>
             <div className="space-y-3">
@@ -242,7 +242,7 @@ export function SSVCDashboard() {
                   )}
                 >
                   <div className="font-medium">{status}</div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-tertiary mt-1">
                     {status === "Active" && "Exploitation is confirmed in the wild"}
                     {status === "PoC" && "Proof of concept code exists"}
                     {status === "None" && "No known exploitation"}
@@ -254,7 +254,7 @@ export function SSVCDashboard() {
 
           {/* Automatable Column */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-400 uppercase mb-4">
+            <h4 className="text-sm font-semibold text-secondary uppercase mb-4">
               Automatable
             </h4>
             <div className="space-y-3">
@@ -269,7 +269,7 @@ export function SSVCDashboard() {
                   )}
                 >
                   <div className="font-medium">{auto}</div>
-                  <div className="text-xs text-gray-500 mt-1">
+                  <div className="text-xs text-tertiary mt-1">
                     {auto === "Yes" && "Can be exploited automatically at scale"}
                     {auto === "No" && "Requires manual attacker action"}
                   </div>
@@ -280,7 +280,7 @@ export function SSVCDashboard() {
 
           {/* Decision Outcomes Column */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-400 uppercase mb-4">
+            <h4 className="text-sm font-semibold text-secondary uppercase mb-4">
               Decision Outcome
             </h4>
             <div className="space-y-3">
@@ -306,7 +306,7 @@ export function SSVCDashboard() {
                     )}
                   >
                     <div className="font-medium">{decision}</div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-tertiary mt-1">
                       {decision === "Act" && "Immediate remediation"}
                       {decision === "Attend" && "Schedule soon"}
                       {decision === "Track*" && "Monitor closely"}
@@ -324,7 +324,7 @@ export function SSVCDashboard() {
       {selectedDecision && (
         <div
           className={clsx(
-            "bg-gray-800 rounded-lg p-4 border",
+            "bg-secondary rounded-lg p-4 border",
             decisionConfig[selectedDecision as keyof typeof decisionConfig].borderColor
           )}
         >
@@ -337,23 +337,23 @@ export function SSVCDashboard() {
             </h3>
             <Link
               to={`/vulnerabilities?ssvc_decision=${selectedDecision}`}
-              className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white rounded text-sm"
+              className="px-3 py-1 bg-tertiary hover:bg-tertiary text-primary rounded text-sm"
             >
               View All CVEs
             </Link>
           </div>
-          <p className="text-gray-400">
+          <p className="text-secondary">
             {decisionConfig[selectedDecision as keyof typeof decisionConfig].description}
           </p>
         </div>
       )}
 
       {/* SSVC Framework Info */}
-      <div className="bg-gray-800 rounded-lg p-4">
-        <h3 className="text-sm font-semibold text-gray-400 uppercase mb-3">
+      <div className="bg-secondary rounded-lg p-4">
+        <h3 className="text-sm font-semibold text-secondary uppercase mb-3">
           About SSVC
         </h3>
-        <p className="text-gray-400 text-sm">
+        <p className="text-secondary text-sm">
           The Stakeholder-Specific Vulnerability Categorization (SSVC) framework provides
           a systematic approach to vulnerability prioritization. Unlike CVSS which focuses
           on technical severity, SSVC considers exploitation status, automatable nature,

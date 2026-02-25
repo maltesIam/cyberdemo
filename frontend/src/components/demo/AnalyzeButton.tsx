@@ -74,7 +74,7 @@ export function AnalyzeButton({
         data-testid="analyze-button"
         aria-label={`Analysis complete: ${DECISION_LABELS[decision]}`}
         disabled
-        className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 text-gray-300 text-sm rounded-lg cursor-default"
+        className="flex items-center gap-1.5 px-3 py-1.5 bg-tertiary text-secondary text-sm rounded-lg cursor-default"
       >
         <span>{DECISION_ICONS[decision]}</span>
         <span>{DECISION_LABELS[decision]}</span>
@@ -105,7 +105,7 @@ export function AnalyzeButton({
       data-testid="analyze-button"
       aria-label="Analyze with AI"
       onClick={handleClick}
-      className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white text-sm rounded-lg transition-colors"
+      className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-primary text-sm rounded-lg transition-colors"
     >
       <RobotIcon />
       <span>Analyze with AI</span>

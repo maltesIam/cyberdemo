@@ -181,7 +181,7 @@ export function TimeSlider({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <svg
-            className="w-4 h-4 text-gray-400"
+            className="w-4 h-4 text-secondary"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -193,7 +193,7 @@ export function TimeSlider({
               d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span className="text-sm font-medium text-gray-300">Timeline</span>
+          <span className="text-sm font-medium text-secondary">Timeline</span>
         </div>
         <div className="text-sm font-mono text-cyan-400">{format(currentTime, "MMM d, HH:mm")}</div>
       </div>
@@ -207,8 +207,8 @@ export function TimeSlider({
             className={clsx(
               "px-2 py-1 rounded text-xs font-medium transition-colors",
               durationMinutes === preset.hours * 60
-                ? "bg-cyan-600 text-white"
-                : "bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-gray-300",
+                ? "bg-cyan-600 text-primary"
+                : "bg-tertiary text-secondary hover:bg-tertiary hover:text-secondary",
             )}
           >
             {preset.label}
@@ -221,7 +221,7 @@ export function TimeSlider({
         <div
           ref={sliderRef}
           onClick={handleTrackClick}
-          className="relative h-8 bg-gray-800 rounded-lg cursor-pointer overflow-hidden"
+          className="relative h-8 bg-secondary rounded-lg cursor-pointer overflow-hidden"
         >
           {/* Progress fill */}
           <div
@@ -242,9 +242,9 @@ export function TimeSlider({
             >
               {/* Tooltip */}
               <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:block z-10">
-                <div className="bg-gray-900 border border-gray-700 rounded px-2 py-1 text-xs whitespace-nowrap shadow-lg">
-                  <div className="font-medium text-white">{event.label}</div>
-                  <div className="text-gray-400">{format(event.timestamp, "HH:mm:ss")}</div>
+                <div className="bg-primary border border-primary rounded px-2 py-1 text-xs whitespace-nowrap shadow-lg">
+                  <div className="font-medium text-primary">{event.label}</div>
+                  <div className="text-secondary">{format(event.timestamp, "HH:mm:ss")}</div>
                 </div>
               </div>
             </div>
@@ -257,10 +257,10 @@ export function TimeSlider({
           />
 
           {/* Time labels */}
-          <div className="absolute bottom-0 left-2 text-[10px] text-gray-500">
+          <div className="absolute bottom-0 left-2 text-[10px] text-tertiary">
             {format(timeRange.start, "HH:mm")}
           </div>
-          <div className="absolute bottom-0 right-2 text-[10px] text-gray-500">
+          <div className="absolute bottom-0 right-2 text-[10px] text-tertiary">
             {format(timeRange.end, "HH:mm")}
           </div>
         </div>
@@ -273,7 +273,7 @@ export function TimeSlider({
             {/* Play/Pause button */}
             <button
               onClick={togglePlayback}
-              className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-tertiary text-primary hover:bg-tertiary transition-colors"
             >
               {isPlaying ? (
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -289,7 +289,7 @@ export function TimeSlider({
             {/* Reset button */}
             <button
               onClick={() => setPosition(100)}
-              className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-tertiary text-secondary hover:bg-tertiary hover:text-primary transition-colors"
               title="Reset to current"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -304,7 +304,7 @@ export function TimeSlider({
 
             {/* Speed control */}
             <div className="flex items-center gap-1 ml-2">
-              <span className="text-xs text-gray-500">Speed:</span>
+              <span className="text-xs text-tertiary">Speed:</span>
               {([1, 2, 4] as const).map((speed) => (
                 <button
                   key={speed}
@@ -312,8 +312,8 @@ export function TimeSlider({
                   className={clsx(
                     "px-1.5 py-0.5 rounded text-xs font-medium transition-colors",
                     playbackSpeed === speed
-                      ? "bg-cyan-600 text-white"
-                      : "bg-gray-700 text-gray-400 hover:bg-gray-600",
+                      ? "bg-cyan-600 text-primary"
+                      : "bg-tertiary text-secondary hover:bg-tertiary",
                   )}
                 >
                   {speed}x
@@ -327,7 +327,7 @@ export function TimeSlider({
             {Object.entries(EVENT_COLORS).map(([type, color]) => (
               <div key={type} className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-                <span className="text-xs text-gray-500 capitalize">{type}</span>
+                <span className="text-xs text-tertiary capitalize">{type}</span>
               </div>
             ))}
           </div>
@@ -374,7 +374,7 @@ export function TimeSliderCompact({
   return (
     <div className={clsx("flex items-center gap-2", className)}>
       <svg
-        className="w-4 h-4 text-gray-400 flex-shrink-0"
+        className="w-4 h-4 text-secondary flex-shrink-0"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -389,7 +389,7 @@ export function TimeSliderCompact({
       <div
         ref={sliderRef}
         onClick={handleTrackClick}
-        className="relative flex-1 h-2 bg-gray-700 rounded-full cursor-pointer"
+        className="relative flex-1 h-2 bg-tertiary rounded-full cursor-pointer"
       >
         <div
           className="absolute inset-y-0 left-0 bg-cyan-500/50 rounded-full"
@@ -400,7 +400,7 @@ export function TimeSliderCompact({
           style={{ left: `${position}%` }}
         />
       </div>
-      <span className="text-xs font-mono text-gray-400 flex-shrink-0 w-14">
+      <span className="text-xs font-mono text-secondary flex-shrink-0 w-14">
         {format(currentTime, "HH:mm")}
       </span>
     </div>

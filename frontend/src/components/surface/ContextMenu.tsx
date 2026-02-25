@@ -215,19 +215,19 @@ export function ContextMenu({ x, y, node, onAction, onClose }: Props) {
   return (
     <div
       ref={menuRef}
-      className="fixed z-[100] bg-gray-800 border border-gray-600 rounded-lg shadow-2xl py-1.5 min-w-[200px] animate-context-menu-in"
+      className="fixed z-[100] bg-secondary border border-primary rounded-lg shadow-2xl py-1.5 min-w-[200px] animate-context-menu-in"
       style={{ left: pos.x, top: pos.y }}
     >
       {/* Header with asset info */}
-      <div className="px-3 py-2 border-b border-gray-700 mb-1">
-        <div className="text-sm text-gray-200 font-medium truncate">{hostname}</div>
-        <div className="text-[10px] text-gray-500 font-mono">{node?.ip ?? "N/A"}</div>
+      <div className="px-3 py-2 border-b border-primary mb-1">
+        <div className="text-sm text-primary font-medium truncate">{hostname}</div>
+        <div className="text-[10px] text-tertiary font-mono">{node?.ip ?? "N/A"}</div>
       </div>
 
       {/* Menu items */}
       {MENU_ITEMS.map((entry, idx) => {
         if ("separator" in entry && entry.separator) {
-          return <div key={`sep-${idx}`} className="my-1 border-t border-gray-700" />;
+          return <div key={`sep-${idx}`} className="my-1 border-t border-primary" />;
         }
 
         const item = entry as MenuItem;
@@ -241,15 +241,15 @@ export function ContextMenu({ x, y, node, onAction, onClose }: Props) {
             key={item.id}
             onClick={() => handleAction(item.id)}
             className={clsx(
-              "w-full flex items-center gap-2.5 px-3 py-1.5 text-sm text-gray-300 transition-colors",
-              "hover:bg-gray-700 hover:text-white",
+              "w-full flex items-center gap-2.5 px-3 py-1.5 text-sm text-secondary transition-colors",
+              "hover:bg-tertiary hover:text-primary",
               item.id === "contain" && isContained && "hover:bg-blue-900/30 hover:text-blue-300",
               item.id === "contain" &&
                 !isContained &&
                 "hover:bg-orange-900/30 hover:text-orange-300",
             )}
           >
-            <span className="text-gray-500 flex-shrink-0">{item.icon}</span>
+            <span className="text-tertiary flex-shrink-0">{item.icon}</span>
             <span className="truncate">{label}</span>
           </button>
         );

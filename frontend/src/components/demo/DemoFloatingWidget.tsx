@@ -46,7 +46,7 @@ const AipIcon = () => (
 
 /** Thinking indicator dots animation */
 const ThinkingIndicator = () => (
-  <div data-testid="thinking-indicator" className="flex items-center gap-1 px-3 py-2 border-b border-gray-700">
+  <div data-testid="thinking-indicator" className="flex items-center gap-1 px-3 py-2 border-b border-primary">
     <span className="text-xs text-cyan-400">AI is thinking</span>
     <div className="flex gap-0.5">
       <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -80,14 +80,14 @@ export function DemoFloatingWidget({
           type="button"
           aria-label="Open aIP Assist"
           onClick={onToggleExpand}
-          className="relative w-14 h-14 bg-cyan-600 hover:bg-cyan-700 text-white rounded-full shadow-lg transition-all hover:scale-105 flex items-center justify-center"
+          className="relative w-14 h-14 bg-cyan-600 hover:bg-cyan-700 text-primary rounded-full shadow-lg transition-all hover:scale-105 flex items-center justify-center"
         >
           <AipIcon />
           {/* Notification badge */}
           {unreadCount > 0 && (
             <span
               data-testid="unread-badge"
-              className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center"
+              className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-primary text-xs font-bold rounded-full flex items-center justify-center"
             >
               {unreadCount > 9 ? '9+' : unreadCount}
             </span>

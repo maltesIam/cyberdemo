@@ -29,7 +29,7 @@ function Slider({ label, value, onChange, min = 0, max = 100, description }: Sli
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <label className="text-sm font-medium text-gray-300">{label}</label>
+        <label className="text-sm font-medium text-secondary">{label}</label>
         <span className="text-sm font-mono text-cyan-400">{value}%</span>
       </div>
       <input
@@ -38,9 +38,9 @@ function Slider({ label, value, onChange, min = 0, max = 100, description }: Sli
         max={max}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+        className="w-full h-2 bg-tertiary rounded-lg appearance-none cursor-pointer accent-cyan-500"
       />
-      {description && <p className="text-xs text-gray-500">{description}</p>}
+      {description && <p className="text-xs text-tertiary">{description}</p>}
     </div>
   );
 }
@@ -60,15 +60,15 @@ function Toggle({ label, checked, onChange, description }: ToggleProps) {
   return (
     <div className="flex items-center justify-between py-2">
       <div>
-        <span className="text-sm font-medium text-gray-300">{label}</span>
-        {description && <p className="text-xs text-gray-500 mt-0.5">{description}</p>}
+        <span className="text-sm font-medium text-secondary">{label}</span>
+        {description && <p className="text-xs text-tertiary mt-0.5">{description}</p>}
       </div>
       <button
         type="button"
         onClick={() => onChange(!checked)}
         className={clsx(
           "relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-900",
-          checked ? "bg-cyan-600" : "bg-gray-600",
+          checked ? "bg-cyan-600" : "bg-tertiary",
         )}
       >
         <span
@@ -124,16 +124,16 @@ function TagListEditor({
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-300">{label}</label>
-      {description && <p className="text-xs text-gray-500">{description}</p>}
+      <label className="block text-sm font-medium text-secondary">{label}</label>
+      {description && <p className="text-xs text-tertiary">{description}</p>}
       <div className="flex flex-wrap gap-2 mb-2">
         {tags.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-1 px-2 py-1 bg-gray-700 text-gray-300 rounded text-sm"
+            className="inline-flex items-center gap-1 px-2 py-1 bg-tertiary text-secondary rounded text-sm"
           >
             {tag}
-            <button onClick={() => handleRemove(tag)} className="text-gray-500 hover:text-red-400">
+            <button onClick={() => handleRemove(tag)} className="text-tertiary hover:text-red-400">
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -153,11 +153,11 @@ function TagListEditor({
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          className="flex-1 px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
         />
         <button
           onClick={handleAdd}
-          className="px-3 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 text-sm"
+          className="px-3 py-2 bg-cyan-600 text-primary rounded-lg hover:bg-cyan-500 text-sm"
         >
           Add
         </button>
@@ -193,21 +193,21 @@ function TextInput({
 
   return (
     <div className="space-y-1">
-      <label className="block text-sm font-medium text-gray-300">{label}</label>
-      {description && <p className="text-xs text-gray-500">{description}</p>}
+      <label className="block text-sm font-medium text-secondary">{label}</label>
+      {description && <p className="text-xs text-tertiary">{description}</p>}
       <div className="relative">
         <input
           type={showValue ? type : "password"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
         />
         {masked && (
           <button
             type="button"
             onClick={() => setShowValue(!showValue)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-secondary hover:text-primary"
           >
             {showValue ? (
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -254,12 +254,12 @@ interface SectionProps {
 
 function Section({ title, description, children, icon }: SectionProps) {
   return (
-    <div className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+    <div className="bg-secondary rounded-lg border border-primary p-6">
       <div className="flex items-start gap-3 mb-4">
         {icon && <div className="text-cyan-400 mt-0.5">{icon}</div>}
         <div>
-          <h3 className="text-lg font-semibold text-white">{title}</h3>
-          {description && <p className="text-sm text-gray-400 mt-1">{description}</p>}
+          <h3 className="text-lg font-semibold text-primary">{title}</h3>
+          {description && <p className="text-sm text-secondary mt-1">{description}</p>}
         </div>
       </div>
       <div className="space-y-4">{children}</div>
@@ -418,8 +418,8 @@ export function ConfigPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Configuration</h1>
-          <p className="text-gray-400 mt-1">
+          <h1 className="text-2xl font-bold text-primary">Configuration</h1>
+          <p className="text-secondary mt-1">
             Manage policy engine, notifications, and integrations
           </p>
         </div>
@@ -427,7 +427,7 @@ export function ConfigPage() {
           <button
             onClick={handleReset}
             disabled={isSaving}
-            className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 disabled:opacity-50 transition-colors"
+            className="px-4 py-2 bg-tertiary text-secondary rounded-lg hover:bg-tertiary disabled:opacity-50 transition-colors"
           >
             Reset to Defaults
           </button>
@@ -437,8 +437,8 @@ export function ConfigPage() {
             className={clsx(
               "px-4 py-2 rounded-lg transition-colors flex items-center gap-2",
               hasChanges
-                ? "bg-cyan-600 text-white hover:bg-cyan-500"
-                : "bg-gray-700 text-gray-400 cursor-not-allowed",
+                ? "bg-cyan-600 text-primary hover:bg-cyan-500"
+                : "bg-tertiary text-secondary cursor-not-allowed",
             )}
           >
             {isSaving && (
@@ -532,8 +532,8 @@ export function ConfigPage() {
             </svg>
           }
         >
-          <div className="border-b border-gray-700 pb-4">
-            <h4 className="text-sm font-medium text-gray-400 mb-3">Channels</h4>
+          <div className="border-b border-primary pb-4">
+            <h4 className="text-sm font-medium text-secondary mb-3">Channels</h4>
             <Toggle
               label="Slack"
               checked={notificationForm.slack_enabled ?? false}
@@ -606,7 +606,7 @@ export function ConfigPage() {
           </div>
 
           <div className="pt-2">
-            <h4 className="text-sm font-medium text-gray-400 mb-3">Notification Triggers</h4>
+            <h4 className="text-sm font-medium text-secondary mb-3">Notification Triggers</h4>
             <Toggle
               label="Critical Incidents"
               checked={notificationForm.notify_on_critical ?? true}
@@ -635,13 +635,13 @@ export function ConfigPage() {
           </div>
 
           <div className="pt-2">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary mb-2">
               Notification Template
             </label>
             <select
               value={notificationForm.template_style ?? "detailed"}
               onChange={(e) => handleNotificationChange("template_style", e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full px-3 py-2 bg-tertiary border border-primary rounded-lg text-primary focus:outline-none focus:ring-2 focus:ring-cyan-500"
             >
               <option value="detailed">Detailed (Full incident info)</option>
               <option value="summary">Summary (Brief overview)</option>
@@ -670,17 +670,17 @@ export function ConfigPage() {
               Object.entries(integrationData.api_keys).map(([service, maskedKey]) => (
                 <div
                   key={service}
-                  className="flex items-center justify-between p-3 bg-gray-700 rounded-lg"
+                  className="flex items-center justify-between p-3 bg-tertiary rounded-lg"
                 >
                   <div>
-                    <span className="text-sm font-medium text-white capitalize">{service}</span>
-                    <p className="text-xs text-gray-400 font-mono">{maskedKey}</p>
+                    <span className="text-sm font-medium text-primary capitalize">{service}</span>
+                    <p className="text-xs text-secondary font-mono">{maskedKey}</p>
                   </div>
-                  <button className="text-gray-400 hover:text-cyan-400 text-sm">Update</button>
+                  <button className="text-secondary hover:text-cyan-400 text-sm">Update</button>
                 </div>
               ))
             ) : (
-              <div className="text-center py-4 text-gray-500">
+              <div className="text-center py-4 text-tertiary">
                 <p>No API keys configured</p>
                 <p className="text-xs mt-1">API keys can be configured via the backend</p>
               </div>
@@ -716,17 +716,17 @@ export function ConfigPage() {
               return (
                 <div
                   key={integration.id}
-                  className="flex items-center justify-between p-3 bg-gray-700 rounded-lg"
+                  className="flex items-center justify-between p-3 bg-tertiary rounded-lg"
                 >
                   <div>
-                    <span className="text-sm font-medium text-white">{integration.name}</span>
-                    <p className="text-xs text-gray-400">{integration.description}</p>
+                    <span className="text-sm font-medium text-primary">{integration.name}</span>
+                    <p className="text-xs text-secondary">{integration.description}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <span
                       className={clsx(
                         "text-xs px-2 py-1 rounded",
-                        isEnabled ? "bg-green-900 text-green-300" : "bg-gray-600 text-gray-400",
+                        isEnabled ? "bg-green-900 text-green-300" : "bg-tertiary text-secondary",
                       )}
                     >
                       {isEnabled ? "Enabled" : "Disabled"}
@@ -759,7 +759,7 @@ export function ConfigPage() {
 
       {/* Last Updated Info */}
       {policyData?.last_updated && (
-        <div className="text-center text-xs text-gray-500">
+        <div className="text-center text-xs text-tertiary">
           Last updated: {new Date(policyData.last_updated).toLocaleString()}
         </div>
       )}

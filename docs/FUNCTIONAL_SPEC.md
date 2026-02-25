@@ -1,486 +1,972 @@
-# Functional Specification: CyberDemo Agent-to-UI Enhancement
+# AgentFlow Design System Unification — Functional Specification
 
-| Attribute | Value |
-|-----------|-------|
-| Version | 2.0.0 |
-| Date | 2026-02-24 |
-| Build ID | sbx-20260224-152226 |
-| Template Version | SBX v20.0.0 |
-| Status | Final |
-| Input Document | docs/FRONTEND_ADVANCED_DESCRIPTION.md |
+**Build ID:** sbx-20260225-102928
+**Version:** 1.0.0
+**Date:** February 2026
+**Status:** Draft
+**Template:** SBX v21.0.0
 
 ---
 
-# PART 1: FUNCTIONAL DESCRIPTION
+# PART 1: Functional Description
 
 ## 1.1 Executive Summary
 
-CyberDemo is a Security Operations Center (SOC) simulation platform that demonstrates AI agent capabilities in security incident investigation and response. The platform currently supports 40 backend MCP tools and a frontend with 8 MCP tools, enabling the AI agent Vega to analyze alerts and provide text-based narration.
+This project unifies the visual design, UX, UI, and component system across three web applications in the SoulInTheBot ecosystem under the **AgentFlow Design System v2.0**. The scope includes migrating all pages and components to a shared CSS custom properties system, implementing a three-mode theme toggle (Dark/Light/System), and adding a cyclic font size accessibility control. The target is enterprise-grade visual consistency inspired by Linear, Vercel, Stripe, n8n, and other top-tier B2B platforms.
 
-This enhancement transforms CyberDemo from a passive demo into an interactive experience through two major additions:
+**Key Deliverables:**
+- Shared design token system (CSS custom properties) adopted by all 3 projects
+- Dark/Light/System theme toggle in every page header
+- 3-step cyclic font size button (16px → 18px → 20px → 16px)
+- All hardcoded colors replaced with semantic token references
+- WCAG 2.2 AA compliance in both themes
+- Inter + JetBrains Mono typography across all projects
 
-1. **Agent-to-UI Bidirectional Control**: Vega gains the ability to control the UI directly, navigating pages, highlighting assets, generating charts, and showing timelines in real-time as it investigates.
-2. **Dynamic Scenario Data Engine**: Static mock data is replaced with phase-aware scenario data that evolves as each attack simulation progresses, making every SOC tool return contextually relevant information.
-
-**In Scope:**
-- WebSocket integration between React app and Frontend MCP WS Server
-- Backend UIBridge for forwarding agent UI commands
-- Phase-aware UI actions triggered after agent analysis
-- Enhanced visual effects for 8 frontend MCP tools
-- ScenarioStateManager singleton for cumulative phase data
-- Complete APT29 scenario script with 8 phases
-- 5 additional scenario scripts (FIN7, Lazarus, REvil, SolarWinds, Insider)
-- Integration of all 25 SOC tool handlers with the ScenarioStateManager
-- 6 agent orchestration tool enhancements for scenario awareness
-- Phase synchronization between simulation state and data engine
-
-**Out of Scope:**
-- Changes to the OpenClaw/Vega agent itself (only integration layer changes)
-- New backend MCP tools beyond the existing 40
-- Production deployment infrastructure
-- Multi-tenant or multi-user session management
-- Real external API integrations (all data remains mock/simulated)
-- Mobile or responsive design changes
+**Target Applications:**
+1. **CyberDemo Frontend** — React 18 + Tailwind CSS (18 routes, dark-only → dual theme)
+2. **Medicum Demo** — React 18 + Tailwind + Zustand (4 tabs, light-only → dual theme)
+3. **Files Manager** — Lit 3.1 Web Components + CSS Custom Properties (single-page, dark-first → dual theme with toggle)
 
 ## 1.2 System Overview
 
 ### 1.2.1 Purpose
 
-Enable the AI agent Vega to visually demonstrate its investigation findings by controlling the UI in real-time, while providing rich phase-aware data from attack simulation scenarios that makes every SOC tool contextually relevant.
+Provide a unified, theme-aware, accessible visual layer for all SoulInTheBot web applications. Users moving between applications should experience zero visual friction — same colors, same typography, same component patterns, same theme preference.
 
 ### 1.2.2 Scope
 
-The system extends the existing CyberDemo platform architecture with:
-1. A React hook for WebSocket state synchronization with the Frontend MCP WS Server
-2. A Python UIBridge module for backend-to-WS-Server communication
-3. A ScenarioStateManager for cumulative phase-aware mock data
-4. 6 scenario scripts based on real APT groups (MITRE ATT&CK mapped)
-5. Integration of 31 tool handlers (25 SOC + 6 agent orchestration) with the data engine
+- **In scope:** Visual redesign of all existing pages/views in all 3 target applications; shared design tokens; theme system; font size control; accessibility compliance; responsive layouts
+- **Out of scope:** Backend logic changes; new features or pages; API changes; data model changes; business logic modifications
 
-### 1.2.3 Context Diagram
+### 1.2.3 Context
 
-The system operates within the existing CyberDemo architecture. The React frontend communicates with the Backend MCP Server (40 tools). The new UIBridge in the backend forwards UI control commands to the Frontend MCP WS Server (port 3001), which broadcasts state updates to connected React clients via WebSocket. The ScenarioStateManager sits in the backend, providing phase-aware data to all tool handlers.
+The three applications currently have independent, inconsistent visual systems:
+- CyberDemo: Dark-only, Tailwind gray-900/cyan-500, no tokens, custom animations
+- Medicum: Light-only, custom medical-primary (#0066CC), system fonts, no CSS variables
+- Files Manager: Dark-first with light overrides defined (no toggle), --files-* CSS variables, Inter + JetBrains Mono already
+
+The AgentFlow Design System v2.0 (defined in `style-guide-v2.html` and `style-guide-light-v2.html`) provides the target specification for all visual values.
 
 ## 1.3 User Roles and Personas
 
-| User Role | Description | Key Actions |
-|-----------|-------------|-------------|
-| Demo Audience | Watches the UI change in real-time as Vega investigates | Observes navigation, highlights, charts, and timelines |
-| Demo Presenter | Starts simulation, controls pace, can intervene | Select scenario, pause/resume, toggle auto-UI-actions |
-| Vega (AI Agent) | Analyzes phases and controls the UI to show findings | Analyze alerts, navigate pages, highlight assets, generate charts |
+| Persona ID | User Role | Description | Primary Actions |
+|------------|-----------|-------------|-----------------|
+| P-001 | **Security Analyst** | Uses CyberDemo for threat monitoring, incident response, vulnerability management | Browses dashboards, views attack graphs, manages incidents, reviews audit logs |
+| P-002 | **Clinician** | Uses Medicum for patient consultations, medical coding, image analysis | Transcribes consultations, reviews history, assigns CIE-10 codes, analyzes medical images |
+| P-003 | **System Administrator** | Uses Files Manager for file operations on the SoulInTheBot platform | Browses directories, uploads/downloads files, manages folders |
+| P-004 | **Developer** | Maintains all three applications | Updates components, adds features, ensures consistency |
+| P-005 | **Accessibility User** | Any user with visual or motor accessibility needs | Adjusts font size, uses keyboard navigation, relies on screen readers |
 
 ## 1.4 Functional Areas
 
-### 1.4.1 Agent-to-UI Bidirectional Control (EPIC-001)
+### FA-001: Design Token System
 
-Enables the AI agent Vega to control the React UI in real-time by connecting the backend to the Frontend MCP WS Server and having the React app respond to state updates.
+**US-001:** As a developer, I want a single CSS custom properties file defining all visual values so that all three applications share identical design tokens.
 
-**User Stories:**
-- US-001: As the React app, I need to connect to the MCP WS Server so I can receive UI commands from the agent
-- US-002: As the backend, I need to forward UI control commands to the MCP WS Server so the UI responds to agent actions
-- US-003: As Vega, when I analyze a phase of the attack, I should not only explain but also SHOW it on screen
-- US-004: As a Demo Presenter, I want the 8 frontend MCP tools to produce richer, more visible effects
-- US-005: As a developer, I want the MCP WS Server to start automatically with the dev environment
+**US-002:** As a developer, I want Tailwind CSS configured to reference design tokens so that I can use utility classes that automatically adapt to the active theme.
 
-**Business Rules:**
-- BR-001: The WS connection must not block the main thread
-- BR-002: State updates must be applied within 100ms of receipt
-- BR-003: If the WS Server is unavailable, the app must work normally (graceful degradation)
-- BR-004: Navigation triggered by agent must be visually distinct (brief toast notification)
-- BR-005: UI actions from the agent must be rate-limited (max 2 per second)
-- BR-006: Failed UI actions must not affect backend operation
-- BR-007: UI actions must not fire if the WS Server is disconnected
-- BR-008: UI actions must not interrupt user interaction (queue if user is clicking)
+**BR-001:** All visual values (colors, spacing, typography, shadows, radii, z-index, transitions) MUST be defined as CSS custom properties in a single `design-tokens.css` file.
 
-### 1.4.2 Dynamic Scenario Data Engine (EPIC-002)
+**BR-002:** No hardcoded color values, font sizes, or spacing values shall remain in any component after migration. All values must reference CSS custom properties.
 
-Replaces static mock data in the 25 SOC tools with a ScenarioStateManager that produces contextually appropriate data based on which scenario is running, which phase the simulation is in, and what actions the agent has taken.
+**BR-003:** The design token file must define tokens for both `[data-theme="dark"]` and `[data-theme="light"]` selectors.
 
-**User Stories:**
-- US-006: As the backend, I need a central state manager for cumulative simulation state
-- US-007: As a Demo Presenter, I need the APT29 scenario with complete event scripts for all 8 phases
-- US-008: As a Demo Presenter, I need 5 additional attack scenarios with domain-appropriate events
-- US-009: As a tool handler, I need to query the ScenarioStateManager instead of returning static data
-- US-010: As an agent orchestration tool, I need to use scenario data for contextual analysis
-- US-011: As the simulation controller, I need phase advances to sync with the data engine
+### FA-002: Theme System
 
-**Business Rules:**
-- BR-009: Data is always cumulative (earlier phase events never disappear)
-- BR-010: Agent mutations are immediate and visible to subsequent tool calls
-- BR-011: Only one scenario can be active at a time
-- BR-012: If no scenario is running, tools return current static mock data (backward compatibility)
-- BR-013: Tools must not reveal future-phase data
-- BR-014: Contained hosts show status "contained" in all relevant tool responses
-- BR-015: Closed incidents show status "closed" in all tool responses
-- BR-016: The ScenarioStateManager must be thread-safe (asyncio Lock)
-- BR-017: Each scenario follows MITRE ATT&CK tactics in order
+**US-003:** As a user, I want to switch between Dark, Light, and System themes so that I can use my preferred visual mode.
+
+**US-004:** As a user, I want my theme preference to persist across page reloads so that I do not have to re-select it each time.
+
+**US-005:** As a user, I want the theme to switch smoothly without a flash of unstyled content.
+
+**BR-004:** Theme switching is implemented by setting `data-theme` attribute on the `<html>` element.
+
+**BR-005:** "System" mode detects OS preference via `prefers-color-scheme` media query and applies the corresponding theme.
+
+**BR-006:** Theme preference is stored in `localStorage` under key `theme-preference` with values: `"dark"`, `"light"`, `"system"`.
+
+**BR-007:** On page load, theme is applied from `localStorage` before first paint to prevent FOUC.
+
+**BR-008:** Theme transition uses 300ms ease for background and color properties.
+
+### FA-003: Font Size Accessibility Control
+
+**US-006:** As a user with visual accessibility needs, I want to increase the font size with a single click so that I can read content more comfortably.
+
+**US-007:** As a user, I want my font size preference to persist across sessions.
+
+**BR-009:** Font size button cycles through 3 states: Normal (16px) → Medium (18px) → Large (20px) → Normal (16px).
+
+**BR-010:** Font size scaling modifies `html { font-size }` since all sizes use `rem` units, causing proportional scaling of all text.
+
+**BR-011:** Font size step is stored in `localStorage` under key `font-size-step` with values: `0`, `1`, `2`.
+
+**BR-012:** The font size button is located immediately to the LEFT of the theme toggle in the page header.
+
+### FA-004: CyberDemo Frontend Migration
+
+**US-008:** As a security analyst, I want CyberDemo to support both dark and light themes while maintaining all existing functionality.
+
+**US-009:** As a security analyst, I want a consistent, professional appearance across all 18 CyberDemo pages.
+
+**BR-013:** All 18 routes in CyberDemo must render correctly in both Dark and Light themes.
+
+**BR-014:** The sidebar, header, layout, DemoControlBar, NarrationFooter, and DemoFloatingWidget must use design tokens.
+
+**BR-015:** Domain-specific components (workflow canvas, agent cards, execution timeline, log viewer, metric cards) must use design tokens.
+
+**BR-016:** Current dark-only gray-900 backgrounds migrate to AgentFlow neutral-950 (#020617) in dark mode.
+
+**BR-017:** Current cyan-500 accent color is preserved as the secondary color; primary becomes blue-600 (#2563eb).
+
+### FA-005: Medicum Demo Migration
+
+**US-010:** As a clinician, I want Medicum to support dark mode in addition to the current light mode.
+
+**US-011:** As a clinician, I want medical-specific UI elements (confidence badges, CIE-10 codes, severity indicators) to remain clearly readable in both themes.
+
+**BR-018:** Medicum's custom color palette maps to AgentFlow tokens: medical-primary (#0066CC) → primary-600 (#2563eb), severity-high → color-error, severity-medium → accent-500, severity-low → color-warning.
+
+**BR-019:** System font stack is replaced with Inter (UI) + JetBrains Mono (code/ICD codes).
+
+**BR-020:** All 4 tabs (Consulta, Historia, Codificación, Visor) must render correctly in both themes.
+
+**BR-021:** The Visor tab image display area maintains a dark background (`--bg-primary` in dark, dedicated dark canvas in light) for proper medical image viewing.
+
+**BR-022:** CIE-10 code text uses `font-mono` with theme-aware primary color for readability.
+
+**BR-023:** Confidence badges retain their semantic color coding (green ≥90%, yellow ≥70%, gray below) using AgentFlow success/warning/neutral tokens.
+
+### FA-006: Files Manager Migration
+
+**US-012:** As a system administrator, I want a visible theme toggle in the Files Manager toolbar so I can switch themes.
+
+**US-013:** As a system administrator, I want the Files Manager's visual design to match the other SoulInTheBot applications.
+
+**BR-024:** The `--files-*` CSS variable namespace is remapped to AgentFlow standard `--bg-*`, `--text-*`, `--border-*`, `--color-*` tokens.
+
+**BR-025:** Dark theme values update from `#1a1a2e/#16213e/#0f3460` to AgentFlow `#020617/#0f172a/#1e293b`.
+
+**BR-026:** Light theme values update from `#ffffff/#f5f5f5/#ebebeb` to AgentFlow `#ffffff/#f8fafc/#f1f5f9`.
+
+**BR-027:** Hardcoded colors in `index.html` (loading spinner, error banner) and `files-epic002.ts` (modal inline styles) are replaced with CSS variable references.
+
+**BR-028:** Emoji action buttons (✂📋⬇🗑) are replaced with Lucide icons for visual consistency across all projects.
+
+**BR-029:** Fonts (Inter + JetBrains Mono) are already present — no change needed.
+
+### FA-007: Component Standardization
+
+**US-014:** As a user, I want buttons, cards, inputs, tables, and other UI components to look and behave identically across all three applications.
+
+**BR-030:** Button variants (Primary, Secondary, Ghost, Destructive, Accent) must follow the style guide spec in all projects.
+
+**BR-031:** Cards use `bg-card` background, `border-secondary` border, `radius-xl`, `space-6` padding.
+
+**BR-032:** Form inputs use `bg-input`, `border-primary`, `radius-lg`, with focus ring using `border-focus` + blue ring.
+
+**BR-033:** Tables use `bg-tertiary` headers, `text-xs` uppercase, `border-secondary` row separators, `bg-hover` row hover.
+
+**BR-034:** Badges use pill shape (`radius-full`), semantic color backgrounds at 15% opacity.
+
+**BR-035:** Modals use `rgba(0,0,0,0.6)` overlay with backdrop blur, `bg-elevated` body, `radius-xl`, `shadow-xl`.
+
+**BR-036:** Toast notifications use `bg-elevated`, `border-primary`, `shadow-lg`, max-width 380px.
+
+**BR-037:** Empty states use centered layout, 48px icon at 50% opacity, `text-lg` title, `text-sm` description.
+
+### FA-008: Accessibility
+
+**US-015:** As a user with accessibility needs, I want all interactive elements to be navigable via keyboard.
+
+**US-016:** As a screen reader user, I want proper ARIA labels on all interactive elements.
+
+**BR-038:** WCAG 2.2 AA color contrast minimums: normal text 4.5:1, large text 3:1, UI components 3:1.
+
+**BR-039:** All interactive elements have visible focus indicators using `border-focus` + 2px outline.
+
+**BR-040:** Theme toggle has `aria-label="Theme selector"` with each button having `aria-pressed`.
+
+**BR-041:** Font size button has `aria-label="Adjust font size"` and announces current level.
+
+**BR-042:** Modal dialogs implement focus trap.
+
+**BR-043:** Toast notifications use `role="status"`.
+
+### FA-009: Responsive Design
+
+**US-017:** As a user on a smaller screen, I want the layout to adapt gracefully so I can still use the application.
+
+**BR-044:** Desktop-first approach with breakpoints at 640px, 768px, 1024px, 1280px, 1536px.
+
+**BR-045:** Sidebar collapses to icon-only (56px) at 1024-1280px and to hamburger drawer below 1024px.
+
+**BR-046:** Tables hide secondary columns at 1024-1280px and use horizontal scroll at 768-1024px.
 
 ## 1.5 Non-Functional Requirements Summary
 
-| Category | Requirement |
-|----------|-------------|
-| Performance | UI state updates must render within 100ms of WebSocket receipt |
-| Availability | WS connection must auto-reconnect with exponential backoff |
-| Availability | All UI actions must degrade gracefully if WS Server is down |
-| Security | No memory leaks from WS connections (proper cleanup on unmount) |
-| Scalability | Maximum 50 concurrent React clients supported |
-| Performance | ScenarioStateManager must respond in less than 10ms for any query |
-| Scalability | Memory usage for all scenario data must be less than 50MB |
-| Usability | Adding a new scenario requires only creating a new script file |
-| Availability | All existing E2E and unit tests must continue passing (backward compatible) |
+| Category | ID | Requirement | Target |
+|----------|----|-------------|--------|
+| Performance | NFR-001 | Theme switch latency | Less than 300ms perceived transition |
+| Performance | NFR-002 | Font size change latency | Less than 100ms reflow |
+| Performance | NFR-003 | No FOUC on page load | Theme applied before first paint |
+| Availability | NFR-004 | All three apps functional in both themes | 100% feature parity across themes |
+| Availability | NFR-005 | Graceful degradation if localStorage unavailable | Falls back to dark theme |
+| Security | NFR-006 | No sensitive data in localStorage | Only theme-preference and font-size-step |
+| Security | NFR-007 | No XSS vectors in theme/font size handling | Strict value validation |
+| Scalability | NFR-008 | Design tokens extensible for future projects | Modular CSS custom property architecture |
+| Scalability | NFR-009 | Component patterns reusable across frameworks | Framework-agnostic CSS token system |
+| Usability | NFR-010 | WCAG 2.2 AA compliance in both themes | All contrast ratios meet minimums |
+| Usability | NFR-011 | Consistent keyboard navigation patterns | Tab, Enter/Space, Esc across all apps |
+| Usability | NFR-012 | Theme and font preferences persist per-project | localStorage per application |
 
 ## 1.6 Assumptions and Dependencies
 
-**Assumptions:**
-- The existing Frontend MCP WS Server (port 3001) is operational and supports the 8 tools
-- The backend MCP Server has all 40 tools functional
-- The Vega/OpenClaw agent gateway is optionally available for enrichment
-- All 168 existing E2E tests pass as baseline
+### Assumptions
+- A-001: All three applications will continue to be served from their current tech stacks (React+Tailwind and Lit+CSS)
+- A-002: The AgentFlow Design System v2.0 style guides (`style-guide-v2.html`, `style-guide-light-v2.html`) are the final, authoritative design reference
+- A-003: Inter and JetBrains Mono fonts can be loaded via CDN or local files in all projects
+- A-004: All users have modern browsers supporting CSS custom properties and `prefers-color-scheme`
+- A-005: The existing functionality of all three applications remains unchanged — only visual presentation changes
 
-**Dependencies:**
-- React 18+ with hooks support
-- Python 3.11+ with asyncio and websockets library
-- Existing MCP tool infrastructure
-- Frontend MCP WS Server running on port 3001
+### Dependencies
+- D-001: `style-guide-v2.html` — Dark theme design reference
+- D-002: `style-guide-light-v2.html` — Light theme design reference
+- D-003: Lucide Icons library (already used in CyberDemo and Medicum)
+- D-004: Inter font family (Google Fonts or local)
+- D-005: JetBrains Mono font family (Google Fonts or local)
+- D-006: Tailwind CSS 3.x (CyberDemo and Medicum)
+- D-007: Lit 3.x (Files Manager)
 
 ## 1.7 Constraints
 
-- No new external service dependencies (all data remains mock/simulated)
-- WebSocket connection limited to localhost (development environment)
-- Maximum 8 phases per scenario (MITRE ATT&CK kill chain)
-- No changes to the Vega agent internals (only integration layer)
+- C-001: No backend changes are permitted — this is a pure frontend visual migration
+- C-002: All existing features must continue to work identically after migration
+- C-003: No new npm dependencies beyond fonts and Lucide (if not already present)
+- C-004: CyberDemo's custom CSS animations in `index.css` must be preserved and adapted to use design tokens
+- C-005: Files Manager's Shadow DOM encapsulation must be respected — global CSS does not penetrate shadow roots
+- C-006: Medicum's Zustand stores are unaffected — only view layer changes
+- C-007: The image viewer dark background in Medicum Visor tab must remain dark even in light theme for proper medical image viewing
 
-## 1.8 Project Context
+## 1.8 Project Context (Existing Codebase)
 
-CyberDemo is an existing platform with:
-- React frontend with 168 passing E2E tests
-- Backend MCP Server with 40 tools (Python/FastAPI)
-- Frontend MCP WS Server with 8 tools (TypeScript/Node.js)
-- Vega AI agent integration via GatewayClient
-- Simulation control (start, pause, speed, jump-to-stage)
+### CyberDemo Frontend
+- **Location:** `cyberdemo/frontend/`
+- **Stack:** React 18, Vite 5, Tailwind 3.4, TypeScript
+- **Current state:** 18 routes, dark-only, Tailwind utility classes, custom CSS animations
+- **Layout:** Sidebar + Header + Content area with DemoControlBar, NarrationFooter, DemoFloatingWidget
+- **Key files:** `src/App.tsx`, `src/index.css`, `tailwind.config.js`, `src/components/Layout.tsx`
 
-This enhancement builds on the existing architecture without breaking current functionality.
+### Medicum Demo
+- **Location:** `SoulInTheBot/AIPerson/person.ai/medicum-demo/`
+- **Stack:** React 18, Vite 4, Tailwind 3.3, Zustand 4.4, TypeScript
+- **Current state:** 4 tabs (Consulta, Historia, Codificacion, Visor), light-only, system fonts
+- **Layout:** PatientHeader (sticky) + TabBar + Tab Content
+- **Key files:** `src/App.tsx`, `src/index.css`, `tailwind.config.js`, `src/components/PatientHeader.tsx`, `src/components/TabBar.tsx`, `src/components/tabs/*.tsx`
+
+### Files Manager
+- **Location:** `SoulInTheBot/AIPerson/ui/`
+- **Stack:** Lit 3.1, Vite 5.4, TypeScript
+- **Current state:** Single-page, dark-first, CSS custom properties (`--files-*`), light overrides defined but no toggle
+- **Layout:** Two-panel (sidebar + file list) with toolbar, modals, toasts
+- **Key files:** `index.html`, `src/styles/files.css`, `src/ui/views/files.ts`, `src/ui/views/files-epic002.ts`
+- **Components:** `<files-view>`, `<upload-progress-bar>`, `<delete-confirmation-modal>`, `<file-actions-buttons>`
 
 ---
 
-# PART 2: TECHNICAL REQUIREMENTS
+# PART 2: Technical Requirements
 
-## 2.1 Requirements Traceability Matrix
+## 2.1 Requirements Traceability Matrix (Brief)
 
-| Source Section | Requirement Types | Count |
-|----------------|-------------------|-------|
-| Section 1.4.1 (EPIC-001) | Functional (REQ-001-*) | 19 requirements |
-| Section 1.4.2 (EPIC-002) | Functional (REQ-002-*) | 23 requirements |
-| Section 1.5 | Non-Functional (NFR-*) | 9 requirements |
-| System Design | Technical (TECH-*) | 13 requirements |
-| System Integration | Integration (INT-*) | 5 requirements |
-| Data Architecture | Data (DATA-*) | 7 requirements |
+| Source Type | Count | Traced To |
+|-------------|-------|-----------|
+| User Stories (US) | 17 | Requirements (REQ) |
+| Business Rules (BR) | 46 | Requirements (REQ), Technical (TECH) |
+| Non-Functional (NFR) | 12 | Technical (TECH), Integration (INT) |
 
 ## 2.2 Requirements Numbering Convention
 
-- **REQ-{epic}-{feature}-{seq}**: Functional requirements (e.g., REQ-001-001-001)
-- **TECH-{seq}**: Technical requirements (e.g., TECH-001)
-- **INT-{seq}**: Integration requirements (e.g., INT-001)
-- **DATA-{seq}**: Data requirements (e.g., DATA-001)
-- **NFR-{seq}**: Non-functional requirements (e.g., NFR-001)
+| Type | Pattern | Example |
+|------|---------|---------|
+| Epic | `EPIC-XXX` | EPIC-001 |
+| Feature | `FEAT-XXX-YYY` | FEAT-001-001 |
+| Requirement | `REQ-XXX-YYY-ZZZ` | REQ-001-001-001 |
+| Technical | `TECH-XXX` | TECH-001 |
+| Integration | `INT-XXX` | INT-001 |
+| Data | `DATA-XXX` | DATA-001 |
+| Non-Functional | `NFR-XXX` | NFR-001 |
 
 ## 2.3 Priority Classification
 
 | Priority | Label | Description |
 |----------|-------|-------------|
-| MTH | Must-To-Have | Core functionality required for the enhancement to work |
-| NTH | Nice-To-Have | Additional features that improve the experience but are not blocking |
-
-## 2.4 Epics
-
-### EPIC-001: Agent-to-UI Bidirectional Control `MTH`
-
-**Description:** Enable Vega to control the React UI in real-time through WebSocket integration with the Frontend MCP WS Server.
-
-**Business Value:** Transforms the demo from a passive text narration into an interactive visual experience where the audience sees the AI agent actively investigating and presenting findings.
-
-**Acceptance Criteria:**
-- The React app receives and applies state updates from the WS Server
-- The backend can forward UI commands to the WS Server
-- Each simulation phase triggers appropriate UI actions
-- The 8 frontend MCP tools produce enhanced visual effects
-
-##### FEAT-001-001: React to MCP WS Server Connection `MTH`
-
-**Description:** React hook useMcpStateSync that connects to ws://localhost:3001 and applies state updates.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-001-001-001 | React hook connects to WS Server on mount with auto-reconnect | MTH | Hook establishes WebSocket connection on component mount and reconnects automatically on disconnect |
-| REQ-001-001-002 | State updates from WS Server trigger UI navigation with toast notification | MTH | When WS Server sends currentView update, React router navigates and shows brief toast indicating agent-triggered navigation (BR-004) |
-| REQ-001-001-003 | highlightedAssets state changes trigger node highlighting on graph page | MTH | When highlightedAssets array is updated via WS, corresponding nodes pulse or glow on the network graph |
-| REQ-001-001-004 | Charts array entries render as floating overlay components | MTH | When charts array receives new entry via WS, a chart overlay appears with specified type and data |
-| REQ-001-001-005 | Timeline state renders as sliding panel from right | MTH | When timeline state is updated via WS, a panel slides in from right displaying timeline entries |
-| REQ-001-001-006 | App works normally if WS Server is unavailable (graceful degradation) | MTH | If WS Server is down, all existing functionality works without errors or visual glitches |
-
-##### FEAT-001-002: Backend to WS Server Bridge `MTH`
-
-**Description:** Python UIBridge class that forwards UI control commands to the MCP WS Server.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-001-002-001 | UIBridge WebSocket client connects to WS Server (lazy, first use) | MTH | UIBridge opens WS connection on first send_action call and reuses for subsequent calls |
-| REQ-001-002-002 | REST endpoint POST /api/v1/ui/action for programmatic UI commands | MTH | POST request with action payload returns 200 and forwards command to WS Server |
-| REQ-001-002-003 | Silent failure when WS Server is unavailable (no crash) | MTH | If WS Server is down, UIBridge logs warning and returns without raising exception |
-
-##### FEAT-001-003: Agent Analysis with UI Actions `MTH`
-
-**Description:** After Vega analyzes a simulation phase, appropriate UI actions are triggered automatically.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-001-003-001 | Phase-to-UI-Action mapping defined for APT29 scenario (8 phases) | MTH | Configuration maps each APT29 phase to specific UI actions (navigate, highlight, chart) |
-| REQ-001-003-002 | UI actions trigger 1-2 seconds after agent text analysis appears | MTH | After agent text renders, UI actions fire with configurable delay (default 1.5s) |
-| REQ-001-003-003 | Presenter can disable auto-UI-actions via a toggle | MTH | Toggle in presenter controls enables or disables automatic UI actions globally |
-| REQ-001-003-004 | UI actions from agent are rate-limited to max 2 per second | MTH | Rate limiter queues or drops UI actions exceeding 2 per second threshold (BR-005) |
-| REQ-001-003-005 | UI actions queue when user is interacting (no interruption) | MTH | If user is actively clicking or typing, agent UI actions are queued until idle (BR-008) |
-
-##### FEAT-001-004: Enhanced Frontend MCP Tools `MTH`
-
-**Description:** Enhance the 8 existing frontend MCP tools for richer visual effects.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-001-004-001 | Charts render as floating overlays with smooth animation and auto-dismiss | MTH | Chart appears with fade-in animation and auto-dismisses after configurable timeout |
-| REQ-001-004-002 | Asset highlights support three modes: pulse, glow, and zoom | MTH | Each highlight mode produces visually distinct CSS animation on the target node |
-| REQ-001-004-003 | Timeline panel slides in from right with animated entries | MTH | Panel slides smoothly from right edge and entries appear with staggered animation |
-| REQ-001-004-004 | Dashboard KPI updates animate with counting number effect | MTH | KPI values animate from old to new value using counting number transition |
-
-##### FEAT-001-005: WS Server Startup Integration `NTH`
-
-**Description:** MCP WS Server starts automatically with npm run dev.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-001-005-001 | npm run dev starts both React dev server and MCP WS Server | NTH | Single npm run dev command launches both processes using concurrently or similar |
-
-### EPIC-002: Dynamic Scenario Data Engine `MTH`
-
-**Description:** Replace static mock data with phase-aware scenario data that evolves as attack simulations progress.
-
-**Business Value:** Makes the demo realistic by providing contextually appropriate data for every SOC tool based on the current attack phase, creating a coherent narrative across all investigation tools.
-
-**Acceptance Criteria:**
-- ScenarioStateManager provides cumulative phase data
-- APT29 scenario has complete event scripts for all 8 phases
-- All 25 SOC tool handlers query the manager for phase-appropriate data
-- Phase advances sync between simulation and data engine
-
-##### FEAT-002-001: ScenarioStateManager `MTH`
-
-**Description:** Singleton Python class managing cumulative simulation state with query and mutation methods.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-002-001-001 | Singleton class with start_scenario, advance_to_phase, reset methods | MTH | Only one instance exists; start loads scenario, advance accumulates phase data, reset clears state |
-| REQ-002-001-002 | Cumulative phase data (phase N includes all data from phases 1 through N) | MTH | Advancing to phase 3 includes all events from phases 1, 2, and 3 |
-| REQ-002-001-003 | Agent mutations (contain host, close incident, add comment) persist in state | MTH | After agent calls contain_host, all subsequent queries show host as contained |
-| REQ-002-001-004 | Thread-safe state with asyncio Lock | MTH | Concurrent access to state manager does not cause data corruption |
-| REQ-002-001-005 | Only one scenario active at a time (exclusive lock) | MTH | Starting a new scenario resets previous one; concurrent start attempts are rejected (BR-011) |
-
-##### FEAT-002-002: APT29 Scenario Script `MTH`
-
-**Description:** Complete event script for APT29 (Cozy Bear) with 8 phases, 14 SIEM incidents, 15 EDR detections, 7 IOCs.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-002-002-001 | Phase 1-8 event definitions with SIEM incidents | MTH | Each of 8 phases has associated SIEM incident events with MITRE ATT&CK mapping |
-| REQ-002-002-002 | 14 cumulative SIEM incidents across 8 phases | MTH | Total of 14 unique SIEM incidents distributed across phases with proper severity |
-| REQ-002-002-003 | 15 cumulative EDR detections across 8 phases | MTH | Total of 15 unique EDR detections with process, path, and action details |
-| REQ-002-002-004 | 7 cumulative Intel IOCs across 8 phases | MTH | Total of 7 IOCs (IPs, domains, hashes) with threat intel source attribution |
-| REQ-002-002-005 | Cross-reference consistency between incidents, detections, and IOCs | MTH | IOC IPs referenced in incidents match IOC definitions and EDR network connections |
-
-##### FEAT-002-003: Additional Scenario Scripts `NTH`
-
-**Description:** 5 additional scenario scripts (FIN7, Lazarus, REvil, SolarWinds, Insider Threat).
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-002-003-001 | FIN7 scenario script (6 phases, financial targeting) | NTH | FIN7 script with 6 phases covering point-of-sale targeting with MITRE mapping |
-| REQ-002-003-002 | Lazarus scenario script (5 phases, destructive wiper) | NTH | Lazarus script with 5 phases covering destructive wiper attack with MITRE mapping |
-| REQ-002-003-003 | REvil scenario script (5 phases, ransomware) | NTH | REvil script with 5 phases covering ransomware deployment with MITRE mapping |
-| REQ-002-003-004 | SolarWinds scenario script (6 phases, supply chain) | NTH | SolarWinds script with 6 phases covering supply chain compromise with MITRE mapping |
-| REQ-002-003-005 | Insider Threat scenario script (3 phases, credential abuse) | NTH | Insider script with 3 phases covering credential abuse and data exfiltration |
-
-##### FEAT-002-004: Tool Handler Integration `MTH`
-
-**Description:** All 25 SOC domain tool handlers query ScenarioStateManager for phase-appropriate data.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-002-004-001 | 25 tool handlers integrated with ScenarioStateManager query methods | MTH | Each of the 25 SOC tool handlers calls ScenarioStateManager before returning data |
-| REQ-002-004-002 | Backward compatibility when no scenario is active (return static data) | MTH | When no scenario is active, tools return existing static mock data unchanged |
-| REQ-002-004-003 | Agent mutations (contain, close, comment) reflected immediately in queries | MTH | After mutation call, next query to any tool reflects the mutation |
-| REQ-002-004-004 | Tools must not reveal future-phase data (data isolation) | MTH | Query for current phase data never includes events from phases not yet reached (BR-013) |
-
-##### FEAT-002-005: Agent Orchestration Enhancement `NTH`
-
-**Description:** 6 agent orchestration tools use scenario data instead of separate mock stores.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-002-005-001 | Agent orchestration tools query ScenarioStateManager for analysis context | NTH | 6 orchestration tools use ScenarioStateManager data for contextual responses |
-| REQ-002-005-002 | Optional Vega gateway enrichment for text analysis portion | NTH | If Vega gateway is available, agent analysis text is enriched with LLM output |
-
-##### FEAT-002-006: Simulation Phase Synchronization `MTH`
-
-**Description:** Phase advances in the simulation sync with ScenarioStateManager.
-
-| Req ID | Description | Priority | Acceptance Criteria |
-|--------|-------------|----------|---------------------|
-| REQ-002-006-001 | attack_start_scenario initializes both SimulationStateManager and ScenarioStateManager | MTH | Starting scenario loads data into both managers atomically |
-| REQ-002-006-002 | Phase advance and jump-to-stage apply cumulative events to ScenarioStateManager | MTH | Advancing or jumping to phase N accumulates all events from phase 1 through N |
-
-## 2.5 Technical Requirements
-
-| ID | Category | Requirement | Priority | Verification |
-|----|----------|-------------|----------|--------------|
-| TECH-001 | Frontend | useMcpStateSync React hook with WebSocket connection to port 3001 | MTH | Hook connects and syncs state on mount |
-| TECH-002 | Backend | UIBridge Python class with async WebSocket client | MTH | Class sends commands to WS Server |
-| TECH-003 | API | REST endpoint POST /api/v1/ui/action for programmatic UI control | MTH | Endpoint accepts and forwards UI commands |
-| TECH-004 | Frontend | Chart overlay React component with auto-dismiss timer | MTH | Component renders chart and auto-dismisses |
-| TECH-005 | Frontend | Asset highlight effects via CSS animations (pulse, glow, zoom) | MTH | Three animation modes apply to nodes |
-| TECH-006 | Frontend | Timeline sliding panel React component | MTH | Panel slides from right on state update |
-| TECH-007 | Frontend | KPI animation component (counting number effect) | MTH | Numbers animate from old to new value |
-| TECH-008 | Backend | ScenarioStateManager singleton class with async-safe state | MTH | Singleton with asyncio Lock protection |
-| TECH-009 | Backend | Scenario script files in backend/src/mcp/scenarios/ directory | MTH | Scripts load via standard file pattern |
-| TECH-010 | Backend | PhaseEvents data structure with SIEM, EDR, Intel event lists | MTH | Data structure holds typed event lists |
-| TECH-011 | Backend | 25 tool handler modifications to query ScenarioStateManager | MTH | Each handler queries manager for data |
-| TECH-012 | Backend | Backward compatibility: if no scenario active, return static data | MTH | Tools return static data when no scenario |
-| TECH-013 | Testing | E2E tests with Playwright for UI control flows | MTH | Playwright tests verify UI actions work |
-
-## 2.6 Integration Requirements
-
-| ID | Systems | Description | Priority | Verification |
-|----|---------|-------------|----------|--------------|
-| INT-001 | React, MCP WS Server | WebSocket protocol for state synchronization (port 3001) | MTH | WS messages parsed and state applied |
-| INT-002 | Backend, MCP WS Server | UIBridge WebSocket client for forwarding UI commands | MTH | Commands reach WS Server from backend |
-| INT-003 | Tool Handlers, ScenarioStateManager | Query interface for phase-aware data retrieval | MTH | Tools receive phase-appropriate data |
-| INT-004 | Simulation, Data Engine | Phase advance synchronization between SimulationStateManager and ScenarioStateManager | MTH | Both managers advance atomically |
-| INT-005 | Agent Gateway, UI Pipeline | Agent analysis triggers UI actions through UIBridge | MTH | Agent analysis produces visible UI change |
-
-## 2.7 Data Requirements
-
-| ID | Entity | Description | Priority |
-|----|--------|-------------|----------|
-| DATA-001 | PhaseEvents | Data structure containing SIEM events, EDR detections, Intel IOCs per phase | MTH |
-| DATA-002 | ScenarioState | Cumulative state structure with incidents, detections, IOCs, containment, tickets | MTH |
-| DATA-003 | APT29Script | Complete event data: 14 SIEM incidents, 15 EDR detections, 7 IOCs across 8 phases | MTH |
-| DATA-004 | AdditionalScripts | Event data for FIN7, Lazarus, REvil, SolarWinds, Insider Threat scenarios | NTH |
-| DATA-005 | WSCommandFormat | WebSocket UI command message format (MCP tool_call and state_update protocols) | MTH |
-| DATA-006 | MutationFormat | Agent mutation persistence format (comments, containment status, tickets, approvals) | MTH |
-| DATA-007 | PhaseUIMapping | Phase-to-UI-Action mapping configuration for each scenario | MTH |
-
-## 2.8 Full Traceability Matrix
-
-| Req ID | Source | Description | Code | Tests | Verified |
-|--------|--------|-------------|------|-------|----------|
-| REQ-001-001-001 | US-001 | React hook connects to MCP WS Server on mount with auto-reconnect | [ ] | [ ] | [ ] |
-| REQ-001-001-002 | US-001 | State updates from WS Server trigger UI navigation | [ ] | [ ] | [ ] |
-| REQ-001-001-003 | US-001 | highlightedAssets state changes trigger node highlighting | [ ] | [ ] | [ ] |
-| REQ-001-001-004 | US-001 | Charts array entries render as floating overlay | [ ] | [ ] | [ ] |
-| REQ-001-001-005 | US-001 | Timeline state renders as sliding panel | [ ] | [ ] | [ ] |
-| REQ-001-001-006 | US-001 | Graceful degradation if WS Server unavailable | [ ] | [ ] | [ ] |
-| REQ-001-002-001 | US-002 | UIBridge WebSocket client connects to WS Server | [ ] | [ ] | [ ] |
-| REQ-001-002-002 | US-002 | REST endpoint POST /api/v1/ui/action | [ ] | [ ] | [ ] |
-| REQ-001-002-003 | US-002 | Silent failure when WS Server unavailable | [ ] | [ ] | [ ] |
-| REQ-001-003-001 | US-003 | Phase-to-UI-Action mapping for APT29 | [ ] | [ ] | [ ] |
-| REQ-001-003-002 | US-003 | UI actions trigger after agent analysis | [ ] | [ ] | [ ] |
-| REQ-001-003-003 | US-003 | Presenter toggle for auto-UI-actions | [ ] | [ ] | [ ] |
-| REQ-001-003-004 | BR-005 | Rate-limit agent UI actions (max 2/sec) | [ ] | [ ] | [ ] |
-| REQ-001-003-005 | BR-008 | Queue UI actions during user interaction | [ ] | [ ] | [ ] |
-| REQ-001-004-001 | US-004 | Charts render as floating overlays with animation | [ ] | [ ] | [ ] |
-| REQ-001-004-002 | US-004 | Three highlight modes (pulse, glow, zoom) | [ ] | [ ] | [ ] |
-| REQ-001-004-003 | US-004 | Timeline sliding panel with animation | [ ] | [ ] | [ ] |
-| REQ-001-004-004 | US-004 | Dashboard KPI counting animation | [ ] | [ ] | [ ] |
-| REQ-001-005-001 | US-005 | WS Server integrated startup with npm run dev | [ ] | [ ] | [ ] |
-| REQ-002-001-001 | US-006 | ScenarioStateManager singleton with start/advance/reset | [ ] | [ ] | [ ] |
-| REQ-002-001-002 | US-006 | Cumulative phase data application | [ ] | [ ] | [ ] |
-| REQ-002-001-003 | US-006 | Agent mutation persistence in state | [ ] | [ ] | [ ] |
-| REQ-002-001-004 | US-006 | Thread-safe state with asyncio Lock | [ ] | [ ] | [ ] |
-| REQ-002-001-005 | BR-011 | Only one scenario active at a time | [ ] | [ ] | [ ] |
-| REQ-002-002-001 | US-007 | APT29 phase 1-8 event definitions | [ ] | [ ] | [ ] |
-| REQ-002-002-002 | US-007 | 14 cumulative SIEM incidents | [ ] | [ ] | [ ] |
-| REQ-002-002-003 | US-007 | 15 cumulative EDR detections | [ ] | [ ] | [ ] |
-| REQ-002-002-004 | US-007 | 7 cumulative Intel IOCs | [ ] | [ ] | [ ] |
-| REQ-002-002-005 | US-007 | Cross-reference consistency | [ ] | [ ] | [ ] |
-| REQ-002-003-001 | US-008 | FIN7 scenario script | [ ] | [ ] | [ ] |
-| REQ-002-003-002 | US-008 | Lazarus scenario script | [ ] | [ ] | [ ] |
-| REQ-002-003-003 | US-008 | REvil scenario script | [ ] | [ ] | [ ] |
-| REQ-002-003-004 | US-008 | SolarWinds scenario script | [ ] | [ ] | [ ] |
-| REQ-002-003-005 | US-008 | Insider Threat scenario script | [ ] | [ ] | [ ] |
-| REQ-002-004-001 | US-009 | 25 tool handlers integrated with ScenarioStateManager | [ ] | [ ] | [ ] |
-| REQ-002-004-002 | US-009 | Backward compatibility when no scenario active | [ ] | [ ] | [ ] |
-| REQ-002-004-003 | US-009 | Mutations reflected immediately in queries | [ ] | [ ] | [ ] |
-| REQ-002-004-004 | BR-013 | Tools must not reveal future-phase data | [ ] | [ ] | [ ] |
-| REQ-002-005-001 | US-010 | Agent orchestration tools use scenario data | [ ] | [ ] | [ ] |
-| REQ-002-005-002 | US-010 | Optional Vega gateway enrichment | [ ] | [ ] | [ ] |
-| REQ-002-006-001 | US-011 | Phase sync between simulation and data engine | [ ] | [ ] | [ ] |
-| REQ-002-006-002 | US-011 | Jump-to-phase applies cumulative events | [ ] | [ ] | [ ] |
-| TECH-001 | US-001 | useMcpStateSync React hook | [ ] | [ ] | [ ] |
-| TECH-002 | US-002 | UIBridge Python class | [ ] | [ ] | [ ] |
-| TECH-003 | US-002 | REST endpoint POST /api/v1/ui/action | [ ] | [ ] | [ ] |
-| TECH-004 | US-004 | Chart overlay component | [ ] | [ ] | [ ] |
-| TECH-005 | US-004 | Asset highlight CSS animations | [ ] | [ ] | [ ] |
-| TECH-006 | US-004 | Timeline sliding panel component | [ ] | [ ] | [ ] |
-| TECH-007 | US-004 | KPI animation component | [ ] | [ ] | [ ] |
-| TECH-008 | US-006 | ScenarioStateManager singleton | [ ] | [ ] | [ ] |
-| TECH-009 | US-007 | Scenario script file structure | [ ] | [ ] | [ ] |
-| TECH-010 | US-007 | PhaseEvents data structure | [ ] | [ ] | [ ] |
-| TECH-011 | US-009 | 25 tool handler modifications | [ ] | [ ] | [ ] |
-| TECH-012 | US-009 | Backward compatibility logic | [ ] | [ ] | [ ] |
-| TECH-013 | US-003 | E2E tests for UI control flows | [ ] | [ ] | [ ] |
-| INT-001 | Sec 2.6 | React and MCP WS Server WebSocket protocol | [ ] | [ ] | [ ] |
-| INT-002 | Sec 2.6 | Backend UIBridge WebSocket client | [ ] | [ ] | [ ] |
-| INT-003 | Sec 2.6 | Tool Handler to ScenarioStateManager interface | [ ] | [ ] | [ ] |
-| INT-004 | Sec 2.6 | Simulation to Data Engine phase sync | [ ] | [ ] | [ ] |
-| INT-005 | Sec 2.6 | Agent Gateway to UI action pipeline | [ ] | [ ] | [ ] |
-| DATA-001 | Sec 2.7 | PhaseEvents data structure | [ ] | [ ] | [ ] |
-| DATA-002 | Sec 2.7 | ScenarioStateManager cumulative state structure | [ ] | [ ] | [ ] |
-| DATA-003 | Sec 2.7 | APT29 complete event data | [ ] | [ ] | [ ] |
-| DATA-004 | Sec 2.7 | Additional scenario event data | [ ] | [ ] | [ ] |
-| DATA-005 | Sec 2.7 | WebSocket UI command message format | [ ] | [ ] | [ ] |
-| DATA-006 | Sec 2.7 | Agent mutation persistence format | [ ] | [ ] | [ ] |
-| DATA-007 | Sec 2.7 | Phase-to-UI-Action mapping configuration | [ ] | [ ] | [ ] |
-| NFR-001 | Sec 1.5 | UI state updates render within 100ms | [ ] | [ ] | [ ] |
-| NFR-002 | Sec 1.5 | WS auto-reconnect with exponential backoff | [ ] | [ ] | [ ] |
-| NFR-003 | Sec 1.5 | Graceful degradation if WS Server down | [ ] | [ ] | [ ] |
-| NFR-004 | Sec 1.5 | No memory leaks from WS connections | [ ] | [ ] | [ ] |
-| NFR-005 | Sec 1.5 | Maximum 50 concurrent React clients | [ ] | [ ] | [ ] |
-| NFR-006 | Sec 1.5 | ScenarioStateManager query response under 10ms | [ ] | [ ] | [ ] |
-| NFR-007 | Sec 1.5 | Memory usage for scenario data under 50MB | [ ] | [ ] | [ ] |
-| NFR-008 | Sec 1.5 | New scenario requires only new script file | [ ] | [ ] | [ ] |
-| NFR-009 | Sec 1.5 | Backward compatible with existing tests | [ ] | [ ] | [ ] |
+| **MTH** | Must To Have | Required for minimum viable delivery. Without these, the system does not fulfill its purpose. |
+| **NTH** | Nice To Have | Enhances quality/polish but not blocking. Can be deferred if needed. |
 
 ---
 
-## Verification Section
+## 2.4 Epics, Features, and REQ Definitions
 
-### Part 1 to Part 2 Traceability
+### EPIC-001: Design Token Foundation (MTH)
+*Create the shared CSS custom properties system that all three applications will consume.*
 
-| Part 1 Section | Covered in Part 2 | Requirements |
-|----------------|-------------------|--------------|
-| 1.4.1 Agent-to-UI Control | Covered | EPIC-001, FEAT-001-001 through FEAT-001-005, REQ-001-* |
-| 1.4.2 Dynamic Data Engine | Covered | EPIC-002, FEAT-002-001 through FEAT-002-006, REQ-002-* |
-| 1.5 Non-Functional | Covered | NFR-001 through NFR-009 |
-| 1.6 Dependencies | Covered | TECH-001 through TECH-013 |
-| 1.7 Constraints | Covered | INT-001 through INT-005 |
+#### FEAT-001-001: Design Tokens CSS File (MTH)
+*Source: US-001, BR-001, BR-002, BR-003*
 
-### Summary Statistics
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-001-001 | Create `design-tokens.css` file containing all CSS custom properties from the AgentFlow Design System v2.0 | MTH | File contains all color, spacing, typography, shadow, radius, z-index, transition, and breakpoint tokens |
+| REQ-001-001-002 | Define `:root` block with all base/shared tokens (color scales, spacing, typography, etc.) | MTH | All 11 color primary shades, 11 secondary, 10 accent, 13 neutral, 12 semantic, 6 agent status tokens present |
+| REQ-001-001-003 | Define `[data-theme="dark"]` block with dark-specific semantic tokens (bg, text, border, shadow) | MTH | All 8 bg-*, 5 text-*, 3 border-*, 1 shadow-card, 1 color-scheme tokens present |
+| REQ-001-001-004 | Define `[data-theme="light"]` block with light-specific semantic tokens | MTH | All 8 bg-*, 5 text-*, 3 border-*, 1 shadow-card, 1 color-scheme tokens present |
+| REQ-001-001-005 | Token values match exactly the style guide v2.0 specifications | MTH | Every token value matches the authoritative style guide documents |
 
-| Category | MTH | NTH | Total |
-|----------|-----|-----|-------|
-| Epics | 2 | 0 | 2 |
-| Features | 8 | 3 | 11 |
-| Requirements | 34 | 8 | 42 |
-| Technical | 13 | 0 | 13 |
-| Integration | 5 | 0 | 5 |
-| Data | 6 | 1 | 7 |
-| Non-Functional | 9 | 0 | 9 |
+#### FEAT-001-002: Tailwind Configuration (MTH)
+*Source: US-002, BR-001*
 
-*Document generated by SoftwareBuilderX v20.0.0*
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-002-001 | Extend CyberDemo `tailwind.config.js` to reference CSS custom properties for colors | MTH | Tailwind classes like `bg-primary`, `text-primary` resolve to `var(--bg-primary)` etc. |
+| REQ-001-002-002 | Extend Medicum `tailwind.config.js` to reference CSS custom properties, replacing medical/severity palette | MTH | `medical.*` and `severity.*` colors map to AgentFlow tokens |
+| REQ-001-002-003 | Configure Tailwind font families to use Inter and JetBrains Mono | MTH | `font-sans` resolves to Inter, `font-mono` resolves to JetBrains Mono in both projects |
+
+#### FEAT-001-003: Font Loading (MTH)
+*Source: BR-019, BR-029*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-001-003-001 | Load Inter font (weights: 300, 400, 500, 600, 700, 800) in CyberDemo and Medicum | MTH | Inter renders correctly in all weights |
+| REQ-001-003-002 | Load JetBrains Mono font (weights: 400, 600) in CyberDemo and Medicum | MTH | JetBrains Mono renders correctly for code/data elements |
+| REQ-001-003-003 | Verify Inter and JetBrains Mono are already loaded in Files Manager | MTH | Fonts render correctly — no changes needed if already present |
+
+---
+
+### EPIC-002: Theme System (MTH)
+*Implement the three-mode theme toggle across all applications.*
+
+#### FEAT-002-001: Theme Toggle Component — React (MTH)
+*Source: US-003, BR-004, BR-005*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-001-001 | Create `ThemeToggle` React component with pill-shaped container, 3 buttons (Dark/Light/System) | MTH | Pill shape with `radius-full`, `bg-tertiary`, 1px `border-primary` |
+| REQ-002-001-002 | Active button shows `primary-600` background with white text; inactive buttons show `text-secondary` | MTH | Visual distinction between active and inactive states |
+| REQ-002-001-003 | Dark button uses Moon icon, Light uses Sun icon, System uses Monitor icon (Lucide) | MTH | Correct icons render for each option |
+| REQ-002-001-004 | Clicking a button sets `data-theme` attribute on `<html>` element | MTH | Document element reflects selected theme |
+| REQ-002-001-005 | System option reads `prefers-color-scheme` media query and applies matching theme | MTH | System option mirrors OS preference |
+| REQ-002-001-006 | Transition between states uses `duration-normal` (200ms) with `ease-default` | MTH | Smooth visual transition on button click |
+
+#### FEAT-002-002: Theme Toggle Component — Lit (MTH)
+*Source: US-012, BR-004, BR-005*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-002-001 | Create `<theme-toggle>` LitElement web component with identical visual spec as React version | MTH | Same pill shape, icons, colors, transitions |
+| REQ-002-002-002 | Component sets `data-theme` on `document.documentElement` (outside Shadow DOM) | MTH | Theme attribute is on `<html>`, not inside shadow root |
+| REQ-002-002-003 | Place `<theme-toggle>` in the Files Manager toolbar area | MTH | Toggle visible and functional in toolbar |
+
+#### FEAT-002-003: Theme Persistence and FOUC Prevention (MTH)
+*Source: US-004, US-005, BR-006, BR-007, BR-008*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-002-003-001 | Save theme preference to `localStorage` key `theme-preference` on every change | MTH | Value persists after page reload |
+| REQ-002-003-002 | On page load, read `localStorage` and apply theme BEFORE first paint (inline script in `<head>`) | MTH | No flash of wrong theme on page load |
+| REQ-002-003-003 | If `localStorage` value is "system", detect OS preference and apply corresponding theme | MTH | System preference correctly detected on load |
+| REQ-002-003-004 | If `localStorage` is empty or unavailable, default to "dark" theme | MTH | Graceful fallback behavior |
+| REQ-002-003-005 | Theme transition on `<body>` uses `duration-slow` (300ms) + `ease-default` for background and color | MTH | Smooth visual transition when switching |
+
+---
+
+### EPIC-003: Font Size Accessibility Control (MTH)
+*Implement the cyclic font size button across all applications.*
+
+#### FEAT-003-001: Font Size Button Component — React (MTH)
+*Source: US-006, BR-009, BR-010, BR-012*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-003-001-001 | Create `FontSizeButton` React component with typography icon (Lucide "Type" or "ALargeSmall") | MTH | Icon button renders correctly |
+| REQ-003-001-002 | Click cycles through 3 states: step 0 (16px) → step 1 (18px) → step 2 (20px) → step 0 (16px) | MTH | Font size changes on each click in cyclic order |
+| REQ-003-001-003 | Modify `document.documentElement.style.fontSize` to set the new base size | MTH | All rem-based sizes scale proportionally |
+| REQ-003-001-004 | Button visually indicates current state (e.g., small/medium/large "A" text, or dot indicators) | MTH | User can see which size level is active |
+| REQ-003-001-005 | Tooltip on hover shows "Font size: Normal / Medium / Large" corresponding to current state | NTH | Tooltip provides context |
+| REQ-003-001-006 | Place button to the LEFT of ThemeToggle in page header | MTH | Correct positioning |
+
+#### FEAT-003-002: Font Size Button Component — Lit (MTH)
+*Source: US-006, BR-009, BR-010*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-003-002-001 | Create `<font-size-button>` LitElement web component with identical behavior as React version | MTH | Same cycling, same visual feedback |
+| REQ-003-002-002 | Place next to `<theme-toggle>` in Files Manager toolbar | MTH | Button visible and functional in toolbar |
+
+#### FEAT-003-003: Font Size Persistence (MTH)
+*Source: US-007, BR-011*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-003-003-001 | Save font size step to `localStorage` key `font-size-step` (values: "0", "1", "2") | MTH | Value persists after page reload |
+| REQ-003-003-002 | On page load, restore font size from `localStorage` before first paint | MTH | Correct font size on load, no reflow flash |
+| REQ-003-003-003 | If `localStorage` is empty or unavailable, default to step 0 (16px) | MTH | Graceful fallback |
+
+---
+
+### EPIC-004: CyberDemo Frontend Migration (MTH)
+*Migrate all CyberDemo pages and components to the AgentFlow Design System.*
+
+#### FEAT-004-001: CyberDemo Layout and Navigation (MTH)
+*Source: US-008, US-009, BR-013, BR-014*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-004-001-001 | Update sidebar navigation to use design tokens (bg-secondary, text-secondary, hover: bg-hover, active: primary tint) | MTH | Sidebar renders correctly in both themes |
+| REQ-004-001-002 | Update sticky header to use tokens (bg-primary at 0.8 opacity, backdrop blur) with ThemeToggle and FontSizeButton | MTH | Header renders correctly, controls functional |
+| REQ-004-001-003 | Update DemoControlBar, NarrationFooter, and DemoFloatingWidget to use design tokens | MTH | All layout widgets render correctly in both themes |
+| REQ-004-001-004 | Import `design-tokens.css` in the application entry point | MTH | Tokens available globally |
+
+#### FEAT-004-002: CyberDemo Dashboard and Main Pages (MTH)
+*Source: BR-013, BR-016, BR-017*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-004-002-001 | Migrate `/dashboard` page: metric cards, charts, activity feed to design tokens | MTH | Dashboard renders correctly in both themes |
+| REQ-004-002-002 | Migrate `/generation` (home) page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-002-003 | Migrate `/surface` (Command Center) page to design tokens | MTH | Page renders correctly in both themes |
+
+#### FEAT-004-003: CyberDemo Security Pages (MTH)
+*Source: BR-013*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-004-003-001 | Migrate `/vulnerabilities`, CVE detail, CVE assets, CVE exploits pages to design tokens | MTH | All vulnerability pages render correctly in both themes |
+| REQ-004-003-002 | Migrate `/threats` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-003-003 | Migrate `/incidents` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-003-004 | Migrate `/detections` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-003-005 | Migrate `/ctem` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-003-006 | Migrate `/vulnerabilities/ssvc` page to design tokens | MTH | Page renders correctly in both themes |
+
+#### FEAT-004-004: CyberDemo Domain Components (MTH)
+*Source: BR-015*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-004-004-001 | Migrate workflow canvas (dot grid, nodes, connections, ports) to design tokens | MTH | Canvas renders correctly in both themes |
+| REQ-004-004-002 | Migrate agent status badges (running, idle, success, error, waiting, queued) to design tokens | MTH | Status badges display correct colors and animations |
+| REQ-004-004-003 | Migrate execution timeline to design tokens | MTH | Timeline renders correctly in both themes |
+| REQ-004-004-004 | Migrate log viewer to design tokens | MTH | Log viewer renders correctly in both themes |
+| REQ-004-004-005 | Migrate metric cards to design tokens | MTH | Metric cards render correctly in both themes |
+
+#### FEAT-004-005: CyberDemo Utility Pages (MTH)
+*Source: BR-013*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-004-005-001 | Migrate `/timeline` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-005-002 | Migrate `/postmortems` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-005-003 | Migrate `/tickets` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-005-004 | Migrate `/graph` and `/graph/:incidentId` pages to design tokens | MTH | Attack graph renders correctly in both themes |
+| REQ-004-005-005 | Migrate `/collab` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-005-006 | Migrate `/config` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-005-007 | Migrate `/audit` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-005-008 | Migrate `/simulation` page to design tokens | MTH | Page renders correctly in both themes |
+| REQ-004-005-009 | Migrate `/assets` page to design tokens | MTH | Page renders correctly in both themes |
+
+---
+
+### EPIC-005: Medicum Demo Migration (MTH)
+*Migrate all Medicum tabs and components to the AgentFlow Design System.*
+
+#### FEAT-005-001: Medicum Base Layout and Header (MTH)
+*Source: US-010, BR-018, BR-019*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-005-001-001 | Update `App.tsx` body background from `bg-gray-100` to `var(--bg-primary)` | MTH | Body background adapts to theme |
+| REQ-005-001-002 | Update `PatientHeader` from `bg-white` to `var(--bg-elevated)`, text/border to tokens | MTH | Header renders correctly in both themes |
+| REQ-005-001-003 | Update allergy badges to use AgentFlow semantic tokens (error/warning/accent) | MTH | Badges readable in both themes |
+| REQ-005-001-004 | Update connection status dots to use AgentFlow success/warning/error colors | MTH | Status correctly colored in both themes |
+| REQ-005-001-005 | Place ThemeToggle and FontSizeButton in PatientHeader top-right | MTH | Controls visible and functional |
+| REQ-005-001-006 | Update `TabBar` from `bg-white` to `var(--bg-elevated)`, active tab to primary token | MTH | Tab bar renders correctly in both themes |
+| REQ-005-001-007 | Import `design-tokens.css` and Inter + JetBrains Mono fonts | MTH | Tokens and fonts available |
+
+#### FEAT-005-002: Medicum Consulta Tab (MTH)
+*Source: BR-020*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-005-002-001 | Update transcription panel from `bg-white` cards to token-based backgrounds | MTH | Panel renders correctly in both themes |
+| REQ-005-002-002 | Update chat bubbles: doctor (primary) and patient (secondary/tertiary) to tokens | MTH | Bubbles readable in both themes |
+| REQ-005-002-003 | Update SOAP note panel to token-based backgrounds and text colors | MTH | SOAP sections readable in both themes |
+| REQ-005-002-004 | Update Whisper status badges to semantic tokens | MTH | Status badges correctly colored |
+| REQ-005-002-005 | Update speaker toggle and listen/demo buttons to design token colors | MTH | Buttons render correctly in both themes |
+
+#### FEAT-005-003: Medicum Historia Tab (MTH)
+*Source: BR-020*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-005-003-001 | Update accordion sections from `bg-gray-50`/`bg-white` to token-based backgrounds | MTH | Accordions render correctly in both themes |
+| REQ-005-003-002 | Update lab results table to use table design token pattern | MTH | Table readable in both themes with correct value coloring |
+| REQ-005-003-003 | Update episode cards to token-based backgrounds | MTH | Cards render correctly in both themes |
+
+#### FEAT-005-004: Medicum Codificacion Tab (MTH)
+*Source: BR-020, BR-022, BR-023*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-005-004-001 | Update AI suggestions panel to token-based backgrounds | MTH | Panel renders correctly in both themes |
+| REQ-005-004-002 | Update CIE-10 code display: `font-mono` with `var(--color-primary-600)` in light / `var(--color-primary-400)` in dark | MTH | ICD codes clearly readable in both themes |
+| REQ-005-004-003 | Update confidence badges: green (>=90% success), yellow (>=70% warning), gray (below neutral) using semantic tokens | MTH | Badges semantically correct and readable |
+| REQ-005-004-004 | Update search input and results dropdown to design token pattern | MTH | Search UI renders correctly in both themes |
+| REQ-005-004-005 | Update assigned codes panel (primary/secondary distinction) to tokens | MTH | Code cards render correctly in both themes |
+
+#### FEAT-005-005: Medicum Visor Tab (MTH)
+*Source: BR-020, BR-021*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-005-005-001 | Update image viewer toolbar to token-based backgrounds | MTH | Toolbar renders correctly in both themes |
+| REQ-005-005-002 | Keep image display area dark (`bg-gray-900` to `--color-neutral-900`) in BOTH themes for medical image viewing | MTH | Image area always dark for proper viewing |
+| REQ-005-005-003 | Update AI analysis panel to token-based backgrounds | MTH | Panel renders correctly in both themes |
+| REQ-005-005-004 | Update finding cards and confidence badges to semantic tokens | MTH | Findings readable in both themes |
+| REQ-005-005-005 | Update radiological report block to token-based background | MTH | Report block readable in both themes |
+
+---
+
+### EPIC-006: Files Manager Migration (MTH)
+*Migrate Files Manager to the AgentFlow Design System.*
+
+#### FEAT-006-001: Files Manager CSS Variable Remapping (MTH)
+*Source: US-013, BR-024, BR-025, BR-026*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-006-001-001 | Replace `--files-bg-primary` (#1a1a2e) with `--bg-primary` (#020617) in dark theme | MTH | Background matches AgentFlow spec |
+| REQ-006-001-002 | Replace `--files-bg-secondary` (#16213e) with `--bg-secondary` (#0f172a) in dark theme | MTH | Background matches AgentFlow spec |
+| REQ-006-001-003 | Replace `--files-bg-tertiary` (#0f3460) with `--bg-tertiary` (#1e293b) in dark theme | MTH | Background matches AgentFlow spec |
+| REQ-006-001-004 | Replace `--files-text-*` variables with `--text-primary/secondary/tertiary` AgentFlow tokens | MTH | Text colors match AgentFlow spec |
+| REQ-006-001-005 | Replace `--files-border`/`--files-border-subtle` with `--border-primary`/`--border-secondary` tokens | MTH | Border colors match AgentFlow spec |
+| REQ-006-001-006 | Update `[data-theme="light"]` override values to match AgentFlow light tokens | MTH | Light theme matches AgentFlow spec |
+| REQ-006-001-007 | Add missing AgentFlow tokens (shadows, radii, spacing, z-index, transitions) to the CSS variable system | MTH | All required tokens available |
+
+#### FEAT-006-002: Files Manager Theme Toggle and Font Size (MTH)
+*Source: US-012, BR-024*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-006-002-001 | Integrate `<theme-toggle>` component in toolbar | MTH | Toggle visible and functional |
+| REQ-006-002-002 | Integrate `<font-size-button>` component in toolbar, to the left of theme toggle | MTH | Button visible and functional |
+
+#### FEAT-006-003: Files Manager Hardcoded Color Fixes (MTH)
+*Source: BR-027*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-006-003-001 | Replace hardcoded colors in `index.html` (body bg #1a1a2e, text #e0e0e0, spinner #4a9eff, error banner #ff4444) with CSS variable references | MTH | No hardcoded colors in index.html |
+| REQ-006-003-002 | Replace hardcoded colors in `files-epic002.ts` inline styles (modal backdrop rgba, box-shadow values) with CSS variable references | MTH | No hardcoded colors in component inline styles |
+
+#### FEAT-006-004: Files Manager Icon Standardization (NTH)
+*Source: BR-028*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-006-004-001 | Replace emoji action buttons with Lucide SVG icons (Scissors, Copy, Download, Trash2) | NTH | Icons render consistently, matching other projects |
+| REQ-006-004-002 | Add Lucide icon dependency or inline SVGs in the Lit component | NTH | Icons available without breaking build |
+
+---
+
+### EPIC-007: Component Standardization (MTH)
+*Ensure all UI components follow the AgentFlow Design System patterns across all projects.*
+
+#### FEAT-007-001: Button Standardization (MTH)
+*Source: US-014, BR-030*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-007-001-001 | All primary buttons across all 3 apps use `primary-600` bg, white text, hover `primary-700` + translateY(-1px) | MTH | Primary buttons visually consistent |
+| REQ-007-001-002 | All destructive buttons use `color-error` bg, white text, hover `error-dark` | MTH | Destructive buttons visually consistent |
+| REQ-007-001-003 | Button sizes follow spec: sm (32px), md (36px), lg (44px) with corresponding padding and font size | MTH | Button sizes consistent |
+| REQ-007-001-004 | All buttons have focus ring: 2px outline `primary-500` | MTH | Focus indicators visible |
+| REQ-007-001-005 | Disabled buttons use opacity 0.5 and cursor-not-allowed | MTH | Disabled state consistent |
+
+#### FEAT-007-002: Card Standardization (MTH)
+*Source: BR-031*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-007-002-001 | All card components use `bg-card`, `border-secondary`, `radius-xl`, `space-6` padding | MTH | Cards visually consistent |
+| REQ-007-002-002 | Interactive cards have hover: `border-primary` + `shadow-card` + translateY(-2px) | MTH | Hover effect consistent |
+
+#### FEAT-007-003: Form Input Standardization (MTH)
+*Source: BR-032*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-007-003-001 | All text inputs use `bg-input`, `border-primary`, `radius-lg`, 36px height | MTH | Inputs visually consistent |
+| REQ-007-003-002 | Focus state: `border-focus` + 3px blue ring | MTH | Focus ring visible and consistent |
+| REQ-007-003-003 | Error state: red border + red ring | MTH | Error state visible |
+| REQ-007-003-004 | Placeholder text uses `text-tertiary` | MTH | Placeholder color consistent |
+
+#### FEAT-007-004: Table Standardization (MTH)
+*Source: BR-033*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-007-004-001 | Table headers use `bg-tertiary`, `text-xs`, uppercase, `weight-medium`, letter-spacing 0.05em | MTH | Table headers consistent |
+| REQ-007-004-002 | Table rows use `text-sm`, `text-primary`, `border-secondary` bottom, hover `bg-hover` | MTH | Table rows consistent |
+
+#### FEAT-007-005: Badge and Toast Standardization (MTH)
+*Source: BR-034, BR-036*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-007-005-001 | All badges use pill shape, `text-xs`, semantic color bg at 15% opacity | MTH | Badges visually consistent |
+| REQ-007-005-002 | Toast notifications use `bg-elevated`, `border-primary`, `shadow-lg`, max-width 380px | MTH | Toasts visually consistent |
+
+#### FEAT-007-006: Modal Standardization (MTH)
+*Source: BR-035*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-007-006-001 | All modals use `rgba(0,0,0,0.6)` overlay + backdrop blur, `bg-elevated`, `radius-xl`, `shadow-xl` | MTH | Modals visually consistent |
+| REQ-007-006-002 | Modal footer buttons right-aligned with `space-3` gap | MTH | Footer layout consistent |
+
+#### FEAT-007-007: Empty State Standardization (NTH)
+*Source: BR-037*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-007-007-001 | All empty states use centered layout, 48px icon at 50% opacity, `text-lg` title, `text-sm` description | NTH | Empty states visually consistent |
+
+---
+
+### EPIC-008: Accessibility Compliance (MTH)
+*Ensure WCAG 2.2 AA compliance across all applications.*
+
+#### FEAT-008-001: Color Contrast Compliance (MTH)
+*Source: US-015, BR-038*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-008-001-001 | All text/background combinations meet 4.5:1 contrast ratio in dark theme | MTH | Contrast audit passes |
+| REQ-008-001-002 | All text/background combinations meet 4.5:1 contrast ratio in light theme | MTH | Contrast audit passes |
+| REQ-008-001-003 | All UI components (borders, icons, indicators) meet 3:1 contrast ratio | MTH | Component contrast audit passes |
+
+#### FEAT-008-002: Keyboard Navigation and ARIA (MTH)
+*Source: US-015, US-016, BR-039, BR-040, BR-041, BR-042, BR-043*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-008-002-001 | All interactive elements have visible focus indicators | MTH | Tab navigation shows focus ring on every element |
+| REQ-008-002-002 | Theme toggle has `aria-label="Theme selector"` and each button has `aria-pressed` | MTH | Screen reader announces correctly |
+| REQ-008-002-003 | Font size button has `aria-label="Adjust font size"` and announces current level | MTH | Screen reader announces correctly |
+| REQ-008-002-004 | Modal dialogs implement focus trap | MTH | Tab key cycles within modal only |
+| REQ-008-002-005 | Toast notifications use `role="status"` | MTH | Screen reader announces toasts |
+
+---
+
+### EPIC-009: Responsive Design (NTH)
+*Implement responsive layout patterns across all applications.*
+
+#### FEAT-009-001: Responsive Layout Adaptation (NTH)
+*Source: US-017, BR-044, BR-045, BR-046*
+
+| Req ID | Description | Priority | Acceptance Criteria |
+|--------|-------------|----------|---------------------|
+| REQ-009-001-001 | Sidebar collapses to 56px icon-only at 1024-1280px breakpoint | NTH | Layout adapts at breakpoint |
+| REQ-009-001-002 | Sidebar becomes hamburger drawer below 1024px | NTH | Drawer toggles correctly |
+| REQ-009-001-003 | Tables hide secondary columns at 1024-1280px | NTH | Tables remain usable |
+| REQ-009-001-004 | Tables use horizontal scroll at 768-1024px | NTH | Tables scrollable |
+
+---
+
+## 2.5 Technical Requirements
+
+| Req ID | Description | Priority | Source |
+|--------|-------------|----------|--------|
+| TECH-001 | Use CSS custom properties (not SASS/LESS variables) as the token system for cross-framework compatibility | MTH | BR-001, C-005 |
+| TECH-002 | Design tokens file must be importable in both React (CSS import) and Lit (adoptedStyleSheets or link injection) | MTH | BR-001, C-005 |
+| TECH-003 | Theme detection script must execute synchronously in `<head>` before body renders to prevent FOUC | MTH | BR-007, NFR-003 |
+| TECH-004 | Font size modification targets `document.documentElement.style.fontSize` for global rem scaling | MTH | BR-010 |
+| TECH-005 | All Tailwind config extensions must use `var(--token-name)` syntax to reference CSS custom properties | MTH | BR-001 |
+| TECH-006 | Files Manager Shadow DOM components that need theme tokens must inject the design-tokens.css into their shadow root | MTH | C-005 |
+| TECH-007 | CyberDemo custom CSS animations in `index.css` must be preserved, with color references updated to tokens | MTH | C-004 |
+| TECH-008 | Build output size should not increase more than 50KB from font loading and token file | NTH | NFR-001 |
+| TECH-009 | Use `font-display: swap` for web font loading to prevent invisible text | MTH | NFR-001 |
+| TECH-010 | Validate that no hardcoded hex color values remain in any component source file after migration | MTH | BR-002 |
+
+## 2.6 Integration Requirements
+
+| Req ID | Description | Priority | Source |
+|--------|-------------|----------|--------|
+| INT-001 | CyberDemo and Medicum must share the same `design-tokens.css` file (copy or symlink) to ensure token parity | MTH | BR-001, US-001 |
+| INT-002 | Files Manager must consume the same token values, adapted for its CSS variable system | MTH | BR-024 |
+| INT-003 | All three applications must respond identically to `data-theme` attribute changes on `<html>` | MTH | BR-004 |
+| INT-004 | Font loading (Inter, JetBrains Mono) must be consistent across all three applications | MTH | BR-019, BR-029 |
+| INT-005 | Lucide icons must be available in all three applications (npm package for React, SVG inlines or CDN for Lit) | MTH | BR-028, D-003 |
+
+## 2.7 Data Requirements
+
+| Req ID | Description | Priority | Source |
+|--------|-------------|----------|--------|
+| DATA-001 | `localStorage` key `theme-preference` stores string values: `"dark"`, `"light"`, `"system"` | MTH | BR-006 |
+| DATA-002 | `localStorage` key `font-size-step` stores string values: `"0"`, `"1"`, `"2"` | MTH | BR-011 |
+| DATA-003 | Both localStorage keys are scoped per-origin (natural browser behavior — each app has its own domain/port) | MTH | BR-006 |
+| DATA-004 | No sensitive data stored in localStorage — only UI preference values | MTH | NFR-006 |
+
+## 2.7b Non-Functional Requirements (Detailed)
+
+### Performance
+
+| Req ID | Description | Priority | Target | Source |
+|--------|-------------|----------|--------|--------|
+| NFR-001 | Theme switch perceived latency must be under 300ms | MTH | Less than 300ms | BR-008 |
+| NFR-002 | Font size change reflow must complete under 100ms | MTH | Less than 100ms | BR-010 |
+| NFR-003 | No FOUC on page load — theme applied before first paint via inline head script | MTH | Zero visible flash | BR-007, TECH-003 |
+
+### Availability
+
+| Req ID | Description | Priority | Target | Source |
+|--------|-------------|----------|--------|--------|
+| NFR-004 | All features in all three apps must be fully functional in both themes | MTH | 100% feature parity | BR-013, BR-020 |
+| NFR-005 | If localStorage is unavailable, fall back to dark theme gracefully | MTH | No crash or broken UI | BR-006 |
+
+### Security
+
+| Req ID | Description | Priority | Target | Source |
+|--------|-------------|----------|--------|--------|
+| NFR-006 | Only non-sensitive UI preferences stored in localStorage (theme-preference, font-size-step) | MTH | No PII or secrets | DATA-004 |
+| NFR-007 | Theme and font size handling must not introduce XSS vectors — strict value validation on localStorage reads | MTH | Zero injection risk | BR-004, BR-010 |
+
+### Scalability
+
+| Req ID | Description | Priority | Target | Source |
+|--------|-------------|----------|--------|--------|
+| NFR-008 | Design token architecture must be extensible for future projects without breaking existing apps | NTH | Modular CSS custom properties | BR-001 |
+| NFR-009 | Component patterns must be reusable across React and Lit frameworks via framework-agnostic CSS tokens | NTH | Same tokens work in both | TECH-001, TECH-002 |
+
+### Usability
+
+| Req ID | Description | Priority | Target | Source |
+|--------|-------------|----------|--------|--------|
+| NFR-010 | All text/background combinations meet WCAG 2.2 AA contrast ratios in both themes | MTH | 4.5:1 text, 3:1 UI | BR-038 |
+| NFR-011 | Keyboard navigation patterns (Tab, Enter/Space, Esc) must be consistent across all three applications | MTH | Full keyboard access | BR-039 |
+| NFR-012 | Theme and font size preferences persist per-project via localStorage | MTH | Survives page reload | BR-006, BR-011 |
+
+## 2.8 Full Traceability Matrix
+
+| Req ID | Source | Description | Priority | Code | Tests | Verified |
+|--------|--------|-------------|----------|------|-------|----------|
+| REQ-001-001-001 | US-001, BR-001 | Create design-tokens.css with all AgentFlow CSS custom properties | MTH | [ ] | [ ] | [ ] |
+| REQ-001-001-002 | US-001, BR-001 | Define :root block with all base/shared tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-001-001-003 | BR-003 | Define [data-theme="dark"] block with dark semantic tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-001-001-004 | BR-003 | Define [data-theme="light"] block with light semantic tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-001-001-005 | BR-001 | Token values match style guide v2.0 exactly | MTH | [ ] | [ ] | [ ] |
+| REQ-001-002-001 | US-002, BR-001 | Extend CyberDemo tailwind.config.js to reference CSS custom properties | MTH | [ ] | [ ] | [ ] |
+| REQ-001-002-002 | US-002, BR-001 | Extend Medicum tailwind.config.js replacing medical/severity palette | MTH | [ ] | [ ] | [ ] |
+| REQ-001-002-003 | BR-019 | Configure Tailwind font families to Inter + JetBrains Mono | MTH | [ ] | [ ] | [ ] |
+| REQ-001-003-001 | BR-019 | Load Inter font weights 300-800 in CyberDemo and Medicum | MTH | [ ] | [ ] | [ ] |
+| REQ-001-003-002 | BR-019 | Load JetBrains Mono font weights 400, 600 in CyberDemo and Medicum | MTH | [ ] | [ ] | [ ] |
+| REQ-001-003-003 | BR-029 | Verify Inter + JetBrains Mono already loaded in Files Manager | MTH | [ ] | [ ] | [ ] |
+| REQ-002-001-001 | US-003, BR-004 | Create ThemeToggle React component with pill shape, 3 buttons | MTH | [ ] | [ ] | [ ] |
+| REQ-002-001-002 | US-003 | Active button primary-600 bg, inactive text-secondary | MTH | [ ] | [ ] | [ ] |
+| REQ-002-001-003 | US-003 | Dark=Moon, Light=Sun, System=Monitor Lucide icons | MTH | [ ] | [ ] | [ ] |
+| REQ-002-001-004 | BR-004 | Click sets data-theme on html element | MTH | [ ] | [ ] | [ ] |
+| REQ-002-001-005 | BR-005 | System reads prefers-color-scheme media query | MTH | [ ] | [ ] | [ ] |
+| REQ-002-001-006 | BR-008 | Transition 200ms ease-default | MTH | [ ] | [ ] | [ ] |
+| REQ-002-002-001 | US-012, BR-004 | Create theme-toggle LitElement component | MTH | [ ] | [ ] | [ ] |
+| REQ-002-002-002 | BR-004 | Lit component sets data-theme on document.documentElement | MTH | [ ] | [ ] | [ ] |
+| REQ-002-002-003 | US-012 | Place theme-toggle in Files Manager toolbar | MTH | [ ] | [ ] | [ ] |
+| REQ-002-003-001 | US-004, BR-006 | Save theme to localStorage key theme-preference | MTH | [ ] | [ ] | [ ] |
+| REQ-002-003-002 | US-005, BR-007 | Apply theme from localStorage before first paint | MTH | [ ] | [ ] | [ ] |
+| REQ-002-003-003 | BR-005 | System mode detects OS preference on load | MTH | [ ] | [ ] | [ ] |
+| REQ-002-003-004 | NFR-005 | Default to dark if localStorage empty/unavailable | MTH | [ ] | [ ] | [ ] |
+| REQ-002-003-005 | BR-008 | Body transition 300ms ease-default on theme switch | MTH | [ ] | [ ] | [ ] |
+| REQ-003-001-001 | US-006, BR-009 | Create FontSizeButton React component with Lucide icon | MTH | [ ] | [ ] | [ ] |
+| REQ-003-001-002 | BR-009, BR-010 | Click cycles: 16px to 18px to 20px to 16px | MTH | [ ] | [ ] | [ ] |
+| REQ-003-001-003 | BR-010 | Modifies document.documentElement.style.fontSize | MTH | [ ] | [ ] | [ ] |
+| REQ-003-001-004 | BR-009 | Button visually indicates current size state | MTH | [ ] | [ ] | [ ] |
+| REQ-003-001-005 | BR-009 | Tooltip shows current font size level name | NTH | [ ] | [ ] | [ ] |
+| REQ-003-001-006 | BR-012 | Button placed LEFT of ThemeToggle in header | MTH | [ ] | [ ] | [ ] |
+| REQ-003-002-001 | US-006, BR-009 | Create font-size-button LitElement component | MTH | [ ] | [ ] | [ ] |
+| REQ-003-002-002 | BR-012 | Place next to theme-toggle in Files Manager toolbar | MTH | [ ] | [ ] | [ ] |
+| REQ-003-003-001 | US-007, BR-011 | Save font-size-step to localStorage | MTH | [ ] | [ ] | [ ] |
+| REQ-003-003-002 | BR-011 | Restore font size from localStorage before first paint | MTH | [ ] | [ ] | [ ] |
+| REQ-003-003-003 | NFR-005 | Default to step 0 (16px) if localStorage unavailable | MTH | [ ] | [ ] | [ ] |
+| REQ-004-001-001 | US-009, BR-014 | Update CyberDemo sidebar to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-001-002 | BR-014 | Update CyberDemo header with tokens, ThemeToggle, FontSizeButton | MTH | [ ] | [ ] | [ ] |
+| REQ-004-001-003 | BR-014 | Update DemoControlBar, NarrationFooter, DemoFloatingWidget | MTH | [ ] | [ ] | [ ] |
+| REQ-004-001-004 | BR-001 | Import design-tokens.css in CyberDemo entry point | MTH | [ ] | [ ] | [ ] |
+| REQ-004-002-001 | BR-013 | Migrate /dashboard to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-002-002 | BR-013 | Migrate /generation to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-002-003 | BR-013 | Migrate /surface to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-003-001 | BR-013 | Migrate vulnerability pages (4 routes) to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-003-002 | BR-013 | Migrate /threats to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-003-003 | BR-013 | Migrate /incidents to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-003-004 | BR-013 | Migrate /detections to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-003-005 | BR-013 | Migrate /ctem to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-003-006 | BR-013 | Migrate /vulnerabilities/ssvc to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-004-001 | BR-015 | Migrate workflow canvas to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-004-002 | BR-015 | Migrate agent status badges to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-004-003 | BR-015 | Migrate execution timeline to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-004-004 | BR-015 | Migrate log viewer to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-004-005 | BR-015 | Migrate metric cards to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-001 | BR-013 | Migrate /timeline to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-002 | BR-013 | Migrate /postmortems to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-003 | BR-013 | Migrate /tickets to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-004 | BR-013 | Migrate /graph pages to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-005 | BR-013 | Migrate /collab to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-006 | BR-013 | Migrate /config to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-007 | BR-013 | Migrate /audit to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-008 | BR-013 | Migrate /simulation to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-004-005-009 | BR-013 | Migrate /assets to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-001-001 | US-010, BR-018 | Update App.tsx body to var(--bg-primary) | MTH | [ ] | [ ] | [ ] |
+| REQ-005-001-002 | BR-018 | Update PatientHeader to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-001-003 | BR-018 | Update allergy badges to semantic tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-001-004 | BR-018 | Update connection status dots to AgentFlow colors | MTH | [ ] | [ ] | [ ] |
+| REQ-005-001-005 | BR-012 | Place ThemeToggle + FontSizeButton in PatientHeader | MTH | [ ] | [ ] | [ ] |
+| REQ-005-001-006 | BR-018 | Update TabBar to design tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-001-007 | BR-001 | Import design-tokens.css + fonts in Medicum | MTH | [ ] | [ ] | [ ] |
+| REQ-005-002-001 | BR-020 | Update Consulta transcription panel to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-002-002 | BR-020 | Update chat bubbles to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-002-003 | BR-020 | Update SOAP note panel to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-002-004 | BR-020 | Update Whisper status badges to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-002-005 | BR-020 | Update speaker toggle and buttons to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-003-001 | BR-020 | Update Historia accordion sections to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-003-002 | BR-020 | Update lab results table to token pattern | MTH | [ ] | [ ] | [ ] |
+| REQ-005-003-003 | BR-020 | Update episode cards to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-004-001 | BR-020 | Update Codificacion AI suggestions panel to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-004-002 | BR-022 | CIE-10 codes font-mono with theme-aware primary color | MTH | [ ] | [ ] | [ ] |
+| REQ-005-004-003 | BR-023 | Confidence badges with semantic tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-004-004 | BR-020 | Update search input and results to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-004-005 | BR-020 | Update assigned codes panel to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-005-001 | BR-020 | Update Visor toolbar to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-005-002 | BR-021 | Visor image area stays dark in both themes | MTH | [ ] | [ ] | [ ] |
+| REQ-005-005-003 | BR-020 | Update AI analysis panel to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-005-004 | BR-023 | Update Visor finding cards and badges to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-005-005-005 | BR-020 | Update radiological report block to tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-006-001-001 | BR-025 | Replace --files-bg-primary with --bg-primary dark | MTH | [ ] | [ ] | [ ] |
+| REQ-006-001-002 | BR-025 | Replace --files-bg-secondary with --bg-secondary dark | MTH | [ ] | [ ] | [ ] |
+| REQ-006-001-003 | BR-025 | Replace --files-bg-tertiary with --bg-tertiary dark | MTH | [ ] | [ ] | [ ] |
+| REQ-006-001-004 | BR-024 | Replace --files-text-* with --text-* tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-006-001-005 | BR-024 | Replace --files-border with --border-* tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-006-001-006 | BR-026 | Update light theme values to AgentFlow spec | MTH | [ ] | [ ] | [ ] |
+| REQ-006-001-007 | BR-024 | Add missing shadow, radius, spacing tokens | MTH | [ ] | [ ] | [ ] |
+| REQ-006-002-001 | US-012 | Integrate theme-toggle in Files Manager toolbar | MTH | [ ] | [ ] | [ ] |
+| REQ-006-002-002 | BR-012 | Integrate font-size-button in Files Manager toolbar | MTH | [ ] | [ ] | [ ] |
+| REQ-006-003-001 | BR-027 | Fix hardcoded colors in index.html | MTH | [ ] | [ ] | [ ] |
+| REQ-006-003-002 | BR-027 | Fix hardcoded colors in files-epic002.ts | MTH | [ ] | [ ] | [ ] |
+| REQ-006-004-001 | BR-028 | Replace emoji action buttons with Lucide SVG icons | NTH | [ ] | [ ] | [ ] |
+| REQ-006-004-002 | BR-028 | Add Lucide dependency or inline SVGs for Lit | NTH | [ ] | [ ] | [ ] |
+| REQ-007-001-001 | BR-030 | Primary buttons: primary-600 bg, hover primary-700 + translateY | MTH | [ ] | [ ] | [ ] |
+| REQ-007-001-002 | BR-030 | Destructive buttons: color-error bg, hover error-dark | MTH | [ ] | [ ] | [ ] |
+| REQ-007-001-003 | BR-030 | Button sizes: sm 32px, md 36px, lg 44px | MTH | [ ] | [ ] | [ ] |
+| REQ-007-001-004 | BR-039 | Focus ring: 2px outline primary-500 | MTH | [ ] | [ ] | [ ] |
+| REQ-007-001-005 | BR-030 | Disabled: opacity 0.5, cursor-not-allowed | MTH | [ ] | [ ] | [ ] |
+| REQ-007-002-001 | BR-031 | Cards: bg-card, border-secondary, radius-xl, space-6 | MTH | [ ] | [ ] | [ ] |
+| REQ-007-002-002 | BR-031 | Interactive cards: hover border-primary + shadow + translateY | MTH | [ ] | [ ] | [ ] |
+| REQ-007-003-001 | BR-032 | Inputs: bg-input, border-primary, radius-lg, 36px | MTH | [ ] | [ ] | [ ] |
+| REQ-007-003-002 | BR-032 | Input focus: border-focus + blue ring | MTH | [ ] | [ ] | [ ] |
+| REQ-007-003-003 | BR-032 | Input error: red border + red ring | MTH | [ ] | [ ] | [ ] |
+| REQ-007-003-004 | BR-032 | Placeholder: text-tertiary | MTH | [ ] | [ ] | [ ] |
+| REQ-007-004-001 | BR-033 | Table headers: bg-tertiary, text-xs, uppercase | MTH | [ ] | [ ] | [ ] |
+| REQ-007-004-002 | BR-033 | Table rows: text-sm, border-secondary, hover bg-hover | MTH | [ ] | [ ] | [ ] |
+| REQ-007-005-001 | BR-034 | Badges: pill, text-xs, semantic 15% opacity bg | MTH | [ ] | [ ] | [ ] |
+| REQ-007-005-002 | BR-036 | Toasts: bg-elevated, border-primary, shadow-lg, 380px | MTH | [ ] | [ ] | [ ] |
+| REQ-007-006-001 | BR-035 | Modals: overlay blur, bg-elevated, radius-xl | MTH | [ ] | [ ] | [ ] |
+| REQ-007-006-002 | BR-035 | Modal footer: right-aligned, space-3 gap | MTH | [ ] | [ ] | [ ] |
+| REQ-007-007-001 | BR-037 | Empty states: centered, 48px icon, text-lg title | NTH | [ ] | [ ] | [ ] |
+| REQ-008-001-001 | BR-038 | Color contrast 4.5:1 for text in dark theme | MTH | [ ] | [ ] | [ ] |
+| REQ-008-001-002 | BR-038 | Color contrast 4.5:1 for text in light theme | MTH | [ ] | [ ] | [ ] |
+| REQ-008-001-003 | BR-038 | UI component contrast 3:1 | MTH | [ ] | [ ] | [ ] |
+| REQ-008-002-001 | BR-039 | Visible focus indicators on all interactive elements | MTH | [ ] | [ ] | [ ] |
+| REQ-008-002-002 | BR-040 | Theme toggle ARIA labels and aria-pressed | MTH | [ ] | [ ] | [ ] |
+| REQ-008-002-003 | BR-041 | Font size button ARIA label and announcements | MTH | [ ] | [ ] | [ ] |
+| REQ-008-002-004 | BR-042 | Modal focus trap | MTH | [ ] | [ ] | [ ] |
+| REQ-008-002-005 | BR-043 | Toast role="status" | MTH | [ ] | [ ] | [ ] |
+| REQ-009-001-001 | BR-045 | Sidebar icon-only at 1024-1280px | NTH | [ ] | [ ] | [ ] |
+| REQ-009-001-002 | BR-045 | Sidebar hamburger drawer below 1024px | NTH | [ ] | [ ] | [ ] |
+| REQ-009-001-003 | BR-046 | Tables hide secondary columns at 1024-1280px | NTH | [ ] | [ ] | [ ] |
+| REQ-009-001-004 | BR-046 | Tables horizontal scroll at 768-1024px | NTH | [ ] | [ ] | [ ] |
+| TECH-001 | BR-001, C-005 | CSS custom properties for cross-framework tokens | MTH | [ ] | [ ] | [ ] |
+| TECH-002 | BR-001, C-005 | Design tokens importable in React and Lit | MTH | [ ] | [ ] | [ ] |
+| TECH-003 | BR-007, NFR-003 | Synchronous theme detection in head | MTH | [ ] | [ ] | [ ] |
+| TECH-004 | BR-010 | Font size modifies documentElement.style.fontSize | MTH | [ ] | [ ] | [ ] |
+| TECH-005 | BR-001 | Tailwind uses var(--token) syntax | MTH | [ ] | [ ] | [ ] |
+| TECH-006 | C-005 | Shadow DOM token injection for Lit components | MTH | [ ] | [ ] | [ ] |
+| TECH-007 | C-004 | Preserve CyberDemo custom CSS animations | MTH | [ ] | [ ] | [ ] |
+| TECH-008 | NFR-001 | Build size increase less than 50KB from tokens + fonts | NTH | [ ] | [ ] | [ ] |
+| TECH-009 | NFR-001 | font-display: swap for web fonts | MTH | [ ] | [ ] | [ ] |
+| TECH-010 | BR-002 | No hardcoded hex colors after migration | MTH | [ ] | [ ] | [ ] |
+| INT-001 | BR-001, US-001 | Shared design-tokens.css between CyberDemo and Medicum | MTH | [ ] | [ ] | [ ] |
+| INT-002 | BR-024 | Files Manager consumes same token values | MTH | [ ] | [ ] | [ ] |
+| INT-003 | BR-004 | All apps respond to data-theme attribute | MTH | [ ] | [ ] | [ ] |
+| INT-004 | BR-019 | Consistent font loading across apps | MTH | [ ] | [ ] | [ ] |
+| INT-005 | BR-028 | Lucide icons available in all apps | MTH | [ ] | [ ] | [ ] |
+| DATA-001 | BR-006 | localStorage theme-preference: dark/light/system | MTH | [ ] | [ ] | [ ] |
+| DATA-002 | BR-011 | localStorage font-size-step: 0/1/2 | MTH | [ ] | [ ] | [ ] |
+| DATA-003 | BR-006 | Per-origin localStorage scoping | MTH | [ ] | [ ] | [ ] |
+| DATA-004 | NFR-006 | No sensitive data in localStorage | MTH | [ ] | [ ] | [ ] |
+| NFR-001 | BR-008 | Theme switch latency less than 300ms | MTH | [ ] | [ ] | [ ] |
+| NFR-002 | BR-010 | Font size change latency less than 100ms | MTH | [ ] | [ ] | [ ] |
+| NFR-003 | BR-007, TECH-003 | No FOUC on page load | MTH | [ ] | [ ] | [ ] |
+| NFR-004 | BR-013, BR-020 | 100% feature parity across themes | MTH | [ ] | [ ] | [ ] |
+| NFR-005 | BR-006 | Graceful localStorage fallback | MTH | [ ] | [ ] | [ ] |
+| NFR-006 | DATA-004 | No sensitive data in localStorage | MTH | [ ] | [ ] | [ ] |
+| NFR-007 | BR-004, BR-010 | No XSS vectors in theme/font handling | MTH | [ ] | [ ] | [ ] |
+| NFR-008 | BR-001 | Token system extensible for future projects | NTH | [ ] | [ ] | [ ] |
+| NFR-009 | TECH-001, TECH-002 | Framework-agnostic CSS token architecture | NTH | [ ] | [ ] | [ ] |
+| NFR-010 | BR-038 | WCAG 2.2 AA compliance both themes | MTH | [ ] | [ ] | [ ] |
+| NFR-011 | BR-039 | Consistent keyboard navigation | MTH | [ ] | [ ] | [ ] |
+| NFR-012 | BR-006, BR-011 | Per-project preference persistence | MTH | [ ] | [ ] | [ ] |
+
+---
+
+# VERIFICATION
+
+## Part 1 to Part 2 Traceability
+
+| Part 1 Source | Part 2 Coverage |
+|---------------|-----------------|
+| US-001 | REQ-001-001-001, REQ-001-001-002, INT-001 |
+| US-002 | REQ-001-002-001, REQ-001-002-002, TECH-005 |
+| US-003 | REQ-002-001-001 through REQ-002-001-006 |
+| US-004 | REQ-002-003-001 |
+| US-005 | REQ-002-003-002, REQ-002-003-005, TECH-003 |
+| US-006 | REQ-003-001-001 through REQ-003-001-004, REQ-003-002-001 |
+| US-007 | REQ-003-003-001, REQ-003-003-002 |
+| US-008 | EPIC-004 (all REQ-004-*) |
+| US-009 | REQ-004-001-001 through REQ-004-001-004 |
+| US-010 | EPIC-005 (all REQ-005-*) |
+| US-011 | REQ-005-004-002, REQ-005-004-003, REQ-005-005-002 |
+| US-012 | REQ-002-002-001 through REQ-002-002-003, REQ-006-002-001 |
+| US-013 | EPIC-006 (all REQ-006-*) |
+| US-014 | EPIC-007 (all REQ-007-*) |
+| US-015 | REQ-008-001-001 through REQ-008-001-003, REQ-008-002-001 |
+| US-016 | REQ-008-002-002 through REQ-008-002-005 |
+| US-017 | REQ-009-001-001 through REQ-009-001-004 |
+| BR-001 through BR-046 | Covered by REQ, TECH, INT, DATA requirements |
+| NFR-001 through NFR-012 | Covered by TECH-003, TECH-008, TECH-009, NFR-* requirements |
+
+## Summary Statistics
+
+| Metric | Count |
+|--------|-------|
+| **Epics** | 9 |
+| **Features** | 33 |
+| **Functional Requirements (REQ)** | 131 |
+| **Technical Requirements (TECH)** | 10 |
+| **Integration Requirements (INT)** | 5 |
+| **Data Requirements (DATA)** | 4 |
+| **Non-Functional Requirements (NFR)** | 12 |
+| **Total Requirements** | 162 |
+| **MTH Requirements** | 151 |
+| **NTH Requirements** | 11 |
+| **User Stories** | 17 |
+| **Business Rules** | 46 |
+| **Personas** | 5 |
+
+---
+
+_Generated by SoftwareBuilderX v21.0.0_

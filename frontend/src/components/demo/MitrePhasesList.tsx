@@ -28,16 +28,16 @@ const PhaseStatus = ({ stage }: { stage: MitreStage }) => {
     );
   }
   return (
-    <div data-testid={`phase-status-pending`} className="w-3 h-3 bg-gray-600 rounded-full" />
+    <div data-testid={`phase-status-pending`} className="w-3 h-3 bg-tertiary rounded-full" />
   );
 };
 
 export function MitrePhasesList({ stages, currentStage }: MitrePhasesListProps) {
   return (
     <div data-testid="mitre-phases-list" className="space-y-1">
-      <h3 className="text-sm font-semibold text-gray-200 mb-3">MITRE ATT&CK Phases</h3>
+      <h3 className="text-sm font-semibold text-primary mb-3">MITRE ATT&CK Phases</h3>
       {stages.length === 0 ? (
-        <p className="text-xs text-gray-500">Select a scenario to view phases</p>
+        <p className="text-xs text-tertiary">Select a scenario to view phases</p>
       ) : (
         <ul className="space-y-1">
           {stages.map((stage, index) => (
@@ -53,7 +53,7 @@ export function MitrePhasesList({ stages, currentStage }: MitrePhasesListProps) 
               }`}
             >
               {/* Step number */}
-              <span className="text-xs text-gray-500 w-4 text-right">{index + 1}</span>
+              <span className="text-xs text-tertiary w-4 text-right">{index + 1}</span>
 
               {/* Status indicator */}
               <PhaseStatus stage={stage} />
@@ -61,16 +61,16 @@ export function MitrePhasesList({ stages, currentStage }: MitrePhasesListProps) 
               {/* Phase info */}
               <div className="flex-1 min-w-0">
                 <div className={`text-sm font-medium truncate ${
-                  stage.active ? 'text-cyan-300' : stage.completed ? 'text-gray-300' : 'text-gray-500'
+                  stage.active ? 'text-cyan-300' : stage.completed ? 'text-secondary' : 'text-tertiary'
                 }`}>
                   {stage.tacticName}
                 </div>
-                <div className="text-xs text-gray-500 truncate">{stage.tacticId}</div>
+                <div className="text-xs text-tertiary truncate">{stage.tacticId}</div>
               </div>
 
               {/* Technique count */}
               {stage.techniqueIds.length > 0 && (
-                <span className="text-xs text-gray-600">
+                <span className="text-xs text-tertiary">
                   {stage.techniqueIds.length} tech
                 </span>
               )}

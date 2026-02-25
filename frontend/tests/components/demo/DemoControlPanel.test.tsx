@@ -82,7 +82,7 @@ describe("DemoControlPanel", () => {
     it("should render with proper styling classes", () => {
       renderDemoControlPanel();
       const panel = screen.getByTestId("demo-control-panel");
-      expect(panel).toHaveClass("bg-gray-800");
+      expect(panel).toHaveClass("bg-secondary");
     });
 
     it("should render the Demo Controls header", () => {

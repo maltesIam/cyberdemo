@@ -60,7 +60,7 @@ export function IncidentTimelineChart({
   };
 
   if (phases.length === 0) {
-    return <div className="text-center py-8 text-gray-500">No timeline data available</div>;
+    return <div className="text-center py-8 text-tertiary">No timeline data available</div>;
   }
 
   const chartWidth = 600;
@@ -151,8 +151,8 @@ export function IncidentTimelineChart({
             className="flex flex-col items-center text-center"
             style={{ width: `${100 / phases.length}%` }}
           >
-            <span className="text-sm font-medium text-white">{phase.name}</span>
-            <span className="text-xs text-gray-400">
+            <span className="text-sm font-medium text-primary">{phase.name}</span>
+            <span className="text-xs text-secondary">
               {format(new Date(phase.timestamp), "HH:mm")}
             </span>
           </div>

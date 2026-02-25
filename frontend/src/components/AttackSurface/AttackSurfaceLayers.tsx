@@ -167,12 +167,12 @@ function AssetNode({
         }}
       >
         {/* Asset type icon */}
-        <AssetTypeIcon type={asset.type} className="w-1/2 h-1/2 text-white opacity-80" />
+        <AssetTypeIcon type={asset.type} className="w-1/2 h-1/2 text-primary opacity-80" />
 
         {/* Badge indicators */}
         {asset.layers.containment.isContained && (
           <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center border-2 border-gray-900">
-            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
                 d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
@@ -183,7 +183,7 @@ function AssetNode({
         )}
 
         {asset.layers.edr.detectionCount > 0 && (
-          <div className="absolute -bottom-1 -right-1 min-w-5 h-5 px-1 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold text-white border-2 border-gray-900">
+          <div className="absolute -bottom-1 -right-1 min-w-5 h-5 px-1 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold text-primary border-2 border-gray-900">
             {asset.layers.edr.detectionCount}
           </div>
         )}
@@ -192,7 +192,7 @@ function AssetNode({
       {/* Label (only in detailed zoom) */}
       {zoomLevel === "detailed" && (
         <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 whitespace-nowrap">
-          <span className="text-xs font-mono text-gray-300 bg-gray-900/80 px-1.5 py-0.5 rounded">
+          <span className="text-xs font-mono text-secondary bg-primary/80 px-1.5 py-0.5 rounded">
             {asset.hostname}
           </span>
         </div>
@@ -425,10 +425,10 @@ export function AttackSurfaceLayers({
   }, [connections, layers]);
 
   return (
-    <div className={clsx("flex flex-col h-full bg-gray-900 rounded-lg overflow-hidden", className)}>
+    <div className={clsx("flex flex-col h-full bg-primary rounded-lg overflow-hidden", className)}>
       {/* Controls header */}
       {showControls && (
-        <div className="flex-shrink-0 p-4 border-b border-gray-700 space-y-4">
+        <div className="flex-shrink-0 p-4 border-b border-primary space-y-4">
           {/* Layer toggles */}
           <LayerToggle layers={layers} onToggle={handleLayerToggle} compact />
 
@@ -439,7 +439,7 @@ export function AttackSurfaceLayers({
           <div className="flex items-center justify-between">
             {/* Zoom level selector */}
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">Zoom:</span>
+              <span className="text-xs text-tertiary">Zoom:</span>
               {(["clustered", "grouped", "detailed"] as ZoomLevel[]).map((level) => (
                 <button
                   key={level}
@@ -447,8 +447,8 @@ export function AttackSurfaceLayers({
                   className={clsx(
                     "px-2 py-1 rounded text-xs font-medium transition-colors capitalize",
                     zoomLevel === level
-                      ? "bg-cyan-600 text-white"
-                      : "bg-gray-700 text-gray-400 hover:bg-gray-600",
+                      ? "bg-cyan-600 text-primary"
+                      : "bg-tertiary text-secondary hover:bg-tertiary",
                   )}
                 >
                   {level}
@@ -459,7 +459,7 @@ export function AttackSurfaceLayers({
             {/* Export button */}
             <button
               onClick={handleExport}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg text-sm transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-tertiary hover:bg-tertiary text-secondary rounded-lg text-sm transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -540,7 +540,7 @@ export function AttackSurfaceLayers({
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
               <svg
-                className="w-16 h-16 text-gray-600 mx-auto mb-4"
+                className="w-16 h-16 text-tertiary mx-auto mb-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -552,8 +552,8 @@ export function AttackSurfaceLayers({
                   d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
                 />
               </svg>
-              <p className="text-gray-400 font-medium">No assets to display</p>
-              <p className="text-gray-500 text-sm mt-1">
+              <p className="text-secondary font-medium">No assets to display</p>
+              <p className="text-tertiary text-sm mt-1">
                 Generate some data to visualize the attack surface
               </p>
             </div>
@@ -574,7 +574,7 @@ export function AttackSurfaceLayers({
       )}
 
       {/* Stats bar */}
-      <div className="flex-shrink-0 px-4 py-2 bg-gray-800 border-t border-gray-700 flex items-center justify-between text-xs text-gray-400">
+      <div className="flex-shrink-0 px-4 py-2 bg-secondary border-t border-primary flex items-center justify-between text-xs text-secondary">
         <div className="flex items-center gap-4">
           <span>{assets.length} assets</span>
           <span>{visibleConnections.length} connections</span>
@@ -583,7 +583,7 @@ export function AttackSurfaceLayers({
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-gray-500">Last updated:</span>
+          <span className="text-tertiary">Last updated:</span>
           <span>{format(new Date(), "HH:mm:ss")}</span>
         </div>
       </div>
@@ -604,14 +604,14 @@ function AssetDetailPanel({
   const enabledLayers = layers.filter((l) => l.enabled);
 
   return (
-    <div className="absolute right-0 top-0 bottom-0 w-80 bg-gray-800 border-l border-gray-700 shadow-xl overflow-y-auto">
+    <div className="absolute right-0 top-0 bottom-0 w-80 bg-secondary border-l border-primary shadow-xl overflow-y-auto">
       <div className="p-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-medium text-white">{asset.hostname}</h3>
+          <h3 className="font-medium text-primary">{asset.hostname}</h3>
           <button
             onClick={onClose}
-            className="p-1 text-gray-400 hover:text-white transition-colors"
+            className="p-1 text-secondary hover:text-primary transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -627,15 +627,15 @@ function AssetDetailPanel({
         {/* Basic info */}
         <div className="space-y-3 mb-4">
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">IP</span>
-            <span className="text-gray-300 font-mono">{asset.ip}</span>
+            <span className="text-tertiary">IP</span>
+            <span className="text-secondary font-mono">{asset.ip}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Type</span>
-            <span className="text-gray-300 capitalize">{asset.type.replace("_", " ")}</span>
+            <span className="text-tertiary">Type</span>
+            <span className="text-secondary capitalize">{asset.type.replace("_", " ")}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-gray-500">Risk Score</span>
+            <span className="text-tertiary">Risk Score</span>
             <span
               className={clsx(
                 "px-2 py-0.5 rounded text-xs font-medium",
@@ -681,14 +681,14 @@ function AssetDetailPanel({
                 <div className="space-y-1 text-xs">
                   {layer.id === "edr" && asset.layers.edr.active && (
                     <>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>Detections</span>
-                        <span className="text-white">{asset.layers.edr.detectionCount}</span>
+                        <span className="text-primary">{asset.layers.edr.detectionCount}</span>
                       </div>
                       {asset.layers.edr.severity && (
-                        <div className="flex justify-between text-gray-400">
+                        <div className="flex justify-between text-secondary">
                           <span>Severity</span>
-                          <span className="text-white capitalize">{asset.layers.edr.severity}</span>
+                          <span className="text-primary capitalize">{asset.layers.edr.severity}</span>
                         </div>
                       )}
                     </>
@@ -696,14 +696,14 @@ function AssetDetailPanel({
 
                   {layer.id === "siem" && asset.layers.siem.active && (
                     <>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>Incidents</span>
-                        <span className="text-white">{asset.layers.siem.incidentCount}</span>
+                        <span className="text-primary">{asset.layers.siem.incidentCount}</span>
                       </div>
                       {asset.layers.siem.status && (
-                        <div className="flex justify-between text-gray-400">
+                        <div className="flex justify-between text-secondary">
                           <span>Status</span>
-                          <span className="text-white capitalize">{asset.layers.siem.status}</span>
+                          <span className="text-primary capitalize">{asset.layers.siem.status}</span>
                         </div>
                       )}
                     </>
@@ -711,26 +711,26 @@ function AssetDetailPanel({
 
                   {layer.id === "ctem" && asset.layers.ctem.active && (
                     <>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>CVEs</span>
-                        <span className="text-white">{asset.layers.ctem.cveCount}</span>
+                        <span className="text-primary">{asset.layers.ctem.cveCount}</span>
                       </div>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>Risk Level</span>
-                        <span className="text-white capitalize">{asset.layers.ctem.riskLevel}</span>
+                        <span className="text-primary capitalize">{asset.layers.ctem.riskLevel}</span>
                       </div>
                     </>
                   )}
 
                   {layer.id === "threats" && asset.layers.threats.active && (
                     <>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>IOCs</span>
-                        <span className="text-white">{asset.layers.threats.iocCount}</span>
+                        <span className="text-primary">{asset.layers.threats.iocCount}</span>
                       </div>
                       {asset.layers.threats.threatActors.length > 0 && (
                         <div className="mt-1">
-                          <span className="text-gray-500">Threat Actors:</span>
+                          <span className="text-tertiary">Threat Actors:</span>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {asset.layers.threats.threatActors.map((actor) => (
                               <span
@@ -748,35 +748,35 @@ function AssetDetailPanel({
 
                   {layer.id === "vulnerabilities" && asset.layers.vulnerabilities?.active && (
                     <>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>CVEs</span>
-                        <span className="text-white">{asset.layers.vulnerabilities.cveCount}</span>
+                        <span className="text-primary">{asset.layers.vulnerabilities.cveCount}</span>
                       </div>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>Critical</span>
-                        <span className="text-white">
+                        <span className="text-primary">
                           {asset.layers.vulnerabilities.criticalCount}
                         </span>
                       </div>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>KEV</span>
-                        <span className="text-white">{asset.layers.vulnerabilities.kevCount}</span>
+                        <span className="text-primary">{asset.layers.vulnerabilities.kevCount}</span>
                       </div>
                     </>
                   )}
 
                   {layer.id === "containment" && asset.layers.containment?.active && (
                     <>
-                      <div className="flex justify-between text-gray-400">
+                      <div className="flex justify-between text-secondary">
                         <span>Status</span>
-                        <span className="text-white">
+                        <span className="text-primary">
                           {asset.layers.containment.isContained ? "Contained" : "Not Contained"}
                         </span>
                       </div>
                       {asset.layers.containment.containedAt && (
-                        <div className="flex justify-between text-gray-400">
+                        <div className="flex justify-between text-secondary">
                           <span>Since</span>
-                          <span className="text-white">
+                          <span className="text-primary">
                             {format(new Date(asset.layers.containment.containedAt), "MMM d, HH:mm")}
                           </span>
                         </div>
@@ -785,9 +785,9 @@ function AssetDetailPanel({
                   )}
 
                   {layer.id === "relations" && asset.layers.relations?.active && (
-                    <div className="flex justify-between text-gray-400">
+                    <div className="flex justify-between text-secondary">
                       <span>Connections</span>
-                      <span className="text-white">{asset.layers.relations.connectionCount}</span>
+                      <span className="text-primary">{asset.layers.relations.connectionCount}</span>
                     </div>
                   )}
                 </div>

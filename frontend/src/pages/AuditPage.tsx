@@ -23,7 +23,7 @@ function OutcomeBadge({ outcome }: { outcome: AuditOutcome }) {
     <span
       className={clsx(
         "px-2 py-0.5 rounded text-xs font-medium capitalize",
-        colors[outcome] ?? "bg-gray-700 text-gray-300",
+        colors[outcome] ?? "bg-tertiary text-secondary",
       )}
     >
       {outcome}
@@ -41,7 +41,7 @@ function ActionTypeBadge({ actionType }: { actionType: AuditActionType }) {
     escalation: "bg-yellow-900/50 text-yellow-300",
     notification: "bg-indigo-900/50 text-indigo-300",
     playbook_execution: "bg-pink-900/50 text-pink-300",
-    user_login: "bg-gray-700/50 text-gray-300",
+    user_login: "bg-tertiary/50 text-secondary",
     data_export: "bg-teal-900/50 text-teal-300",
   };
 
@@ -49,7 +49,7 @@ function ActionTypeBadge({ actionType }: { actionType: AuditActionType }) {
     <span
       className={clsx(
         "px-2 py-0.5 rounded text-xs font-medium",
-        colors[actionType] ?? "bg-gray-700 text-gray-300",
+        colors[actionType] ?? "bg-tertiary text-secondary",
       )}
     >
       {actionType.replace(/_/g, " ")}
@@ -62,23 +62,23 @@ function AuditLogDetailRow({ log }: { log: AuditLog }) {
 
   return (
     <>
-      <tr className="hover:bg-gray-750 cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
-        <td className="px-4 py-3 text-gray-400 text-sm whitespace-nowrap">
+      <tr className="hover:bg-hover cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+        <td className="px-4 py-3 text-secondary text-sm whitespace-nowrap">
           {format(new Date(log.timestamp), "MMM d, yyyy HH:mm:ss")}
         </td>
-        <td className="px-4 py-3 text-white">{log.user}</td>
+        <td className="px-4 py-3 text-primary">{log.user}</td>
         <td className="px-4 py-3">
           <ActionTypeBadge actionType={log.action_type} />
         </td>
-        <td className="px-4 py-3 text-gray-300 font-mono text-sm max-w-xs truncate">
+        <td className="px-4 py-3 text-secondary font-mono text-sm max-w-xs truncate">
           {log.target}
         </td>
-        <td className="px-4 py-3 text-gray-400 text-sm">{log.policy_decision ?? "-"}</td>
+        <td className="px-4 py-3 text-secondary text-sm">{log.policy_decision ?? "-"}</td>
         <td className="px-4 py-3">
           <OutcomeBadge outcome={log.outcome} />
         </td>
         <td className="px-4 py-3">
-          <button className="text-gray-400 hover:text-white">
+          <button className="text-secondary hover:text-primary">
             <svg
               className={clsx("w-5 h-5 transition-transform", isExpanded && "rotate-180")}
               fill="none"
@@ -96,38 +96,38 @@ function AuditLogDetailRow({ log }: { log: AuditLog }) {
         </td>
       </tr>
       {isExpanded && (
-        <tr className="bg-gray-900">
+        <tr className="bg-primary">
           <td colSpan={7} className="px-4 py-4">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <h4 className="text-gray-400 font-medium mb-2">Event Details</h4>
+                <h4 className="text-secondary font-medium mb-2">Event Details</h4>
                 <dl className="space-y-1">
                   <div className="flex">
-                    <dt className="text-gray-500 w-32">ID:</dt>
-                    <dd className="text-gray-300 font-mono">{log.id}</dd>
+                    <dt className="text-tertiary w-32">ID:</dt>
+                    <dd className="text-secondary font-mono">{log.id}</dd>
                   </div>
                   <div className="flex">
-                    <dt className="text-gray-500 w-32">Target Type:</dt>
-                    <dd className="text-gray-300">{log.target_type || "N/A"}</dd>
+                    <dt className="text-tertiary w-32">Target Type:</dt>
+                    <dd className="text-secondary">{log.target_type || "N/A"}</dd>
                   </div>
                   <div className="flex">
-                    <dt className="text-gray-500 w-32">IP Address:</dt>
-                    <dd className="text-gray-300 font-mono">{log.ip_address ?? "N/A"}</dd>
+                    <dt className="text-tertiary w-32">IP Address:</dt>
+                    <dd className="text-secondary font-mono">{log.ip_address ?? "N/A"}</dd>
                   </div>
                   <div className="flex">
-                    <dt className="text-gray-500 w-32">Session ID:</dt>
-                    <dd className="text-gray-300 font-mono">{log.session_id ?? "N/A"}</dd>
+                    <dt className="text-tertiary w-32">Session ID:</dt>
+                    <dd className="text-secondary font-mono">{log.session_id ?? "N/A"}</dd>
                   </div>
                 </dl>
               </div>
               <div>
-                <h4 className="text-gray-400 font-medium mb-2">Additional Details</h4>
+                <h4 className="text-secondary font-medium mb-2">Additional Details</h4>
                 {Object.keys(log.details).length > 0 ? (
-                  <pre className="bg-gray-800 rounded p-3 text-xs text-gray-300 overflow-x-auto max-h-32">
+                  <pre className="bg-secondary rounded p-3 text-xs text-secondary overflow-x-auto max-h-32">
                     {JSON.stringify(log.details, null, 2)}
                   </pre>
                 ) : (
-                  <p className="text-gray-500">No additional details</p>
+                  <p className="text-tertiary">No additional details</p>
                 )}
               </div>
             </div>
@@ -209,14 +209,14 @@ export function AuditPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Audit Log</h1>
-          <p className="text-gray-400 mt-1">Compliance tracking and action history</p>
+          <h1 className="text-2xl font-bold text-primary">Audit Log</h1>
+          <p className="text-secondary mt-1">Compliance tracking and action history</p>
         </div>
 
         {/* Export Dropdown */}
         <div className="relative group">
           <button
-            className="flex items-center space-x-2 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-500 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-cyan-600 text-primary rounded-lg hover:bg-cyan-500 transition-colors"
             disabled={exportMutation.isPending}
           >
             {exportMutation.isPending ? (
@@ -255,16 +255,16 @@ export function AuditPage() {
               />
             </svg>
           </button>
-          <div className="absolute right-0 mt-2 w-32 bg-gray-800 border border-gray-700 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+          <div className="absolute right-0 mt-2 w-32 bg-secondary border border-primary rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
             <button
               onClick={() => handleExport("csv")}
-              className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700 hover:text-white rounded-t-lg"
+              className="w-full px-4 py-2 text-left text-secondary hover:bg-tertiary hover:text-primary rounded-t-lg"
             >
               CSV
             </button>
             <button
               onClick={() => handleExport("json")}
-              className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700 hover:text-white rounded-b-lg"
+              className="w-full px-4 py-2 text-left text-secondary hover:bg-tertiary hover:text-primary rounded-b-lg"
             >
               JSON
             </button>
@@ -273,10 +273,10 @@ export function AuditPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 p-4">
+      <div className="bg-secondary rounded-lg border border-primary p-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-medium text-white">Filters</h2>
-          <button onClick={handleClearFilters} className="text-sm text-gray-400 hover:text-white">
+          <h2 className="text-lg font-medium text-primary">Filters</h2>
+          <button onClick={handleClearFilters} className="text-sm text-secondary hover:text-primary">
             Clear all
           </button>
         </div>
@@ -284,7 +284,7 @@ export function AuditPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {/* Date From */}
           <div>
-            <label className="block text-sm text-gray-400 mb-1">From Date</label>
+            <label className="block text-sm text-secondary mb-1">From Date</label>
             <input
               type="datetime-local"
               value={dateFrom}
@@ -292,13 +292,13 @@ export function AuditPage() {
                 setDateFrom(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-primary border border-primary rounded-lg text-primary text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             />
           </div>
 
           {/* Date To */}
           <div>
-            <label className="block text-sm text-gray-400 mb-1">To Date</label>
+            <label className="block text-sm text-secondary mb-1">To Date</label>
             <input
               type="datetime-local"
               value={dateTo}
@@ -306,20 +306,20 @@ export function AuditPage() {
                 setDateTo(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-primary border border-primary rounded-lg text-primary text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             />
           </div>
 
           {/* User Dropdown */}
           <div>
-            <label className="block text-sm text-gray-400 mb-1">User</label>
+            <label className="block text-sm text-secondary mb-1">User</label>
             <select
               value={selectedUser}
               onChange={(e) => {
                 setSelectedUser(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-primary border border-primary rounded-lg text-primary text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             >
               <option value="">All Users</option>
               {usersData?.users?.map((user) => (
@@ -332,14 +332,14 @@ export function AuditPage() {
 
           {/* Action Type Dropdown */}
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Action Type</label>
+            <label className="block text-sm text-secondary mb-1">Action Type</label>
             <select
               value={selectedActionType}
               onChange={(e) => {
                 setSelectedActionType(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-primary border border-primary rounded-lg text-primary text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             >
               <option value="">All Types</option>
               {actionTypesData?.action_types?.map((type) => (
@@ -352,14 +352,14 @@ export function AuditPage() {
 
           {/* Outcome Dropdown */}
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Outcome</label>
+            <label className="block text-sm text-secondary mb-1">Outcome</label>
             <select
               value={selectedOutcome}
               onChange={(e) => {
                 setSelectedOutcome(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-primary border border-primary rounded-lg text-primary text-sm focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             >
               <option value="">All Outcomes</option>
               {outcomesData?.outcomes?.map((outcome) => (
@@ -372,7 +372,7 @@ export function AuditPage() {
 
           {/* Target Search */}
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Target</label>
+            <label className="block text-sm text-secondary mb-1">Target</label>
             <input
               type="text"
               value={targetSearch}
@@ -381,14 +381,14 @@ export function AuditPage() {
                 setPage(1);
               }}
               placeholder="Search target..."
-              className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+              className="w-full px-3 py-2 bg-primary border border-primary rounded-lg text-primary text-sm placeholder-gray-500 focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
             />
           </div>
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
+      <div className="bg-secondary rounded-lg border border-primary overflow-hidden">
         {isLoading && (
           <div className="flex items-center justify-center py-16">
             <svg className="w-8 h-8 animate-spin text-cyan-500" fill="none" viewBox="0 0 24 24">
@@ -419,27 +419,27 @@ export function AuditPage() {
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-900">
+                <thead className="bg-primary">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Timestamp
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       User
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Action Type
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Target
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Policy Decision
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
                       Outcome
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider w-12">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider w-12">
                       {/* Expand column */}
                     </th>
                   </tr>
@@ -453,8 +453,8 @@ export function AuditPage() {
             </div>
 
             {/* Pagination */}
-            <div className="px-4 py-3 bg-gray-900 border-t border-gray-700 flex items-center justify-between">
-              <div className="text-sm text-gray-400">
+            <div className="px-4 py-3 bg-primary border-t border-primary flex items-center justify-between">
+              <div className="text-sm text-secondary">
                 Showing {(page - 1) * 20 + 1} to {Math.min(page * 20, auditData.total)} of{" "}
                 {auditData.total} entries
               </div>
@@ -462,14 +462,14 @@ export function AuditPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={page >= auditData.total_pages}
-                  className="px-3 py-1 bg-gray-700 text-gray-300 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600"
+                  className="px-3 py-1 bg-tertiary text-secondary rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-tertiary"
                 >
                   Next
                 </button>
@@ -481,7 +481,7 @@ export function AuditPage() {
         {auditData?.data.length === 0 && (
           <div className="p-8 text-center">
             <svg
-              className="w-12 h-12 text-gray-600 mx-auto mb-4"
+              className="w-12 h-12 text-tertiary mx-auto mb-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -493,8 +493,8 @@ export function AuditPage() {
                 d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
               />
             </svg>
-            <p className="text-gray-400">No audit logs found</p>
-            <p className="text-gray-500 text-sm mt-1">Adjust your filters or check back later</p>
+            <p className="text-secondary">No audit logs found</p>
+            <p className="text-tertiary text-sm mt-1">Adjust your filters or check back later</p>
           </div>
         )}
       </div>
