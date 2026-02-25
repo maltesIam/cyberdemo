@@ -1,7 +1,7 @@
 {
-  "project_name": "medicum",
-  "project_prefix": "MEDICUM_",
-  "project_prefix_lower": "medicum-",
-  "created_at": "2026-02-25T13:35:47.931277",
+  "project_name": "medicum-soulbot",
+  "project_prefix": "MEDICUM_SOULBOT_",
+  "project_prefix_lower": "medicum-soulbot-",
+  "created_at": "2026-02-25T15:04:00.617189",
   "version": "23.0.0"
 }

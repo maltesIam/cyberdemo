@@ -67,7 +67,7 @@ The v2 redesign elevates the UI from a functional prototype to a **spectacular, 
 
 ### 3.1 Core Concept
 
-Medicum v2 transforms the application from a **transcription tool** into an **intelligent clinical copilot** that works alongside the physician in real time. Every AI action is visible, transparent, and contextually relevant.
+Medicum v2 transforms the application from a **transcription tool** into an **intelligent clinical assistant** that works alongside the physician in real time. Every AI action is visible, transparent, and contextually relevant.
 
 The physician speaks naturally with the patient. The AI listens, understands, and autonomously performs multiple concurrent tasks — all visible on screen as they happen.
 
@@ -125,7 +125,7 @@ The physician speaks naturally with the patient. The AI listens, understands, an
 |-------|-------|----------|
 | Left (Transcription + SOAP) | 360px fixed | Always visible during consultation |
 | Center (Workspace) | Flexible (remaining space) | Content changes based on AI context or manual tab selection |
-| Right (AI Copilot) | 400px | Collapsible/expandable, floatable, resizable. Persistent across all views. |
+| Right (AI Assistant) | 400px | Collapsible/expandable, floatable, resizable. Persistent across all views. |
 
 ### 4.3 Patient Header (v2)
 
@@ -138,7 +138,7 @@ The header is redesigned as a compact, information-dense clinical bar:
 
 ---
 
-## 5. AI Copilot Panel — The Core Innovation
+## 5. AI Assistant Panel — The Core Innovation
 
 ### 5.1 AI Reasoning Stream
 
@@ -260,7 +260,7 @@ Below the reasoning stream, collapsible suggestion cards appear as the AI accumu
 └─────────────────────────────────────┘
 ```
 
-### 5.3 AI Copilot Behavior Modes
+### 5.3 AI Assistant Behavior Modes
 
 | Mode | Trigger | Behavior |
 |------|---------|----------|
@@ -437,7 +437,7 @@ Medicum v2 adopts the **AgentFlow Design System v2.0** with medical-specific ext
 | Token | Dark Mode | Light Mode | Use |
 |-------|-----------|------------|-----|
 | `--medical-primary` | `#60a5fa` (primary-400) | `#2563eb` (primary-600) | Primary actions, doctor bubbles, CIE codes |
-| `--medical-accent` | `#06b6d4` (secondary-500) | `#0891b2` (secondary-600) | AI reasoning, Copilot panel accents |
+| `--medical-accent` | `#06b6d4` (secondary-500) | `#0891b2` (secondary-600) | AI reasoning, Assistant panel accents |
 | `--soap-s` | `#60a5fa` | `#2563eb` | Subjective section |
 | `--soap-o` | `#22c55e` | `#15803d` | Objective section |
 | `--soap-a` | `#f59e0b` | `#d97706` | Analysis section |
@@ -477,7 +477,7 @@ Medicum v2 adopts the **AgentFlow Design System v2.0** with medical-specific ext
 
 ### 8.4 Glassmorphism Effects
 
-The AI Copilot panel uses subtle glassmorphism for a premium feel:
+The AI Assistant panel uses subtle glassmorphism for a premium feel:
 - Panel background: `rgba(15, 23, 42, 0.85)` (dark) / `rgba(255, 255, 255, 0.9)` (light)
 - `backdrop-filter: blur(12px)`
 - Border: 1px `rgba(148, 163, 184, 0.15)`
@@ -741,7 +741,7 @@ Given the complexity, the demo can be implemented in stages:
 | **Stage 1** | New 3-column layout + AI reasoning stream (simulated) + improved SOAP display | Medium | High visual impact |
 | **Stage 2** | Auto-context switching + medical image region highlighting + drug cards | Medium-High | Demonstrates core AI value |
 | **Stage 3** | Live transcription + real SOAP generation + real CIE-10 mapping via LLM | High | Full AI pipeline |
-| **Stage 4** | Literature integration + diagnostic reasoning + clinical decision support | High | Complete clinical copilot |
+| **Stage 4** | Literature integration + diagnostic reasoning + clinical decision support | High | Complete clinical assistant |
 
 ---
 
@@ -751,14 +751,14 @@ Given the complexity, the demo can be implemented in stages:
 
 | Component | Location | Description |
 |-----------|----------|-------------|
-| `AICopilotPanel` | `components/ai-copilot/AICopilotPanel.tsx` | Main right sidebar with reasoning stream and suggestion cards |
-| `ReasoningStream` | `components/ai-copilot/ReasoningStream.tsx` | Scrolling list of AI reasoning entries with animations |
-| `ReasoningEntry` | `components/ai-copilot/ReasoningEntry.tsx` | Individual entry with icon, animation, expand/collapse |
-| `FloatingCopilotWidget` | `components/ai-copilot/FloatingCopilotWidget.tsx` | Minimized floating bubble with badge count |
-| `DiagnosticCard` | `components/ai-copilot/cards/DiagnosticCard.tsx` | Ranked diagnosis suggestions with evidence |
-| `MedicationCard` | `components/ai-copilot/cards/MedicationCard.tsx` | Drug info, posology, interactions, alternatives |
-| `TestRecommendationCard` | `components/ai-copilot/cards/TestRecommendationCard.tsx` | Prioritized test recommendations |
-| `LiteratureCard` | `components/ai-copilot/cards/LiteratureCard.tsx` | Medical literature citation with key findings |
+| `AIAssistantPanel` | `components/ai-assistant/AIAssistantPanel.tsx` | Main right sidebar with reasoning stream and suggestion cards |
+| `ReasoningStream` | `components/ai-assistant/ReasoningStream.tsx` | Scrolling list of AI reasoning entries with animations |
+| `ReasoningEntry` | `components/ai-assistant/ReasoningEntry.tsx` | Individual entry with icon, animation, expand/collapse |
+| `FloatingAssistantWidget` | `components/ai-assistant/FloatingAssistantWidget.tsx` | Minimized floating bubble with badge count |
+| `DiagnosticCard` | `components/ai-assistant/cards/DiagnosticCard.tsx` | Ranked diagnosis suggestions with evidence |
+| `MedicationCard` | `components/ai-assistant/cards/MedicationCard.tsx` | Drug info, posology, interactions, alternatives |
+| `TestRecommendationCard` | `components/ai-assistant/cards/TestRecommendationCard.tsx` | Prioritized test recommendations |
+| `LiteratureCard` | `components/ai-assistant/cards/LiteratureCard.tsx` | Medical literature citation with key findings |
 | `ImageAnnotationOverlay` | `components/visor/ImageAnnotationOverlay.tsx` | SVG overlay for bounding boxes and heatmaps on images |
 | `SOAPNoteEditor` | `components/soap/SOAPNoteEditor.tsx` | Enhanced SOAP editor with streaming text and code chips |
 | `DrugInteractionMatrix` | `components/farmacia/DrugInteractionMatrix.tsx` | Visual matrix of drug interactions |
@@ -772,7 +772,7 @@ Given the complexity, the demo can be implemented in stages:
 
 | Store | Purpose |
 |-------|---------|
-| `aiCopilotStore` | Manages reasoning entries, suggestion cards, panel state |
+| `aiAssistantStore` | Manages reasoning entries, suggestion cards, panel state |
 | `diagnosticStore` | Tracks differential diagnoses and their probabilities |
 | `medicationStore` | Drug lookups, interactions, prescription state |
 | `literatureStore` | Search results, saved references |
