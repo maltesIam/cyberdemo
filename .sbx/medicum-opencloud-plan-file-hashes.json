@@ -1,0 +1,18 @@
+{
+  "verify_documents": {
+    "timestamp": "2026-02-25T23:33:23.077575",
+    "files": {
+      "docs/MEDICUM_OPENCLOUD_BUILD_PLAN.md": "be53a2402196965ef5dee4a137558336e743df963bf50876335efcfb4af446b8",
+      "docs/MEDICUM_OPENCLOUD_PROGRESS.md": "f4fa8a31dba3c5c263988f8e3b8a1a932f5dbcff258c64827008550b74670912",
+      "docs/MEDICUM_OPENCLOUD_TEST_PLAN.md": "9b8043a101b3cbaed8ba43996a112e7c09c2617b5a9abfb799b001ef0f43aef9"
+    }
+  },
+  "finalize": {
+    "timestamp": "2026-02-25T23:35:08.747787",
+    "files": {
+      "docs/MEDICUM_OPENCLOUD_BUILD_PLAN.md": "be53a2402196965ef5dee4a137558336e743df963bf50876335efcfb4af446b8",
+      "docs/MEDICUM_OPENCLOUD_PROGRESS.md": "f4fa8a31dba3c5c263988f8e3b8a1a932f5dbcff258c64827008550b74670912",
+      "docs/MEDICUM_OPENCLOUD_TEST_PLAN.md": "9b8043a101b3cbaed8ba43996a112e7c09c2617b5a9abfb799b001ef0f43aef9"
+    }
+  }
+}

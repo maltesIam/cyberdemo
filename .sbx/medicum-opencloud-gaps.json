@@ -1,0 +1,178 @@
+{
+  "gaps": [
+    {
+      "id": "GAP-001",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-001",
+      "issue": "Requirement NFR-001 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-002",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-002",
+      "issue": "Requirement NFR-002 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-003",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-003",
+      "issue": "Requirement NFR-003 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-004",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-004",
+      "issue": "Requirement NFR-004 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-005",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-005",
+      "issue": "Requirement NFR-005 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-006",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-006",
+      "issue": "Requirement NFR-006 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-007",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-007",
+      "issue": "Requirement NFR-007 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-008",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-008",
+      "issue": "Requirement NFR-008 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-009",
+      "type": "MISSING_TASK",
+      "requirement": "NFR-009",
+      "issue": "Requirement NFR-009 has no task in BUILD_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-010",
+      "type": "MISSING_TEST",
+      "requirement": "INT-005",
+      "issue": "Requirement INT-005 has no test in TEST_PLAN.md",
+      "severity": "HIGH",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-011",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-001",
+      "issue": "Requirement NFR-001 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-012",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-002",
+      "issue": "Requirement NFR-002 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-013",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-003",
+      "issue": "Requirement NFR-003 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-014",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-004",
+      "issue": "Requirement NFR-004 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-015",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-005",
+      "issue": "Requirement NFR-005 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-016",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-006",
+      "issue": "Requirement NFR-006 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-017",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-007",
+      "issue": "Requirement NFR-007 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-018",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-008",
+      "issue": "Requirement NFR-008 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-019",
+      "type": "MISSING_TEST",
+      "requirement": "NFR-009",
+      "issue": "Requirement NFR-009 has no test in TEST_PLAN.md",
+      "severity": "CRITICAL",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-020",
+      "type": "MISSING_TEST",
+      "requirement": "REQ-006-001-002",
+      "issue": "Requirement REQ-006-001-002 has no test in TEST_PLAN.md",
+      "severity": "HIGH",
+      "status": "OPEN"
+    },
+    {
+      "id": "GAP-021",
+      "type": "MISSING_TEST",
+      "requirement": "REQ-006-001-003",
+      "issue": "Requirement REQ-006-001-003 has no test in TEST_PLAN.md",
+      "severity": "HIGH",
+      "status": "OPEN"
+    }
+  ],
+  "summary": {
+    "total": 21,
+    "critical": 18,
+    "high": 3,
+    "warning": 0
+  }
+}
